@@ -1,0 +1,409 @@
+---
+swagger: "2.0"
+info:
+  description: |
+    Seen is a place where you can discover new Movies, Shows and Books
+  version: 1.0.0
+  title: Seen. Movies, Shows and Books
+host: virtserver.swaggerhub.com
+basePath: /cn-14/Seen/1.0.0
+tags:
+- name: library
+  description: A place to see what has been seen
+- name: user
+  description: Operations about user
+schemes:
+- https
+- http
+paths:
+  /lib/{page}:
+    get:
+      tags:
+      - library
+      summary: Returns items library by popularity
+      description: Returns a map of item codes
+      operationId: getLibrary
+      produces:
+      - application/json
+      parameters:
+      - name: page
+        in: path
+        description: Page to see
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+      security:
+      - api_key: []
+  /suggest:
+    get:
+      tags:
+      - library
+      summary: Returns suggestions
+      description: Returns a map of item codes
+      operationId: getSuggestions
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+        "405":
+          description: Invalid input
+      security:
+      - api_key: []
+  /item:
+    post:
+      tags:
+      - library
+      summary: Add a new item to the store
+      description: Creates an item
+      operationId: addItem
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Seen object that needs to be added to the library
+        required: true
+        schema:
+          $ref: '#/definitions/Item'
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+        "405":
+          description: Invalid input
+      security:
+      - seen_auth:
+        - write:items
+  /item/{itemId}:
+    get:
+      tags:
+      - library
+      summary: Find item by ID
+      description: Returns a single item
+      operationId: getItemById
+      produces:
+      - application/json
+      parameters:
+      - name: itemId
+        in: path
+        description: Id of item to return
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Item'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      security:
+      - api_key: []
+    delete:
+      tags:
+      - library
+      summary: Deletes an item
+      description: Deletes a item
+      operationId: deleteItem
+      produces:
+      - application/json
+      parameters:
+      - name: itemId
+        in: path
+        description: Id of the item to delete
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      security:
+      - seen_auth:
+        - write:items
+  /item/{itemId}/seen:
+    put:
+      tags:
+      - library
+      summary: Mark item as seen
+      description: Mark a item as seen
+      operationId: updateItemSeen
+      parameters:
+      - name: itemId
+        in: path
+        description: Id of item to update
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      security:
+      - api_key: []
+  /item/{itemId}/like:
+    put:
+      tags:
+      - library
+      summary: Mark item with like
+      description: Mark a item with like
+      operationId: updateItemLike
+      parameters:
+      - name: itemId
+        in: path
+        description: Id of item to update
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      security:
+      - api_key: []
+  /user:
+    post:
+      tags:
+      - user
+      summary: Create user
+      description: Create user
+      operationId: createUser
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Created user object
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Dados incorretos
+  /user/login:
+    get:
+      tags:
+      - user
+      summary: Logs user into the system
+      operationId: loginUser
+      produces:
+      - application/json
+      parameters:
+      - name: username
+        in: query
+        description: The user name for login
+        required: true
+        type: string
+      - name: password
+        in: query
+        description: Hash password for login
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              type: integer
+              format: int32
+              description: calls per hour allowed by the user
+            X-Expires-After:
+              type: string
+              format: date-time
+              description: date in UTC when token expires
+          schema:
+            type: string
+        "400":
+          description: Invalid username/password supplied
+  /user/logout:
+    get:
+      tags:
+      - user
+      summary: Logs out current logged in user session
+      operationId: logoutUser
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+  /user/{username}:
+    get:
+      tags:
+      - user
+      summary: Get user by user name
+      operationId: getUserByName
+      produces:
+      - application/json
+      parameters:
+      - name: username
+        in: path
+        description: The name that needs to be fetched.
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: Invalid username supplied
+        "404":
+          description: User not found
+    put:
+      tags:
+      - user
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      produces:
+      - application/json
+      parameters:
+      - name: username
+        in: path
+        description: name that need to be updated
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: Updated user object
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid user supplied
+        "404":
+          description: User not found
+    delete:
+      tags:
+      - user
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      produces:
+      - application/json
+      parameters:
+      - name: username
+        in: path
+        description: The name that needs to be deleted
+        required: true
+        type: string
+      responses:
+        "400":
+          description: Invalid username supplied
+        "404":
+          description: User not found
+securityDefinitions:
+  seen_auth:
+    type: oauth2
+    authorizationUrl: http://seen.swagger.io/oauth/dialog
+    flow: implicit
+    scopes:
+      write:items: modify items in your account
+      read:items: read your items
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  Type:
+    type: string
+    enum:
+    - book
+    - film
+    - show
+  Category:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      password:
+        type: string
+      seens:
+        type: array
+        items:
+          type: integer
+          description: Seen ids
+      likes:
+        type: array
+        items:
+          type: integer
+          description: Seen ids
+  Item:
+    type: object
+    required:
+    - category
+    - name
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+        example: Titanic
+      photoUrl:
+        type: string
+        description: Image from the Item
+      category:
+        type: array
+        items:
+          $ref: '#/definitions/Category'
+      type:
+        $ref: '#/definitions/Type'
+      seens:
+        type: integer
+        format: int32
+        example: 21005
+        description: How manny people has seen this
+      likes:
+        type: integer
+        format: int32
+        example: 2399
+        description: How manny people liked this
