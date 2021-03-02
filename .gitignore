@@ -1,2 +1,8 @@
 databases/data
 databases/data/*
+
+*.aux
+*.fdb*
+*.fls
+*.log
+*.gz
