@@ -1,13 +1,5 @@
 syntax = "proto3";
 
-enum Genres {
-    FICTION = 0;
-    NOVELS = 1;
-    POETRY = 2;
-	SCIENCE_FICTION|FICTION = 3;
-	ROMANCE = 4;
-}
-
 message RecommendationBookRequest {
     int32 user_id = 1;
     int32 max_results = 2;
