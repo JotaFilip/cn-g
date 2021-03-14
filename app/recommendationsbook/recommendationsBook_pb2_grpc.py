@@ -29,6 +29,16 @@ class RecommendationsBookStub(object):
                 request_serializer=recommendationsBook__pb2.BookCategoryRequest.SerializeToString,
                 response_deserializer=recommendationsBook__pb2.RecommendationBookResponse.FromString,
                 )
+        self.GetBookById = channel.unary_unary(
+                '/RecommendationsBook/GetBookById',
+                request_serializer=recommendationsBook__pb2.BookByIdRequest.SerializeToString,
+                response_deserializer=recommendationsBook__pb2.BookByIdResponse.FromString,
+                )
+        self.GetBookByCategory = channel.unary_unary(
+                '/RecommendationsBook/GetBookByCategory',
+                request_serializer=recommendationsBook__pb2.BookByCategoryRequest.SerializeToString,
+                response_deserializer=recommendationsBook__pb2.BookByCategoryResponse.FromString,
+                )
 
 
 class RecommendationsBookServicer(object):
@@ -52,6 +62,18 @@ class RecommendationsBookServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetBookById(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetBookByCategory(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_RecommendationsBookServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -69,6 +91,16 @@ def add_RecommendationsBookServicer_to_server(servicer, server):
                     servicer.SearchByCategory,
                     request_deserializer=recommendationsBook__pb2.BookCategoryRequest.FromString,
                     response_serializer=recommendationsBook__pb2.RecommendationBookResponse.SerializeToString,
+            ),
+            'GetBookById': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetBookById,
+                    request_deserializer=recommendationsBook__pb2.BookByIdRequest.FromString,
+                    response_serializer=recommendationsBook__pb2.BookByIdResponse.SerializeToString,
+            ),
+            'GetBookByCategory': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetBookByCategory,
+                    request_deserializer=recommendationsBook__pb2.BookByCategoryRequest.FromString,
+                    response_serializer=recommendationsBook__pb2.BookByCategoryResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -128,5 +160,39 @@ class RecommendationsBook(object):
         return grpc.experimental.unary_unary(request, target, '/RecommendationsBook/SearchByCategory',
             recommendationsBook__pb2.BookCategoryRequest.SerializeToString,
             recommendationsBook__pb2.RecommendationBookResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetBookById(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/RecommendationsBook/GetBookById',
+            recommendationsBook__pb2.BookByIdRequest.SerializeToString,
+            recommendationsBook__pb2.BookByIdResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetBookByCategory(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/RecommendationsBook/GetBookByCategory',
+            recommendationsBook__pb2.BookByCategoryRequest.SerializeToString,
+            recommendationsBook__pb2.BookByCategoryResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

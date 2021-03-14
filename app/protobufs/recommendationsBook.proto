@@ -2,9 +2,8 @@ syntax = "proto3";
 
 message RecommendationBookRequest {
     int32 user_id = 1;
-	repeated string views = 2;
-	repeated string likes = 3;
-    int32 max_results = 4;
+	repeated string criteria = 2;
+    int32 max_results = 3;
 }
 
 message BookCategoryRequest {
@@ -28,8 +27,35 @@ message RecommendationBookResponse {
     repeated BookRecommendation recommendations = 1;
 }
 
+/////////Library quer receber livros para analizar categorias em comum//////////
+message BookByIdRequest {
+    string book_id = 1;
+}
+
+message BookByIdResponse {
+    Book book = 1;
+}
+/////////////////////////////////////////////////////////////////////////////////
+
+message Book {
+    //ver no dataset colunas relevantes
+}
+
+///Library quer receber livros de acordo com uma categoria que ele calculou, para recomendar////
+message BookByCategoryRequest {
+    string category = 1;
+    int32 max_results = 2;
+}
+
+message BookByCategoryResponse {
+    Book book = 1;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 service RecommendationsBook {
     rpc RecommendBook (RecommendationBookRequest) returns (RecommendationBookResponse);
 	rpc SearchByName (BookNameRequest) returns (RecommendationBookResponse);
 	rpc SearchByCategory (BookCategoryRequest) returns (RecommendationBookResponse);
+    rpc GetBookById (BookByIdRequest) returns (BookByIdResponse);
+    rpc GetBookByCategory (BookByCategoryRequest) returns (BookByCategoryResponse);
 }
