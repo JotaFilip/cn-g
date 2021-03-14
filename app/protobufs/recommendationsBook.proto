@@ -2,7 +2,21 @@ syntax = "proto3";
 
 message RecommendationBookRequest {
     int32 user_id = 1;
-    int32 max_results = 2;
+	repeated string views = 2;
+	repeated string likes = 3;
+    int32 max_results = 4;
+}
+
+message BookCategoryRequest {
+    int32 user_id = 1;
+	string category = 2;
+    int32 max_results = 3;
+}
+
+message BookNameRequest {
+    int32 user_id = 1;
+	string name = 2;
+    int32 max_results = 3;
 }
 
 message BookRecommendation {
@@ -13,35 +27,6 @@ message BookRecommendation {
 message RecommendationBookResponse {
     repeated BookRecommendation recommendations = 1;
 }
-
-
-
-message BookNameRequest {
-    int32 user_id = 1;
-	string name = 2;
-    int32 max_results = 3;
-}
-
-
-
-
-message BookCategoryRequest {
-    int32 user_id = 1;
-	string category = 2;
-    int32 max_results = 3;
-}
-
-
-
-message BookCategoryResponse {
-    repeated BookRecommendation recommendations = 1;
-}
-
-message BookNameResponse {
-    repeated BookRecommendation recommendations = 1;
-}
-
-
 
 service RecommendationsBook {
     rpc RecommendBook (RecommendationBookRequest) returns (RecommendationBookResponse);
