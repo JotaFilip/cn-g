@@ -5,7 +5,7 @@ import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
-from recommendationsAnime_pb2 import (
+from anime_pb2 import (
     AnimeData,
     AnimeDataList,
     AnimeByIdRequest,
@@ -13,19 +13,19 @@ from recommendationsAnime_pb2 import (
     AnimeByCategoryRequest,
     
 )
-import recommendationsAnime_pb2_grpc
+import anime_pb2_grpc
 
 # Acesso ah base de dados
 
 
-class AnimeService(recommendationsAnime_pb2_grpc.RecommendationsAnimeServicer):
+class AnimeService(anime_pb2_grpc.AnimeServicer):
     def SearchById(self, request, context):
         
         if request.anime_id not in anime_database:
             raise NotFound("Id not found")
 
         anime_with_id = anime_database[request.anime_id]
-        return RecommendationResponse(anime=anime_with_id)
+        return AnimeData(anime=anime_with_id)
         
     def SearchByName(self, request, context):
     
@@ -36,7 +36,7 @@ class AnimeService(recommendationsAnime_pb2_grpc.RecommendationsAnimeServicer):
         num_results = min(request.max_results, len(anime_with_name))
         searched_anime = random.sample(anime_with_name, num_results)
 
-        return RecommendationResponse(anime=searched_anime)
+        return AnimeDataList(anime=searched_anime)
         
     def SearchByCategory(self, request, context):
     
@@ -47,7 +47,7 @@ class AnimeService(recommendationsAnime_pb2_grpc.RecommendationsAnimeServicer):
         num_results = min(request.max_results, len(anime_with_name))
         searched_anime = random.sample(anime_with_category, num_results)
 
-        return RecommendationResponse(anime=searched_anime)
+        return AnimeDataList(anime=searched_anime)
         
 
 
@@ -56,7 +56,7 @@ def serve():
     server = grpc.server(
         futures.ThreadPoolExecutor(max_workers=10), interceptors=interceptors
     )
-    anime_pb2_grpc.add_RecommendationsanimeServicer_to_server(
+    anime_pb2_grpc.add_AnimeServicer_to_server(
         animeService(), server
     )
     

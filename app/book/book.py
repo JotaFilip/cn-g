@@ -5,7 +5,7 @@ import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
-from recommendationsBook_pb2 import (
+from book_pb2 import (
     BookData,
     BookDataList,
     BookByIdRequest,
@@ -13,19 +13,19 @@ from recommendationsBook_pb2 import (
     BooksByCategoryRequest,
     
 )
-import recommendationsBook_pb2_grpc
+import book_pb2_grpc
 
 # Acesso ah base de dados
 
 
-class BookService(recommendationsBook_pb2_grpc.RecommendationsBookServicer):
+class BookService(book_pb2_grpc.BookServicer):
     def SearchById(self, request, context):
         
         if request.book_id not in books_database:
             raise NotFound("Id not found")
 
         book_with_id = books_database[request.book_id]
-        return RecommendationResponse(books=book_with_id)
+        return BookData(books=book_with_id)
         
     def SearchByName(self, request, context):
     
@@ -36,7 +36,7 @@ class BookService(recommendationsBook_pb2_grpc.RecommendationsBookServicer):
         num_results = min(request.max_results, len(books_with_name))
         searched_books = random.sample(books_with_name, num_results)
 
-        return RecommendationResponse(books=searched_books)
+        return BookDataList(books=searched_books)
         
     def SearchByCategory(self, request, context):
     
@@ -47,7 +47,7 @@ class BookService(recommendationsBook_pb2_grpc.RecommendationsBookServicer):
         num_results = min(request.max_results, len(books_with_name))
         searched_books = random.sample(books_with_category, num_results)
 
-        return RecommendationResponse(books=searched_books)
+        return BookDataList(books=searched_books)
         
 
 
@@ -56,7 +56,7 @@ def serve():
     server = grpc.server(
         futures.ThreadPoolExecutor(max_workers=10), interceptors=interceptors
     )
-    book_pb2_grpc.add_RecommendationsBookServicer_to_server(
+    book_pb2_grpc.add_BookServicer_to_server(
         BookService(), server
     )
     
