@@ -18,14 +18,19 @@ message BookNameRequest {
     int32 max_results = 3;
 }
 
-message BookRecommendation {
+message BookResponse {
     int32 id = 1;
     string book_title = 2;
 }
 
 message RecommendationBookResponse {
-    repeated BookRecommendation recommendations = 1;
+	map<string, repeated BookResponse> recommendations = 1;
 }
+
+message SearchResponse {
+	repeated BookResponse recommendations = 1;
+}
+
 
 /////////Library quer receber livros para analizar categorias em comum//////////
 message BookByIdRequest {
@@ -54,8 +59,8 @@ message BookByCategoryResponse {
 
 service RecommendationsBook {
     rpc RecommendBook (RecommendationBookRequest) returns (RecommendationBookResponse);
-	rpc SearchByName (BookNameRequest) returns (RecommendationBookResponse);
-	rpc SearchByCategory (BookCategoryRequest) returns (RecommendationBookResponse);
+	rpc SearchByName (BookNameRequest) returns (SearchResponse);
+	rpc SearchByCategory (BookCategoryRequest) returns (SearchResponse);
     rpc GetBookById (BookByIdRequest) returns (BookByIdResponse);
     rpc GetBookByCategory (BookByCategoryRequest) returns (BookByCategoryResponse);
 }
