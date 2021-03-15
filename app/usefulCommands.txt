@@ -1,0 +1,8 @@
+GERAR FICHEIROS PARA BOOK
+python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/book/ --grpc_python_out=./app/book/ ./app/protobufs/book.proto
+
+GERAR FICHEIROS PARA ANIME
+python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/anime/ --grpc_python_out=./app/anime/ ./app/protobufs/anime.proto
+
+GERAR FICHEIROS PARA IMDB
+python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/imdb/ --grpc_python_out=./app/imdb/ ./app/protobufs/imdb.proto

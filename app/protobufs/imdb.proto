@@ -38,7 +38,7 @@ message IMDBByCategoryRequest {
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
-service RecommendationsIMDB {
+service IMDB {
     rpc SearchById (IMDBByIdRequest) returns (IMDBData);
 	rpc SearchByName (IMDBByNameRequest) returns (IMDBDataList);
 	rpc SearchByCategory (IMDBByCategoryRequest) returns (IMDBDataList);

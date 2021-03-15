@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import book_pb2 as book__pb2
+import anime_pb2 as anime__pb2
 
 
-class BookStub(object):
+class AnimeStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -15,23 +15,23 @@ class BookStub(object):
             channel: A grpc.Channel.
         """
         self.SearchById = channel.unary_unary(
-                '/Book/SearchById',
-                request_serializer=book__pb2.BookByIdRequest.SerializeToString,
-                response_deserializer=book__pb2.BookData.FromString,
+                '/Anime/SearchById',
+                request_serializer=anime__pb2.AnimeByIdRequest.SerializeToString,
+                response_deserializer=anime__pb2.AnimeData.FromString,
                 )
         self.SearchByName = channel.unary_unary(
-                '/Book/SearchByName',
-                request_serializer=book__pb2.BooksByNameRequest.SerializeToString,
-                response_deserializer=book__pb2.BookDataList.FromString,
+                '/Anime/SearchByName',
+                request_serializer=anime__pb2.AnimeByNameRequest.SerializeToString,
+                response_deserializer=anime__pb2.AnimeDataList.FromString,
                 )
         self.SearchByCategory = channel.unary_unary(
-                '/Book/SearchByCategory',
-                request_serializer=book__pb2.BooksByCategoryRequest.SerializeToString,
-                response_deserializer=book__pb2.BookDataList.FromString,
+                '/Anime/SearchByCategory',
+                request_serializer=anime__pb2.AnimeByCategoryRequest.SerializeToString,
+                response_deserializer=anime__pb2.AnimeDataList.FromString,
                 )
 
 
-class BookServicer(object):
+class AnimeServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def SearchById(self, request, context):
@@ -53,31 +53,31 @@ class BookServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_BookServicer_to_server(servicer, server):
+def add_AnimeServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SearchById': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchById,
-                    request_deserializer=book__pb2.BookByIdRequest.FromString,
-                    response_serializer=book__pb2.BookData.SerializeToString,
+                    request_deserializer=anime__pb2.AnimeByIdRequest.FromString,
+                    response_serializer=anime__pb2.AnimeData.SerializeToString,
             ),
             'SearchByName': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByName,
-                    request_deserializer=book__pb2.BooksByNameRequest.FromString,
-                    response_serializer=book__pb2.BookDataList.SerializeToString,
+                    request_deserializer=anime__pb2.AnimeByNameRequest.FromString,
+                    response_serializer=anime__pb2.AnimeDataList.SerializeToString,
             ),
             'SearchByCategory': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByCategory,
-                    request_deserializer=book__pb2.BooksByCategoryRequest.FromString,
-                    response_serializer=book__pb2.BookDataList.SerializeToString,
+                    request_deserializer=anime__pb2.AnimeByCategoryRequest.FromString,
+                    response_serializer=anime__pb2.AnimeDataList.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'Book', rpc_method_handlers)
+            'Anime', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class Book(object):
+class Anime(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -91,9 +91,9 @@ class Book(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Book/SearchById',
-            book__pb2.BookByIdRequest.SerializeToString,
-            book__pb2.BookData.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Anime/SearchById',
+            anime__pb2.AnimeByIdRequest.SerializeToString,
+            anime__pb2.AnimeData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -108,9 +108,9 @@ class Book(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Book/SearchByName',
-            book__pb2.BooksByNameRequest.SerializeToString,
-            book__pb2.BookDataList.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Anime/SearchByName',
+            anime__pb2.AnimeByNameRequest.SerializeToString,
+            anime__pb2.AnimeDataList.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -125,8 +125,8 @@ class Book(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Book/SearchByCategory',
-            book__pb2.BooksByCategoryRequest.SerializeToString,
-            book__pb2.BookDataList.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Anime/SearchByCategory',
+            anime__pb2.AnimeByCategoryRequest.SerializeToString,
+            anime__pb2.AnimeDataList.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

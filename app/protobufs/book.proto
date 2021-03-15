@@ -39,7 +39,7 @@ message BooksByCategoryRequest {
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
-service RecommendationsBook {
+service Book {
     rpc SearchById (BookByIdRequest) returns (BookData);
 	rpc SearchByName (BooksByNameRequest) returns (BookDataList);
 	rpc SearchByCategory (BooksByCategoryRequest) returns (BookDataList);

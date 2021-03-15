@@ -1,1 +1,0 @@
-python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/book/ --grpc_python_out=./app/book/ ./app/protobufs/book.proto

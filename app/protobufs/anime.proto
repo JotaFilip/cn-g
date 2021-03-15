@@ -39,7 +39,7 @@ message AnimeByCategoryRequest {
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
-service RecommendationsAnime {
+service Anime {
     rpc SearchById (AnimeByIdRequest) returns (AnimeData);
 	rpc SearchByName (AnimeByNameRequest) returns (AnimeDataList);
 	rpc SearchByCategory (AnimeByCategoryRequest) returns (AnimeDataList);
