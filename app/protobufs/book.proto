@@ -6,6 +6,9 @@ syntax = "proto3";
 //Message used to return the data of a book
 message BookData {
     //ver no dataset colunas relevantes
+	string id = 0;
+	string book_title = 1;
+	string genres = 2;
 }
 
 message BookDataList {

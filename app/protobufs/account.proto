@@ -1,23 +1,18 @@
 syntax = "proto3";
 
-enum Type {
-    BOOK = 0;
-    IMDB = 1;
-    ANIME = 2;
-	ALL = 3;
-}
-
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 
-message LikesAndViewsResponse {
-    repeated string book_likes = 1;
-	repeated string book_views = 2;
-	repeated string imdb_likes = 3;
-	repeated string imdb_views = 4;
-	repeated string anime_likes = 5;
-	repeated string anime_views = 6;
+message AllLikesAndViewsResponse {
+    SpecificLikesAndViewsResponse book_likes_views = 1;
+	SpecificLikesAndViewsResponse imdb_likes_views = 2;
+	SpecificLikesAndViewsResponse anime_likes_views = 3;
+}
+
+message SpecificLikesAndViewsResponse {
+    repeated string likes = 1;
+	repeated string views = 2;
 }
 
 ////////////////////////////////////////////
@@ -30,7 +25,6 @@ message LikesAndViewsResponse {
 
 message LikesAndViewsRequest {
     string user_id = 1;
-	Type types = 2;
 }
 
 ////////////////////////////////////////////
@@ -38,5 +32,8 @@ message LikesAndViewsRequest {
 ////////////////////////////////////////////
 
 service Account {
-    rpc GetLikesAndViews (LikesAndViewsRequest) returns (LikesAndViewsResponse);
+    rpc GetAllLikesAndViews (LikesAndViewsRequest) returns (AllLikesAndViewsResponse);
+	rpc GetBookLikesAndViews (LikesAndViewsRequest) returns (SpecificLikesAndViewsResponse);
+	rpc GetIMDBLikesAndViews (LikesAndViewsRequest) returns (SpecificLikesAndViewsResponse);
+	rpc GetAnimeLikesAndViews (LikesAndViewsRequest) returns (SpecificLikesAndViewsResponse);
 }
