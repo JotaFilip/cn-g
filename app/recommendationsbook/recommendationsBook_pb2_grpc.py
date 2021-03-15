@@ -22,12 +22,12 @@ class RecommendationsBookStub(object):
         self.SearchByName = channel.unary_unary(
                 '/RecommendationsBook/SearchByName',
                 request_serializer=recommendationsBook__pb2.BookNameRequest.SerializeToString,
-                response_deserializer=recommendationsBook__pb2.RecommendationBookResponse.FromString,
+                response_deserializer=recommendationsBook__pb2.SearchResponse.FromString,
                 )
         self.SearchByCategory = channel.unary_unary(
                 '/RecommendationsBook/SearchByCategory',
                 request_serializer=recommendationsBook__pb2.BookCategoryRequest.SerializeToString,
-                response_deserializer=recommendationsBook__pb2.RecommendationBookResponse.FromString,
+                response_deserializer=recommendationsBook__pb2.SearchResponse.FromString,
                 )
         self.GetBookById = channel.unary_unary(
                 '/RecommendationsBook/GetBookById',
@@ -85,12 +85,12 @@ def add_RecommendationsBookServicer_to_server(servicer, server):
             'SearchByName': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByName,
                     request_deserializer=recommendationsBook__pb2.BookNameRequest.FromString,
-                    response_serializer=recommendationsBook__pb2.RecommendationBookResponse.SerializeToString,
+                    response_serializer=recommendationsBook__pb2.SearchResponse.SerializeToString,
             ),
             'SearchByCategory': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByCategory,
                     request_deserializer=recommendationsBook__pb2.BookCategoryRequest.FromString,
-                    response_serializer=recommendationsBook__pb2.RecommendationBookResponse.SerializeToString,
+                    response_serializer=recommendationsBook__pb2.SearchResponse.SerializeToString,
             ),
             'GetBookById': grpc.unary_unary_rpc_method_handler(
                     servicer.GetBookById,
@@ -142,7 +142,7 @@ class RecommendationsBook(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/RecommendationsBook/SearchByName',
             recommendationsBook__pb2.BookNameRequest.SerializeToString,
-            recommendationsBook__pb2.RecommendationBookResponse.FromString,
+            recommendationsBook__pb2.SearchResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -159,7 +159,7 @@ class RecommendationsBook(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/RecommendationsBook/SearchByCategory',
             recommendationsBook__pb2.BookCategoryRequest.SerializeToString,
-            recommendationsBook__pb2.RecommendationBookResponse.FromString,
+            recommendationsBook__pb2.SearchResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x19recommendationsBook.proto\"S\n\x19RecommendationBookRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x10\n\x08\x63riteria\x18\x02 \x03(\t\x12\x13\n\x0bmax_results\x18\x03 \x01(\x05\"M\n\x13\x42ookCategoryRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x10\n\x08\x63\x61tegory\x18\x02 \x01(\t\x12\x13\n\x0bmax_results\x18\x03 \x01(\x05\"E\n\x0f\x42ookNameRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0bmax_results\x18\x03 \x01(\x05\"4\n\x12\x42ookRecommendation\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\nbook_title\x18\x02 \x01(\t\"J\n\x1aRecommendationBookResponse\x12,\n\x0frecommendations\x18\x01 \x03(\x0b\x32\x13.BookRecommendation\"\"\n\x0f\x42ookByIdRequest\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\"\'\n\x10\x42ookByIdResponse\x12\x13\n\x04\x62ook\x18\x01 \x01(\x0b\x32\x05.Book\"\x06\n\x04\x42ook\">\n\x15\x42ookByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"-\n\x16\x42ookByCategoryResponse\x12\x13\n\x04\x62ook\x18\x01 \x01(\x0b\x32\x05.Book2\xdf\x02\n\x13RecommendationsBook\x12H\n\rRecommendBook\x12\x1a.RecommendationBookRequest\x1a\x1b.RecommendationBookResponse\x12=\n\x0cSearchByName\x12\x10.BookNameRequest\x1a\x1b.RecommendationBookResponse\x12\x45\n\x10SearchByCategory\x12\x14.BookCategoryRequest\x1a\x1b.RecommendationBookResponse\x12\x32\n\x0bGetBookById\x12\x10.BookByIdRequest\x1a\x11.BookByIdResponse\x12\x44\n\x11GetBookByCategory\x12\x16.BookByCategoryRequest\x1a\x17.BookByCategoryResponseb\x06proto3'
+  serialized_pb=b'\n\x19recommendationsBook.proto\"S\n\x19RecommendationBookRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x10\n\x08\x63riteria\x18\x02 \x03(\t\x12\x13\n\x0bmax_results\x18\x03 \x01(\x05\"M\n\x13\x42ookCategoryRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x10\n\x08\x63\x61tegory\x18\x02 \x01(\t\x12\x13\n\x0bmax_results\x18\x03 \x01(\x05\"E\n\x0f\x42ookNameRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0bmax_results\x18\x03 \x01(\x05\".\n\x0c\x42ookResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\nbook_title\x18\x02 \x01(\t\"\xaa\x01\n\x1aRecommendationBookResponse\x12I\n\x0frecommendations\x18\x01 \x03(\x0b\x32\x30.RecommendationBookResponse.RecommendationsEntry\x1a\x41\n\x14RecommendationsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x18\n\x05value\x18\x02 \x01(\x0b\x32\t.BookList:\x02\x38\x01\"(\n\x08\x42ookList\x12\x1c\n\x05\x62ooks\x18\x01 \x03(\x0b\x32\r.BookResponse\"8\n\x0eSearchResponse\x12&\n\x0frecommendations\x18\x01 \x03(\x0b\x32\r.BookResponse\"\"\n\x0f\x42ookByIdRequest\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\"\'\n\x10\x42ookByIdResponse\x12\x13\n\x04\x62ook\x18\x01 \x01(\x0b\x32\x05.Book\"\x06\n\x04\x42ook\">\n\x15\x42ookByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"-\n\x16\x42ookByCategoryResponse\x12\x13\n\x04\x62ook\x18\x01 \x01(\x0b\x32\x05.Book2\xc7\x02\n\x13RecommendationsBook\x12H\n\rRecommendBook\x12\x1a.RecommendationBookRequest\x1a\x1b.RecommendationBookResponse\x12\x31\n\x0cSearchByName\x12\x10.BookNameRequest\x1a\x0f.SearchResponse\x12\x39\n\x10SearchByCategory\x12\x14.BookCategoryRequest\x1a\x0f.SearchResponse\x12\x32\n\x0bGetBookById\x12\x10.BookByIdRequest\x1a\x11.BookByIdResponse\x12\x44\n\x11GetBookByCategory\x12\x16.BookByCategoryRequest\x1a\x17.BookByCategoryResponseb\x06proto3'
 )
 
 
@@ -163,23 +163,23 @@ _BOOKNAMEREQUEST = _descriptor.Descriptor(
 )
 
 
-_BOOKRECOMMENDATION = _descriptor.Descriptor(
-  name='BookRecommendation',
-  full_name='BookRecommendation',
+_BOOKRESPONSE = _descriptor.Descriptor(
+  name='BookResponse',
+  full_name='BookResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='BookRecommendation.id', index=0,
+      name='id', full_name='BookResponse.id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='book_title', full_name='BookRecommendation.book_title', index=1,
+      name='book_title', full_name='BookResponse.book_title', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -198,9 +198,47 @@ _BOOKRECOMMENDATION = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=264,
-  serialized_end=316,
+  serialized_end=310,
 )
 
+
+_RECOMMENDATIONBOOKRESPONSE_RECOMMENDATIONSENTRY = _descriptor.Descriptor(
+  name='RecommendationsEntry',
+  full_name='RecommendationBookResponse.RecommendationsEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='RecommendationBookResponse.RecommendationsEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='RecommendationBookResponse.RecommendationsEntry.value', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=b'8\001',
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=418,
+  serialized_end=483,
+)
 
 _RECOMMENDATIONBOOKRESPONSE = _descriptor.Descriptor(
   name='RecommendationBookResponse',
@@ -220,6 +258,38 @@ _RECOMMENDATIONBOOKRESPONSE = _descriptor.Descriptor(
   ],
   extensions=[
   ],
+  nested_types=[_RECOMMENDATIONBOOKRESPONSE_RECOMMENDATIONSENTRY, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=313,
+  serialized_end=483,
+)
+
+
+_BOOKLIST = _descriptor.Descriptor(
+  name='BookList',
+  full_name='BookList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='books', full_name='BookList.books', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
   nested_types=[],
   enum_types=[
   ],
@@ -229,8 +299,40 @@ _RECOMMENDATIONBOOKRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=318,
-  serialized_end=392,
+  serialized_start=485,
+  serialized_end=525,
+)
+
+
+_SEARCHRESPONSE = _descriptor.Descriptor(
+  name='SearchResponse',
+  full_name='SearchResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='recommendations', full_name='SearchResponse.recommendations', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=527,
+  serialized_end=583,
 )
 
 
@@ -261,8 +363,8 @@ _BOOKBYIDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=394,
-  serialized_end=428,
+  serialized_start=585,
+  serialized_end=619,
 )
 
 
@@ -293,8 +395,8 @@ _BOOKBYIDRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=430,
-  serialized_end=469,
+  serialized_start=621,
+  serialized_end=660,
 )
 
 
@@ -318,8 +420,8 @@ _BOOK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=471,
-  serialized_end=477,
+  serialized_start=662,
+  serialized_end=668,
 )
 
 
@@ -357,8 +459,8 @@ _BOOKBYCATEGORYREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=479,
-  serialized_end=541,
+  serialized_start=670,
+  serialized_end=732,
 )
 
 
@@ -389,18 +491,24 @@ _BOOKBYCATEGORYRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=543,
-  serialized_end=588,
+  serialized_start=734,
+  serialized_end=779,
 )
 
-_RECOMMENDATIONBOOKRESPONSE.fields_by_name['recommendations'].message_type = _BOOKRECOMMENDATION
+_RECOMMENDATIONBOOKRESPONSE_RECOMMENDATIONSENTRY.fields_by_name['value'].message_type = _BOOKLIST
+_RECOMMENDATIONBOOKRESPONSE_RECOMMENDATIONSENTRY.containing_type = _RECOMMENDATIONBOOKRESPONSE
+_RECOMMENDATIONBOOKRESPONSE.fields_by_name['recommendations'].message_type = _RECOMMENDATIONBOOKRESPONSE_RECOMMENDATIONSENTRY
+_BOOKLIST.fields_by_name['books'].message_type = _BOOKRESPONSE
+_SEARCHRESPONSE.fields_by_name['recommendations'].message_type = _BOOKRESPONSE
 _BOOKBYIDRESPONSE.fields_by_name['book'].message_type = _BOOK
 _BOOKBYCATEGORYRESPONSE.fields_by_name['book'].message_type = _BOOK
 DESCRIPTOR.message_types_by_name['RecommendationBookRequest'] = _RECOMMENDATIONBOOKREQUEST
 DESCRIPTOR.message_types_by_name['BookCategoryRequest'] = _BOOKCATEGORYREQUEST
 DESCRIPTOR.message_types_by_name['BookNameRequest'] = _BOOKNAMEREQUEST
-DESCRIPTOR.message_types_by_name['BookRecommendation'] = _BOOKRECOMMENDATION
+DESCRIPTOR.message_types_by_name['BookResponse'] = _BOOKRESPONSE
 DESCRIPTOR.message_types_by_name['RecommendationBookResponse'] = _RECOMMENDATIONBOOKRESPONSE
+DESCRIPTOR.message_types_by_name['BookList'] = _BOOKLIST
+DESCRIPTOR.message_types_by_name['SearchResponse'] = _SEARCHRESPONSE
 DESCRIPTOR.message_types_by_name['BookByIdRequest'] = _BOOKBYIDREQUEST
 DESCRIPTOR.message_types_by_name['BookByIdResponse'] = _BOOKBYIDRESPONSE
 DESCRIPTOR.message_types_by_name['Book'] = _BOOK
@@ -429,19 +537,41 @@ BookNameRequest = _reflection.GeneratedProtocolMessageType('BookNameRequest', (_
   })
 _sym_db.RegisterMessage(BookNameRequest)
 
-BookRecommendation = _reflection.GeneratedProtocolMessageType('BookRecommendation', (_message.Message,), {
-  'DESCRIPTOR' : _BOOKRECOMMENDATION,
+BookResponse = _reflection.GeneratedProtocolMessageType('BookResponse', (_message.Message,), {
+  'DESCRIPTOR' : _BOOKRESPONSE,
   '__module__' : 'recommendationsBook_pb2'
-  # @@protoc_insertion_point(class_scope:BookRecommendation)
+  # @@protoc_insertion_point(class_scope:BookResponse)
   })
-_sym_db.RegisterMessage(BookRecommendation)
+_sym_db.RegisterMessage(BookResponse)
 
 RecommendationBookResponse = _reflection.GeneratedProtocolMessageType('RecommendationBookResponse', (_message.Message,), {
+
+  'RecommendationsEntry' : _reflection.GeneratedProtocolMessageType('RecommendationsEntry', (_message.Message,), {
+    'DESCRIPTOR' : _RECOMMENDATIONBOOKRESPONSE_RECOMMENDATIONSENTRY,
+    '__module__' : 'recommendationsBook_pb2'
+    # @@protoc_insertion_point(class_scope:RecommendationBookResponse.RecommendationsEntry)
+    })
+  ,
   'DESCRIPTOR' : _RECOMMENDATIONBOOKRESPONSE,
   '__module__' : 'recommendationsBook_pb2'
   # @@protoc_insertion_point(class_scope:RecommendationBookResponse)
   })
 _sym_db.RegisterMessage(RecommendationBookResponse)
+_sym_db.RegisterMessage(RecommendationBookResponse.RecommendationsEntry)
+
+BookList = _reflection.GeneratedProtocolMessageType('BookList', (_message.Message,), {
+  'DESCRIPTOR' : _BOOKLIST,
+  '__module__' : 'recommendationsBook_pb2'
+  # @@protoc_insertion_point(class_scope:BookList)
+  })
+_sym_db.RegisterMessage(BookList)
+
+SearchResponse = _reflection.GeneratedProtocolMessageType('SearchResponse', (_message.Message,), {
+  'DESCRIPTOR' : _SEARCHRESPONSE,
+  '__module__' : 'recommendationsBook_pb2'
+  # @@protoc_insertion_point(class_scope:SearchResponse)
+  })
+_sym_db.RegisterMessage(SearchResponse)
 
 BookByIdRequest = _reflection.GeneratedProtocolMessageType('BookByIdRequest', (_message.Message,), {
   'DESCRIPTOR' : _BOOKBYIDREQUEST,
@@ -479,6 +609,7 @@ BookByCategoryResponse = _reflection.GeneratedProtocolMessageType('BookByCategor
 _sym_db.RegisterMessage(BookByCategoryResponse)
 
 
+_RECOMMENDATIONBOOKRESPONSE_RECOMMENDATIONSENTRY._options = None
 
 _RECOMMENDATIONSBOOK = _descriptor.ServiceDescriptor(
   name='RecommendationsBook',
@@ -487,8 +618,8 @@ _RECOMMENDATIONSBOOK = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=591,
-  serialized_end=942,
+  serialized_start=782,
+  serialized_end=1109,
   methods=[
   _descriptor.MethodDescriptor(
     name='RecommendBook',
@@ -506,7 +637,7 @@ _RECOMMENDATIONSBOOK = _descriptor.ServiceDescriptor(
     index=1,
     containing_service=None,
     input_type=_BOOKNAMEREQUEST,
-    output_type=_RECOMMENDATIONBOOKRESPONSE,
+    output_type=_SEARCHRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -516,7 +647,7 @@ _RECOMMENDATIONSBOOK = _descriptor.ServiceDescriptor(
     index=2,
     containing_service=None,
     input_type=_BOOKCATEGORYREQUEST,
-    output_type=_RECOMMENDATIONBOOKRESPONSE,
+    output_type=_SEARCHRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

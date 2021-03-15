@@ -24,7 +24,11 @@ message BookResponse {
 }
 
 message RecommendationBookResponse {
-	map<string, repeated BookResponse> recommendations = 1;
+	map<string, BookList> recommendations = 1;
+}
+
+message BookList {
+    repeated BookResponse books = 1;
 }
 
 message SearchResponse {
