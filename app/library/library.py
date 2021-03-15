@@ -33,7 +33,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
         chosen_type = request.types
 		num_results = min(request.max_results, len(books_with_name))
-        book_with_id = books_database[request.book_id]
+        book_with_id =
         return BookData(books=book_with_id)
         
     def GetBook(self, request, context):

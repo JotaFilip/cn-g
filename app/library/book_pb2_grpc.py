@@ -17,7 +17,7 @@ class BookStub(object):
         self.SearchById = channel.unary_unary(
                 '/Book/SearchById',
                 request_serializer=book__pb2.BookByIdRequest.SerializeToString,
-                response_deserializer=book__pb2.BookData.FromString,
+                response_deserializer=book__pb2.BookResponse.FromString,
                 )
         self.SearchByName = channel.unary_unary(
                 '/Book/SearchByName',
@@ -58,7 +58,7 @@ def add_BookServicer_to_server(servicer, server):
             'SearchById': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchById,
                     request_deserializer=book__pb2.BookByIdRequest.FromString,
-                    response_serializer=book__pb2.BookData.SerializeToString,
+                    response_serializer=book__pb2.BookResponse.SerializeToString,
             ),
             'SearchByName': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByName,
@@ -93,7 +93,7 @@ class Book(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Book/SearchById',
             book__pb2.BookByIdRequest.SerializeToString,
-            book__pb2.BookData.FromString,
+            book__pb2.BookResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
