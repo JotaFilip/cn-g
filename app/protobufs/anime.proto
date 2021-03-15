@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+////////////////////////////////////////////
+///////////////BASIC RESPONSES//////////////
+////////////////////////////////////////////
+//Message used to return the data of an anime
+message AnimeData {
+    //ver no dataset colunas relevantes
+}
+
+message AnimeDataList {
+    repeated AnimeData anime = 1;
+}
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+////////////////////////////////////////////
+////////////////BASIC REQUESTS//////////////
+////////////////////////////////////////////
+
+//Message used to search an anime by ID 
+message AnimeByIdRequest {
+    string anime_id = 1;
+}
+
+//Message used to search for anime by name
+message AnimeByNameRequest {
+	string name = 1;
+    int32 max_results = 2;
+}
+
+//Message used to search for anime by category
+message AnimeByCategoryRequest {
+	string category = 1;
+    int32 max_results = 2;
+}
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+service RecommendationsAnime {
+    rpc SearchById (AnimeByIdRequest) returns (AnimeData);
+	rpc SearchByName (AnimeByNameRequest) returns (AnimeDataList);
+	rpc SearchByCategory (AnimeByCategoryRequest) returns (AnimeDataList);
+}
