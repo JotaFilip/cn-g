@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+////////////////////////////////////////////
+///////////////BASIC RESPONSES//////////////
+////////////////////////////////////////////
+//Message used to return the data of a book
+message BookData {
+    //ver no dataset colunas relevantes
+	string id = 0;
+	string book_title = 1;
+	string genres = 2;
+}
+
+message BookDataList {
+    repeated BookData books = 1;
+}
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+////////////////////////////////////////////
+////////////////BASIC REQUESTS//////////////
+////////////////////////////////////////////
+
+//Message used to search a book by ID 
+message BookByIdRequest {
+    string book_id = 1;
+}
+
+//Message used to search for books by name
+message BooksByNameRequest {
+	string name = 1;
+    int32 max_results = 2;
+}
+
+//Message used to search for books by category
+message BooksByCategoryRequest {
+	string category = 1;
+    int32 max_results = 2;
+}
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+service Book {
+    rpc SearchById (BookByIdRequest) returns (BookData);
+	rpc SearchByName (BooksByNameRequest) returns (BookDataList);
+	rpc SearchByCategory (BooksByCategoryRequest) returns (BookDataList);
+}

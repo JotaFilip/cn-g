@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+////////////////////////////////////////////
+///////////////BASIC RESPONSES//////////////
+////////////////////////////////////////////
+message IMDBData {
+    //ver no dataset colunas relevantes
+}
+
+message IMDBDataList {
+    repeated IMDBData imdb = 1;
+}
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+////////////////////////////////////////////
+////////////////BASIC REQUESTS//////////////
+////////////////////////////////////////////
+
+//Message used to search for IMDB content by ID 
+message IMDBByIdRequest {
+    string imdb_id = 1;
+}
+
+//Message used to search for IMDB content by name
+message IMDBByNameRequest {
+	string name = 1;
+    int32 max_results = 2;
+}
+
+//Message used to search for IMDB content by category
+message IMDBByCategoryRequest {
+	string category = 1;
+    int32 max_results = 2;
+}
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+service IMDB {
+    rpc SearchById (IMDBByIdRequest) returns (IMDBData);
+	rpc SearchByName (IMDBByNameRequest) returns (IMDBDataList);
+	rpc SearchByCategory (IMDBByCategoryRequest) returns (IMDBDataList);
+}

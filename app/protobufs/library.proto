@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+enum Type {
+    BOOK = 0;
+    IMDB = 1;
+    ANIME = 2;
+	ALL = 3;
+}
+
+////////////////////////////////////////////
+///////////////BASIC RESPONSES//////////////
+////////////////////////////////////////////
+
+message BasicInfoResponse {
+	repeated BookBasicInfo book_recommendations = 1;
+	repeated IMDBBasicInfo imdb_recommendations = 2;
+	repeated AnimeBasicInfo anime_recommendations = 3;
+}
+
+message BookData {
+    //ver no dataset colunas relevantes
+}
+
+message BookBasicInfo {
+    string book_id = 1;
+	string book_name = 2;
+}
+
+message IMDBData {
+    //ver no dataset colunas relevantes
+}
+
+message IMDBBasicInfo {
+    string imdb_id = 1;
+	string imdb_name = 2;
+}
+
+message AnimeData {
+    //ver no dataset colunas relevantes
+}
+
+message AnimeBasicInfo {
+    string anime_id = 1;
+	string anime_name = 2;
+}
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+////////////////////////////////////////////
+////////////////BASIC REQUESTS//////////////
+////////////////////////////////////////////
+
+message RecommendationRequest {
+    int32 user_id = 1;
+    int32 max_results = 2;
+	Type types = 3;
+}
+
+message BookByIdRequest {
+    string book_id = 1;
+}
+
+message IMDBByIdRequest {
+    string imdb_id = 1;
+}
+
+message AnimeByIdRequest {
+    string anime_id = 1;
+}
+
+message SearchByNameRequest {
+	string name = 1;
+    int32 max_results = 2;
+	Type types = 3;
+}
+
+message SearchByCategoryRequest {
+	string category = 1;
+    int32 max_results = 2;
+	Type types = 3;
+}
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+service Library {
+    rpc Recommend (RecommendationRequest) returns (BasicInfoResponse);
+	rpc GetBook (BookByIdRequest) returns (BookData);
+	rpc GetIMDB (IMDBByIdRequest) returns (IMDBData);
+	rpc GetAnime (AnimeByIdRequest) returns (AnimeData);
+	rpc SearchByName (SearchByNameRequest) returns (BasicInfoResponse);
+	rpc SearchByCategory (SearchByCategoryRequest) returns (BasicInfoResponse);
+}

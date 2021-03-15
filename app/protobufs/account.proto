@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+////////////////////////////////////////////
+///////////////BASIC RESPONSES//////////////
+////////////////////////////////////////////
+
+message AllLikesAndViewsResponse {
+    SpecificLikesAndViewsResponse book_likes_views = 1;
+	SpecificLikesAndViewsResponse imdb_likes_views = 2;
+	SpecificLikesAndViewsResponse anime_likes_views = 3;
+}
+
+message SpecificLikesAndViewsResponse {
+    repeated string likes = 1;
+	repeated string views = 2;
+}
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+////////////////////////////////////////////
+////////////////BASIC REQUESTS//////////////
+////////////////////////////////////////////
+
+message LikesAndViewsRequest {
+    string user_id = 1;
+}
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+service Account {
+    rpc GetAllLikesAndViews (LikesAndViewsRequest) returns (AllLikesAndViewsResponse);
+	rpc GetBookLikesAndViews (LikesAndViewsRequest) returns (SpecificLikesAndViewsResponse);
+	rpc GetIMDBLikesAndViews (LikesAndViewsRequest) returns (SpecificLikesAndViewsResponse);
+	rpc GetAnimeLikesAndViews (LikesAndViewsRequest) returns (SpecificLikesAndViewsResponse);
+}
