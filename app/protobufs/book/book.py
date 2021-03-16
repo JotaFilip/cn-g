@@ -39,7 +39,7 @@ class BookService(book_pb2_grpc.BookServicer):
         books_with_name = cur.fetchall()
         
         if books_with_name is None:
-            raise NotFound("Id not found")
+            raise NotFound("Name not found")
             
         print(books_with_name[0])
         
@@ -60,7 +60,7 @@ class BookService(book_pb2_grpc.BookServicer):
         books_with_category = cur.fetchall()
         
         if books_with_category is None:
-            raise NotFound("category not found")
+            raise NotFound("Category not found")
         
         print(books_with_category[0])
         
