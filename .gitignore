@@ -1,5 +1,5 @@
-app/databases/data/*
-!app/databases/data/README.MD
+*.tsv
+*.csv
 
 *.aux
 *.fdb*
