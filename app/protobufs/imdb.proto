@@ -4,7 +4,10 @@ syntax = "proto3";
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 message IMDBData {
-    //ver no dataset colunas relevantes
+    int64 imdb_id = 1;
+	string imdb_title = 2;
+	string genres = 3;
+	double imdb_rating = 4;
 }
 
 message IMDBDataList {

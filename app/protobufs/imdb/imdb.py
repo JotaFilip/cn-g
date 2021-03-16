@@ -10,16 +10,18 @@ from imdb_pb2 import (
     IMDBDataList,
     IMDBByIdRequest,
     IMDBByNameRequest,
-    IMDBByCategoryRequest,
+    IMDBByCategoryRequest, IMDBData
     
 )
 import imdb_pb2_grpc
 
-# Acesso ah base de dados
+# ඞ
 
 
 class IMDBService(imdb_pb2_grpc.IMDBServicer):
     def SearchById(self, request, context):
+        cur = con.cursor()
+        cur.execute('SELECT imdb_id,imdb_title,genres,imdb_rating FROM imdb_data WHERE book_id=?', (request.book_id,))
         
         if request.imdb_id not in imdb_database:
             raise NotFound("Id not found")

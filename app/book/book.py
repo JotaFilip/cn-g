@@ -17,15 +17,6 @@ from book_pb2 import (
 )
 import book_pb2_grpc
 
-# Acesso ah base de dados
-
-books_database = {
-    "id": ["1", "2", "3", "4", "5"],
-    "name": ["a", "b", "c", "d", "e"],
-    "genre": ["luta", "acao", "romance", "luta", "acao"]
-}
-
-
 class BookService(book_pb2_grpc.BookServicer):
     def SearchById(self, request, context):
         cur = con.cursor()
@@ -41,29 +32,28 @@ class BookService(book_pb2_grpc.BookServicer):
         
     def SearchByName(self, request, context):
     
-        #if request.name not in books_database:
-        if request.book_id not in books_database["name"]:
-            raise NotFound("Name not found")
         cur = con.cursor()
         cur.execute('SELECT book_id,book_title,genres,book_rating FROM book_data WHERE book_title LIKE ? ', ( request.name,))
-        #books_with_name = books_database[request.name]
-        book_with_id = books_database["name"][request.name]
+        book_with_name = cur.fetchall()
+        
+        if book_with_name is None:
+            raise NotFound("Id not found")
+            
         num_results = min(request.max_results, len(books_with_name))
         searched_books = random.sample(books_with_name, num_results)
 
         return BookDataList(books=searched_books)
         
     def SearchByCategory(self, request, context):
-    
-        #if request.category not in books_database:
-        
-        if request.book_id not in books_database["genre"]:
-            raise NotFound("Category not found")
+            
         cur = con.cursor()
         cur.execute('SELECT book_id,book_title,genres,book_rating FROM book_data WHERE genres LIKE ? ', ("%" + request.category + "%",))
-        #books_with_category = books_database[request.category]
-        book_with_id = books_database["genre"][request.category]
-        num_results = min(request.max_results, len(books_with_name))
+        book_with_category = cur.fetchall()
+        
+        if book_with_category is None:
+            raise NotFound("Id not found")
+            
+        num_results = min(request.max_results, len(book_with_category))
         searched_books = random.sample(books_with_category, num_results)
 
         return BookDataList(books=searched_books)
