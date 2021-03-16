@@ -50,7 +50,7 @@ recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
 # )
 #books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
 #books_client = BookStub(books_channel)
-animes_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
+animes_channel = grpc.insecure_channel(f"{recommendations_host}:50053")
 animes_client = AnimeStub(animes_channel)
 from flask import Flask, render_template
 app = connexion.App(__name__, specification_dir="./")
