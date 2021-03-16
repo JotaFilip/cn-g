@@ -22,7 +22,7 @@ message BookData {
 }
 
 message BookBasicInfo {
-    string book_id = 1;
+    int64 book_id = 1;
 	string book_name = 2;
 }
 
@@ -31,7 +31,7 @@ message IMDBData {
 }
 
 message IMDBBasicInfo {
-    string imdb_id = 1;
+    int64 imdb_id = 1;
 	string imdb_name = 2;
 }
 
@@ -40,7 +40,7 @@ message AnimeData {
 }
 
 message AnimeBasicInfo {
-    string anime_id = 1;
+    int64 anime_id = 1;
 	string anime_name = 2;
 }
 
@@ -53,21 +53,21 @@ message AnimeBasicInfo {
 ////////////////////////////////////////////
 
 message RecommendationRequest {
-    int32 user_id = 1;
+    int64 user_id = 1;
     int32 max_results = 2;
 	Type types = 3;
 }
 
 message BookByIdRequest {
-    string book_id = 1;
+    int64 book_id = 1;
 }
 
 message IMDBByIdRequest {
-    string imdb_id = 1;
+    int64 imdb_id = 1;
 }
 
 message AnimeByIdRequest {
-    string anime_id = 1;
+    int64 anime_id = 1;
 }
 
 message SearchByNameRequest {

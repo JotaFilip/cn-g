@@ -23,7 +23,7 @@ message IMDBDataList {
 
 //Message used to search for IMDB content by ID 
 message IMDBByIdRequest {
-    string imdb_id = 1;
+    int64 imdb_id = 1;
 }
 
 //Message used to search for IMDB content by name
