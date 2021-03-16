@@ -9,6 +9,10 @@ up = user + ":" + password
 
 client = MongoClient("mongodb+srv://"+up+"@animes.4nkye.mongodb.net/Animes?retryWrites=true&w=majority")
 db = client["database"]
+
+# drop everything in there
+db.drop_collection("animes")
+
 db = db["animes"]
 
 # Issue the serverStatus command and print the results
@@ -23,7 +27,7 @@ import csv
 # score,              14
 # genre,              27
 
-count = 0
+insert_list = []
 with open("cn-g/app/databases/data/MyAnimeList/AnimeList.csv","r",encoding="utf8") as f:
     reader = csv.reader(f)
 
@@ -38,11 +42,20 @@ with open("cn-g/app/databases/data/MyAnimeList/AnimeList.csv","r",encoding="utf8
         anime = {
             'name' : row[2],
             'category': genres,
-            'rating' : row[15],
+            'rating' : float(row[15]),
             'imageURL' : row[5]
         }
 
-        # insert
-        result = db.insert_one(anime)
+        insert_list.append(anime)
 
-    print('Done')
+        # insert
+        if len(insert_list) >= 100_000:
+            result = db.insert_many(insert_list)
+            insert_list = []
+
+# insert rest
+if len(insert_list) > 0:
+    result = db.insert_many(insert_list)
+    insert_list = []
+
+print('Done')

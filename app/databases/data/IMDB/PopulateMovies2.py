@@ -9,6 +9,10 @@ up = user + ":" + password
 
 client = MongoClient("mongodb+srv://"+up+"@movies-2.nlmxu.mongodb.net/movies?retryWrites=true&w=majority")
 db = client["database"]
+
+# drop everything in there
+db.drop_collection("movies")
+
 db = db["movies"]
 
 # Issue the serverStatus command and print the results
@@ -30,7 +34,7 @@ with open("cn-g/app/databases/data/IMDB/title.ratings.tsv","r",encoding="utf8") 
             first_elem = False
             continue
 
-        ratings[row[0]] = row[1]
+        ratings[row[0]] = float(row[1])
 print("Loaded ratings")
 
 insert_list = []

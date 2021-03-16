@@ -9,6 +9,10 @@ up = user + ":" + password
 
 client = MongoClient("mongodb+srv://"+up+"@books.lnpq3.mongodb.net/Books?retryWrites=true&w=majority")
 db = client["database"]
+
+# drop everything in there
+db.drop_collection("books")
+
 db = db["books"]
 
 # Issue the serverStatus command and print the results
@@ -18,6 +22,7 @@ db = db["books"]
 # open file to parse it
 import csv
 
+insert_list = []
 with open("cn-g/app/databases/data/GoodReads/book_data.csv","r",encoding="utf8") as f:
     reader = csv.reader(f)
 
@@ -33,12 +38,21 @@ with open("cn-g/app/databases/data/GoodReads/book_data.csv","r",encoding="utf8")
             'name' : row[9],
             'description': row[1],
             'category': genres,
-            'rating' : row[6],
+            'rating' : float(row[6])*2,
             'imageURL' : row[11]
         }
 
-        # insert
-        result = db.insert_one(book)
-        print(".",end="")
+        # append 
+        insert_list.append(book)
 
-    print('Done')
+        # insert
+        if len(insert_list) >= 100_000:
+            result = db.insert_many(insert_list)
+            insert_list = []
+
+# insert rest
+if len(insert_list) > 0:
+    result = db.insert_many(insert_list)
+    insert_list = []
+
+print('Done')
