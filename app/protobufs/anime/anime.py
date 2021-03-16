@@ -32,7 +32,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         print(anime)
         if anime is None:
             raise NotFound("Id not found")
-        send = AnimeData(anime_id = anime[0], anime_title = anime[1], genres = anime[2], anime_rating = anime[3])
+        send = AnimeData(anime_id = anime[0], anime_title = anime[1], genres = anime[2].split(','), anime_rating = anime[3])
         print(send)
         return AnimeResponse(anime = send)
         #if request.anime_id not in anime_database:
