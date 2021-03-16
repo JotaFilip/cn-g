@@ -36,7 +36,7 @@ message IMDBByNameRequest {
 
 //Message used to search for IMDB content by category
 message IMDBByCategoryRequest {
-    string category = 1;
+    repeated string category = 1;
     int32 max_results = 2;
 }
 message IMDBResponse {

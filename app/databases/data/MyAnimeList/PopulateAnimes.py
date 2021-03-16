@@ -34,6 +34,7 @@ with open("cn-g/app/databases/data/MyAnimeList/AnimeList.csv","r",encoding="utf8
     first_elem = True
     for row in reader:
         genres = row[28].split(",")
+        genres = [ g.strip() for g in genres ]
 
         if first_elem:
             first_elem = False

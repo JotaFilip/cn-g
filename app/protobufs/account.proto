@@ -5,9 +5,9 @@ syntax = "proto3";
 ////////////////////////////////////////////
 
 message AllLikesAndViewsResponse {
-    LikesAndViewsResponse book_likes_views = 1;
-	LikesAndViewsResponse imdb_likes_views = 2;
-	LikesAndViewsResponse anime_likes_views = 3;
+    LikesAndViewsResponse books = 1;
+	LikesAndViewsResponse imdbs = 2;
+	LikesAndViewsResponse animes = 3;
 }
 
 message LikesAndViewsResponse {

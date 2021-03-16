@@ -46,6 +46,9 @@ with open("cn-g/app/databases/data/IMDB/title.basics.tsv","r",encoding="utf8") a
     first_elem = True
     for row in reader:
 
+        if count >= 3_300_000:
+            break
+
         if first_elem:
             first_elem = False
             continue
@@ -60,11 +63,11 @@ with open("cn-g/app/databases/data/IMDB/title.basics.tsv","r",encoding="utf8") a
             rating = ratings[row[0]]
 
         movie = {
-            '_id': row[0],
+            # 'id': row[0],
             'name' : row[2],
             'category': genres,
             'rating' : rating,
-            'imageURL' : "",
+            # 'imageURL' : "",
             'type': row[1],
         }
 

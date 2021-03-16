@@ -38,7 +38,7 @@ message BooksByNameRequest {
 
 //Message used to search for books by category
 message BooksByCategoryRequest {
-    string category = 1;
+    repeated string category = 1;
     int32 max_results = 2;
 }
 ////////////////////////////////////////////
