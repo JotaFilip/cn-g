@@ -48,7 +48,7 @@ message AnimeResponse {
 ////////////////////////////////////////////
 
 service Anime {
-        rpc SearchById (AnimeByIdRequest) returns (AnimeResponse);
+    rpc SearchById (AnimeByIdRequest) returns (AnimeResponse);
 	rpc SearchByName (AnimeByNameRequest) returns (AnimeDataList);
 	rpc SearchByCategory (AnimeByCategoryRequest) returns (AnimeDataList);
 }

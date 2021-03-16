@@ -12,6 +12,9 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+import book_pb2 as book__pb2
+import imdb_pb2 as imdb__pb2
+import anime_pb2 as anime__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,8 +23,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rlibrary.proto\"\x9f\x01\n\x11\x42\x61sicInfoResponse\x12,\n\x14\x62ook_recommendations\x18\x01 \x03(\x0b\x32\x0e.BookBasicInfo\x12,\n\x14imdb_recommendations\x18\x02 \x03(\x0b\x32\x0e.IMDBBasicInfo\x12.\n\x15\x61nime_recommendations\x18\x03 \x03(\x0b\x32\x0f.AnimeBasicInfo\"\n\n\x08\x42ookData\"3\n\rBookBasicInfo\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\x12\x11\n\tbook_name\x18\x02 \x01(\t\"\n\n\x08IMDBData\"3\n\rIMDBBasicInfo\x12\x0f\n\x07imdb_id\x18\x01 \x01(\t\x12\x11\n\timdb_name\x18\x02 \x01(\t\"\x0b\n\tAnimeData\"6\n\x0e\x41nimeBasicInfo\x12\x10\n\x08\x61nime_id\x18\x01 \x01(\t\x12\x12\n\nanime_name\x18\x02 \x01(\t\"S\n\x15RecommendationRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type\"\"\n\x0f\x42ookByIdRequest\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\"\"\n\x0fIMDBByIdRequest\x12\x0f\n\x07imdb_id\x18\x01 \x01(\t\"$\n\x10\x41nimeByIdRequest\x12\x10\n\x08\x61nime_id\x18\x01 \x01(\t\"N\n\x13SearchByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type\"V\n\x17SearchByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type*.\n\x04Type\x12\x08\n\x04\x42OOK\x10\x00\x12\x08\n\x04IMDB\x10\x01\x12\t\n\x05\x41NIME\x10\x02\x12\x07\n\x03\x41LL\x10\x03\x32\xb9\x02\n\x07Library\x12\x37\n\tRecommend\x12\x16.RecommendationRequest\x1a\x12.BasicInfoResponse\x12&\n\x07GetBook\x12\x10.BookByIdRequest\x1a\t.BookData\x12&\n\x07GetIMDB\x12\x10.IMDBByIdRequest\x1a\t.IMDBData\x12)\n\x08GetAnime\x12\x11.AnimeByIdRequest\x1a\n.AnimeData\x12\x38\n\x0cSearchByName\x12\x14.SearchByNameRequest\x1a\x12.BasicInfoResponse\x12@\n\x10SearchByCategory\x12\x18.SearchByCategoryRequest\x1a\x12.BasicInfoResponseb\x06proto3'
-)
+  serialized_pb=b'\n\rlibrary.proto\x1a\nbook.proto\x1a\nimdb.proto\x1a\x0b\x61nime.proto\"\x9f\x01\n\x11\x42\x61sicInfoResponse\x12,\n\x14\x62ook_recommendations\x18\x01 \x03(\x0b\x32\x0e.BookBasicInfo\x12,\n\x14imdb_recommendations\x18\x02 \x03(\x0b\x32\x0e.IMDBBasicInfo\x12.\n\x15\x61nime_recommendations\x18\x03 \x03(\x0b\x32\x0f.AnimeBasicInfo\"3\n\rBookBasicInfo\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\x03\x12\x11\n\tbook_name\x18\x02 \x01(\t\"3\n\rIMDBBasicInfo\x12\x0f\n\x07imdb_id\x18\x01 \x01(\x03\x12\x11\n\timdb_name\x18\x02 \x01(\t\"6\n\x0e\x41nimeBasicInfo\x12\x10\n\x08\x61nime_id\x18\x01 \x01(\x03\x12\x12\n\nanime_name\x18\x02 \x01(\t\"S\n\x15RecommendationRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x03\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type\"N\n\x13SearchByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type\"V\n\x17SearchByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type*.\n\x04Type\x12\x08\n\x04\x42OOK\x10\x00\x12\x08\n\x04SHOW\x10\x01\x12\t\n\x05\x41NIME\x10\x02\x12\x07\n\x03\x41LL\x10\x03\x32\xb9\x02\n\x07Library\x12\x37\n\tRecommend\x12\x16.RecommendationRequest\x1a\x12.BasicInfoResponse\x12&\n\x07GetBook\x12\x10.BookByIdRequest\x1a\t.BookData\x12&\n\x07GetIMDB\x12\x10.IMDBByIdRequest\x1a\t.IMDBData\x12)\n\x08GetAnime\x12\x11.AnimeByIdRequest\x1a\n.AnimeData\x12\x38\n\x0cSearchByName\x12\x14.SearchByNameRequest\x1a\x12.BasicInfoResponse\x12@\n\x10SearchByCategory\x12\x18.SearchByCategoryRequest\x1a\x12.BasicInfoResponseb\x06proto3'
+  ,
+  dependencies=[book__pb2.DESCRIPTOR,imdb__pb2.DESCRIPTOR,anime__pb2.DESCRIPTOR,])
 
 _TYPE = _descriptor.EnumDescriptor(
   name='Type',
@@ -36,7 +40,7 @@ _TYPE = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='IMDB', index=1, number=1,
+      name='SHOW', index=1, number=1,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -53,14 +57,14 @@ _TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=741,
-  serialized_end=787,
+  serialized_start=631,
+  serialized_end=677,
 )
 _sym_db.RegisterEnumDescriptor(_TYPE)
 
 Type = enum_type_wrapper.EnumTypeWrapper(_TYPE)
 BOOK = 0
-IMDB = 1
+SHOW = 1
 ANIME = 2
 ALL = 3
 
@@ -107,33 +111,8 @@ _BASICINFORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=18,
-  serialized_end=177,
-)
-
-
-_BOOKDATA = _descriptor.Descriptor(
-  name='BookData',
-  full_name='BookData',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=179,
-  serialized_end=189,
+  serialized_start=55,
+  serialized_end=214,
 )
 
 
@@ -147,8 +126,8 @@ _BOOKBASICINFO = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='book_id', full_name='BookBasicInfo.book_id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -171,33 +150,8 @@ _BOOKBASICINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=191,
-  serialized_end=242,
-)
-
-
-_IMDBDATA = _descriptor.Descriptor(
-  name='IMDBData',
-  full_name='IMDBData',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=244,
-  serialized_end=254,
+  serialized_start=216,
+  serialized_end=267,
 )
 
 
@@ -211,8 +165,8 @@ _IMDBBASICINFO = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='imdb_id', full_name='IMDBBasicInfo.imdb_id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -235,32 +189,7 @@ _IMDBBASICINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=256,
-  serialized_end=307,
-)
-
-
-_ANIMEDATA = _descriptor.Descriptor(
-  name='AnimeData',
-  full_name='AnimeData',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=309,
+  serialized_start=269,
   serialized_end=320,
 )
 
@@ -275,8 +204,8 @@ _ANIMEBASICINFO = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='anime_id', full_name='AnimeBasicInfo.anime_id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -314,7 +243,7 @@ _RECOMMENDATIONREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='user_id', full_name='RecommendationRequest.user_id', index=0,
-      number=1, type=5, cpp_type=1, label=1,
+      number=1, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -347,102 +276,6 @@ _RECOMMENDATIONREQUEST = _descriptor.Descriptor(
   ],
   serialized_start=378,
   serialized_end=461,
-)
-
-
-_BOOKBYIDREQUEST = _descriptor.Descriptor(
-  name='BookByIdRequest',
-  full_name='BookByIdRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='book_id', full_name='BookByIdRequest.book_id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=463,
-  serialized_end=497,
-)
-
-
-_IMDBBYIDREQUEST = _descriptor.Descriptor(
-  name='IMDBByIdRequest',
-  full_name='IMDBByIdRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='imdb_id', full_name='IMDBByIdRequest.imdb_id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=499,
-  serialized_end=533,
-)
-
-
-_ANIMEBYIDREQUEST = _descriptor.Descriptor(
-  name='AnimeByIdRequest',
-  full_name='AnimeByIdRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='anime_id', full_name='AnimeByIdRequest.anime_id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=535,
-  serialized_end=571,
 )
 
 
@@ -487,8 +320,8 @@ _SEARCHBYNAMEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=573,
-  serialized_end=651,
+  serialized_start=463,
+  serialized_end=541,
 )
 
 
@@ -533,8 +366,8 @@ _SEARCHBYCATEGORYREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=653,
-  serialized_end=739,
+  serialized_start=543,
+  serialized_end=629,
 )
 
 _BASICINFORESPONSE.fields_by_name['book_recommendations'].message_type = _BOOKBASICINFO
@@ -544,16 +377,10 @@ _RECOMMENDATIONREQUEST.fields_by_name['types'].enum_type = _TYPE
 _SEARCHBYNAMEREQUEST.fields_by_name['types'].enum_type = _TYPE
 _SEARCHBYCATEGORYREQUEST.fields_by_name['types'].enum_type = _TYPE
 DESCRIPTOR.message_types_by_name['BasicInfoResponse'] = _BASICINFORESPONSE
-DESCRIPTOR.message_types_by_name['BookData'] = _BOOKDATA
 DESCRIPTOR.message_types_by_name['BookBasicInfo'] = _BOOKBASICINFO
-DESCRIPTOR.message_types_by_name['IMDBData'] = _IMDBDATA
 DESCRIPTOR.message_types_by_name['IMDBBasicInfo'] = _IMDBBASICINFO
-DESCRIPTOR.message_types_by_name['AnimeData'] = _ANIMEDATA
 DESCRIPTOR.message_types_by_name['AnimeBasicInfo'] = _ANIMEBASICINFO
 DESCRIPTOR.message_types_by_name['RecommendationRequest'] = _RECOMMENDATIONREQUEST
-DESCRIPTOR.message_types_by_name['BookByIdRequest'] = _BOOKBYIDREQUEST
-DESCRIPTOR.message_types_by_name['IMDBByIdRequest'] = _IMDBBYIDREQUEST
-DESCRIPTOR.message_types_by_name['AnimeByIdRequest'] = _ANIMEBYIDREQUEST
 DESCRIPTOR.message_types_by_name['SearchByNameRequest'] = _SEARCHBYNAMEREQUEST
 DESCRIPTOR.message_types_by_name['SearchByCategoryRequest'] = _SEARCHBYCATEGORYREQUEST
 DESCRIPTOR.enum_types_by_name['Type'] = _TYPE
@@ -566,13 +393,6 @@ BasicInfoResponse = _reflection.GeneratedProtocolMessageType('BasicInfoResponse'
   })
 _sym_db.RegisterMessage(BasicInfoResponse)
 
-BookData = _reflection.GeneratedProtocolMessageType('BookData', (_message.Message,), {
-  'DESCRIPTOR' : _BOOKDATA,
-  '__module__' : 'library_pb2'
-  # @@protoc_insertion_point(class_scope:BookData)
-  })
-_sym_db.RegisterMessage(BookData)
-
 BookBasicInfo = _reflection.GeneratedProtocolMessageType('BookBasicInfo', (_message.Message,), {
   'DESCRIPTOR' : _BOOKBASICINFO,
   '__module__' : 'library_pb2'
@@ -580,26 +400,12 @@ BookBasicInfo = _reflection.GeneratedProtocolMessageType('BookBasicInfo', (_mess
   })
 _sym_db.RegisterMessage(BookBasicInfo)
 
-IMDBData = _reflection.GeneratedProtocolMessageType('IMDBData', (_message.Message,), {
-  'DESCRIPTOR' : _IMDBDATA,
-  '__module__' : 'library_pb2'
-  # @@protoc_insertion_point(class_scope:IMDBData)
-  })
-_sym_db.RegisterMessage(IMDBData)
-
 IMDBBasicInfo = _reflection.GeneratedProtocolMessageType('IMDBBasicInfo', (_message.Message,), {
   'DESCRIPTOR' : _IMDBBASICINFO,
   '__module__' : 'library_pb2'
   # @@protoc_insertion_point(class_scope:IMDBBasicInfo)
   })
 _sym_db.RegisterMessage(IMDBBasicInfo)
-
-AnimeData = _reflection.GeneratedProtocolMessageType('AnimeData', (_message.Message,), {
-  'DESCRIPTOR' : _ANIMEDATA,
-  '__module__' : 'library_pb2'
-  # @@protoc_insertion_point(class_scope:AnimeData)
-  })
-_sym_db.RegisterMessage(AnimeData)
 
 AnimeBasicInfo = _reflection.GeneratedProtocolMessageType('AnimeBasicInfo', (_message.Message,), {
   'DESCRIPTOR' : _ANIMEBASICINFO,
@@ -614,27 +420,6 @@ RecommendationRequest = _reflection.GeneratedProtocolMessageType('Recommendation
   # @@protoc_insertion_point(class_scope:RecommendationRequest)
   })
 _sym_db.RegisterMessage(RecommendationRequest)
-
-BookByIdRequest = _reflection.GeneratedProtocolMessageType('BookByIdRequest', (_message.Message,), {
-  'DESCRIPTOR' : _BOOKBYIDREQUEST,
-  '__module__' : 'library_pb2'
-  # @@protoc_insertion_point(class_scope:BookByIdRequest)
-  })
-_sym_db.RegisterMessage(BookByIdRequest)
-
-IMDBByIdRequest = _reflection.GeneratedProtocolMessageType('IMDBByIdRequest', (_message.Message,), {
-  'DESCRIPTOR' : _IMDBBYIDREQUEST,
-  '__module__' : 'library_pb2'
-  # @@protoc_insertion_point(class_scope:IMDBByIdRequest)
-  })
-_sym_db.RegisterMessage(IMDBByIdRequest)
-
-AnimeByIdRequest = _reflection.GeneratedProtocolMessageType('AnimeByIdRequest', (_message.Message,), {
-  'DESCRIPTOR' : _ANIMEBYIDREQUEST,
-  '__module__' : 'library_pb2'
-  # @@protoc_insertion_point(class_scope:AnimeByIdRequest)
-  })
-_sym_db.RegisterMessage(AnimeByIdRequest)
 
 SearchByNameRequest = _reflection.GeneratedProtocolMessageType('SearchByNameRequest', (_message.Message,), {
   'DESCRIPTOR' : _SEARCHBYNAMEREQUEST,
@@ -659,8 +444,8 @@ _LIBRARY = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=790,
-  serialized_end=1103,
+  serialized_start=680,
+  serialized_end=993,
   methods=[
   _descriptor.MethodDescriptor(
     name='Recommend',
@@ -677,8 +462,8 @@ _LIBRARY = _descriptor.ServiceDescriptor(
     full_name='Library.GetBook',
     index=1,
     containing_service=None,
-    input_type=_BOOKBYIDREQUEST,
-    output_type=_BOOKDATA,
+    input_type=book__pb2._BOOKBYIDREQUEST,
+    output_type=book__pb2._BOOKDATA,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -687,8 +472,8 @@ _LIBRARY = _descriptor.ServiceDescriptor(
     full_name='Library.GetIMDB',
     index=2,
     containing_service=None,
-    input_type=_IMDBBYIDREQUEST,
-    output_type=_IMDBDATA,
+    input_type=imdb__pb2._IMDBBYIDREQUEST,
+    output_type=imdb__pb2._IMDBDATA,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -697,8 +482,8 @@ _LIBRARY = _descriptor.ServiceDescriptor(
     full_name='Library.GetAnime',
     index=3,
     containing_service=None,
-    input_type=_ANIMEBYIDREQUEST,
-    output_type=_ANIMEDATA,
+    input_type=anime__pb2._ANIMEBYIDREQUEST,
+    output_type=anime__pb2._ANIMEDATA,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
