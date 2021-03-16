@@ -28,7 +28,7 @@ from flask import make_response, abort
 # )
 #import library_pb2_grpc
 
-from book_pb2 import BookByIdRequest,BookData,BookResponse
+from book_pb2 import *
 from book_pb2_grpc import BookStub
 
 # Acesso ah base de dados
@@ -63,6 +63,31 @@ if __name__ == "__main__":
     if(books_response is None):
         print("És burro")
     print(books_response.book)
+    
+    books_request = BooksByNameRequest(
+        name= "The Hunger Games",
+        max_results= 5
+    )
+    books_response = books_client.SearchByName(
+        books_request
+    )
+    if(books_response is None):
+        print("És esperto")
+    print(books_response.books[0].book_title)
+    
+    books_request = BooksByCategoryRequest(
+        category= "Fiction",
+        max_results= 5
+    )
+    
+    books_response = books_client.SearchByCategory(
+        books_request
+    )
+    
+    if(books_response is None):
+        print("És esperto")
+    print(books_response.books[0].book_title)
+    
 # Create a URL route in our application for "/"
 # app.add_api("api.yaml")
 # @app.route("/")

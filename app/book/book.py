@@ -1,6 +1,8 @@
 from concurrent import futures
 #from pymongo import MongoClient
 from copy import copy
+import random
+
 
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
@@ -33,30 +35,44 @@ class BookService(book_pb2_grpc.BookServicer):
     def SearchByName(self, request, context):
     
         cur = con.cursor()
-        cur.execute('SELECT book_id,book_title,genres,book_rating FROM book_data WHERE book_title LIKE ? ', ( request.name,))
-        book_with_name = cur.fetchall()
+        cur.execute('SELECT book_id,book_title,genres,book_rating FROM book_data WHERE book_title = ? ', ( request.name,))
+        books_with_name = cur.fetchall()
         
-        if book_with_name is None:
+        if books_with_name is None:
             raise NotFound("Id not found")
             
+        print(books_with_name[0])
+        
         num_results = min(request.max_results, len(books_with_name))
         searched_books = random.sample(books_with_name, num_results)
-
-        return BookDataList(books=searched_books)
+        print(searched_books)
+        send = []
+        for book in searched_books:
+            curr = BookData(book_id =book[0], book_title = book[1],genres = book[2], book_rating = book[3])
+            send.append(curr)
+        
+        return BookDataList(books=send)
         
     def SearchByCategory(self, request, context):
             
         cur = con.cursor()
         cur.execute('SELECT book_id,book_title,genres,book_rating FROM book_data WHERE genres LIKE ? ', ("%" + request.category + "%",))
-        book_with_category = cur.fetchall()
+        books_with_category = cur.fetchall()
         
-        if book_with_category is None:
-            raise NotFound("Id not found")
-            
-        num_results = min(request.max_results, len(book_with_category))
+        if books_with_category is None:
+            raise NotFound("category not found")
+        
+        print(books_with_category[0])
+        
+        num_results = min(request.max_results, len(books_with_category))
         searched_books = random.sample(books_with_category, num_results)
+        print(searched_books)
+        send = []
+        for book in searched_books:
+            curr = BookData(book_id =book[0], book_title = book[1],genres = book[2], book_rating = book[3])
+            send.append(curr)
 
-        return BookDataList(books=searched_books)
+        return BookDataList(books=send)
         
 
 

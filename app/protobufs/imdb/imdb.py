@@ -15,13 +15,10 @@ from imdb_pb2 import (
 )
 import imdb_pb2_grpc
 
-# ඞ
-
-
 class IMDBService(imdb_pb2_grpc.IMDBServicer):
     def SearchById(self, request, context):
         cur = con.cursor()
-        cur.execute('SELECT imdb_id,imdb_title,genres,imdb_rating FROM imdb_data WHERE book_id=?', (request.book_id,))
+        cur.execute('SELECT imdb_id,imdb_title,genres,imdb_rating FROM imdb_data WHERE imdb_id=?', (request.imdb_id,))
         
         if request.imdb_id not in imdb_database:
             raise NotFound("Id not found")
@@ -31,10 +28,13 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         
     def SearchByName(self, request, context):
     
-        if request.name not in imdb_database:
-            raise NotFound("Name not found")
+        cur = con.cursor()
+        cur.execute('SELECT imdb_id,imdb_title,genres,imdb_rating FROM imdb_data WHERE imdb_title = ? ', ( request.name,))
+        imdb_with_name = cur.fetchall()
         
-        imdb_with_name = imdb_database[request.name]
+        if imdb_with_name is None:
+            raise NotFound("Name not found")
+            
         num_results = min(request.max_results, len(imdb_with_name))
         searched_imdb = random.sample(imdb_with_name, num_results)
 
@@ -42,10 +42,13 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         
     def SearchByCategory(self, request, context):
     
-        if request.category not in imdb_database:
+        cur = con.cursor()
+        cur.execute('SELECT imdb_id,imdb_title,genres,imdb_rating FROM imdb_data WHERE genres LIKE ? ', ("%" + request.category + "%",))
+        imdb_with_category = cur.fetchall()
+        
+        if imdb_with_category is None:
             raise NotFound("Category not found")
         
-        imdb_with_category = imdb_database[request.category]
         num_results = min(request.max_results, len(imdb_with_name))
         searched_imdb = random.sample(imdb_with_category, num_results)
 
