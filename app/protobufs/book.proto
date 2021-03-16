@@ -4,7 +4,7 @@ syntax = "proto3";
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 message BookData {
-	int64 book_id = 1;
+	string book_id = 1;
 	string book_title = 2;
     string description = 3;
 	repeated string genres = 4;
@@ -25,7 +25,7 @@ message BookDataList {
 
 //Message used to search a book by ID 
 message BookByIdRequest {
-    int64 book_id = 1;
+    string book_id = 1;
 }
 message BookResponse {
     BookData book = 1;

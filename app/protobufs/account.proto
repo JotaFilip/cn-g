@@ -24,7 +24,7 @@ message LikesAndViewsResponse {
 ////////////////////////////////////////////
 
 message LikesAndViewsRequest {
-    int64 user_id = 1;
+    string username = 1;
 }
 
 ////////////////////////////////////////////

@@ -4,7 +4,7 @@ syntax = "proto3";
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 message IMDBData {
-    int64 imdb_id = 1;
+    string imdb_id = 1;
 	string imdb_title = 2;
 	repeated string genres = 3;
 	double imdb_rating = 4;

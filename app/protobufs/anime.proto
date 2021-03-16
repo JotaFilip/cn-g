@@ -4,7 +4,7 @@ syntax = "proto3";
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 message AnimeData {
-	int64 anime_id = 1;
+	string anime_id = 1;
 	string anime_title = 2;
 	repeated string genres = 3;
 	double anime_rating = 4;
@@ -24,7 +24,7 @@ message AnimeDataList {
 
 //Message used to search an anime by ID 
 message AnimeByIdRequest {
-    int64 anime_id = 1;
+    string anime_id = 1;
 }
 
 //Message used to search for anime by name
