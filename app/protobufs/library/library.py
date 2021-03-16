@@ -92,9 +92,50 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         print(animes_response.anime)
 
         return AnimeDataList(anime=animes_response.anime)
-#	
-#	def SearchByName(self, request, context):
-#	
+	
+	def SearchByName(self, request, context):
+        
+        book_list = []
+        
+        if request.types == Type.BOOK:
+        
+            books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
+            books_client = BookStub(books_channel)
+            
+            books_request = BooksByNameRequest(
+                name=request.name
+                max_results=request.max_results
+            )
+        
+            books_response = books_client.SearchByName(
+                books_request
+            )
+            
+            if(books_response is None):
+                print("ERROR")
+            print(books_response.books)
+
+            book_list = []
+            
+            for x in books_response.books:
+                cur = BookBasicInfo (
+                    book_id = x.book_id,
+                    book_name = x.book_title
+                )
+                book_list.append(cur)
+                
+            return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=None, anime_recommendations=None)
+        
+        if request.types == Type.SHOW:
+            
+            
+
+        if request.types == Type.ANIME:
+            
+
+        if request.types == Type.ALL:
+            
+
 #	def SearchByCategory(self, request, context):
 
 
