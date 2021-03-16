@@ -30,12 +30,93 @@ import library_pb2_grpc
 class LibraryService(library_pb2_grpc.LibraryServicer):
 
     def Recommend(self, request, context):
-
-        chosen_type = request.types
-        num_results = min(request.max_results, len(books_with_name))
-        book_with_id = 1
-        return BookData(books=book_with_id)
         
+        book_list = []
+        imdb_list = []
+        anime_list = []
+        
+        #views_list = 
+        #likes_list =
+        
+        category_random = random.choice(Type)
+        
+        if request.types == Type.BOOK or request.types == Type.ALL:
+        
+            books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
+            books_client = BookStub(books_channel)
+            
+            books_request = BooksByCategoryRequest(
+                category=category_random
+                max_results=request.max_results
+            )
+        
+            books_response = books_client.SearchByCategory(
+                books_request
+            )
+            
+            if(books_response is None):
+                print("ERROR")
+            print(books_response.books)
+            
+            for x in books_response.books:
+                cur = BookBasicInfo (
+                    book_id = x.book_id,
+                    book_name = x.book_title
+                )
+                book_list.append(cur)
+                            
+        if request.types == Type.SHOW or request.types == Type.ALL:
+            
+            imdb_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
+            imdb_client = IMDBStub(imdb_channel)
+            
+            imdb_request = IMDBByCategoryRequest(
+                category=category_random
+                max_results=request.max_results
+            )
+        
+            imdb_response = imdb_client.SearchByCategory(
+                imdb_request
+            )
+            
+            if(imdb_response is None):
+                print("ERROR")
+            print(imdb_response.imdb)
+            
+            for x in imdb_response.imdb:
+                cur = IMDBBasicInfo (
+                    imdb_id = x.imdb_id,
+                    imdb_name = x.imdb_title
+                )
+                imdb_list.append(cur)
+                
+        if request.types == Type.ANIME or request.types == Type.ALL:
+        
+            animes_channel = grpc.insecure_channel(f"{recommendations_host}:50053")
+            animes_client = AnimeStub(animes_channel)
+            
+            animes_request = AnimeByCategoryRequest(
+                category=category_random
+                max_results=request.max_results
+            )
+        
+            animes_response = animes_client.SearchByCategory(
+                animes_request
+            )
+            
+            if(animes_response is None):
+                print("ERROR")
+            print(animes_response.anime)
+            
+            for x in animes_response.anime:
+                cur = AnimeBasicInfo (
+                    anime_id = x.anime_id,
+                    anime_name = x.anime_title
+                )
+                anime_list.append(cur)
+                            
+        return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=imdb_list, anime_recommendations=anime_list)
+               
     def GetBook(self, request, context):
                 
         books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
@@ -99,7 +180,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         imdb_list = []
         anime_list = []
         
-        if request.types == Type.BOOK || request.types == Type.ALL:
+        if request.types == Type.BOOK or request.types == Type.ALL:
         
             books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
             books_client = BookStub(books_channel)
@@ -127,7 +208,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             
             #return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=None, anime_recommendations=None)
         
-        if request.types == Type.SHOW || request.types == Type.ALL:
+        if request.types == Type.SHOW or request.types == Type.ALL:
             
             imdb_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
             imdb_client = IMDBStub(imdb_channel)
@@ -154,7 +235,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
                 
             #return BasicInfoResponse(imdb_recommendations=imdb_list, imdb_recommendations=None, anime_recommendations=None)
 
-        if request.types == Type.ANIME || request.types == Type.ALL:
+        if request.types == Type.ANIME or request.types == Type.ALL:
         
             animes_channel = grpc.insecure_channel(f"{recommendations_host}:50053")
             animes_client = AnimeStub(animes_channel)
@@ -189,9 +270,9 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         imdb_list = []
         anime_list = []
         
-        if request.types == Type.BOOK:
+        if request.types == Type.BOOK or request.types == Type.ALL:
         
-            books_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
+            books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
             books_client = BookStub(books_channel)
             
             books_request = BooksByCategoryRequest(
@@ -216,7 +297,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
                 
             #return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=None, anime_recommendations=None)
             
-        if request.types == Type.SHOW || request.types == Type.ALL:
+        if request.types == Type.SHOW or request.types == Type.ALL:
             
             imdb_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
             imdb_client = IMDBStub(imdb_channel)
@@ -243,7 +324,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
                 
             #return BasicInfoResponse(imdb_recommendations=imdb_list, imdb_recommendations=None, anime_recommendations=None)
 
-        if request.types == Type.ANIME || request.types == Type.ALL:
+        if request.types == Type.ANIME or request.types == Type.ALL:
         
             animes_channel = grpc.insecure_channel(f"{recommendations_host}:50053")
             animes_client = AnimeStub(animes_channel)
