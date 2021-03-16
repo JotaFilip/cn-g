@@ -3,9 +3,7 @@ syntax = "proto3";
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
-//Message used to return the data of an anime
 message AnimeData {
-    //ver no dataset colunas relevantes
 	int64 anime_id = 1;
 	string anime_title = 2;
 	repeated string genres = 3;

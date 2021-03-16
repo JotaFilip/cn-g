@@ -3,9 +3,7 @@ syntax = "proto3";
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
-//Message used to return the data of a book
 message BookData {
-    //ver no dataset colunas relevantes
 	int64 book_id = 1;
 	string book_title = 2;
     string description = 3;
