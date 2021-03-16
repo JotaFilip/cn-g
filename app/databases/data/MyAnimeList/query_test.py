@@ -12,5 +12,3 @@ db = db["animes"]
 array = ["Drama","Music"]
 result = db.find({ "category": { "$all": array } }).limit(10)
 print(result[0]["_id"])
-
-print(ObjectId("coisas"))
