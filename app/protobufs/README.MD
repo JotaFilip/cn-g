@@ -9,3 +9,6 @@ python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/imd
 
 ### GERAR FICHEIROS PARA LIBRARY
 python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/library/ --grpc_python_out=./app/protobufs/library/ ./app/protobufs/library.proto
+
+### GERAR FICHEIROS PARA ACCOUNT
+python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/account/ --grpc_python_out=./app/protobufs/account/ ./app/protobufs/account.proto

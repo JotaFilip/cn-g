@@ -17,7 +17,7 @@ class IMDBStub(object):
         self.SearchById = channel.unary_unary(
                 '/IMDB/SearchById',
                 request_serializer=imdb__pb2.IMDBByIdRequest.SerializeToString,
-                response_deserializer=imdb__pb2.IMDBData.FromString,
+                response_deserializer=imdb__pb2.IMDBResponse.FromString,
                 )
         self.SearchByName = channel.unary_unary(
                 '/IMDB/SearchByName',
@@ -58,7 +58,7 @@ def add_IMDBServicer_to_server(servicer, server):
             'SearchById': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchById,
                     request_deserializer=imdb__pb2.IMDBByIdRequest.FromString,
-                    response_serializer=imdb__pb2.IMDBData.SerializeToString,
+                    response_serializer=imdb__pb2.IMDBResponse.SerializeToString,
             ),
             'SearchByName': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByName,
@@ -93,7 +93,7 @@ class IMDB(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/IMDB/SearchById',
             imdb__pb2.IMDBByIdRequest.SerializeToString,
-            imdb__pb2.IMDBData.FromString,
+            imdb__pb2.IMDBResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

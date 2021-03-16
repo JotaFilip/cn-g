@@ -28,10 +28,8 @@ from flask import make_response, abort
 # )
 #import library_pb2_grpc
 
-#from book_pb2 import *
-#from book_pb2_grpc import BookStub
-from anime_pb2 import *
-from anime_pb2_grpc import AnimeStub
+from imdb_pb2 import *
+from imdb_pb2_grpc import IMDBStub
 
 # Acesso ah base de dados
 
@@ -50,8 +48,8 @@ recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
 # )
 #books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
 #books_client = BookStub(books_channel)
-animes_channel = grpc.insecure_channel(f"{recommendations_host}:50053")
-animes_client = AnimeStub(animes_channel)
+imdbs_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
+imdbs_client = IMDBStub(imdbs_channel)
 from flask import Flask, render_template
 app = connexion.App(__name__, specification_dir="./")
 
@@ -61,39 +59,39 @@ if __name__ == "__main__":
 
 #################################################
 
-    animes_request = AnimeByIdRequest(
-        anime_id=5114
+    imdbs_request = IMDBByIdRequest(
+        imdb_id="tt0000001"
     )
-    animes_response = animes_client.SearchById(
-        animes_request
+    imdbs_response = imdbs_client.SearchById(
+        imdbs_request
     )
-    if(animes_response is None):
+    if(imdbs_response is None):
         print("És burro")
-    print(animes_response.anime)
+    print(imdbs_response.imdb)
     
-    animes_request = AnimeByNameRequest(
-        name="Cowboy Bebop",
+    imdbs_request = IMDBByNameRequest(
+        name="Stalker",
         max_results= 5
     )
-    animes_response = animes_client.SearchByName(
-        animes_request
+    imdbs_response = imdbs_client.SearchByName(
+        imdbs_request
     )
-    if(animes_response is None):
+    if(imdbs_response is None):
         print("És esperto")
-    print(animes_response.anime[0].anime_title)
+    print(imdbs_response.imdb[0].imdb_title)
     
-    animes_request = AnimeByCategoryRequest(
+    imdbs_request = IMDBByCategoryRequest(
         category= "Action",
         max_results= 5
     )
     
-    animes_response = animes_client.SearchByCategory(
-        animes_request
+    imdbs_response = imdbs_client.SearchByCategory(
+        imdbs_request
     )
     
-    if(animes_response is None):
+    if(imdbs_response is None):
         print("És esperto")
-    print(animes_response.anime[0].anime_title)
+    print(imdbs_response.imdb[0].imdb_title)
 
     
 # Create a URL route in our application for "/"

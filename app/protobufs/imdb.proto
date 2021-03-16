@@ -25,7 +25,7 @@ message IMDBDataList {
 
 //Message used to search for IMDB content by ID 
 message IMDBByIdRequest {
-    int64 imdb_id = 1;
+    string imdb_id = 1;
 }
 
 //Message used to search for IMDB content by name
@@ -40,7 +40,7 @@ message IMDBByCategoryRequest {
     int32 max_results = 2;
 }
 message IMDBResponse {
-    IMDBData book = 1;
+    IMDBData imdb = 1;
 }
 ////////////////////////////////////////////
 ////////////////////////////////////////////
