@@ -4,7 +4,10 @@ syntax = "proto3";
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 message IMDBData {
-    //ver no dataset colunas relevantes
+    int64 imdb_id = 1;
+	string imdb_title = 2;
+	string genres = 3;
+	double imdb_rating = 4;
 }
 
 message IMDBDataList {
@@ -20,7 +23,7 @@ message IMDBDataList {
 
 //Message used to search for IMDB content by ID 
 message IMDBByIdRequest {
-    string imdb_id = 1;
+    int64 imdb_id = 1;
 }
 
 //Message used to search for IMDB content by name

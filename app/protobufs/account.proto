@@ -11,8 +11,8 @@ message AllLikesAndViewsResponse {
 }
 
 message SpecificLikesAndViewsResponse {
-    repeated string likes = 1;
-	repeated string views = 2;
+    repeated int64 likes = 1;
+	repeated int64 views = 2;
 }
 
 ////////////////////////////////////////////
@@ -24,7 +24,7 @@ message SpecificLikesAndViewsResponse {
 ////////////////////////////////////////////
 
 message LikesAndViewsRequest {
-    string user_id = 1;
+    int64 user_id = 1;
 }
 
 ////////////////////////////////////////////

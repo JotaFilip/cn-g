@@ -6,9 +6,10 @@ syntax = "proto3";
 //Message used to return the data of a book
 message BookData {
     //ver no dataset colunas relevantes
-	string id = 0;
-	string book_title = 1;
-	string genres = 2;
+	int64 book_id = 1;
+	string book_title = 2;
+	string genres = 3;
+	double book_rating = 4;
 }
 
 message BookDataList {
@@ -24,18 +25,20 @@ message BookDataList {
 
 //Message used to search a book by ID 
 message BookByIdRequest {
-    string book_id = 1;
+    int64 book_id = 1;
 }
-
+message BookResponse {
+    BookData book = 1;
+}
 //Message used to search for books by name
 message BooksByNameRequest {
-	string name = 1;
+    string name = 1;
     int32 max_results = 2;
 }
 
 //Message used to search for books by category
 message BooksByCategoryRequest {
-	string category = 1;
+    string category = 1;
     int32 max_results = 2;
 }
 ////////////////////////////////////////////
@@ -43,7 +46,7 @@ message BooksByCategoryRequest {
 ////////////////////////////////////////////
 
 service Book {
-    rpc SearchById (BookByIdRequest) returns (BookData);
+    rpc SearchById (BookByIdRequest) returns (BookResponse);
 	rpc SearchByName (BooksByNameRequest) returns (BookDataList);
 	rpc SearchByCategory (BooksByCategoryRequest) returns (BookDataList);
 }

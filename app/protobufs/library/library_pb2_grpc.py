@@ -2,6 +2,9 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+import anime_pb2 as anime__pb2
+import book_pb2 as book__pb2
+import imdb_pb2 as imdb__pb2
 import library_pb2 as library__pb2
 
 
@@ -25,18 +28,18 @@ class LibraryStub(object):
                 )
         self.GetBook = channel.unary_unary(
                 '/Library/GetBook',
-                request_serializer=library__pb2.BookByIdRequest.SerializeToString,
-                response_deserializer=library__pb2.BookData.FromString,
+                request_serializer=book__pb2.BookByIdRequest.SerializeToString,
+                response_deserializer=book__pb2.BookData.FromString,
                 )
         self.GetIMDB = channel.unary_unary(
                 '/Library/GetIMDB',
-                request_serializer=library__pb2.IMDBByIdRequest.SerializeToString,
-                response_deserializer=library__pb2.IMDBData.FromString,
+                request_serializer=imdb__pb2.IMDBByIdRequest.SerializeToString,
+                response_deserializer=imdb__pb2.IMDBData.FromString,
                 )
         self.GetAnime = channel.unary_unary(
                 '/Library/GetAnime',
-                request_serializer=library__pb2.AnimeByIdRequest.SerializeToString,
-                response_deserializer=library__pb2.AnimeData.FromString,
+                request_serializer=anime__pb2.AnimeByIdRequest.SerializeToString,
+                response_deserializer=anime__pb2.AnimeData.FromString,
                 )
         self.SearchByName = channel.unary_unary(
                 '/Library/SearchByName',
@@ -103,18 +106,18 @@ def add_LibraryServicer_to_server(servicer, server):
             ),
             'GetBook': grpc.unary_unary_rpc_method_handler(
                     servicer.GetBook,
-                    request_deserializer=library__pb2.BookByIdRequest.FromString,
-                    response_serializer=library__pb2.BookData.SerializeToString,
+                    request_deserializer=book__pb2.BookByIdRequest.FromString,
+                    response_serializer=book__pb2.BookData.SerializeToString,
             ),
             'GetIMDB': grpc.unary_unary_rpc_method_handler(
                     servicer.GetIMDB,
-                    request_deserializer=library__pb2.IMDBByIdRequest.FromString,
-                    response_serializer=library__pb2.IMDBData.SerializeToString,
+                    request_deserializer=imdb__pb2.IMDBByIdRequest.FromString,
+                    response_serializer=imdb__pb2.IMDBData.SerializeToString,
             ),
             'GetAnime': grpc.unary_unary_rpc_method_handler(
                     servicer.GetAnime,
-                    request_deserializer=library__pb2.AnimeByIdRequest.FromString,
-                    response_serializer=library__pb2.AnimeData.SerializeToString,
+                    request_deserializer=anime__pb2.AnimeByIdRequest.FromString,
+                    response_serializer=anime__pb2.AnimeData.SerializeToString,
             ),
             'SearchByName': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByName,
@@ -169,8 +172,8 @@ class Library(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Library/GetBook',
-            library__pb2.BookByIdRequest.SerializeToString,
-            library__pb2.BookData.FromString,
+            book__pb2.BookByIdRequest.SerializeToString,
+            book__pb2.BookData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -186,8 +189,8 @@ class Library(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Library/GetIMDB',
-            library__pb2.IMDBByIdRequest.SerializeToString,
-            library__pb2.IMDBData.FromString,
+            imdb__pb2.IMDBByIdRequest.SerializeToString,
+            imdb__pb2.IMDBData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -203,8 +206,8 @@ class Library(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Library/GetAnime',
-            library__pb2.AnimeByIdRequest.SerializeToString,
-            library__pb2.AnimeData.FromString,
+            anime__pb2.AnimeByIdRequest.SerializeToString,
+            anime__pb2.AnimeData.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

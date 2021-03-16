@@ -1,67 +1,78 @@
 from concurrent import futures
-from pymongo import MongoClient
+#from pymongo import MongoClient
+from copy import copy
+import random
+
 
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
-
+import sqlite3
+con = sqlite3.connect('Books', check_same_thread=False)
 from book_pb2 import (
-    BookCategory,
     BookData,
     BookDataList,
     BookByIdRequest,
     BooksByNameRequest,
-    BooksByCategoryRequest,
-    
+    BooksByCategoryRequest, BookResponse,
+
 )
 import book_pb2_grpc
 
-# Acesso ah base de dados
-
-books_database = {
-    "id": ["1", "2", "3", "4", "5"]
-    "name": ["a", "b", "c", "d", "e"]
-    "genre": ["luta", "acao", "romance", "luta", "acao"]
-}
-
-
 class BookService(book_pb2_grpc.BookServicer):
     def SearchById(self, request, context):
-        
-        #if request.book_id not in books_database.id:
-        if request.book_id not in books_database["id"]:
-            raise NotFound("Id not found")
+        cur = con.cursor()
+        cur.execute('SELECT book_id,book_title,genres,book_rating FROM book_data WHERE book_id=?', (request.book_id,))
 
-        #book_with_id = books_database[request.book_id]
-        book_with_id = books_database["id"][request.book_id]
-        return BookData(books=book_with_id)
+        book = cur.fetchone()
+        print(book)
+        if book is None:
+            raise NotFound("Id not found")
+        send = BookData(book_id =book[0], book_title = book[1],genres = book[2], book_rating = book[3])
+        print(send)
+        return BookResponse(book=send)
         
     def SearchByName(self, request, context):
     
-        #if request.name not in books_database:
-        if request.book_id not in books_database["name"]:
-            raise NotFound("Name not found")
+        cur = con.cursor()
+        cur.execute('SELECT book_id,book_title,genres,book_rating FROM book_data WHERE book_title = ? ', ( request.name,))
+        books_with_name = cur.fetchall()
         
-        #books_with_name = books_database[request.name]
-        book_with_id = books_database["name"][request.name]
+        if books_with_name is None:
+            raise NotFound("Name not found")
+            
+        print(books_with_name[0])
+        
         num_results = min(request.max_results, len(books_with_name))
         searched_books = random.sample(books_with_name, num_results)
-
-        return BookDataList(books=searched_books)
+        print(searched_books)
+        send = []
+        for book in searched_books:
+            curr = BookData(book_id =book[0], book_title = book[1],genres = book[2], book_rating = book[3])
+            send.append(curr)
+        
+        return BookDataList(books=send)
         
     def SearchByCategory(self, request, context):
-    
-        #if request.category not in books_database:
+            
+        cur = con.cursor()
+        cur.execute('SELECT book_id,book_title,genres,book_rating FROM book_data WHERE genres LIKE ? ', ("%" + request.category + "%",))
+        books_with_category = cur.fetchall()
         
-        if request.book_id not in books_database["genre"]:
+        if books_with_category is None:
             raise NotFound("Category not found")
         
-        #books_with_category = books_database[request.category]
-        book_with_id = books_database["genre"][request.category]
-        num_results = min(request.max_results, len(books_with_name))
+        print(books_with_category[0])
+        
+        num_results = min(request.max_results, len(books_with_category))
         searched_books = random.sample(books_with_category, num_results)
+        print(searched_books)
+        send = []
+        for book in searched_books:
+            curr = BookData(book_id =book[0], book_title = book[1],genres = book[2], book_rating = book[3])
+            send.append(curr)
 
-        return BookDataList(books=searched_books)
+        return BookDataList(books=send)
         
 
 

@@ -6,6 +6,10 @@ syntax = "proto3";
 //Message used to return the data of an anime
 message AnimeData {
     //ver no dataset colunas relevantes
+	int64 anime_id = 1;
+	string anime_title = 2;
+	string genres = 3;
+	double anime_rating = 4;
 }
 
 message AnimeDataList {
@@ -21,26 +25,30 @@ message AnimeDataList {
 
 //Message used to search an anime by ID 
 message AnimeByIdRequest {
-    string anime_id = 1;
+    int64 anime_id = 1;
 }
 
 //Message used to search for anime by name
 message AnimeByNameRequest {
-	string name = 1;
+    string name = 1;
     int32 max_results = 2;
 }
 
 //Message used to search for anime by category
 message AnimeByCategoryRequest {
-	string category = 1;
+    string category = 1;
     int32 max_results = 2;
+}
+//Reponse
+message AnimeResponse {
+    AnimeData anime = 1;
 }
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
 service Anime {
-    rpc SearchById (AnimeByIdRequest) returns (AnimeData);
+    rpc SearchById (AnimeByIdRequest) returns (AnimeResponse);
 	rpc SearchByName (AnimeByNameRequest) returns (AnimeDataList);
 	rpc SearchByCategory (AnimeByCategoryRequest) returns (AnimeDataList);
 }
