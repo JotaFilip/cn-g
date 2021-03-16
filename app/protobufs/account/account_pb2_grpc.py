@@ -18,8 +18,23 @@ class AccountStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetLikesAndViews = channel.unary_unary(
-                '/Account/GetLikesAndViews',
+        self.GetAllLikesAndViews = channel.unary_unary(
+                '/Account/GetAllLikesAndViews',
+                request_serializer=account__pb2.LikesAndViewsRequest.SerializeToString,
+                response_deserializer=account__pb2.AllLikesAndViewsResponse.FromString,
+                )
+        self.GetBookLikesAndViews = channel.unary_unary(
+                '/Account/GetBookLikesAndViews',
+                request_serializer=account__pb2.LikesAndViewsRequest.SerializeToString,
+                response_deserializer=account__pb2.LikesAndViewsResponse.FromString,
+                )
+        self.GetIMDBLikesAndViews = channel.unary_unary(
+                '/Account/GetIMDBLikesAndViews',
+                request_serializer=account__pb2.LikesAndViewsRequest.SerializeToString,
+                response_deserializer=account__pb2.LikesAndViewsResponse.FromString,
+                )
+        self.GetAnimeLikesAndViews = channel.unary_unary(
+                '/Account/GetAnimeLikesAndViews',
                 request_serializer=account__pb2.LikesAndViewsRequest.SerializeToString,
                 response_deserializer=account__pb2.LikesAndViewsResponse.FromString,
                 )
@@ -32,7 +47,25 @@ class AccountServicer(object):
 
     """
 
-    def GetLikesAndViews(self, request, context):
+    def GetAllLikesAndViews(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetBookLikesAndViews(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetIMDBLikesAndViews(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetAnimeLikesAndViews(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -41,8 +74,23 @@ class AccountServicer(object):
 
 def add_AccountServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetLikesAndViews': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetLikesAndViews,
+            'GetAllLikesAndViews': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAllLikesAndViews,
+                    request_deserializer=account__pb2.LikesAndViewsRequest.FromString,
+                    response_serializer=account__pb2.AllLikesAndViewsResponse.SerializeToString,
+            ),
+            'GetBookLikesAndViews': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetBookLikesAndViews,
+                    request_deserializer=account__pb2.LikesAndViewsRequest.FromString,
+                    response_serializer=account__pb2.LikesAndViewsResponse.SerializeToString,
+            ),
+            'GetIMDBLikesAndViews': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetIMDBLikesAndViews,
+                    request_deserializer=account__pb2.LikesAndViewsRequest.FromString,
+                    response_serializer=account__pb2.LikesAndViewsResponse.SerializeToString,
+            ),
+            'GetAnimeLikesAndViews': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAnimeLikesAndViews,
                     request_deserializer=account__pb2.LikesAndViewsRequest.FromString,
                     response_serializer=account__pb2.LikesAndViewsResponse.SerializeToString,
             ),
@@ -61,7 +109,7 @@ class Account(object):
     """
 
     @staticmethod
-    def GetLikesAndViews(request,
+    def GetAllLikesAndViews(request,
             target,
             options=(),
             channel_credentials=None,
@@ -71,7 +119,58 @@ class Account(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Account/GetLikesAndViews',
+        return grpc.experimental.unary_unary(request, target, '/Account/GetAllLikesAndViews',
+            account__pb2.LikesAndViewsRequest.SerializeToString,
+            account__pb2.AllLikesAndViewsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetBookLikesAndViews(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Account/GetBookLikesAndViews',
+            account__pb2.LikesAndViewsRequest.SerializeToString,
+            account__pb2.LikesAndViewsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetIMDBLikesAndViews(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Account/GetIMDBLikesAndViews',
+            account__pb2.LikesAndViewsRequest.SerializeToString,
+            account__pb2.LikesAndViewsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetAnimeLikesAndViews(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Account/GetAnimeLikesAndViews',
             account__pb2.LikesAndViewsRequest.SerializeToString,
             account__pb2.LikesAndViewsResponse.FromString,
             options, channel_credentials,

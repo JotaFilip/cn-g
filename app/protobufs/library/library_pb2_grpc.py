@@ -2,9 +2,6 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import anime_pb2 as anime__pb2
-import book_pb2 as book__pb2
-import imdb_pb2 as imdb__pb2
 import library_pb2 as library__pb2
 
 
@@ -21,35 +18,50 @@ class LibraryStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.Library = channel.unary_unary(
+                '/Library/Library',
+                request_serializer=library__pb2.LibPageRequest.SerializeToString,
+                response_deserializer=library__pb2.ItemInfoResponse.FromString,
+                )
         self.Recommend = channel.unary_unary(
                 '/Library/Recommend',
                 request_serializer=library__pb2.RecommendationRequest.SerializeToString,
-                response_deserializer=library__pb2.BasicInfoResponse.FromString,
+                response_deserializer=library__pb2.ItemInfoResponse.FromString,
                 )
-        self.GetBook = channel.unary_unary(
-                '/Library/GetBook',
-                request_serializer=book__pb2.BookByIdRequest.SerializeToString,
-                response_deserializer=book__pb2.BookData.FromString,
+        self.AddItem = channel.unary_unary(
+                '/Library/AddItem',
+                request_serializer=library__pb2.AddItemRequest.SerializeToString,
+                response_deserializer=library__pb2.Success.FromString,
                 )
-        self.GetIMDB = channel.unary_unary(
-                '/Library/GetIMDB',
-                request_serializer=imdb__pb2.IMDBByIdRequest.SerializeToString,
-                response_deserializer=imdb__pb2.IMDBData.FromString,
+        self.GetItem = channel.unary_unary(
+                '/Library/GetItem',
+                request_serializer=library__pb2.ItemId.SerializeToString,
+                response_deserializer=library__pb2.Item.FromString,
                 )
-        self.GetAnime = channel.unary_unary(
-                '/Library/GetAnime',
-                request_serializer=anime__pb2.AnimeByIdRequest.SerializeToString,
-                response_deserializer=anime__pb2.AnimeData.FromString,
+        self.RemoveItem = channel.unary_unary(
+                '/Library/RemoveItem',
+                request_serializer=library__pb2.ItemId.SerializeToString,
+                response_deserializer=library__pb2.Success.FromString,
+                )
+        self.UpdateSeenItem = channel.unary_unary(
+                '/Library/UpdateSeenItem',
+                request_serializer=library__pb2.ItemId.SerializeToString,
+                response_deserializer=library__pb2.Success.FromString,
+                )
+        self.UpdateLikeItem = channel.unary_unary(
+                '/Library/UpdateLikeItem',
+                request_serializer=library__pb2.ItemId.SerializeToString,
+                response_deserializer=library__pb2.Success.FromString,
                 )
         self.SearchByName = channel.unary_unary(
                 '/Library/SearchByName',
                 request_serializer=library__pb2.SearchByNameRequest.SerializeToString,
-                response_deserializer=library__pb2.BasicInfoResponse.FromString,
+                response_deserializer=library__pb2.ItemInfoResponse.FromString,
                 )
         self.SearchByCategory = channel.unary_unary(
                 '/Library/SearchByCategory',
                 request_serializer=library__pb2.SearchByCategoryRequest.SerializeToString,
-                response_deserializer=library__pb2.BasicInfoResponse.FromString,
+                response_deserializer=library__pb2.ItemInfoResponse.FromString,
                 )
 
 
@@ -60,25 +72,43 @@ class LibraryServicer(object):
 
     """
 
+    def Library(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def Recommend(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetBook(self, request, context):
+    def AddItem(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetIMDB(self, request, context):
+    def GetItem(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetAnime(self, request, context):
+    def RemoveItem(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateSeenItem(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateLikeItem(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -99,35 +129,50 @@ class LibraryServicer(object):
 
 def add_LibraryServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'Library': grpc.unary_unary_rpc_method_handler(
+                    servicer.Library,
+                    request_deserializer=library__pb2.LibPageRequest.FromString,
+                    response_serializer=library__pb2.ItemInfoResponse.SerializeToString,
+            ),
             'Recommend': grpc.unary_unary_rpc_method_handler(
                     servicer.Recommend,
                     request_deserializer=library__pb2.RecommendationRequest.FromString,
-                    response_serializer=library__pb2.BasicInfoResponse.SerializeToString,
+                    response_serializer=library__pb2.ItemInfoResponse.SerializeToString,
             ),
-            'GetBook': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetBook,
-                    request_deserializer=book__pb2.BookByIdRequest.FromString,
-                    response_serializer=book__pb2.BookData.SerializeToString,
+            'AddItem': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddItem,
+                    request_deserializer=library__pb2.AddItemRequest.FromString,
+                    response_serializer=library__pb2.Success.SerializeToString,
             ),
-            'GetIMDB': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetIMDB,
-                    request_deserializer=imdb__pb2.IMDBByIdRequest.FromString,
-                    response_serializer=imdb__pb2.IMDBData.SerializeToString,
+            'GetItem': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetItem,
+                    request_deserializer=library__pb2.ItemId.FromString,
+                    response_serializer=library__pb2.Item.SerializeToString,
             ),
-            'GetAnime': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetAnime,
-                    request_deserializer=anime__pb2.AnimeByIdRequest.FromString,
-                    response_serializer=anime__pb2.AnimeData.SerializeToString,
+            'RemoveItem': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveItem,
+                    request_deserializer=library__pb2.ItemId.FromString,
+                    response_serializer=library__pb2.Success.SerializeToString,
+            ),
+            'UpdateSeenItem': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateSeenItem,
+                    request_deserializer=library__pb2.ItemId.FromString,
+                    response_serializer=library__pb2.Success.SerializeToString,
+            ),
+            'UpdateLikeItem': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateLikeItem,
+                    request_deserializer=library__pb2.ItemId.FromString,
+                    response_serializer=library__pb2.Success.SerializeToString,
             ),
             'SearchByName': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByName,
                     request_deserializer=library__pb2.SearchByNameRequest.FromString,
-                    response_serializer=library__pb2.BasicInfoResponse.SerializeToString,
+                    response_serializer=library__pb2.ItemInfoResponse.SerializeToString,
             ),
             'SearchByCategory': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByCategory,
                     request_deserializer=library__pb2.SearchByCategoryRequest.FromString,
-                    response_serializer=library__pb2.BasicInfoResponse.SerializeToString,
+                    response_serializer=library__pb2.ItemInfoResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -144,6 +189,23 @@ class Library(object):
     """
 
     @staticmethod
+    def Library(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Library/Library',
+            library__pb2.LibPageRequest.SerializeToString,
+            library__pb2.ItemInfoResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def Recommend(request,
             target,
             options=(),
@@ -156,12 +218,12 @@ class Library(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Library/Recommend',
             library__pb2.RecommendationRequest.SerializeToString,
-            library__pb2.BasicInfoResponse.FromString,
+            library__pb2.ItemInfoResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetBook(request,
+    def AddItem(request,
             target,
             options=(),
             channel_credentials=None,
@@ -171,14 +233,14 @@ class Library(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Library/GetBook',
-            book__pb2.BookByIdRequest.SerializeToString,
-            book__pb2.BookData.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Library/AddItem',
+            library__pb2.AddItemRequest.SerializeToString,
+            library__pb2.Success.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetIMDB(request,
+    def GetItem(request,
             target,
             options=(),
             channel_credentials=None,
@@ -188,14 +250,14 @@ class Library(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Library/GetIMDB',
-            imdb__pb2.IMDBByIdRequest.SerializeToString,
-            imdb__pb2.IMDBData.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Library/GetItem',
+            library__pb2.ItemId.SerializeToString,
+            library__pb2.Item.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetAnime(request,
+    def RemoveItem(request,
             target,
             options=(),
             channel_credentials=None,
@@ -205,9 +267,43 @@ class Library(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Library/GetAnime',
-            anime__pb2.AnimeByIdRequest.SerializeToString,
-            anime__pb2.AnimeData.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Library/RemoveItem',
+            library__pb2.ItemId.SerializeToString,
+            library__pb2.Success.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateSeenItem(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Library/UpdateSeenItem',
+            library__pb2.ItemId.SerializeToString,
+            library__pb2.Success.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateLikeItem(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Library/UpdateLikeItem',
+            library__pb2.ItemId.SerializeToString,
+            library__pb2.Success.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -224,7 +320,7 @@ class Library(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Library/SearchByName',
             library__pb2.SearchByNameRequest.SerializeToString,
-            library__pb2.BasicInfoResponse.FromString,
+            library__pb2.ItemInfoResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -241,6 +337,6 @@ class Library(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Library/SearchByCategory',
             library__pb2.SearchByCategoryRequest.SerializeToString,
-            library__pb2.BasicInfoResponse.FromString,
+            library__pb2.ItemInfoResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
