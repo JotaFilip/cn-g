@@ -6,3 +6,6 @@ python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/ani
 
 ### GERAR FICHEIROS PARA IMDB
 python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/imdb/ --grpc_python_out=./app/protobufs/imdb/ ./app/protobufs/imdb.proto
+
+### GERAR FICHEIROS PARA LIBRARY
+python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/library/ --grpc_python_out=./app/protobufs/library/ ./app/protobufs/library.proto

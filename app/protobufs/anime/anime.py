@@ -105,7 +105,7 @@ def serve():
         AnimeService(), server
     )
     
-    server.add_insecure_port("[::]:50051")
+    server.add_insecure_port("[::]:50053")
     server.start()
     server.wait_for_termination()
 

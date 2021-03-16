@@ -1,8 +1,13 @@
 syntax = "proto3";
 
+import "book.proto";
+import "imdb.proto";
+import "anime.proto";
+
+
 enum Type {
     BOOK = 0;
-    IMDB = 1;
+    SHOW = 1;
     ANIME = 2;
 	ALL = 3;
 }
@@ -17,26 +22,14 @@ message BasicInfoResponse {
 	repeated AnimeBasicInfo anime_recommendations = 3;
 }
 
-message BookData {
-    //ver no dataset colunas relevantes
-}
-
 message BookBasicInfo {
     int64 book_id = 1;
 	string book_name = 2;
 }
 
-message IMDBData {
-    //ver no dataset colunas relevantes
-}
-
 message IMDBBasicInfo {
     int64 imdb_id = 1;
 	string imdb_name = 2;
-}
-
-message AnimeData {
-    //ver no dataset colunas relevantes
 }
 
 message AnimeBasicInfo {
@@ -56,18 +49,6 @@ message RecommendationRequest {
     int64 user_id = 1;
     int32 max_results = 2;
 	Type types = 3;
-}
-
-message BookByIdRequest {
-    int64 book_id = 1;
-}
-
-message IMDBByIdRequest {
-    int64 imdb_id = 1;
-}
-
-message AnimeByIdRequest {
-    int64 anime_id = 1;
 }
 
 message SearchByNameRequest {
