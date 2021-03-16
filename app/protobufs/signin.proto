@@ -9,6 +9,13 @@ message UserData {
     string password = 2;
 }
 
+message Success {
+	bool success = 1;
+}
+
+message Empty {
+
+}
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -29,18 +36,17 @@ message UserRequest {
 message UpdateUserRequest {
 	string username = 1;
 	string new_username = 2;
-	string new_password = 2;
+	string new_password = 3;
 }
-
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
 service SignIn {
-	rpc CreateUser (UserDataRequest) returns (Empty);
-	rpc LoginUser (UserDataRequest) returns (Empty);
-	rpc LogoutUser (Empty) returns (Empty);
+	rpc CreateUser (UserDataRequest) returns (Success);
+	rpc LoginUser (UserDataRequest) returns (Success);
+	rpc LogoutUser (Empty) returns (Success);
 	rpc GetUserByName (UserRequest) returns (UserData);
-	rpc UpdateUser (UpdateUserRequest) returns (Empty);
-	rpc DeleteUser (UserRequest) returns (Empty);
+	rpc UpdateUser (UpdateUserRequest) returns (Success);
+	rpc DeleteUser (UserRequest) returns (Success);
 }

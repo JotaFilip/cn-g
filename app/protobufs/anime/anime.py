@@ -25,7 +25,7 @@ import anime_pb2_grpc
 class AnimeService(anime_pb2_grpc.AnimeServicer):
     def SearchById(self, request, context):
         cur = con.cursor()
-        cur.execute('SELECT anime_id,anime_title,genres,anime_rating FROM anime_data WHERE anime_id=?', (request.anime_id,))
+        cur.execute('SELECT anime_id,name,genre,rating FROM anime_data WHERE anime_id=?', (request.anime_id,))
         print(request.anime_id)
         
         anime = cur.fetchone()
@@ -44,7 +44,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
     def SearchByName(self, request, context):
     
         cur = con.cursor()
-        cur.execute('SELECT anime_id,anime_title,genres,anime_rating FROM anime_data WHERE anime_title = ? ', ( request.name,))
+        cur.execute('SELECT anime_id,name,genre,rating FROM anime_data WHERE name = ? ', ( request.name,))
         anime_with_name = cur.fetchall()
         
         if anime_with_name is None:
@@ -70,7 +70,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
     def SearchByCategory(self, request, context):
     
         cur = con.cursor()
-        cur.execute('SELECT anime_id,anime_title,genres,anime_rating FROM anime_data WHERE genres LIKE ? ', ("%" + request.category + "%",))
+        cur.execute('SELECT anime_id,name,genre,rating FROM anime_data WHERE genre LIKE ? ', ("%" + request.category + "%",))
         anime_with_category = cur.fetchall()
         
         if anime_with_category is None:

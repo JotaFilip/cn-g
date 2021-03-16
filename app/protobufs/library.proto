@@ -16,7 +16,7 @@ enum Type {
 ////////////////////////////////////////////
 
 message ItemInfoResponse {
-	repeated itemInfo recommendations = 1;
+	repeated ItemInfo recommendations = 1;
 }
 
 message ItemInfo {
@@ -31,6 +31,9 @@ message Item {
 	optional AnimeData anime = 3;
 }
 
+message Success {
+	bool success = 1;
+}
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -71,7 +74,6 @@ message AddItemRequest {
 message ItemId {
 	int64 id = 1;
 }
-
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -79,11 +81,11 @@ message ItemId {
 service Library {
 	rpc Library (LibPageRequest) returns (ItemInfoResponse);
     rpc Recommend (RecommendationRequest) returns (ItemInfoResponse);
-	rpc AddItem (AddItemRequest) returns (Empty);
+	rpc AddItem (AddItemRequest) returns (Success);
 	rpc GetItem (ItemId) returns (Item);
-	rpc RemoveItem (ItemId) returns (Empty);
-	rpc UpdateSeenItem (ItemId) returns (Empty);
-	rpc UpdateLikeItem (ItemId) returns (Empty);
+	rpc RemoveItem (ItemId) returns (Success);
+	rpc UpdateSeenItem (ItemId) returns (Success);
+	rpc UpdateLikeItem (ItemId) returns (Success);
 	rpc SearchByName (SearchByNameRequest) returns (ItemInfoResponse);
 	rpc SearchByCategory (SearchByCategoryRequest) returns (ItemInfoResponse);
 }

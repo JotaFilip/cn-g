@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\nimdb.proto\"T\n\x08IMDBData\x12\x0f\n\x07imdb_id\x18\x01 \x01(\t\x12\x12\n\nimdb_title\x18\x02 \x01(\t\x12\x0e\n\x06genres\x18\x03 \x01(\t\x12\x13\n\x0bimdb_rating\x18\x04 \x01(\x01\"\'\n\x0cIMDBDataList\x12\x17\n\x04imdb\x18\x01 \x03(\x0b\x32\t.IMDBData\"\"\n\x0fIMDBByIdRequest\x12\x0f\n\x07imdb_id\x18\x01 \x01(\t\"6\n\x11IMDBByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\">\n\x15IMDBByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"\'\n\x0cIMDBResponse\x12\x17\n\x04imdb\x18\x01 \x01(\x0b\x32\t.IMDBData2\xa3\x01\n\x04IMDB\x12-\n\nSearchById\x12\x10.IMDBByIdRequest\x1a\r.IMDBResponse\x12\x31\n\x0cSearchByName\x12\x12.IMDBByNameRequest\x1a\r.IMDBDataList\x12\x39\n\x10SearchByCategory\x12\x16.IMDBByCategoryRequest\x1a\r.IMDBDataListb\x06proto3'
+  serialized_pb=b'\n\nimdb.proto\"s\n\x08IMDBData\x12\x0f\n\x07imdb_id\x18\x01 \x01(\x03\x12\x12\n\nimdb_title\x18\x02 \x01(\t\x12\x0e\n\x06genres\x18\x03 \x03(\t\x12\x13\n\x0bimdb_rating\x18\x04 \x01(\x01\x12\x0f\n\x07img_url\x18\x05 \x01(\t\x12\x0c\n\x04type\x18\x06 \x01(\t\"\'\n\x0cIMDBDataList\x12\x17\n\x04imdb\x18\x01 \x03(\x0b\x32\t.IMDBData\"\"\n\x0fIMDBByIdRequest\x12\x0f\n\x07imdb_id\x18\x01 \x01(\t\"6\n\x11IMDBByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\">\n\x15IMDBByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"\'\n\x0cIMDBResponse\x12\x17\n\x04imdb\x18\x01 \x01(\x0b\x32\t.IMDBData2\xa3\x01\n\x04IMDB\x12-\n\nSearchById\x12\x10.IMDBByIdRequest\x1a\r.IMDBResponse\x12\x31\n\x0cSearchByName\x12\x12.IMDBByNameRequest\x1a\r.IMDBDataList\x12\x39\n\x10SearchByCategory\x12\x16.IMDBByCategoryRequest\x1a\r.IMDBDataListb\x06proto3'
 )
 
 
@@ -35,8 +35,8 @@ _IMDBDATA = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='imdb_id', full_name='IMDBData.imdb_id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -49,8 +49,8 @@ _IMDBDATA = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='genres', full_name='IMDBData.genres', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -58,6 +58,20 @@ _IMDBDATA = _descriptor.Descriptor(
       name='imdb_rating', full_name='IMDBData.imdb_rating', index=3,
       number=4, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='img_url', full_name='IMDBData.img_url', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='type', full_name='IMDBData.type', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -74,7 +88,7 @@ _IMDBDATA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=14,
-  serialized_end=98,
+  serialized_end=129,
 )
 
 
@@ -105,8 +119,8 @@ _IMDBDATALIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=100,
-  serialized_end=139,
+  serialized_start=131,
+  serialized_end=170,
 )
 
 
@@ -137,8 +151,8 @@ _IMDBBYIDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=141,
-  serialized_end=175,
+  serialized_start=172,
+  serialized_end=206,
 )
 
 
@@ -176,8 +190,8 @@ _IMDBBYNAMEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=177,
-  serialized_end=231,
+  serialized_start=208,
+  serialized_end=262,
 )
 
 
@@ -215,8 +229,8 @@ _IMDBBYCATEGORYREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=233,
-  serialized_end=295,
+  serialized_start=264,
+  serialized_end=326,
 )
 
 
@@ -247,8 +261,8 @@ _IMDBRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=297,
-  serialized_end=336,
+  serialized_start=328,
+  serialized_end=367,
 )
 
 _IMDBDATALIST.fields_by_name['imdb'].message_type = _IMDBDATA
@@ -312,8 +326,8 @@ _IMDB = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=339,
-  serialized_end=502,
+  serialized_start=370,
+  serialized_end=533,
   methods=[
   _descriptor.MethodDescriptor(
     name='SearchById',
