@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\nbook.proto\"z\n\x08\x42ookData\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\x03\x12\x12\n\nbook_title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0e\n\x06genres\x18\x04 \x03(\t\x12\x13\n\x0b\x62ook_rating\x18\x05 \x01(\x01\x12\x0f\n\x07img_url\x18\x06 \x01(\t\"(\n\x0c\x42ookDataList\x12\x18\n\x05\x62ooks\x18\x01 \x03(\x0b\x32\t.BookData\"\"\n\x0f\x42ookByIdRequest\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\x03\"\'\n\x0c\x42ookResponse\x12\x17\n\x04\x62ook\x18\x01 \x01(\x0b\x32\t.BookData\"7\n\x12\x42ooksByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"?\n\x16\x42ooksByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x32\xa5\x01\n\x04\x42ook\x12-\n\nSearchById\x12\x10.BookByIdRequest\x1a\r.BookResponse\x12\x32\n\x0cSearchByName\x12\x13.BooksByNameRequest\x1a\r.BookDataList\x12:\n\x10SearchByCategory\x12\x17.BooksByCategoryRequest\x1a\r.BookDataListb\x06proto3'
+  serialized_pb=b'\n\nbook.proto\"z\n\x08\x42ookData\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\x12\x12\n\nbook_title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0e\n\x06genres\x18\x04 \x03(\t\x12\x13\n\x0b\x62ook_rating\x18\x05 \x01(\x01\x12\x0f\n\x07img_url\x18\x06 \x01(\t\"(\n\x0c\x42ookDataList\x12\x18\n\x05\x62ooks\x18\x01 \x03(\x0b\x32\t.BookData\"\"\n\x0f\x42ookByIdRequest\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\"\'\n\x0c\x42ookResponse\x12\x17\n\x04\x62ook\x18\x01 \x01(\x0b\x32\t.BookData\"7\n\x12\x42ooksByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"?\n\x16\x42ooksByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x03(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x32\xa5\x01\n\x04\x42ook\x12-\n\nSearchById\x12\x10.BookByIdRequest\x1a\r.BookResponse\x12\x32\n\x0cSearchByName\x12\x13.BooksByNameRequest\x1a\r.BookDataList\x12:\n\x10SearchByCategory\x12\x17.BooksByCategoryRequest\x1a\r.BookDataListb\x06proto3'
 )
 
 
@@ -35,8 +35,8 @@ _BOOKDATA = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='book_id', full_name='BookData.book_id', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -134,8 +134,8 @@ _BOOKBYIDREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='book_id', full_name='BookByIdRequest.book_id', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -237,8 +237,8 @@ _BOOKSBYCATEGORYREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='category', full_name='BooksByCategoryRequest.category', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\raccount.proto\"\xb1\x01\n\x18\x41llLikesAndViewsResponse\x12\x30\n\x10\x62ook_likes_views\x18\x01 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12\x30\n\x10imdb_likes_views\x18\x02 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12\x31\n\x11\x61nime_likes_views\x18\x03 \x01(\x0b\x32\x16.LikesAndViewsResponse\"5\n\x15LikesAndViewsResponse\x12\r\n\x05likes\x18\x01 \x03(\x03\x12\r\n\x05views\x18\x02 \x03(\x03\"\'\n\x14LikesAndViewsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x03\x32\xa8\x02\n\x07\x41\x63\x63ount\x12G\n\x13GetAllLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x19.AllLikesAndViewsResponse\x12\x45\n\x14GetBookLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x45\n\x14GetIMDBLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x46\n\x15GetAnimeLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponseb\x06proto3'
+  serialized_pb=b'\n\raccount.proto\"\x90\x01\n\x18\x41llLikesAndViewsResponse\x12%\n\x05\x62ooks\x18\x01 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12%\n\x05imdbs\x18\x02 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12&\n\x06\x61nimes\x18\x03 \x01(\x0b\x32\x16.LikesAndViewsResponse\"5\n\x15LikesAndViewsResponse\x12\r\n\x05likes\x18\x01 \x03(\x03\x12\r\n\x05views\x18\x02 \x03(\x03\"(\n\x14LikesAndViewsRequest\x12\x10\n\x08username\x18\x01 \x01(\t2\xa8\x02\n\x07\x41\x63\x63ount\x12G\n\x13GetAllLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x19.AllLikesAndViewsResponse\x12\x45\n\x14GetBookLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x45\n\x14GetIMDBLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x46\n\x15GetAnimeLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponseb\x06proto3'
 )
 
 
@@ -34,21 +34,21 @@ _ALLLIKESANDVIEWSRESPONSE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='book_likes_views', full_name='AllLikesAndViewsResponse.book_likes_views', index=0,
+      name='books', full_name='AllLikesAndViewsResponse.books', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='imdb_likes_views', full_name='AllLikesAndViewsResponse.imdb_likes_views', index=1,
+      name='imdbs', full_name='AllLikesAndViewsResponse.imdbs', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='anime_likes_views', full_name='AllLikesAndViewsResponse.anime_likes_views', index=2,
+      name='animes', full_name='AllLikesAndViewsResponse.animes', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -67,7 +67,7 @@ _ALLLIKESANDVIEWSRESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=18,
-  serialized_end=195,
+  serialized_end=162,
 )
 
 
@@ -105,8 +105,8 @@ _LIKESANDVIEWSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=197,
-  serialized_end=250,
+  serialized_start=164,
+  serialized_end=217,
 )
 
 
@@ -119,9 +119,9 @@ _LIKESANDVIEWSREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_id', full_name='LikesAndViewsRequest.user_id', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
+      name='username', full_name='LikesAndViewsRequest.username', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -137,13 +137,13 @@ _LIKESANDVIEWSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=252,
-  serialized_end=291,
+  serialized_start=219,
+  serialized_end=259,
 )
 
-_ALLLIKESANDVIEWSRESPONSE.fields_by_name['book_likes_views'].message_type = _LIKESANDVIEWSRESPONSE
-_ALLLIKESANDVIEWSRESPONSE.fields_by_name['imdb_likes_views'].message_type = _LIKESANDVIEWSRESPONSE
-_ALLLIKESANDVIEWSRESPONSE.fields_by_name['anime_likes_views'].message_type = _LIKESANDVIEWSRESPONSE
+_ALLLIKESANDVIEWSRESPONSE.fields_by_name['books'].message_type = _LIKESANDVIEWSRESPONSE
+_ALLLIKESANDVIEWSRESPONSE.fields_by_name['imdbs'].message_type = _LIKESANDVIEWSRESPONSE
+_ALLLIKESANDVIEWSRESPONSE.fields_by_name['animes'].message_type = _LIKESANDVIEWSRESPONSE
 DESCRIPTOR.message_types_by_name['AllLikesAndViewsResponse'] = _ALLLIKESANDVIEWSRESPONSE
 DESCRIPTOR.message_types_by_name['LikesAndViewsResponse'] = _LIKESANDVIEWSRESPONSE
 DESCRIPTOR.message_types_by_name['LikesAndViewsRequest'] = _LIKESANDVIEWSREQUEST
@@ -179,8 +179,8 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=294,
-  serialized_end=590,
+  serialized_start=262,
+  serialized_end=558,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetAllLikesAndViews',

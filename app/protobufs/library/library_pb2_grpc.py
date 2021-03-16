@@ -6,11 +6,7 @@ import library_pb2 as library__pb2
 
 
 class LibraryStub(object):
-    """//////////////////////////////////////////
-    //////////////////////////////////////////
-    //////////////////////////////////////////
-
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
         """Constructor.
@@ -66,11 +62,7 @@ class LibraryStub(object):
 
 
 class LibraryServicer(object):
-    """//////////////////////////////////////////
-    //////////////////////////////////////////
-    //////////////////////////////////////////
-
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def Library(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -182,11 +174,7 @@ def add_LibraryServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Library(object):
-    """//////////////////////////////////////////
-    //////////////////////////////////////////
-    //////////////////////////////////////////
-
-    """
+    """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def Library(request,
