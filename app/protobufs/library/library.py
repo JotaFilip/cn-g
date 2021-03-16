@@ -96,8 +96,10 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 	def SearchByName(self, request, context):
         
         book_list = []
+        imdb_list = []
+        anime_list = []
         
-        if request.types == Type.BOOK:
+        if request.types == Type.BOOK || request.types == Type.ALL:
         
             books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
             books_client = BookStub(books_channel)
@@ -114,8 +116,96 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             if(books_response is None):
                 print("ERROR")
             print(books_response.books)
+            
+            for x in books_response.books:
+                cur = BookBasicInfo (
+                    book_id = x.book_id,
+                    book_name = x.book_title
+                )
+                book_list.append(cur)
+            
+            
+            #return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=None, anime_recommendations=None)
+        
+        if request.types == Type.SHOW || request.types == Type.ALL:
+            
+            imdb_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
+            imdb_client = IMDBStub(imdb_channel)
+            
+            imdb_request = IMDBByNameRequest(
+                name=request.name
+                max_results=request.max_results
+            )
+        
+            imdb_response = imdb_client.SearchByName(
+                imdb_request
+            )
+            
+            if(imdb_response is None):
+                print("ERROR")
+            print(imdb_response.imdb)
+            
+            for x in imdb_response.imdb:
+                cur = IMDBBasicInfo (
+                    imdb_id = x.imdb_id,
+                    imdb_name = x.imdb_title
+                )
+                imdb_list.append(cur)
+                
+            #return BasicInfoResponse(imdb_recommendations=imdb_list, imdb_recommendations=None, anime_recommendations=None)
 
-            book_list = []
+        if request.types == Type.ANIME || request.types == Type.ALL:
+        
+            animes_channel = grpc.insecure_channel(f"{recommendations_host}:50053")
+            animes_client = AnimeStub(animes_channel)
+            
+            animes_request = AnimeByNameRequest(
+                name=request.name
+                max_results=request.max_results
+            )
+        
+            animes_response = animes_client.SearchByName(
+                animes_request
+            )
+            
+            if(animes_response is None):
+                print("ERROR")
+            print(animes_response.anime)
+            
+            for x in animes_response.anime:
+                cur = AnimeBasicInfo (
+                    anime_id = x.anime_id,
+                    anime_name = x.anime_title
+                )
+                anime_list.append(cur)
+                
+            #return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=None, anime_recommendations=None)
+            
+        return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=imdb_list, anime_recommendations=anime_list)
+
+	def SearchByCategory(self, request, context):
+    
+        book_list = []
+        imdb_list = []
+        anime_list = []
+        
+        if request.types == Type.BOOK:
+        
+            books_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
+            books_client = BookStub(books_channel)
+            
+            books_request = BooksByCategoryRequest(
+                category=request.category
+                max_results=request.max_results
+            )
+        
+            books_response = books_client.SearchByCategory(
+                books_request
+            )
+            
+            if(books_response is None):
+                print("ERROR")
+            print(books_response.books)
             
             for x in books_response.books:
                 cur = BookBasicInfo (
@@ -124,19 +214,63 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
                 )
                 book_list.append(cur)
                 
-            return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=None, anime_recommendations=None)
+            #return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=None, anime_recommendations=None)
+            
+        if request.types == Type.SHOW || request.types == Type.ALL:
+            
+            imdb_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
+            imdb_client = IMDBStub(imdb_channel)
+            
+            imdb_request = IMDBByCategoryRequest(
+                category=request.category
+                max_results=request.max_results
+            )
         
-        if request.types == Type.SHOW:
+            imdb_response = imdb_client.SearchByCategory(
+                imdb_request
+            )
             
+            if(imdb_response is None):
+                print("ERROR")
+            print(imdb_response.imdb)
             
+            for x in imdb_response.imdb:
+                cur = IMDBBasicInfo (
+                    imdb_id = x.imdb_id,
+                    imdb_name = x.imdb_title
+                )
+                imdb_list.append(cur)
+                
+            #return BasicInfoResponse(imdb_recommendations=imdb_list, imdb_recommendations=None, anime_recommendations=None)
 
-        if request.types == Type.ANIME:
+        if request.types == Type.ANIME || request.types == Type.ALL:
+        
+            animes_channel = grpc.insecure_channel(f"{recommendations_host}:50053")
+            animes_client = AnimeStub(animes_channel)
             
-
-        if request.types == Type.ALL:
+            animes_request = AnimeByCategoryRequest(
+                category=request.category
+                max_results=request.max_results
+            )
+        
+            animes_response = animes_client.SearchByCategory(
+                animes_request
+            )
             
-
-#	def SearchByCategory(self, request, context):
+            if(animes_response is None):
+                print("ERROR")
+            print(animes_response.anime)
+            
+            for x in animes_response.anime:
+                cur = AnimeBasicInfo (
+                    anime_id = x.anime_id,
+                    anime_name = x.anime_title
+                )
+                anime_list.append(cur)
+                
+            #return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=None, anime_recommendations=None)
+            
+        return BasicInfoResponse(book_recommendations=book_list, imdb_recommendations=imdb_list, anime_recommendations=anime_list)
 
 
 def serve():
