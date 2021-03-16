@@ -48,7 +48,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         anime_with_name = cur.fetchall()
         
         if anime_with_name is None:
-            raise NotFound("Id not found")
+            raise NotFound("Name not found")
         num_results = min(request.max_results, len(anime_with_name))
         searched_animes = random.sample(anime_with_name, num_results)
         send = []
@@ -74,7 +74,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         anime_with_category = cur.fetchall()
         
         if anime_with_category is None:
-            raise NotFound("Id not found")
+            raise NotFound("Category not found")
             
         num_results = min(request.max_results, len(anime_with_category))
         searched_animes = random.sample(anime_with_category, num_results)
