@@ -4,7 +4,6 @@ import "book.proto";
 import "imdb.proto";
 import "anime.proto";
 
-
 enum Type {
     BOOK = 0;
     SHOW = 1;
@@ -16,25 +15,20 @@ enum Type {
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 
-message BasicInfoResponse {
-	repeated BookBasicInfo book_recommendations = 1;
-	repeated IMDBBasicInfo imdb_recommendations = 2;
-	repeated AnimeBasicInfo anime_recommendations = 3;
+message ItemInfoResponse {
+	repeated itemInfo recommendations = 1;
 }
 
-message BookBasicInfo {
-    int64 book_id = 1;
-	string book_name = 2;
+message ItemInfo {
+    int64 id = 1;
+	string name = 2;
+	Type type = 3;
 }
 
-message IMDBBasicInfo {
-    int64 imdb_id = 1;
-	string imdb_name = 2;
-}
-
-message AnimeBasicInfo {
-    int64 anime_id = 1;
-	string anime_name = 2;
+message Item {
+	optional BookData book = 1;
+	optional IMDBData imdb = 2;
+	optional AnimeData anime = 3;
 }
 
 ////////////////////////////////////////////
@@ -45,10 +39,15 @@ message AnimeBasicInfo {
 ////////////////BASIC REQUESTS//////////////
 ////////////////////////////////////////////
 
+message LibPageRequest {
+	int32 page = 1;
+	int32 max_results = 2;
+}
+
 message RecommendationRequest {
     int64 user_id = 1;
     int32 max_results = 2;
-	Type types = 3;
+	repeated Type types = 3;
 }
 
 message SearchByNameRequest {
@@ -63,15 +62,28 @@ message SearchByCategoryRequest {
 	Type types = 3;
 }
 
+message AddItemRequest {
+	optional BookData book = 1;
+	optional IMDBData imdb = 2;
+	optional AnimeData anime = 3;
+}
+
+message ItemId {
+	int64 id = 1;
+}
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
 service Library {
-    rpc Recommend (RecommendationRequest) returns (BasicInfoResponse);
-	rpc GetBook (BookByIdRequest) returns (BookData);
-	rpc GetIMDB (IMDBByIdRequest) returns (IMDBData);
-	rpc GetAnime (AnimeByIdRequest) returns (AnimeData);
-	rpc SearchByName (SearchByNameRequest) returns (BasicInfoResponse);
-	rpc SearchByCategory (SearchByCategoryRequest) returns (BasicInfoResponse);
+	rpc Library (LibPageRequest) returns (ItemInfoResponse);
+    rpc Recommend (RecommendationRequest) returns (ItemInfoResponse);
+	rpc AddItem (AddItemRequest) returns (Empty);
+	rpc GetItem (ItemId) returns (Item);
+	rpc RemoveItem (ItemId) returns (Empty);
+	rpc UpdateSeenItem (ItemId) returns (Empty);
+	rpc UpdateLikeItem (ItemId) returns (Empty);
+	rpc SearchByName (SearchByNameRequest) returns (ItemInfoResponse);
+	rpc SearchByCategory (SearchByCategoryRequest) returns (ItemInfoResponse);
 }

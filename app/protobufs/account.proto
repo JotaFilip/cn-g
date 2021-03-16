@@ -5,12 +5,12 @@ syntax = "proto3";
 ////////////////////////////////////////////
 
 message AllLikesAndViewsResponse {
-    SpecificLikesAndViewsResponse book_likes_views = 1;
-	SpecificLikesAndViewsResponse imdb_likes_views = 2;
-	SpecificLikesAndViewsResponse anime_likes_views = 3;
+    LikesAndViewsResponse book_likes_views = 1;
+	LikesAndViewsResponse imdb_likes_views = 2;
+	LikesAndViewsResponse anime_likes_views = 3;
 }
 
-message SpecificLikesAndViewsResponse {
+message LikesAndViewsResponse {
     repeated int64 likes = 1;
 	repeated int64 views = 2;
 }
@@ -27,13 +27,35 @@ message LikesAndViewsRequest {
     int64 user_id = 1;
 }
 
+message UserDataRequest {
+	string username = 1;
+	string password = 2;
+}
+
+message UserRequest {
+	string username = 1;
+}
+
+message UpdateUserRequest {
+	string username = 1;
+	string new_username = 2;
+	string new_password = 2;
+}
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
 service Account {
+	rpc CreateUser (UserDataRequest) returns (Empty);
+	rpc LoginUser (UserDataRequest) returns (Empty);
+	rpc LogoutUser (Empty) returns (Empty);
+	rpc GetUserByName (UserRequest) returns (UserData);
+	rpc UpdateUser (UpdateUserRequest) returns (Empty);
+	rpc DeleteUser (UserRequest) returns (Empty);
+
     rpc GetAllLikesAndViews (LikesAndViewsRequest) returns (AllLikesAndViewsResponse);
-	rpc GetBookLikesAndViews (LikesAndViewsRequest) returns (SpecificLikesAndViewsResponse);
-	rpc GetIMDBLikesAndViews (LikesAndViewsRequest) returns (SpecificLikesAndViewsResponse);
-	rpc GetAnimeLikesAndViews (LikesAndViewsRequest) returns (SpecificLikesAndViewsResponse);
+	rpc GetBookLikesAndViews (LikesAndViewsRequest) returns (LikesAndViewsResponse);
+	rpc GetIMDBLikesAndViews (LikesAndViewsRequest) returns (LikesAndViewsResponse);
+	rpc GetAnimeLikesAndViews (LikesAndViewsRequest) returns (LikesAndViewsResponse);
 }

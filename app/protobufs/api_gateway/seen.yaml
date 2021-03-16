@@ -22,7 +22,7 @@ paths:
       - library
       summary: Returns items library by popularity
       description: Returns a map of item codes
-      operationId: getLibrary
+      operationId: api_lib.getLibrary
       produces:
       - application/json
       parameters:
@@ -39,15 +39,15 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Item'
-      security:
-      - api_key: []
+      # security:
+      # - api_key: []
   /suggest:
     get:
       tags:
       - library
       summary: Returns suggestions
       description: Returns a map of item codes
-      operationId: getSuggestions
+      operationId: api_lib.getSuggestions
       produces:
       - application/json
       parameters: []
@@ -60,15 +60,15 @@ paths:
               $ref: '#/definitions/Item'
         "405":
           description: Invalid input
-      security:
-      - api_key: []
+      # security:
+      # - api_key: []
   /item:
     post:
       tags:
       - library
       summary: Add a new item to the store
       description: Creates an item
-      operationId: addItem
+      operationId: api_lib.addItem
       consumes:
       - application/json
       produces:
@@ -89,16 +89,16 @@ paths:
               $ref: '#/definitions/Item'
         "405":
           description: Invalid input
-      security:
-      - seen_auth:
-        - write:items
+      # security:
+      # - seen_auth:
+      #   - write:items
   /item/{itemId}:
     get:
       tags:
       - library
       summary: Find item by ID
       description: Returns a single item
-      operationId: getItemById
+      operationId: api_lib.getItemById
       produces:
       - application/json
       parameters:
@@ -117,14 +117,14 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Item not found
-      security:
-      - api_key: []
+      # security:
+      # - api_key: []
     delete:
       tags:
       - library
       summary: Deletes an item
       description: Deletes a item
-      operationId: deleteItem
+      operationId: api_lib.deleteItem
       produces:
       - application/json
       parameters:
@@ -141,16 +141,16 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Item not found
-      security:
-      - seen_auth:
-        - write:items
+      # security:
+      # - seen_auth:
+      #   - write:items
   /item/{itemId}/seen:
     put:
       tags:
       - library
       summary: Mark item as seen
       description: Mark a item as seen
-      operationId: updateItemSeen
+      operationId: api_lib.updateItemSeen
       parameters:
       - name: itemId
         in: path
@@ -165,15 +165,15 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Item not found
-      security:
-      - api_key: []
+      # security:
+      # - api_key: []
   /item/{itemId}/like:
     put:
       tags:
       - library
       summary: Mark item with like
       description: Mark a item with like
-      operationId: updateItemLike
+      operationId: api_lib.updateItemLike
       parameters:
       - name: itemId
         in: path
@@ -188,15 +188,15 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Item not found
-      security:
-      - api_key: []
+      # security:
+      # - api_key: []
   /user:
     post:
       tags:
       - user
       summary: Create user
       description: Create user
-      operationId: createUser
+      operationId: api_users.createUser
       consumes:
       - application/json
       produces:
@@ -218,7 +218,7 @@ paths:
       tags:
       - user
       summary: Logs user into the system
-      operationId: loginUser
+      operationId: api_users.loginUser
       produces:
       - application/json
       parameters:
@@ -253,7 +253,7 @@ paths:
       tags:
       - user
       summary: Logs out current logged in user session
-      operationId: logoutUser
+      operationId: api_users.logoutUser
       produces:
       - application/json
       parameters: []
@@ -265,7 +265,7 @@ paths:
       tags:
       - user
       summary: Get user by user name
-      operationId: getUserByName
+      operationId: api_users.getUserByName
       produces:
       - application/json
       parameters:
@@ -288,7 +288,7 @@ paths:
       - user
       summary: Updated user
       description: This can only be done by the logged in user.
-      operationId: updateUser
+      operationId: api_users.updateUser
       produces:
       - application/json
       parameters:
@@ -315,7 +315,7 @@ paths:
       - user
       summary: Delete user
       description: This can only be done by the logged in user.
-      operationId: deleteUser
+      operationId: api_users.deleteUser
       produces:
       - application/json
       parameters:
@@ -329,18 +329,20 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
-securityDefinitions:
-  seen_auth:
-    type: oauth2
-    authorizationUrl: http://seen.swagger.io/oauth/dialog
-    flow: implicit
-    scopes:
-      write:items: modify items in your account
-      read:items: read your items
-  api_key:
-    type: apiKey
-    name: api_key
-    in: header
+# securityDefinitions:
+#   BasicAuth:
+#     type: basic
+#   api_key:
+#     type: apiKey
+#     name: api_key
+#     in: header
+  # seen_auth:
+  #   type: oauth2
+  #   authorizationUrl: http://seen.swagger.io/oauth/dialog
+  #   flow: implicit
+  #   scopes:
+  #     write:items: modify items in your account
+  #     read:items: read your items
 definitions:
   Type:
     type: string

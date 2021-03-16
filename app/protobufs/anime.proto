@@ -8,8 +8,9 @@ message AnimeData {
     //ver no dataset colunas relevantes
 	int64 anime_id = 1;
 	string anime_title = 2;
-	string genres = 3;
+	repeated string genres = 3;
 	double anime_rating = 4;
+    string img_url = 5;
 }
 
 message AnimeDataList {
