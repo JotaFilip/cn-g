@@ -17,7 +17,7 @@ class AnimeStub(object):
         self.SearchById = channel.unary_unary(
                 '/Anime/SearchById',
                 request_serializer=anime__pb2.AnimeByIdRequest.SerializeToString,
-                response_deserializer=anime__pb2.AnimeData.FromString,
+                response_deserializer=anime__pb2.AnimeResponse.FromString,
                 )
         self.SearchByName = channel.unary_unary(
                 '/Anime/SearchByName',
@@ -58,7 +58,7 @@ def add_AnimeServicer_to_server(servicer, server):
             'SearchById': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchById,
                     request_deserializer=anime__pb2.AnimeByIdRequest.FromString,
-                    response_serializer=anime__pb2.AnimeData.SerializeToString,
+                    response_serializer=anime__pb2.AnimeResponse.SerializeToString,
             ),
             'SearchByName': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchByName,
@@ -93,7 +93,7 @@ class Anime(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Anime/SearchById',
             anime__pb2.AnimeByIdRequest.SerializeToString,
-            anime__pb2.AnimeData.FromString,
+            anime__pb2.AnimeResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

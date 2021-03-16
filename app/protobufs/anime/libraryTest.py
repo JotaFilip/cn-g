@@ -28,8 +28,10 @@ from flask import make_response, abort
 # )
 #import library_pb2_grpc
 
-from book_pb2 import *
-from book_pb2_grpc import BookStub
+#from book_pb2 import *
+#from book_pb2_grpc import BookStub
+from anime_pb2 import *
+from anime_pb2_grpc import AnimeStub
 
 # Acesso ah base de dados
 
@@ -46,47 +48,53 @@ recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
 # recommendations_channel = grpc.secure_channel(
 #     f"{recommendations_host}:443", creds
 # )
-books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
-books_client = BookStub(books_channel)
+#books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
+#books_client = BookStub(books_channel)
+animes_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
+animes_client = AnimeStub(animes_channel)
 from flask import Flask, render_template
 app = connexion.App(__name__, specification_dir="./")
 
 # @app.route("/")
 # def render_homepage():
 if __name__ == "__main__":
-    books_request = BookByIdRequest(
-        book_id=1
+
+#################################################
+
+    animes_request = AnimeByIdRequest(
+        anime_id=5114
     )
-    books_response = books_client.SearchById(
-        books_request
+    animes_response = animes_client.SearchById(
+        animes_request
     )
-    if(books_response is None):
+    if(animes_response is None):
         print("És burro")
-    print(books_response.book)
+    print(animes_response.anime)
     
-    books_request = BooksByNameRequest(
-        name= "The Hunger Games",
+    animes_request = AnimeByNameRequest(
+        name="Cowboy Bebop",
         max_results= 5
     )
-    books_response = books_client.SearchByName(
-        books_request
+    animes_response = animes_client.SearchByName(
+        animes_request
     )
-    if(books_response is None):
+    if(animes_response is None):
         print("És esperto")
-    print(books_response.books[0].book_title)
+    print(animes_response.anime[0].anime_title)
     
-    books_request = BooksByCategoryRequest(
-        category= "Fiction",
+    animes_request = AnimeByCategoryRequest(
+        category= "Action",
         max_results= 5
     )
     
-    books_response = books_client.SearchByCategory(
-        books_request
+    animes_response = animes_client.SearchByCategory(
+        animes_request
     )
     
-    if(books_response is None):
+    if(animes_response is None):
         print("És esperto")
-    print(books_response.books[0].book_title)
+    print(animes_response.anime[0].anime_title)
+
     
 # Create a URL route in our application for "/"
 # app.add_api("api.yaml")

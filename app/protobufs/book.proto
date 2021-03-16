@@ -32,13 +32,13 @@ message BookResponse {
 }
 //Message used to search for books by name
 message BooksByNameRequest {
-	string name = 1;
+    string name = 1;
     int32 max_results = 2;
 }
 
 //Message used to search for books by category
 message BooksByCategoryRequest {
-	string category = 1;
+    string category = 1;
     int32 max_results = 2;
 }
 ////////////////////////////////////////////
