@@ -56,7 +56,7 @@ message GetIMDBRequest {
 ////////////////////////////////////////////
 
 service IMDB {
-	rpc GETIMDB (GetIMDBRequest) return (IMDBDataList);
+	rpc GETIMDB (GetIMDBRequest) returns (IMDBDataList);
     rpc SearchById (IMDBByIdRequest) returns (IMDBResponse);
 	rpc SearchByName (IMDBByNameRequest) returns (IMDBDataList);
 	rpc SearchByCategory (IMDBByCategoryRequest) returns (IMDBDataList);

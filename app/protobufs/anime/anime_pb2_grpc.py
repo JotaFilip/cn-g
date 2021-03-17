@@ -6,7 +6,11 @@ import anime_pb2 as anime__pb2
 
 
 class AnimeStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """//////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -14,6 +18,11 @@ class AnimeStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.GetAnimes = channel.unary_unary(
+                '/Anime/GetAnimes',
+                request_serializer=anime__pb2.GetAnimesRequest.SerializeToString,
+                response_deserializer=anime__pb2.AnimeDataList.FromString,
+                )
         self.SearchById = channel.unary_unary(
                 '/Anime/SearchById',
                 request_serializer=anime__pb2.AnimeByIdRequest.SerializeToString,
@@ -32,7 +41,17 @@ class AnimeStub(object):
 
 
 class AnimeServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """//////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    """
+
+    def GetAnimes(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def SearchById(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -55,6 +74,11 @@ class AnimeServicer(object):
 
 def add_AnimeServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'GetAnimes': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAnimes,
+                    request_deserializer=anime__pb2.GetAnimesRequest.FromString,
+                    response_serializer=anime__pb2.AnimeDataList.SerializeToString,
+            ),
             'SearchById': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchById,
                     request_deserializer=anime__pb2.AnimeByIdRequest.FromString,
@@ -78,7 +102,28 @@ def add_AnimeServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Anime(object):
-    """Missing associated documentation comment in .proto file."""
+    """//////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    """
+
+    @staticmethod
+    def GetAnimes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Anime/GetAnimes',
+            anime__pb2.GetAnimesRequest.SerializeToString,
+            anime__pb2.AnimeDataList.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def SearchById(request,

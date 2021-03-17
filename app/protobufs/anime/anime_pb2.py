@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0b\x61nime.proto\"i\n\tAnimeData\x12\x10\n\x08\x61nime_id\x18\x01 \x01(\t\x12\x13\n\x0b\x61nime_title\x18\x02 \x01(\t\x12\x0e\n\x06genres\x18\x03 \x03(\t\x12\x14\n\x0c\x61nime_rating\x18\x04 \x01(\x01\x12\x0f\n\x07img_url\x18\x05 \x01(\t\"*\n\rAnimeDataList\x12\x19\n\x05\x61nime\x18\x01 \x03(\x0b\x32\n.AnimeData\"$\n\x10\x41nimeByIdRequest\x12\x10\n\x08\x61nime_id\x18\x01 \x01(\t\"7\n\x12\x41nimeByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"?\n\x16\x41nimeByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x03(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"*\n\rAnimeResponse\x12\x19\n\x05\x61nime\x18\x01 \x01(\x0b\x32\n.AnimeData2\xaa\x01\n\x05\x41nime\x12/\n\nSearchById\x12\x11.AnimeByIdRequest\x1a\x0e.AnimeResponse\x12\x33\n\x0cSearchByName\x12\x13.AnimeByNameRequest\x1a\x0e.AnimeDataList\x12;\n\x10SearchByCategory\x12\x17.AnimeByCategoryRequest\x1a\x0e.AnimeDataListb\x06proto3'
+  serialized_pb=b'\n\x0b\x61nime.proto\"i\n\tAnimeData\x12\x10\n\x08\x61nime_id\x18\x01 \x01(\t\x12\x13\n\x0b\x61nime_title\x18\x02 \x01(\t\x12\x0e\n\x06genres\x18\x03 \x03(\t\x12\x14\n\x0c\x61nime_rating\x18\x04 \x01(\x01\x12\x0f\n\x07img_url\x18\x05 \x01(\t\"+\n\rAnimeDataList\x12\x1a\n\x06\x61nimes\x18\x01 \x03(\x0b\x32\n.AnimeData\"*\n\rAnimeResponse\x12\x19\n\x05\x61nime\x18\x01 \x01(\x0b\x32\n.AnimeData\"$\n\x10\x41nimeByIdRequest\x12\x10\n\x08\x61nime_id\x18\x01 \x01(\t\"7\n\x12\x41nimeByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"?\n\x16\x41nimeByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x03(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"5\n\x10GetAnimesRequest\x12\x0c\n\x04page\x18\x01 \x01(\x05\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x32\xda\x01\n\x05\x41nime\x12.\n\tGetAnimes\x12\x11.GetAnimesRequest\x1a\x0e.AnimeDataList\x12/\n\nSearchById\x12\x11.AnimeByIdRequest\x1a\x0e.AnimeResponse\x12\x33\n\x0cSearchByName\x12\x13.AnimeByNameRequest\x1a\x0e.AnimeDataList\x12;\n\x10SearchByCategory\x12\x17.AnimeByCategoryRequest\x1a\x0e.AnimeDataListb\x06proto3'
 )
 
 
@@ -94,7 +94,7 @@ _ANIMEDATALIST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='anime', full_name='AnimeDataList.anime', index=0,
+      name='animes', full_name='AnimeDataList.animes', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -113,7 +113,39 @@ _ANIMEDATALIST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=122,
-  serialized_end=164,
+  serialized_end=165,
+)
+
+
+_ANIMERESPONSE = _descriptor.Descriptor(
+  name='AnimeResponse',
+  full_name='AnimeResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='anime', full_name='AnimeResponse.anime', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=167,
+  serialized_end=209,
 )
 
 
@@ -144,8 +176,8 @@ _ANIMEBYIDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=166,
-  serialized_end=202,
+  serialized_start=211,
+  serialized_end=247,
 )
 
 
@@ -183,8 +215,8 @@ _ANIMEBYNAMEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=204,
-  serialized_end=259,
+  serialized_start=249,
+  serialized_end=304,
 )
 
 
@@ -222,23 +254,30 @@ _ANIMEBYCATEGORYREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=261,
-  serialized_end=324,
+  serialized_start=306,
+  serialized_end=369,
 )
 
 
-_ANIMERESPONSE = _descriptor.Descriptor(
-  name='AnimeResponse',
-  full_name='AnimeResponse',
+_GETANIMESREQUEST = _descriptor.Descriptor(
+  name='GetAnimesRequest',
+  full_name='GetAnimesRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='anime', full_name='AnimeResponse.anime', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='page', full_name='GetAnimesRequest.page', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='max_results', full_name='GetAnimesRequest.max_results', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -254,18 +293,19 @@ _ANIMERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=326,
-  serialized_end=368,
+  serialized_start=371,
+  serialized_end=424,
 )
 
-_ANIMEDATALIST.fields_by_name['anime'].message_type = _ANIMEDATA
+_ANIMEDATALIST.fields_by_name['animes'].message_type = _ANIMEDATA
 _ANIMERESPONSE.fields_by_name['anime'].message_type = _ANIMEDATA
 DESCRIPTOR.message_types_by_name['AnimeData'] = _ANIMEDATA
 DESCRIPTOR.message_types_by_name['AnimeDataList'] = _ANIMEDATALIST
+DESCRIPTOR.message_types_by_name['AnimeResponse'] = _ANIMERESPONSE
 DESCRIPTOR.message_types_by_name['AnimeByIdRequest'] = _ANIMEBYIDREQUEST
 DESCRIPTOR.message_types_by_name['AnimeByNameRequest'] = _ANIMEBYNAMEREQUEST
 DESCRIPTOR.message_types_by_name['AnimeByCategoryRequest'] = _ANIMEBYCATEGORYREQUEST
-DESCRIPTOR.message_types_by_name['AnimeResponse'] = _ANIMERESPONSE
+DESCRIPTOR.message_types_by_name['GetAnimesRequest'] = _GETANIMESREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AnimeData = _reflection.GeneratedProtocolMessageType('AnimeData', (_message.Message,), {
@@ -281,6 +321,13 @@ AnimeDataList = _reflection.GeneratedProtocolMessageType('AnimeDataList', (_mess
   # @@protoc_insertion_point(class_scope:AnimeDataList)
   })
 _sym_db.RegisterMessage(AnimeDataList)
+
+AnimeResponse = _reflection.GeneratedProtocolMessageType('AnimeResponse', (_message.Message,), {
+  'DESCRIPTOR' : _ANIMERESPONSE,
+  '__module__' : 'anime_pb2'
+  # @@protoc_insertion_point(class_scope:AnimeResponse)
+  })
+_sym_db.RegisterMessage(AnimeResponse)
 
 AnimeByIdRequest = _reflection.GeneratedProtocolMessageType('AnimeByIdRequest', (_message.Message,), {
   'DESCRIPTOR' : _ANIMEBYIDREQUEST,
@@ -303,12 +350,12 @@ AnimeByCategoryRequest = _reflection.GeneratedProtocolMessageType('AnimeByCatego
   })
 _sym_db.RegisterMessage(AnimeByCategoryRequest)
 
-AnimeResponse = _reflection.GeneratedProtocolMessageType('AnimeResponse', (_message.Message,), {
-  'DESCRIPTOR' : _ANIMERESPONSE,
+GetAnimesRequest = _reflection.GeneratedProtocolMessageType('GetAnimesRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETANIMESREQUEST,
   '__module__' : 'anime_pb2'
-  # @@protoc_insertion_point(class_scope:AnimeResponse)
+  # @@protoc_insertion_point(class_scope:GetAnimesRequest)
   })
-_sym_db.RegisterMessage(AnimeResponse)
+_sym_db.RegisterMessage(GetAnimesRequest)
 
 
 
@@ -319,13 +366,23 @@ _ANIME = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=371,
-  serialized_end=541,
+  serialized_start=427,
+  serialized_end=645,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='GetAnimes',
+    full_name='Anime.GetAnimes',
+    index=0,
+    containing_service=None,
+    input_type=_GETANIMESREQUEST,
+    output_type=_ANIMEDATALIST,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
   _descriptor.MethodDescriptor(
     name='SearchById',
     full_name='Anime.SearchById',
-    index=0,
+    index=1,
     containing_service=None,
     input_type=_ANIMEBYIDREQUEST,
     output_type=_ANIMERESPONSE,
@@ -335,7 +392,7 @@ _ANIME = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SearchByName',
     full_name='Anime.SearchByName',
-    index=1,
+    index=2,
     containing_service=None,
     input_type=_ANIMEBYNAMEREQUEST,
     output_type=_ANIMEDATALIST,
@@ -345,7 +402,7 @@ _ANIME = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SearchByCategory',
     full_name='Anime.SearchByCategory',
-    index=2,
+    index=3,
     containing_service=None,
     input_type=_ANIMEBYCATEGORYREQUEST,
     output_type=_ANIMEDATALIST,

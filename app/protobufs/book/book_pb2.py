@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\nbook.proto\"z\n\x08\x42ookData\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\x12\x12\n\nbook_title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0e\n\x06genres\x18\x04 \x03(\t\x12\x13\n\x0b\x62ook_rating\x18\x05 \x01(\x01\x12\x0f\n\x07img_url\x18\x06 \x01(\t\"(\n\x0c\x42ookDataList\x12\x18\n\x05\x62ooks\x18\x01 \x03(\x0b\x32\t.BookData\"\"\n\x0f\x42ookByIdRequest\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\"\'\n\x0c\x42ookResponse\x12\x17\n\x04\x62ook\x18\x01 \x01(\x0b\x32\t.BookData\"7\n\x12\x42ooksByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"?\n\x16\x42ooksByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x03(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x32\xa5\x01\n\x04\x42ook\x12-\n\nSearchById\x12\x10.BookByIdRequest\x1a\r.BookResponse\x12\x32\n\x0cSearchByName\x12\x13.BooksByNameRequest\x1a\r.BookDataList\x12:\n\x10SearchByCategory\x12\x17.BooksByCategoryRequest\x1a\r.BookDataListb\x06proto3'
+  serialized_pb=b'\n\nbook.proto\"z\n\x08\x42ookData\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\x12\x12\n\nbook_title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0e\n\x06genres\x18\x04 \x03(\t\x12\x13\n\x0b\x62ook_rating\x18\x05 \x01(\x01\x12\x0f\n\x07img_url\x18\x06 \x01(\t\"(\n\x0c\x42ookDataList\x12\x18\n\x05\x62ooks\x18\x01 \x03(\x0b\x32\t.BookData\"\"\n\x0f\x42ookByIdRequest\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\t\"\'\n\x0c\x42ookResponse\x12\x17\n\x04\x62ook\x18\x01 \x01(\x0b\x32\t.BookData\"7\n\x12\x42ooksByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"?\n\x16\x42ooksByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x03(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"4\n\x0fGetBooksRequest\x12\x0c\n\x04page\x18\x01 \x01(\x05\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x32\xd2\x01\n\x04\x42ook\x12+\n\x08GetBooks\x12\x10.GetBooksRequest\x1a\r.BookDataList\x12-\n\nSearchById\x12\x10.BookByIdRequest\x1a\r.BookResponse\x12\x32\n\x0cSearchByName\x12\x13.BooksByNameRequest\x1a\r.BookDataList\x12:\n\x10SearchByCategory\x12\x17.BooksByCategoryRequest\x1a\r.BookDataListb\x06proto3'
 )
 
 
@@ -265,6 +265,45 @@ _BOOKSBYCATEGORYREQUEST = _descriptor.Descriptor(
   serialized_end=377,
 )
 
+
+_GETBOOKSREQUEST = _descriptor.Descriptor(
+  name='GetBooksRequest',
+  full_name='GetBooksRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='page', full_name='GetBooksRequest.page', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='max_results', full_name='GetBooksRequest.max_results', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=379,
+  serialized_end=431,
+)
+
 _BOOKDATALIST.fields_by_name['books'].message_type = _BOOKDATA
 _BOOKRESPONSE.fields_by_name['book'].message_type = _BOOKDATA
 DESCRIPTOR.message_types_by_name['BookData'] = _BOOKDATA
@@ -273,6 +312,7 @@ DESCRIPTOR.message_types_by_name['BookByIdRequest'] = _BOOKBYIDREQUEST
 DESCRIPTOR.message_types_by_name['BookResponse'] = _BOOKRESPONSE
 DESCRIPTOR.message_types_by_name['BooksByNameRequest'] = _BOOKSBYNAMEREQUEST
 DESCRIPTOR.message_types_by_name['BooksByCategoryRequest'] = _BOOKSBYCATEGORYREQUEST
+DESCRIPTOR.message_types_by_name['GetBooksRequest'] = _GETBOOKSREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BookData = _reflection.GeneratedProtocolMessageType('BookData', (_message.Message,), {
@@ -317,6 +357,13 @@ BooksByCategoryRequest = _reflection.GeneratedProtocolMessageType('BooksByCatego
   })
 _sym_db.RegisterMessage(BooksByCategoryRequest)
 
+GetBooksRequest = _reflection.GeneratedProtocolMessageType('GetBooksRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETBOOKSREQUEST,
+  '__module__' : 'book_pb2'
+  # @@protoc_insertion_point(class_scope:GetBooksRequest)
+  })
+_sym_db.RegisterMessage(GetBooksRequest)
+
 
 
 _BOOK = _descriptor.ServiceDescriptor(
@@ -326,13 +373,23 @@ _BOOK = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=380,
-  serialized_end=545,
+  serialized_start=434,
+  serialized_end=644,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='GetBooks',
+    full_name='Book.GetBooks',
+    index=0,
+    containing_service=None,
+    input_type=_GETBOOKSREQUEST,
+    output_type=_BOOKDATALIST,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
   _descriptor.MethodDescriptor(
     name='SearchById',
     full_name='Book.SearchById',
-    index=0,
+    index=1,
     containing_service=None,
     input_type=_BOOKBYIDREQUEST,
     output_type=_BOOKRESPONSE,
@@ -342,7 +399,7 @@ _BOOK = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SearchByName',
     full_name='Book.SearchByName',
-    index=1,
+    index=2,
     containing_service=None,
     input_type=_BOOKSBYNAMEREQUEST,
     output_type=_BOOKDATALIST,
@@ -352,7 +409,7 @@ _BOOK = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SearchByCategory',
     full_name='Book.SearchByCategory',
-    index=2,
+    index=3,
     containing_service=None,
     input_type=_BOOKSBYCATEGORYREQUEST,
     output_type=_BOOKDATALIST,

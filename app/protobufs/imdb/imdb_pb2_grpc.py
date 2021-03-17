@@ -6,7 +6,11 @@ import imdb_pb2 as imdb__pb2
 
 
 class IMDBStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """//////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -14,6 +18,11 @@ class IMDBStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.GETIMDB = channel.unary_unary(
+                '/IMDB/GETIMDB',
+                request_serializer=imdb__pb2.GetIMDBRequest.SerializeToString,
+                response_deserializer=imdb__pb2.IMDBDataList.FromString,
+                )
         self.SearchById = channel.unary_unary(
                 '/IMDB/SearchById',
                 request_serializer=imdb__pb2.IMDBByIdRequest.SerializeToString,
@@ -32,7 +41,17 @@ class IMDBStub(object):
 
 
 class IMDBServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """//////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    """
+
+    def GETIMDB(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def SearchById(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -55,6 +74,11 @@ class IMDBServicer(object):
 
 def add_IMDBServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'GETIMDB': grpc.unary_unary_rpc_method_handler(
+                    servicer.GETIMDB,
+                    request_deserializer=imdb__pb2.GetIMDBRequest.FromString,
+                    response_serializer=imdb__pb2.IMDBDataList.SerializeToString,
+            ),
             'SearchById': grpc.unary_unary_rpc_method_handler(
                     servicer.SearchById,
                     request_deserializer=imdb__pb2.IMDBByIdRequest.FromString,
@@ -78,7 +102,28 @@ def add_IMDBServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class IMDB(object):
-    """Missing associated documentation comment in .proto file."""
+    """//////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    """
+
+    @staticmethod
+    def GETIMDB(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/IMDB/GETIMDB',
+            imdb__pb2.GetIMDBRequest.SerializeToString,
+            imdb__pb2.IMDBDataList.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def SearchById(request,
