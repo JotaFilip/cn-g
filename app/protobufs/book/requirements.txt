@@ -1,3 +1,4 @@
 grpc-interceptor >= 0.11.0
 grpcio-tools >= 1.30
 pymongo >= 3.11.2
+dnspython >= 2.1.0
