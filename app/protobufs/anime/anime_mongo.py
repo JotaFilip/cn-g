@@ -28,7 +28,7 @@ import anime_pb2_grpc
 
 class AnimeService(anime_pb2_grpc.AnimeServicer):
 
-    def GetAnime(self, request, context):
+    def GetAnimes(self, request, context):
         page = request.page * request.max_results
         return db.find().skip(page).limit(request.max_results)
 
