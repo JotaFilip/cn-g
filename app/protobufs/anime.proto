@@ -14,6 +14,11 @@ message AnimeData {
 message AnimeDataList {
     repeated AnimeData anime = 1;
 }
+
+message AnimeResponse {
+    AnimeData anime = 1;
+}
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -38,15 +43,18 @@ message AnimeByCategoryRequest {
     repeated string category = 1;
     int32 max_results = 2;
 }
-//Reponse
-message AnimeResponse {
-    AnimeData anime = 1;
+
+message GetAnimesRequest {
+    int32 page = 1;
+    int32 max_results = 2;
 }
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
 service Anime {
+    rpc GetAnimes (GetAnimesRequest) returns (AnimeDataList);
     rpc SearchById (AnimeByIdRequest) returns (AnimeResponse);
 	rpc SearchByName (AnimeByNameRequest) returns (AnimeDataList);
 	rpc SearchByCategory (AnimeByCategoryRequest) returns (AnimeDataList);
