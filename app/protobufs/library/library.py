@@ -58,7 +58,13 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         imdbs_request = GetIMDBsRequest( page = page, max_results = n )
         r3 = imdbs_client.GetIMDBs(imdbs_request).imdbs
 
-        return r1+r2+r3
+        r1 = [ ItemInfo( id = r.anime_id, name = r.anime_title, type = Type.ANIME) for r in r1 ]
+        r2 = [ ItemInfo( id = r.book_id, name = r.book_title, type = Type.SHOW) for r in r1 ]
+        r3 = [ ItemInfo( id = r.anime_id, name = r.anime_title, type = Type.BOOK) for r in r3 ]
+        results = r1+r2+r3
+        
+        return ItemInfoResponse( recomendations = results )
+
 
     def Recommend(self, request, context):
         return None

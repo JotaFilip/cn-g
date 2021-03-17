@@ -49,7 +49,7 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         return IMDBDataList( imdbs = results )
 
     def SearchByCategory(self, request, context):
-        results = list(db.find({ "category": { "$all": request.category } }).limit(request.max_results))
+        results = list(db.find({ "category": { "$all": [request.category] } }).limit(request.max_results))
         results = [ imdb_to_proto(imdb) for imdb in results ]
         return IMDBDataList( imdbs = results )
 
@@ -77,7 +77,6 @@ def serve():
     server.add_insecure_port("[::]:50052")
     server.start()
     server.wait_for_termination()
-
 
 if __name__ == "__main__":
     serve()

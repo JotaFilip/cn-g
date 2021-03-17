@@ -47,7 +47,7 @@ class BookService(book_pb2_grpc.BookServicer):
         return BookDataList( books = results )
 
     def SearchByCategory(self, request, context):
-        results = list(db.find({ "category": { "$all": request.category } }).limit(request.max_results))
+        results = list(db.find({ "category": { "$all": [request.category] } }).limit(request.max_results))
         results = [ book_to_proto(book) for book in results ]
         return BookDataList( books = results )
 

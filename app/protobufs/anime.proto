@@ -40,7 +40,7 @@ message AnimeByNameRequest {
 
 //Message used to search for anime by category
 message AnimeByCategoryRequest {
-    repeated string category = 1;
+    string category = 1;
     int32 max_results = 2;
 }
 

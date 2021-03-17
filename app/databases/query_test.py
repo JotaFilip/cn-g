@@ -6,9 +6,10 @@ user = "seen"
 password = "ifFvApoasv9lLvqR"
 up = user + ":" + password
 
-db = MongoClient("mongodb+srv://"+up+"@animes.4nkye.mongodb.net/Animes?retryWrites=true&w=majority")
+db = MongoClient("mongodb+srv://"+up+"@books.lnpq3.mongodb.net/Books?retryWrites=true&w=majority")
 db = db["database"]
-db = db["animes"]
+db = db["books"]
 
-result = db.find({ "_id": ObjectId("605128692d0accf2d480f2c2") }).limit(1)
-print(result[0])
+results = db.find({ "category": "Fiction" }).limit(1)
+for r in results:
+    print(r)

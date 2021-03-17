@@ -1,35 +1,35 @@
 
 # Users API
 
-from account_pb2 import *
-from account_pb2_grpc import AccountStub
+from signin_pb2 import *
+from signin_pb2_grpc import SignInStub
 
-acc_host = os.getenv("ACCOUNTS_HOST", "localhost")
-acc_channel = grpc.insecure_channel(f"{acc_host}:50055")
-acc_client = AccountStub(acc_channel)
+sign_host = os.getenv("SIGNIN_HOST", "localhost")
+sign_channel = grpc.insecure_channel(f"{sign_host}:50055")
+sign_client = SignInStub(sign_channel)
 
 def createUser(body):
     request = CreateUserRequest (
         username = body.username,
         password = body.password 
     )
-    return acc_client.CreateUser(request)
+    return sign_client.CreateUser(request)
 
 def loginUser(username,password):
     request = LoginRequest (
         username = username,
         password = password
     )
-    return acc_client.CreateUser(request)
+    return sign_client.CreateUser(request)
 
 def logoutUser():
-    return acc_client.LogoutUser()
+    return sign_client.LogoutUser()
 
 def getUserByName(username):
     request = GetUserRequest (
         name = username
     )
-    return acc_client.GetUserByName(request)
+    return sign_client.GetUserByName(request)
 
 def updateUser(username,body):
     request = UpdateUserRequest (
@@ -37,10 +37,10 @@ def updateUser(username,body):
         new_username = body.username,
         new_password = body.password
     )
-    return acc_client.UpdateUser(request)
+    return sign_client.UpdateUser(request)
 
 def deleteUser(username):
     request = DeleteUserRequest (
         username = username
     )
-    return acc_client.DeleteUser(request)
+    return sign_client.DeleteUser(request)

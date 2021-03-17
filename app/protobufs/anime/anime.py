@@ -47,7 +47,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         return AnimeDataList( animes = results )
 
     def SearchByCategory(self, request, context):
-        results = list(db.find({ "category": { "$all": request.category } }).limit(request.max_results))
+        results = list(db.find({ "category": { "$all": [request.category] } }).limit(request.max_results))
         results = [ anime_to_proto(anime) for anime in results ]
         return AnimeDataList( animes = results )
 
