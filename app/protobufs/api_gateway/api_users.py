@@ -5,7 +5,7 @@ from account_pb2 import *
 from account_pb2_grpc import AccountStub
 
 acc_host = os.getenv("ACCOUNTS_HOST", "localhost")
-acc_channel = grpc.insecure_channel(f"{acc_host}:50054")
+acc_channel = grpc.insecure_channel(f"{acc_host}:50055")
 acc_client = AccountStub(acc_channel)
 
 def createUser(body):

@@ -94,8 +94,6 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
 
         #return AnimeDataList(anime=searched_anime)
         
-
-
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]
     server = grpc.server(

@@ -12,7 +12,7 @@ message AnimeData {
 }
 
 message AnimeDataList {
-    repeated AnimeData anime = 1;
+    repeated AnimeData animes = 1;
 }
 
 message AnimeResponse {

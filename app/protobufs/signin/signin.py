@@ -44,11 +44,11 @@ def serve():
     server = grpc.server(
         futures.ThreadPoolExecutor(max_workers=10), interceptors=interceptors
     )
-    book_pb2_grpc.add_BookServicer_to_server(
-        BookService(), server
+    signin_pb2_grpc.add_SignInServicer_to_server(
+        SignInService(), server
     )
     
-    server.add_insecure_port("[::]:50051")
+    server.add_insecure_port("[::]:50054")
     server.start()
     server.wait_for_termination()
 

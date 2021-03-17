@@ -1,7 +1,3 @@
-"""
-Main module of the server file
-"""
-
 # 3rd party moudles
 from flask import render_template
 import connexion

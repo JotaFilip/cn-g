@@ -13,7 +13,7 @@ message IMDBData {
 }
 
 message IMDBDataList {
-    repeated IMDBData imdb = 1;
+    repeated IMDBData imdbs = 1;
 }
 
 message IMDBResponse {

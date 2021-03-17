@@ -5,7 +5,7 @@ from library_pb2 import *
 from library_pb2_grpc import LibraryStub
 
 lib_host = os.getenv("LIBRARY_HOST", "localhost")
-lib_channel = grpc.insecure_channel(f"{lib_host}:50054")
+lib_channel = grpc.insecure_channel(f"{lib_host}:50050")
 lib_client = LibraryStub(lib_channel)
 
 # TODO
