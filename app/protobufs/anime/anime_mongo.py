@@ -27,6 +27,11 @@ from anime_pb2 import (
 import anime_pb2_grpc
 
 class AnimeService(anime_pb2_grpc.AnimeServicer):
+
+    def GetAnime(self, request, context):
+        page = request.page * request.max_results
+        return db.find().skip(page).limit(request.max_results)
+
     def SearchById(self, request, context):
         results = db.find({ "_id": request.anime_id}).limit(1)
 
