@@ -58,7 +58,7 @@ app = connexion.App(__name__, specification_dir="./")
 if __name__ == "__main__":
 
 #################################################
-
+    print("Request - Find book by ID: 1")
     books_request = BookByIdRequest(
         book_id=1
     )
@@ -66,8 +66,11 @@ if __name__ == "__main__":
         books_request
     )
     if(books_response is None):
-        print("És burro")
-    print(books_response.book)
+        print("Response: Book not found")
+    else:
+        print("Response:", books_response.book)
+
+    print("Request - Find book by name: The Hunger Games")
     
     books_request = BooksByNameRequest(
         name= "The Hunger Games",
@@ -77,21 +80,27 @@ if __name__ == "__main__":
         books_request
     )
     if(books_response is None):
-        print("És esperto")
-    print(books_response.books[0].book_title)
+        print("Response: Book not found")
+    else:
+        print("Response: Title:", books_response.book[0].book_title, "Genre:", books_response.book[0].genres[0], "Rating:", books_response.book[0].book_rating)
     
     books_request = BooksByCategoryRequest(
         category= "Fiction",
         max_results= 5
     )
+    print("Request - Find book by category: Fiction")
     
     books_response = books_client.SearchByCategory(
         books_request
     )
     
+    
     if(books_response is None):
-        print("És esperto")
-    print(books_response.books[0].book_title)
+        print("Response: Book not found")
+    else:
+        print("Response ")
+        for book in books_response.book:
+             print("Title:", book.book_title, "Genre:", books_response.book[0].genres[0], "Rating:", books_response.book[0].book_rating)
 
     
 # Create a URL route in our application for "/"

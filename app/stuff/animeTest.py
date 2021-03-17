@@ -60,7 +60,7 @@ app = connexion.App(__name__, specification_dir="./")
 if __name__ == "__main__":
 
 #################################################
-
+    print("Request - Find anime by ID: 5114")
     animes_request = AnimeByIdRequest(
         anime_id=5114
     )
@@ -68,8 +68,11 @@ if __name__ == "__main__":
         animes_request
     )
     if(animes_response is None):
-        print("És burro")
-    print(animes_response.anime)
+        print("Response: Anime not found")
+    else:
+        print("Response:", animes_response.anime)
+
+    print("Request - Find anime by name: Cowboy Bebop")
     
     animes_request = AnimeByNameRequest(
         name="Cowboy Bebop",
@@ -79,8 +82,11 @@ if __name__ == "__main__":
         animes_request
     )
     if(animes_response is None):
-        print("És esperto")
-    print(animes_response.anime[0].anime_title)
+        print("Response: Anime not found")
+    else:
+        print("Response: Title:", animes_response.anime[0].anime_title, "Genre:", animes_response.anime[0].genres[0], "Rating:", animes_response.anime[0].anime_rating)
+
+    print("Request - Find anime by category: Action")
     
     animes_request = AnimeByCategoryRequest(
         category= "Action",
@@ -90,10 +96,14 @@ if __name__ == "__main__":
     animes_response = animes_client.SearchByCategory(
         animes_request
     )
+   
+    print("Response: ")
     
     if(animes_response is None):
-        print("És esperto")
-    print(animes_response.anime[0].anime_title)
+        print("Response: Anime not found")
+    else:
+        for anime in animes_response.anime:
+            print("Title:", anime.anime_title, "Genre:", animes_response.anime[0].genres[0], "Rating:", animes_response.anime[0].anime_rating)
 
     
 # Create a URL route in our application for "/"

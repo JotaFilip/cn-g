@@ -58,17 +58,20 @@ app = connexion.App(__name__, specification_dir="./")
 if __name__ == "__main__":
 
 #################################################
-
+    print("Request - Find film/show by ID: tt0000001")
     imdbs_request = IMDBByIdRequest(
         imdb_id="tt0000001"
     )
     imdbs_response = imdbs_client.SearchById(
         imdbs_request
     )
-    if(imdbs_response is None):
-        print("És burro")
-    print(imdbs_response.imdb)
     
+    if(imdbs_response is None):
+        print("Film/show not found")
+    else:
+        print("Response:", imdbs_response.imdb)
+    
+    print("Request - Find film/show by name: Stalker")
     imdbs_request = IMDBByNameRequest(
         name="Stalker",
         max_results= 5
@@ -77,8 +80,11 @@ if __name__ == "__main__":
         imdbs_request
     )
     if(imdbs_response is None):
-        print("És esperto")
-    print(imdbs_response.imdb[0].imdb_title)
+        print("Film/show not found")
+    else:
+        print("Response: Title:", imdbs_response.imdb[0].imdb_title, "Genre:", imdbs_response.imdb[0].genres[0], "Rating:", imdbs_response.imdb[0].imdb_rating)
+
+    print("Request - Find film/show by category: Action")
     
     imdbs_request = IMDBByCategoryRequest(
         category= "Action",
@@ -90,8 +96,10 @@ if __name__ == "__main__":
     )
     
     if(imdbs_response is None):
-        print("És esperto")
-    print(imdbs_response.imdb[0].imdb_title)
+        print("Film/show not found")
+    else:
+        for imdb in imdbs_response.imdb:
+            print("Title:", imdb.imdb_title, "Genre:", imdbs_response.imdb[0].genres[0], "Rating:", imdbs_response.imdb[0].imdb_rating)
 
     
 # Create a URL route in our application for "/"
