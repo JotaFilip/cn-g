@@ -11,6 +11,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+import signin_pb2 as signin__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -19,8 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\raccount.proto\"\x90\x01\n\x18\x41llLikesAndViewsResponse\x12%\n\x05\x62ooks\x18\x01 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12%\n\x05imdbs\x18\x02 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12&\n\x06\x61nimes\x18\x03 \x01(\x0b\x32\x16.LikesAndViewsResponse\"5\n\x15LikesAndViewsResponse\x12\r\n\x05likes\x18\x01 \x03(\x03\x12\r\n\x05views\x18\x02 \x03(\x03\"(\n\x14LikesAndViewsRequest\x12\x10\n\x08username\x18\x01 \x01(\t2\xa8\x02\n\x07\x41\x63\x63ount\x12G\n\x13GetAllLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x19.AllLikesAndViewsResponse\x12\x45\n\x14GetBookLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x45\n\x14GetIMDBLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x46\n\x15GetAnimeLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponseb\x06proto3'
-)
+  serialized_pb=b'\n\raccount.proto\x1a\x0csignin.proto\"\x90\x01\n\x18\x41llLikesAndViewsResponse\x12%\n\x05\x62ooks\x18\x01 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12%\n\x05imdbs\x18\x02 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12&\n\x06\x61nimes\x18\x03 \x01(\x0b\x32\x16.LikesAndViewsResponse\"5\n\x15LikesAndViewsResponse\x12\r\n\x05likes\x18\x01 \x03(\x03\x12\r\n\x05views\x18\x02 \x03(\x03\"(\n\x14LikesAndViewsRequest\x12\x10\n\x08username\x18\x01 \x01(\t2\xa8\x02\n\x07\x41\x63\x63ount\x12G\n\x13GetAllLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x19.AllLikesAndViewsResponse\x12\x45\n\x14GetBookLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x45\n\x14GetIMDBLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x46\n\x15GetAnimeLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponseb\x06proto3'
+  ,
+  dependencies=[signin__pb2.DESCRIPTOR,])
 
 
 
@@ -66,8 +68,8 @@ _ALLLIKESANDVIEWSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=18,
-  serialized_end=162,
+  serialized_start=32,
+  serialized_end=176,
 )
 
 
@@ -105,8 +107,8 @@ _LIKESANDVIEWSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=164,
-  serialized_end=217,
+  serialized_start=178,
+  serialized_end=231,
 )
 
 
@@ -137,8 +139,8 @@ _LIKESANDVIEWSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=219,
-  serialized_end=259,
+  serialized_start=233,
+  serialized_end=273,
 )
 
 _ALLLIKESANDVIEWSRESPONSE.fields_by_name['books'].message_type = _LIKESANDVIEWSRESPONSE
@@ -179,8 +181,8 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=262,
-  serialized_end=558,
+  serialized_start=276,
+  serialized_end=572,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetAllLikesAndViews',

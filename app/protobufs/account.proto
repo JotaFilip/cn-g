@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "signin.proto";
+
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
@@ -32,6 +34,14 @@ message LikesAndViewsRequest {
 ////////////////////////////////////////////
 
 service Account {
+	// Sign in
+	// rpc CreateUser (UserDataRequest) returns (Success);
+	// rpc LoginUser (UserDataRequest) returns (Success);
+	// rpc LogoutUser (Empty) returns (Success);
+	// rpc GetUserByName (UserRequest) returns (UserData);
+	// rpc UpdateUser (UpdateUserRequest) returns (Success);
+	// rpc DeleteUser (UserRequest) returns (Success);
+	// Account
     rpc GetAllLikesAndViews (LikesAndViewsRequest) returns (AllLikesAndViewsResponse);
 	rpc GetBookLikesAndViews (LikesAndViewsRequest) returns (LikesAndViewsResponse);
 	rpc GetIMDBLikesAndViews (LikesAndViewsRequest) returns (LikesAndViewsResponse);

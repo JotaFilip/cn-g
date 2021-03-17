@@ -48,7 +48,15 @@ class AccountServicer(object):
     """
 
     def GetAllLikesAndViews(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Sign in
+        rpc CreateUser (UserDataRequest) returns (Success);
+        rpc LoginUser (UserDataRequest) returns (Success);
+        rpc LogoutUser (Empty) returns (Success);
+        rpc GetUserByName (UserRequest) returns (UserData);
+        rpc UpdateUser (UpdateUserRequest) returns (Success);
+        rpc DeleteUser (UserRequest) returns (Success);
+        Account
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
