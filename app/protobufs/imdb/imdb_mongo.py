@@ -28,6 +28,11 @@ from imdb_pb2 import (
 import imdb_pb2_grpc
 
 class IMDBService(imdb_pb2_grpc.IMDBServicer):
+
+     def GetIMDB(self, request, context):
+        page = request.page * request.max_results
+        return db.find().skip(page).limit(request.max_results)
+        
     def SearchById(self, request, context):
         results = db.find({ "_id": request.imdb_id}).limit(1)
 

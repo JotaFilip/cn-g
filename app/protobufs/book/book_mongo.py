@@ -26,6 +26,12 @@ from book_pb2 import (
 import book_pb2_grpc
 
 class BookService(book_pb2_grpc.BookServicer):
+
+    def GetBooks(self, request, context):
+        page = request.page * request.max_results
+        return db.find().skip(page).limit(request.max_results)
+
+
     def SearchById(self, request, context):
         results = db.find({ "_id": request.anime_id}).limit(1)
 
