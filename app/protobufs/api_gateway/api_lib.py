@@ -3,6 +3,8 @@
 import os
 from library_pb2 import *
 from library_pb2_grpc import LibraryStub
+import grpc
+from grpc_interceptor import ExceptionToStatusInterceptor
 
 lib_host = os.getenv("LIBRARY_HOST", "localhost")
 lib_channel = grpc.insecure_channel(f"{lib_host}:50050")
