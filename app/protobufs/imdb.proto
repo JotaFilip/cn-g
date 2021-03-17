@@ -15,6 +15,11 @@ message IMDBData {
 message IMDBDataList {
     repeated IMDBData imdb = 1;
 }
+
+message IMDBResponse {
+    IMDBData imdb = 1;
+}
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -39,14 +44,19 @@ message IMDBByCategoryRequest {
     repeated string category = 1;
     int32 max_results = 2;
 }
-message IMDBResponse {
-    IMDBData imdb = 1;
+
+
+message GetIMDBRequest {
+    int32 page = 1;
+    int32 max_results = 2;
 }
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
 service IMDB {
+	rpc GETIMDB (GetIMDBRequest) return (IMDBDataList);
     rpc SearchById (IMDBByIdRequest) returns (IMDBResponse);
 	rpc SearchByName (IMDBByNameRequest) returns (IMDBDataList);
 	rpc SearchByCategory (IMDBByCategoryRequest) returns (IMDBDataList);
