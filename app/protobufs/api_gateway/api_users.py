@@ -1,6 +1,6 @@
 
 # Users API
-
+import os
 from signin_pb2 import *
 from signin_pb2_grpc import SignInStub
 
