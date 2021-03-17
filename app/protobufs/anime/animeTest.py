@@ -8,7 +8,6 @@ from grpc_interceptor.exceptions import NotFound
 # 3rd party modules
 from flask import make_response, abort
 
-
 # from library_pb2 import (
 #     Type,
 #     BasicInfoResponse,
@@ -28,8 +27,10 @@ from flask import make_response, abort
 # )
 #import library_pb2_grpc
 
-from imdb_pb2 import *
-from imdb_pb2_grpc import IMDBStub
+#from book_pb2 import *
+#from book_pb2_grpc import BookStub
+from anime_pb2 import *
+from anime_pb2_grpc import AnimeStub
 
 # Acesso ah base de dados
 
@@ -48,8 +49,8 @@ recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
 # )
 #books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
 #books_client = BookStub(books_channel)
-imdbs_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
-imdbs_client = IMDBStub(imdbs_channel)
+animes_channel = grpc.insecure_channel(f"{recommendations_host}:50053")
+animes_client = AnimeStub(animes_channel)
 from flask import Flask, render_template
 app = connexion.App(__name__, specification_dir="./")
 
@@ -58,48 +59,50 @@ app = connexion.App(__name__, specification_dir="./")
 if __name__ == "__main__":
 
 #################################################
-    print("Request - Find film/show by ID: tt0000001")
-    imdbs_request = IMDBByIdRequest(
-        imdb_id="tt0000001"
+    print("Request - Find anime by ID: 605128692d0accf2d480f2c2")
+    animes_request = AnimeByIdRequest(
+        anime_id= "605128692d0accf2d480f2c2"
     )
-    imdbs_response = imdbs_client.SearchById(
-        imdbs_request
+    animes_response = animes_client.SearchById(
+        animes_request
     )
-    
-    if(imdbs_response is None):
-        print("Film/show not found")
+    if(animes_response is None):
+        print("Response: Anime not found")
     else:
-        print("Response:", imdbs_response.imdb)
+        print("Response:", animes_response.anime)
+
+    print("Request - Find anime by name: Cowboy Bebop")
     
-    print("Request - Find film/show by name: Stalker")
-    imdbs_request = IMDBByNameRequest(
-        name="Stalker",
+    animes_request = AnimeByNameRequest(
+        name="Cowboy Bebop",
         max_results= 5
     )
-    imdbs_response = imdbs_client.SearchByName(
-        imdbs_request
+    animes_response = animes_client.SearchByName(
+        animes_request
     )
-    if(imdbs_response is None):
-        print("Film/show not found")
+    if(animes_response is None):
+        print("Response: Anime not found")
     else:
-        print("Response: Title:", imdbs_response.imdb[0].imdb_title, "Genre:", imdbs_response.imdb[0].genres[0], "Rating:", imdbs_response.imdb[0].imdb_rating)
+        print("Response: Title:", animes_response.anime[0].anime_title, "Genre:", animes_response.anime[0].genres[0], "Rating:", animes_response.anime[0].anime_rating)
 
-    print("Request - Find film/show by category: Action")
+    print("Request - Find anime by category: Action")
     
-    imdbs_request = IMDBByCategoryRequest(
+    animes_request = AnimeByCategoryRequest(
         category= "Action",
         max_results= 5
     )
     
-    imdbs_response = imdbs_client.SearchByCategory(
-        imdbs_request
+    animes_response = animes_client.SearchByCategory(
+        animes_request
     )
+   
+    print("Response: ")
     
-    if(imdbs_response is None):
-        print("Film/show not found")
+    if(animes_response is None):
+        print("Response: Anime not found")
     else:
-        for imdb in imdbs_response.imdb:
-            print("Title:", imdb.imdb_title, "Genre:", imdbs_response.imdb[0].genres[0], "Rating:", imdbs_response.imdb[0].imdb_rating)
+        for anime in animes_response.anime:
+            print("Title:", anime.anime_title, "Genre:", animes_response.anime[0].genres[0], "Rating:", animes_response.anime[0].anime_rating)
 
     
 # Create a URL route in our application for "/"

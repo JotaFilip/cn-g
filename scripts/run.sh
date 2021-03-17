@@ -3,3 +3,4 @@
 ./scripts/3_databases_populate.sh 
 ./scripts/4_docker_build.sh 
 ./scripts/5_docker_run.sh 
+./scripts/6_test.sh 

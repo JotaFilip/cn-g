@@ -8,7 +8,6 @@ from grpc_interceptor.exceptions import NotFound
 # 3rd party modules
 from flask import make_response, abort
 
-
 # from library_pb2 import (
 #     Type,
 #     BasicInfoResponse,
@@ -28,8 +27,8 @@ from flask import make_response, abort
 # )
 #import library_pb2_grpc
 
-from book_pb2 import *
-from book_pb2_grpc import BookStub
+from imdb_pb2 import *
+from imdb_pb2_grpc import IMDBStub
 
 # Acesso ah base de dados
 
@@ -46,10 +45,10 @@ recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
 # recommendations_channel = grpc.secure_channel(
 #     f"{recommendations_host}:443", creds
 # )
-books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
-books_client = BookStub(books_channel)
-#animes_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
-#animes_client = AnimeStub(animes_channel)
+#books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
+#books_client = BookStub(books_channel)
+imdbs_channel = grpc.insecure_channel(f"{recommendations_host}:50052")
+imdbs_client = IMDBStub(imdbs_channel)
 from flask import Flask, render_template
 app = connexion.App(__name__, specification_dir="./")
 
@@ -58,49 +57,48 @@ app = connexion.App(__name__, specification_dir="./")
 if __name__ == "__main__":
 
 #################################################
-    print("Request - Find book by ID: 1")
-    books_request = BookByIdRequest(
-        book_id=1
+    print("Request - Find film/show by ID: 6051343b7b6821b90bf06dd5")
+    imdbs_request = IMDBByIdRequest(
+        imdb_id="6051343b7b6821b90bf06dd5"
     )
-    books_response = books_client.SearchById(
-        books_request
+    imdbs_response = imdbs_client.SearchById(
+        imdbs_request
     )
-    if(books_response is None):
-        print("Response: Book not found")
+    
+    if(imdbs_response is None):
+        print("Film/show not found")
     else:
-        print("Response:", books_response.book)
+        print("Response:", imdbs_response.imdb)
+    
+    print("Request - Find film/show by name: Stalker")
+    imdbs_request = IMDBByNameRequest(
+        name="Stalker",
+        max_results= 5
+    )
+    imdbs_response = imdbs_client.SearchByName(
+        imdbs_request
+    )
+    if(imdbs_response is None):
+        print("Film/show not found")
+    else:
+        print("Response: Title:", imdbs_response.imdb[0].imdb_title, "Genre:", imdbs_response.imdb[0].genres[0], "Rating:", imdbs_response.imdb[0].imdb_rating)
 
-    print("Request - Find book by name: The Hunger Games")
+    print("Request - Find film/show by category: Action")
     
-    books_request = BooksByNameRequest(
-        name= "The Hunger Games",
+    imdbs_request = IMDBByCategoryRequest(
+        category= "Action",
         max_results= 5
     )
-    books_response = books_client.SearchByName(
-        books_request
+    
+    imdbs_response = imdbs_client.SearchByCategory(
+        imdbs_request
     )
-    if(books_response is None):
-        print("Response: Book not found")
+    
+    if(imdbs_response is None):
+        print("Film/show not found")
     else:
-        print("Response: Title:", books_response.book[0].book_title, "Genre:", books_response.book[0].genres[0], "Rating:", books_response.book[0].book_rating)
-    
-    books_request = BooksByCategoryRequest(
-        category= "Fiction",
-        max_results= 5
-    )
-    print("Request - Find book by category: Fiction")
-    
-    books_response = books_client.SearchByCategory(
-        books_request
-    )
-    
-    
-    if(books_response is None):
-        print("Response: Book not found")
-    else:
-        print("Response ")
-        for book in books_response.book:
-             print("Title:", book.book_title, "Genre:", books_response.book[0].genres[0], "Rating:", books_response.book[0].book_rating)
+        for imdb in imdbs_response.imdb:
+            print("Title:", imdb.imdb_title, "Genre:", imdbs_response.imdb[0].genres[0], "Rating:", imdbs_response.imdb[0].imdb_rating)
 
     
 # Create a URL route in our application for "/"

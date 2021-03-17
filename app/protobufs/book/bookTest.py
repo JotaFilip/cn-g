@@ -8,7 +8,6 @@ from grpc_interceptor.exceptions import NotFound
 # 3rd party modules
 from flask import make_response, abort
 
-
 # from library_pb2 import (
 #     Type,
 #     BasicInfoResponse,
@@ -28,10 +27,8 @@ from flask import make_response, abort
 # )
 #import library_pb2_grpc
 
-#from book_pb2 import *
-#from book_pb2_grpc import BookStub
-from anime_pb2 import *
-from anime_pb2_grpc import AnimeStub
+from book_pb2 import *
+from book_pb2_grpc import BookStub
 
 # Acesso ah base de dados
 
@@ -48,10 +45,10 @@ recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
 # recommendations_channel = grpc.secure_channel(
 #     f"{recommendations_host}:443", creds
 # )
-#books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
-#books_client = BookStub(books_channel)
-animes_channel = grpc.insecure_channel(f"{recommendations_host}:50053")
-animes_client = AnimeStub(animes_channel)
+books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
+books_client = BookStub(books_channel)
+#animes_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
+#animes_client = AnimeStub(animes_channel)
 from flask import Flask, render_template
 app = connexion.App(__name__, specification_dir="./")
 
@@ -60,50 +57,49 @@ app = connexion.App(__name__, specification_dir="./")
 if __name__ == "__main__":
 
 #################################################
-    print("Request - Find anime by ID: 5114")
-    animes_request = AnimeByIdRequest(
-        anime_id=5114
+    print("Request - Find book by ID: 6050c7a8b8a16ddf981960dd")
+    books_request = BookByIdRequest(
+        book_id="6050c7a8b8a16ddf981960dd"
     )
-    animes_response = animes_client.SearchById(
-        animes_request
+    books_response = books_client.SearchById(
+        books_request
     )
-    if(animes_response is None):
-        print("Response: Anime not found")
+    if(books_response is None):
+        print("Response: Book not found")
     else:
-        print("Response:", animes_response.anime)
+        print("Response:", books_response.book)
 
-    print("Request - Find anime by name: Cowboy Bebop")
+    print("Request - Find book by name: The Hunger Games")
     
-    animes_request = AnimeByNameRequest(
-        name="Cowboy Bebop",
+    books_request = BooksByNameRequest(
+        name= "The Hunger Games",
         max_results= 5
     )
-    animes_response = animes_client.SearchByName(
-        animes_request
+    books_response = books_client.SearchByName(
+        books_request
     )
-    if(animes_response is None):
-        print("Response: Anime not found")
+    if(books_response is None):
+        print("Response: Book not found")
     else:
-        print("Response: Title:", animes_response.anime[0].anime_title, "Genre:", animes_response.anime[0].genres[0], "Rating:", animes_response.anime[0].anime_rating)
-
-    print("Request - Find anime by category: Action")
+        print("Response: Title:", books_response.books[0].book_title, "Genre:", books_response.books[0].genres[0], "Rating:", books_response.books[0].book_rating)
     
-    animes_request = AnimeByCategoryRequest(
-        category= "Action",
+    books_request = BooksByCategoryRequest(
+        category= "Fiction",
         max_results= 5
     )
+    print("Request - Find book by category: Fiction")
     
-    animes_response = animes_client.SearchByCategory(
-        animes_request
+    books_response = books_client.SearchByCategory(
+        books_request
     )
-   
-    print("Response: ")
     
-    if(animes_response is None):
-        print("Response: Anime not found")
+    
+    if(books_response is None):
+        print("Response: Book not found")
     else:
-        for anime in animes_response.anime:
-            print("Title:", anime.anime_title, "Genre:", animes_response.anime[0].genres[0], "Rating:", animes_response.anime[0].anime_rating)
+        print("Response ")
+        for book in books_response.book:
+             print("Title:", book.book_title, "Genre:", books_response.books[0].genres[0], "Rating:", books_response.books[0].book_rating)
 
     
 # Create a URL route in our application for "/"
