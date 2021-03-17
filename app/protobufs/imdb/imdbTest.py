@@ -81,7 +81,7 @@ if __name__ == "__main__":
     if(imdbs_response is None):
         print("Film/show not found")
     else:
-        print("Response: Title:", imdbs_response.imdb[0].imdb_title, "Genre:", imdbs_response.imdb[0].genres[0], "Rating:", imdbs_response.imdb[0].imdb_rating)
+        print("Response: Title:", imdbs_response.imdbs[0].imdb_title, "Genre:", imdbs_response.imdbs[0].genres[0], "Rating:", imdbs_response.imdbs[0].imdb_rating)
 
     print("Request - Find film/show by category: Action")
     
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         print("Film/show not found")
     else:
         for imdb in imdbs_response.imdb:
-            print("Title:", imdb.imdb_title, "Genre:", imdbs_response.imdb[0].genres[0], "Rating:", imdbs_response.imdb[0].imdb_rating)
+            print("Title:", imdb.imdb_title, "Genre:", imdb.genres[0], "Rating:", imdb.imdb_rating)
 
     
 # Create a URL route in our application for "/"

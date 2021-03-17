@@ -99,7 +99,7 @@ if __name__ == "__main__":
     else:
         print("Response ")
         for book in books_response.book:
-             print("Title:", book.book_title, "Genre:", books_response.books[0].genres[0], "Rating:", books_response.books[0].book_rating)
+             print("Title:", book.book_title, "Genre:", book.genres[0], "Rating:", book.book_rating)
 
     
 # Create a URL route in our application for "/"

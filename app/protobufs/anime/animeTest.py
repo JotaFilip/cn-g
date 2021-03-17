@@ -83,7 +83,7 @@ if __name__ == "__main__":
     if(animes_response is None):
         print("Response: Anime not found")
     else:
-        print("Response: Title:", animes_response.anime[0].anime_title, "Genre:", animes_response.anime[0].genres[0], "Rating:", animes_response.anime[0].anime_rating)
+        print("Response: Title:", animes_response.animes[0].anime_title, "Genre:", animes_response.animes[0].genres[0], "Rating:", animes_response.animes[0].anime_rating)
 
     print("Request - Find anime by category: Action")
     
@@ -101,8 +101,8 @@ if __name__ == "__main__":
     if(animes_response is None):
         print("Response: Anime not found")
     else:
-        for anime in animes_response.anime:
-            print("Title:", anime.anime_title, "Genre:", animes_response.anime[0].genres[0], "Rating:", animes_response.anime[0].anime_rating)
+        for anime in animes_response.animes:
+            print("Title:", anime.anime_title, "Genre:", anime.genres[0], "Rating:", anime.anime_rating)
 
     
 # Create a URL route in our application for "/"
