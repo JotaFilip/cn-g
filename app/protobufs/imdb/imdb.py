@@ -50,7 +50,7 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         return [ imdb_to_proto(imdb) for imdb in results ]
 
 def imdb_to_proto(result):
-    return IMDBData (
+    imdb = IMDBData (
         imdb_id = str(result["_id"]),
         imdb_title = result["name"],
         genres = result["category"],
@@ -58,7 +58,8 @@ def imdb_to_proto(result):
         img_url = result["imageURL"],
         type = result["type"],
     )
-
+    imdb.genres.extends(result["category"])
+    return imdb
 
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]

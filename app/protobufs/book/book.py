@@ -48,14 +48,15 @@ class BookService(book_pb2_grpc.BookServicer):
         return [ book_to_proto(book) for book in results ]
 
 def book_to_proto(result):
-    return BookData (
+    book = BookData (
         book_id = str(result["_id"]),
         book_title = result["name"],
         description = result["description"],
-        genres = result["category"],
         book_rating = result["rating"],
         img_url = result["imageURL"]
     )
+    book.genres.extend(result["category"])
+    return book
 
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]

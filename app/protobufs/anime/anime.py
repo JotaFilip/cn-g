@@ -48,13 +48,14 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         return [ anime_to_proto(anime) for anime in results ]
 
 def anime_to_proto(result):
-    return AnimeData (
+    anime = AnimeData (
         anime_id = str(result["_id"]),
         anime_title = result["name"],
-        genres = result["category"],
         anime_rating = result["rating"],
         img_url = result["imageURL"]
     )
+    anime.genres.extend(result["category"])
+    return anime
 
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]
