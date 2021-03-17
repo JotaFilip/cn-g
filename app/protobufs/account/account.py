@@ -4,6 +4,8 @@ import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
+from pymongo import MongoClient
+
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 user = "seen"
 password = "ifFvApoasv9lLvqR"
@@ -36,7 +38,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
     def GetUser(self, username):
         results = db.find({ "username": user_id}).limit(1)
 
-        if len(results) <= 0:
+        if results.count() <= 0:
             raise NotFound("Id not found")
         return all_lists_to_proto(results[0])
 

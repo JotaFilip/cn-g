@@ -5,6 +5,7 @@ from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 user = "seen"
@@ -21,7 +22,6 @@ from book_pb2 import (
     BookByIdRequest,
     BooksByNameRequest,
     BooksByCategoryRequest, BookResponse,
-
 )
 import book_pb2_grpc
 
@@ -33,7 +33,7 @@ class BookService(book_pb2_grpc.BookServicer):
 
 
     def SearchById(self, request, context):
-        results = db.find({ "_id": request.anime_id}).limit(1)
+        results = db.find({ "_id": ObjectId(request.book_id) }).limit(1)
 
         if len(results) <= 0:
             raise NotFound("Id not found")
@@ -41,15 +41,15 @@ class BookService(book_pb2_grpc.BookServicer):
 
     def SearchByName(self, request, context):
         results = db.find({ "name": request.name}).limit(request.max_results)
-        return [ book_to_proto(anime) for anime in results ]
+        return [ book_to_proto(book) for book in results ]
 
     def SearchByCategory(self, request, context):
         results = db.find({ "category": { "$all": request.category } }).limit(request.max_results)
-        return [ book_to_proto(anime) for anime in results ]
+        return [ book_to_proto(book) for book in results ]
 
-def book_to_proto(book):
+def book_to_proto(result):
     return BookData (
-        book_id = result["_id"],
+        book_id = str(result["_id"]),
         book_title = result["name"],
         description = result["description"],
         genres = result["category"],

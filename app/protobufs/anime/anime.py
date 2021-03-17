@@ -5,6 +5,7 @@ from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 user = "seen"
@@ -23,7 +24,6 @@ from anime_pb2 import (
     AnimeByCategoryRequest,
     AnimeResponse
 )
-
 import anime_pb2_grpc
 
 class AnimeService(anime_pb2_grpc.AnimeServicer):
@@ -33,9 +33,9 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         return db.find().skip(page).limit(request.max_results)
 
     def SearchById(self, request, context):
-        results = db.find({ "_id": request.anime_id}).limit(1)
+        results = db.find({ "_id": ObjectId(request.anime_id)}).limit(1)
 
-        if len(results) <= 0:
+        if results.count() <= 0:
             raise NotFound("Id not found")
         return anime_to_proto(results[0])
 
@@ -49,7 +49,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
 
 def anime_to_proto(result):
     return AnimeData (
-        anime_id = result["_id"],
+        anime_id = str(result["_id"]),
         anime_title = result["name"],
         genres = result["category"],
         anime_rating = result["rating"],

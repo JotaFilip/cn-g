@@ -3,8 +3,9 @@ from concurrent import futures
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
-import sqlite3
-import random
+
+from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 user = "seen"
@@ -34,9 +35,9 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         return db.find().skip(page).limit(request.max_results)
         
     def SearchById(self, request, context):
-        results = db.find({ "_id": request.imdb_id}).limit(1)
+        results = db.find({ "_id": ObjectId(request.imdb_id) }).limit(1)
 
-        if len(results) <= 0:
+        if results.count() <= 0:
             raise NotFound("Id not found")
         return imdb_to_proto(results[0])
 
@@ -48,9 +49,9 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         results = db.find({ "category": { "$all": request.category } }).limit(request.max_results)
         return [ imdb_to_proto(imdb) for imdb in results ]
 
-def imdb_to_proto(imdb):
+def imdb_to_proto(result):
     return IMDBData (
-        imdb_id = result["_id"],
+        imdb_id = str(result["_id"]),
         imdb_title = result["name"],
         genres = result["category"],
         imdb_rating = result["rating"],
