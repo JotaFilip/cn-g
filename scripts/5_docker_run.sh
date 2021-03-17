@@ -1,5 +1,5 @@
 
-printf "Running Dockers"
+printf "Running Dockers\n"
 
 printf "\t Building Account ... "
 # sudo docker run -p 127.0.0.1:50055:50055/tcp account &
