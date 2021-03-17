@@ -32,22 +32,26 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
 
      def GetIMDB(self, request, context):
         page = request.page * request.max_results
-        return db.find().skip(page).limit(request.max_results)
+        results = list(db.find().skip(page).limit(request.max_results))
+        results = [ imdb_to_proto(imdb) for imdb in results ]
+        return IMDBDataList( imdbs = results )
         
     def SearchById(self, request, context):
-        results = db.find({ "_id": ObjectId(request.imdb_id) }).limit(1)
+        results = list(db.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
 
-        if results.count() <= 0:
+        if len(results) <= 0:
             raise NotFound("Id not found")
-        return imdb_to_proto(results[0])
+        return IMDB( imdb = imdb_to_proto(results[0]))
 
     def SearchByName(self, request, context):
-        results = db.find({ "name": request.name}).limit(request.max_results)
-        return [ imdb_to_proto(imdb) for imdb in results ]
+        results = list(db.find({ "name": request.name}).limit(request.max_results))
+        results = [ imdb_to_proto(imdb) for imdb in results ]
+        return IMDBDataList( imdbs = results )
 
     def SearchByCategory(self, request, context):
-        results = db.find({ "category": { "$all": request.category } }).limit(request.max_results)
-        return [ imdb_to_proto(imdb) for imdb in results ]
+        results = list(db.find({ "category": { "$all": request.category } }).limit(request.max_results))
+        results = [ imdb_to_proto(imdb) for imdb in results ]
+        return IMDBDataList( imdbs = results )
 
 def imdb_to_proto(result):
     imdb = IMDBData (

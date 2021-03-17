@@ -29,23 +29,27 @@ class BookService(book_pb2_grpc.BookServicer):
 
     def GetBooks(self, request, context):
         page = request.page * request.max_results
-        return db.find().skip(page).limit(request.max_results)
-
+        results = list(db.find().skip(page).limit(request.max_results))
+        results = [ book_to_proto(book) for book in results ]
+        return BookDataList( books = results )
 
     def SearchById(self, request, context):
-        results = db.find({ "_id": ObjectId(request.book_id) }).limit(1)
+        results = list(db.find({ "_id": ObjectId(request.book_id) }).limit(1))
 
         if len(results) <= 0:
             raise NotFound("Id not found")
-        return book_to_proto(results[0])
+        return BookResponse(book = book_to_proto(results[0]))
+        
 
     def SearchByName(self, request, context):
-        results = db.find({ "name": request.name}).limit(request.max_results)
-        return [ book_to_proto(book) for book in results ]
+        results = list(db.find({ "name": request.name}).limit(request.max_results))
+        results = [ book_to_proto(book) for book in results ]
+        return BookDataList( books = results )
 
     def SearchByCategory(self, request, context):
-        results = db.find({ "category": { "$all": request.category } }).limit(request.max_results)
-        return [ book_to_proto(book) for book in results ]
+        results = list(db.find({ "category": { "$all": request.category } }).limit(request.max_results))
+        results = [ book_to_proto(book) for book in results ]
+        return BookDataList( books = results )
 
 def book_to_proto(result):
     book = BookData (

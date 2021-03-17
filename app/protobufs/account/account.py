@@ -36,9 +36,9 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return GetUser(request.username).animes
 
     def GetUser(self, username):
-        results = db.find({ "username": user_id}).limit(1)
+        results = list(db.find({ "username": user_id}).limit(1))
 
-        if results.count() <= 0:
+        if len(results) <= 0:
             raise NotFound("Id not found")
         return all_lists_to_proto(results[0])
 
