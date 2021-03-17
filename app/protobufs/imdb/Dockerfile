@@ -2,12 +2,12 @@ FROM python
 
 RUN mkdir /service
 COPY protobufs/ /service/protobufs/
-COPY book/ /service/book/
+COPY imdb/ /service/imdb/
 
-WORKDIR /service/book
+WORKDIR /service/imdb
 
 RUN pip install -r requirements.txt
 # RUN python3 -m grpc_tools.protoc -I /service/protobufs --python_out=/service/protobufs/book/ --grpc_python_out=/service/protobufs/book/ /service/protobufs/book.proto
 
-EXPOSE 50051
-ENTRYPOINT [ "python", "book_mongo.py" ]
+EXPOSE 50052
+ENTRYPOINT [ "python", "imdb.py" ]
