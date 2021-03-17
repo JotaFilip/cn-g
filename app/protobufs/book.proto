@@ -41,11 +41,17 @@ message BooksByCategoryRequest {
     repeated string category = 1;
     int32 max_results = 2;
 }
+
+message GetBooksRequest {
+    int32 page = 1;
+    int32 max_results = 2;
+}
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
 service Book {
+    rpc GetBooks (GetBooksRequest) returns (BookDataList);
     rpc SearchById (BookByIdRequest) returns (BookResponse);
 	rpc SearchByName (BooksByNameRequest) returns (BookDataList);
 	rpc SearchByCategory (BooksByCategoryRequest) returns (BookDataList);
