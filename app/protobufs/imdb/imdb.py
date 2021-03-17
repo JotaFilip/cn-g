@@ -30,7 +30,7 @@ import imdb_pb2_grpc
 
 class IMDBService(imdb_pb2_grpc.IMDBServicer):
 
-     def GetIMDB(self, request, context):
+    def GetIMDB(self, request, context):
         page = request.page * request.max_results
         results = list(db.find().skip(page).limit(request.max_results))
         results = [ imdb_to_proto(imdb) for imdb in results ]
@@ -41,7 +41,7 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
 
         if len(results) <= 0:
             raise NotFound("Id not found")
-        return IMDB( imdb = imdb_to_proto(results[0]))
+        return IMDBResponse( imdb = imdb_to_proto(results[0]))
 
     def SearchByName(self, request, context):
         results = list(db.find({ "name": request.name}).limit(request.max_results))
@@ -59,10 +59,10 @@ def imdb_to_proto(result):
         imdb_title = result["name"],
         genres = result["category"],
         imdb_rating = result["rating"],
-        img_url = result["imageURL"],
+        # img_url = result["imageURL"],
         type = result["type"],
     )
-    imdb.genres.extends(result["category"])
+    # imdb.genres.extends(result["category"])
     return imdb
 
 def serve():

@@ -6,7 +6,7 @@ printf "\t Running Account ... "
 printf "done\n"
 
 printf "\t Running Anime ... "
-# sudo docker run -p 127.0.0.1:50053:50053/tcp anime &
+sudo docker run -p 127.0.0.1:50053:50053/tcp anime &
 printf "done\n"
 
 printf "\t Running Book ... "
@@ -14,7 +14,7 @@ sudo docker run -p 127.0.0.1:50051:50051/tcp book &
 printf "done\n"
 
 printf "\t Running IMDB ... "
-# sudo docker run -p 127.0.0.1:50052:50052/tcp imdb &
+sudo docker run -p 127.0.0.1:50052:50052/tcp imdb &
 printf "done\n"
 
 printf "\t Running Library ... "

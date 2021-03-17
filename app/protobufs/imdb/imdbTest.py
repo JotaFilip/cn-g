@@ -97,7 +97,7 @@ if __name__ == "__main__":
     if(imdbs_response is None):
         print("Film/show not found")
     else:
-        for imdb in imdbs_response.imdb:
+        for imdb in imdbs_response.imdbs:
             print("Title:", imdb.imdb_title, "Genre:", imdb.genres[0], "Rating:", imdb.imdb_rating)
 
     

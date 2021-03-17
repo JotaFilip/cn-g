@@ -98,7 +98,7 @@ if __name__ == "__main__":
         print("Response: Book not found")
     else:
         print("Response ")
-        for book in books_response.book:
+        for book in books_response.books:
              print("Title:", book.book_title, "Genre:", book.genres[0], "Rating:", book.book_rating)
 
     

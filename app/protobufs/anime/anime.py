@@ -39,7 +39,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
 
         if len(results) <= 0:
             raise NotFound("Id not found")
-        return IMDBResponse( imdb = anime_to_proto(results[0]))
+        return AnimeResponse( anime = anime_to_proto(results[0]))
 
     def SearchByName(self, request, context):
         results = list(db.find({ "name": request.name}).limit(request.max_results))

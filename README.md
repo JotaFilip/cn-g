@@ -10,7 +10,7 @@ We build everything and start running:
 
 Notes: 
 - Our databases are already populated, with something like 7 million rows of data
-- With this test we only start up 2 microservices, so it doesn't take much time running
+- With this test we only start up 4 microservices, so it doesn't take much time running
 
 # Roles
 #Role | Role                                | Número  | Nome            
