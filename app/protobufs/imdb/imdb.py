@@ -30,7 +30,7 @@ import imdb_pb2_grpc
 
 class IMDBService(imdb_pb2_grpc.IMDBServicer):
 
-    def GetIMDB(self, request, context):
+    def GetIMDBs(self, request, context):
         page = request.page * request.max_results
         results = list(db.find().skip(page).limit(request.max_results))
         results = [ imdb_to_proto(imdb) for imdb in results ]
