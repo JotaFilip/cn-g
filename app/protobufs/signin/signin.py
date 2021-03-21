@@ -7,15 +7,13 @@ from grpc_interceptor.exceptions import NotFound
 
 from signin_pb2 import (
     UserData,
-    Success,
-    Empty,
     UserDataRequest,
     UserRequest,
     UpdateUserRequest
 )
 import signin_pb2_grpc
 
-from account_pb2 import AnimeData, AnimeByIdRequest, AnimeByNameRequest, AnimeByCategoryRequest
+from account_pb2 import AllLikesAndViewsResponse, LikesAndViewsResponse, LikesAndViewsRequest
 from account_pb2_grpc import AccountStub
 
 class SignInService(signin_pb2_grpc.SignInServicer):

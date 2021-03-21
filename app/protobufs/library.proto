@@ -4,6 +4,8 @@ import "book.proto";
 import "imdb.proto";
 import "anime.proto";
 
+import "utils.proto";
+
 enum Type {
     BOOK = 0;
     SHOW = 1;
@@ -31,9 +33,6 @@ message Item {
 	optional AnimeData anime = 3;
 }
 
-message Success {
-	bool success = 1;
-}
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////

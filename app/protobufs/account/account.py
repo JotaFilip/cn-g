@@ -15,8 +15,7 @@ client = MongoClient("mongodb+srv://"+up+"@seen.2xwmp.mongodb.net/myFirstDatabas
 db = client["database"]
 db = db["users"]
 
-from account_b2 import (
-    SpecificLikesAndViewsResponse,
+from account_pb2 import (
     AllLikesAndViewsResponse,
     LikesAndViewsRequest,
 )

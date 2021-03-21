@@ -3,6 +3,8 @@
 import os
 from signin_pb2 import *
 from signin_pb2_grpc import SignInStub
+import grpc
+from grpc_interceptor import ExceptionToStatusInterceptor
 
 sign_host = os.getenv("SIGNIN_HOST", "localhost")
 sign_channel = grpc.insecure_channel(f"{sign_host}:50055")

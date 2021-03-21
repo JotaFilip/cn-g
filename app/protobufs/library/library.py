@@ -19,7 +19,6 @@ from library_pb2 import (
     ItemInfoResponse,
     ItemInfo,
 	Item,
-	Success,
 	LibPageRequest,
 	RecommendationRequest,
 	SearchByNameRequest,
