@@ -3,7 +3,7 @@ swagger: "2.0"
 info:
   description: |
     Seen is a place where you can discover new Movies, Shows and Books
-  version: 1.0.0
+  version: 1.0.2
   title: Seen. Movies, Shows and Books
 host: localhost:5000
 basePath: /
@@ -385,7 +385,7 @@ definitions:
     properties:
       id:
         type: string
-        format: int64
+        example: 4124saadjas213213asd
       name:
         type: string
         example: Titanic

@@ -68,6 +68,9 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
     def Recommend(self, request, context):
         return None
 
+    def AddItem(self, request, context):
+        return None
+
     def GetItem(self, request, context):
         return None
 
