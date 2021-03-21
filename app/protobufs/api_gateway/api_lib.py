@@ -19,12 +19,24 @@ def getLibrary(page):
         page = page,
         max_results = 30
     )
-    return lib_client.Library(request)
+    ret = []
+    for r in lib_client.Library(request).recommendations:
+        type= "All"
+        if (r.type == 0):
+            type = "Book"
+        if (r.type == 1):
+            type = "Show"
+        if (r.type == 2):
+            type = "Anime"
+
+        object = {"id" : r.id, "name" : r.name, "type" : type}
+        ret.append(object)
+    return ret
 
 def getSuggestions():
 
     request = RecommendationRequest (
-        user_id = 0,            # TODO
+        user_id = "0",            # TODO
         max_results = 30,
         types = []              # TODO
     )
@@ -37,27 +49,26 @@ def addItem(body):
 
 def getItemById(itemId):
 
-    request = GetItemRequest(id = itemId)
+    request = ItemId(id = itemId)
     return lib_client.GetItem(request)
 
 def deleteItem(itemId):
 
-    request = RemoveItemRequest (
-        page = page,
-        max_results = 30
+    request = ItemId (
+        id = itemId
     )
     return lib_client.RemoveItem(request)
 
 def updateItemSeen(itemId):
 
-    request = SeenRequest (
+    request = ItemId (
         id = itemId,
     )
     return lib_client.UpdateSeenItem(request)
 
 def updateItemLike(itemId):
 
-    request = LikeRequest (
+    request = ItemId (
         id = itemId
     )
     return lib_client.UpdateLikeItem(request)

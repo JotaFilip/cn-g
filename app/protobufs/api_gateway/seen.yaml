@@ -35,10 +35,11 @@ paths:
       responses:
         "200":
           description: successful operation
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Item'
+          content:
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Item'
       # security:
       # - api_key: []
   /suggest:
@@ -347,15 +348,12 @@ definitions:
   Type:
     type: string
     enum:
-    - book
-    - film
-    - show
+    - Book
+    - Anime
+    - Show
   Category:
     type: object
     properties:
-      id:
-        type: integer
-        format: int64
       name:
         type: string
   User:
@@ -381,11 +379,12 @@ definitions:
   Item:
     type: object
     required:
-    - category
+    - id
+    - type
     - name
     properties:
       id:
-        type: integer
+        type: string
         format: int64
       name:
         type: string
@@ -403,9 +402,9 @@ definitions:
         type: integer
         format: int32
         example: 21005
-        description: How manny people has seen this
+        description: How many people has seen this
       likes:
         type: integer
         format: int32
         example: 2399
-        description: How manny people liked this
+        description: How many people liked this

@@ -59,10 +59,10 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
         r1 = [ ItemInfo( id = r.anime_id, name = r.anime_title, type = Type.ANIME) for r in r1 ]
         r2 = [ ItemInfo( id = r.book_id, name = r.book_title, type = Type.BOOK) for r in r2 ]
-        r3 = [ ItemInfo( id = r.imdb_id, name = r.imdb_title, type = Type.IMDB) for r in r3 ]
+        r3 = [ ItemInfo( id = r.imdb_id, name = r.imdb_title, type = Type.SHOW) for r in r3 ]
         results = r1+r2+r3
         
-        return ItemInfoResponse( recomendations = results )
+        return ItemInfoResponse( recommendations = results )
 
 
     def Recommend(self, request, context):
