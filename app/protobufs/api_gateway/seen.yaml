@@ -35,11 +35,8 @@ paths:
       responses:
         "200":
           description: successful operation
-          content:
-            schema:
-              type: array
-              items:
-                $ref: '#/definitions/Item'
+          schema:
+            $ref: '#/definitions/ItemList'
       # security:
       # - api_key: []
   /suggest:
@@ -85,9 +82,7 @@ paths:
         "200":
           description: successful operation
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Item'
+            $ref: '#/definitions/Item'
         "405":
           description: Invalid input
       # security:
@@ -385,7 +380,7 @@ definitions:
     properties:
       id:
         type: string
-        format: int64
+        example: "605128692d0accf2d480f2cf"
       name:
         type: string
         example: Titanic
@@ -408,3 +403,8 @@ definitions:
         format: int32
         example: 2399
         description: How many people liked this
+  ItemList:
+    type: array
+    items:
+      $ref: '#/definitions/Item'
+

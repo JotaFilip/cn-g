@@ -86,6 +86,9 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
     def SearchByCategory(self, request, context):
         return None
 
+    def AddItem(self, request, context):
+        return None
+
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]
     server = grpc.server(
