@@ -22,7 +22,7 @@ message ItemInfoResponse {
 }
 
 message ItemInfo {
-    int64 id = 1;
+    string id = 1;
 	string name = 2;
 	Type type = 3;
 }
