@@ -46,7 +46,7 @@ message IMDBByCategoryRequest {
 }
 
 
-message GetIMDBRequest {
+message GetIMDBsRequest {
     int32 page = 1;
     int32 max_results = 2;
 }
@@ -56,7 +56,7 @@ message GetIMDBRequest {
 ////////////////////////////////////////////
 
 service IMDB {
-	rpc GETIMDB (GetIMDBRequest) returns (IMDBDataList);
+	rpc GetIMDBs (GetIMDBsRequest) returns (IMDBDataList);
     rpc SearchById (IMDBByIdRequest) returns (IMDBResponse);
 	rpc SearchByName (IMDBByNameRequest) returns (IMDBDataList);
 	rpc SearchByCategory (IMDBByCategoryRequest) returns (IMDBDataList);

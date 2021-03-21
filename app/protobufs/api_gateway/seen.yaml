@@ -5,7 +5,7 @@ info:
     Seen is a place where you can discover new Movies, Shows and Books
   version: 1.0.0
   title: Seen. Movies, Shows and Books
-host: virtserver.swaggerhub.com
+host: localhost:5000
 basePath: /
 tags:
 - name: library
