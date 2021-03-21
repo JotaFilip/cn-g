@@ -68,6 +68,7 @@ message AddItemRequest {
 	optional BookData book = 1;
 	optional IMDBData imdb = 2;
 	optional AnimeData anime = 3;
+	Type type = 4;
 }
 
 message ItemId {
