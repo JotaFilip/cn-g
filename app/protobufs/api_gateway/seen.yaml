@@ -88,7 +88,7 @@ paths:
       # security:
       # - seen_auth:
       #   - write:items
-  /item/{itemId}:
+  /item/{type}/{itemId}:
     get:
       tags:
       - library
@@ -102,8 +102,12 @@ paths:
         in: path
         description: Id of item to return
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -128,8 +132,12 @@ paths:
         in: path
         description: Id of the item to delete
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -140,7 +148,7 @@ paths:
       # security:
       # - seen_auth:
       #   - write:items
-  /item/{itemId}/seen:
+  /item/{type}/{itemId}/seen:
     put:
       tags:
       - library
@@ -152,8 +160,12 @@ paths:
         in: path
         description: Id of item to update
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -163,7 +175,7 @@ paths:
           description: Item not found
       # security:
       # - api_key: []
-  /item/{itemId}/like:
+  /item/{type}/{itemId}/like:
     put:
       tags:
       - library
@@ -175,8 +187,12 @@ paths:
         in: path
         description: Id of item to update
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -355,8 +371,7 @@ definitions:
     type: object
     properties:
       id:
-        type: integer
-        format: int64
+        type: string
       username:
         type: string
       password:
@@ -403,6 +418,11 @@ definitions:
         format: int32
         example: 2399
         description: How many people liked this
+      rating:
+        type: number
+        format: double
+        example: 4,55
+        description: Rating
   ItemList:
     type: array
     items:

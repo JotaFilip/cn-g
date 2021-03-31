@@ -16,9 +16,7 @@ message BookDataList {
     repeated BookData books = 1;
 }
 
-message BookResponse {
-    BookData book = 1;
-}
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -54,7 +52,7 @@ message GetBooksRequest {
 
 service Book {
     rpc GetBooks (GetBooksRequest) returns (BookDataList);
-    rpc SearchById (BookByIdRequest) returns (BookResponse);
+    rpc SearchById (BookByIdRequest) returns (BookData);
 	rpc SearchByName (BooksByNameRequest) returns (BookDataList);
 	rpc SearchByCategory (BooksByCategoryRequest) returns (BookDataList);
 }

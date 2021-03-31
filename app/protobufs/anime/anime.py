@@ -21,8 +21,7 @@ from anime_pb2 import (
     AnimeDataList,
     AnimeByIdRequest,
     AnimeByNameRequest,
-    AnimeByCategoryRequest,
-    AnimeResponse
+    AnimeByCategoryRequest
 )
 import anime_pb2_grpc
 
@@ -32,14 +31,14 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         page = request.page * request.max_results
         results = list(db.find().skip(page).limit(request.max_results))
         results = [ anime_to_proto(anime) for anime in results ]
-        return AnimeDataList( animes = results )
+        return AnimeDataList(animes = results)
 
     def SearchById(self, request, context):
         results = list(db.find({ "_id": ObjectId(request.anime_id)}).limit(1))
 
         if len(results) <= 0:
             raise NotFound("Id not found")
-        return AnimeResponse( anime = anime_to_proto(results[0]))
+        return anime_to_proto(results[0])
 
     def SearchByName(self, request, context):
         results = list(db.find({ "name": request.name}).limit(request.max_results))

@@ -66,10 +66,40 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
 
     def Recommend(self, request, context):
-        return None
+        ##TODO ERRADO
+        id = request.itemId
+        animes_request = AnimeByIdRequest(anime_id=id)
+        anime = animes_client.SearchById(animes_request)
+        books_request = BookByIdRequest(book_id=id)
+        book = books_client.SearchById(books_request)
+        imdbs_request = IMDBByIdRequest(imdb_id=id)
+        imdb = imdbs_client.SearchById(imdbs_request)
+
+        return anime+book+imdb
 
     def GetItem(self, request, context):
-        return None
+        id = request.id
+        type = request.type
+        if(type == "ANIME"):
+            animes_request = AnimeByIdRequest(anime_id=id)
+            anime = animes_client.SearchById(animes_request)
+            return Item(anime = anime)
+        elif(type == "BOOK"):
+            books_request = BookByIdRequest(book_id=id)
+            book = books_client.SearchById(books_request)
+            return Item(book = book)
+        elif(type == "SHOW"):
+            imdbs_request = IMDBByIdRequest(imdb_id=id)
+            imdb = imdbs_client.SearchById(imdbs_request)
+            return Item(imdb = imdb)
+        else:
+            return Item()
+
+
+
+
+
+
 
     def RemoveItem(self, request, context):
         return None

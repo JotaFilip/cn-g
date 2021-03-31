@@ -21,7 +21,7 @@ from book_pb2 import (
     BookDataList,
     BookByIdRequest,
     BooksByNameRequest,
-    BooksByCategoryRequest, BookResponse,
+    BooksByCategoryRequest
 )
 import book_pb2_grpc
 
@@ -37,8 +37,8 @@ class BookService(book_pb2_grpc.BookServicer):
         results = list(db.find({ "_id": ObjectId(request.book_id) }).limit(1))
 
         if len(results) <= 0:
-            raise NotFound("Id not found")
-        return BookResponse(book = book_to_proto(results[0]))
+            return BookData()
+        return book_to_proto(results[0])
         
 
     def SearchByName(self, request, context):

@@ -16,9 +16,6 @@ message IMDBDataList {
     repeated IMDBData imdbs = 1;
 }
 
-message IMDBResponse {
-    IMDBData imdb = 1;
-}
 
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -57,7 +54,7 @@ message GetIMDBsRequest {
 
 service IMDB {
 	rpc GetIMDBs (GetIMDBsRequest) returns (IMDBDataList);
-    rpc SearchById (IMDBByIdRequest) returns (IMDBResponse);
+    rpc SearchById (IMDBByIdRequest) returns (IMDBData);
 	rpc SearchByName (IMDBByNameRequest) returns (IMDBDataList);
 	rpc SearchByCategory (IMDBByCategoryRequest) returns (IMDBDataList);
 }

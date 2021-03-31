@@ -22,8 +22,7 @@ from imdb_pb2 import (
     IMDBByIdRequest,
     IMDBByNameRequest,
     IMDBByCategoryRequest, 
-    IMDBData,
-    IMDBResponse
+    IMDBData
 )
 
 import imdb_pb2_grpc
@@ -33,15 +32,15 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
     def GetIMDBs(self, request, context):
         page = request.page * request.max_results
         results = list(db.find().skip(page).limit(request.max_results))
-        results = [ imdb_to_proto(imdb) for imdb in results ]
-        return IMDBDataList( imdbs = results )
+        resultss = [ imdb_to_proto(imdb) for imdb in results ]
+        return IMDBDataList( imdbs = resultss )
         
     def SearchById(self, request, context):
         results = list(db.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
 
         if len(results) <= 0:
             raise NotFound("Id not found")
-        return IMDBResponse( imdb = imdb_to_proto(results[0]))
+        return imdb_to_proto(results[0])
 
     def SearchByName(self, request, context):
         results = list(db.find({ "name": request.name}).limit(request.max_results))
@@ -54,6 +53,8 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         return IMDBDataList( imdbs = results )
 
 def imdb_to_proto(result):
+    if(result["rating"]== '-'):
+        result["rating"] = None
     imdb = IMDBData (
         imdb_id = str(result["_id"]),
         imdb_title = result["name"],

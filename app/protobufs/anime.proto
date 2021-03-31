@@ -15,9 +15,7 @@ message AnimeDataList {
     repeated AnimeData animes = 1;
 }
 
-message AnimeResponse {
-    AnimeData anime = 1;
-}
+
 
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -55,7 +53,7 @@ message GetAnimesRequest {
 
 service Anime {
     rpc GetAnimes (GetAnimesRequest) returns (AnimeDataList);
-    rpc SearchById (AnimeByIdRequest) returns (AnimeResponse);
+    rpc SearchById (AnimeByIdRequest) returns (AnimeData);
 	rpc SearchByName (AnimeByNameRequest) returns (AnimeDataList);
 	rpc SearchByCategory (AnimeByCategoryRequest) returns (AnimeDataList);
 }
