@@ -77,6 +77,9 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
         return anime+book+imdb
 
+    def AddItem(self, request, context):
+        return None
+
     def GetItem(self, request, context):
         id = request.id
         type = request.type
@@ -114,9 +117,6 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         return None
 
     def SearchByCategory(self, request, context):
-        return None
-
-    def AddItem(self, request, context):
         return None
 
 def serve():
