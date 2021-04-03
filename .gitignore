@@ -8,3 +8,4 @@
 *.gz
 
 *pb*
+app/protobufs/api_gateway/\models.py
