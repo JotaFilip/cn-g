@@ -44,6 +44,8 @@ paths:
       tags:
       - library
       summary: Returns suggestions
+      security:
+        - basicAuth: [ ]
       description: Returns a map of item codes
       operationId: api_lib.getSuggestions
       produces:
@@ -125,6 +127,8 @@ paths:
       summary: Deletes an item
       description: Deletes a item
       operationId: api_lib.deleteItem
+      security:
+        - basicAuth: [ ]
       produces:
       - application/json
       parameters:
@@ -155,6 +159,8 @@ paths:
       summary: Mark item as seen
       description: Mark a item as seen
       operationId: api_lib.updateItemSeen
+      security:
+        - basicAuth: [ ]
       parameters:
       - name: itemId
         in: path
@@ -181,6 +187,8 @@ paths:
       - library
       summary: Mark item with like
       description: Mark a item with like
+      security:
+        - basicAuth: [ ]
       operationId: api_lib.updateItemLike
       parameters:
       - name: itemId
@@ -250,12 +258,13 @@ paths:
           description: Dados incorretos
   /user/login:
     get:
+
       tags:
       - user
       summary: Logs user into the system
       operationId: api_users.loginUser
       security:
-        - basicAuth: []
+        - basicAuth: [ ]
       produces:
       - application/json
       responses:
@@ -279,6 +288,8 @@ paths:
       tags:
       - user
       summary: Logs out current logged in user session
+      security:
+        - basicAuth: [ ]
       operationId: api_users.logoutUser
       produces:
       - application/json
@@ -315,6 +326,8 @@ paths:
       summary: Updated user
       description: This can only be done by the logged in user.
       operationId: api_users.updateUser
+      security:
+        - basicAuth: [ ]
       produces:
       - application/json
       parameters:
@@ -340,6 +353,8 @@ paths:
       tags:
       - user
       summary: Delete user
+      security:
+        - basicAuth: [ ]
       description: This can only be done by the logged in user.
       operationId: api_users.deleteUser
       produces:
@@ -355,9 +370,10 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
- securityDefinitions:
-   BasicAuth:
-     type: basic
+securityDefinitions:
+  basicAuth:
+    type: basic
+    x-basicInfoFunc: api_users.verify_password
 #   api_key:
 #     type: apiKey
 #     name: api_key

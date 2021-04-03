@@ -19,8 +19,8 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-@auth.verify_password
-def verify_password(username_or_token, password):
+#@auth.verify_password
+def verify_password(username_or_token, password, required_scopes=None):
     #Try to see if it's a token first
     user_id = User.verify_auth_token(username_or_token)
     if user_id:
@@ -28,13 +28,22 @@ def verify_password(username_or_token, password):
     else:
         user = session.query(User).filter_by(username = username_or_token).first()
         if not user or not user.verify_password(password):
-            return False
+            return None
     g.user = user
-    return True
-@auth.login_required
+    #token = g.user.generate_auth_token()
+    return {'sub':user.id, 'valid': True}
+    #if token:
+    #    responseObject = {
+    #        'status': 'success',
+    #        'message': 'Successfully logged in.',
+    #        'auth_token': token.decode()
+    #    }
+    #    return jsonify(responseObject), 200
+#@auth.login_required
 def loginUser():
     token = g.user.generate_auth_token()
     return jsonify({'token': token.decode('ascii')})
+
 #
 sign_host = os.getenv("SIGNIN_HOST", "localhost")
 sign_channel = grpc.insecure_channel(f"{sign_host}:50056")
@@ -57,7 +66,7 @@ def givePassword(body):
 
 
 def logoutUser():
-    return sign_client.LogoutUser()
+    return "Logged Out"
 
 def getUserByName(username):
     request = GetUserRequest (

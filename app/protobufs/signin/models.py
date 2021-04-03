@@ -24,8 +24,9 @@ class User(Base):
         self.password_hash = pwd_context.encrypt(password + salt)
         self.password_salt = salt
 
-    def verify_password(self, password, salt):
-        return pwd_context.verify(password + salt, self.password_hash + self.password_salt)
+    def verify_password(self, password):
+
+        return pwd_context.verify(password + self.password_salt, self.password_hash)
 
     def verify_nonce(self, nonce):
         return self.nonce == nonce
