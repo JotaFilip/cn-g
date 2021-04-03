@@ -18,6 +18,7 @@ db = db["users"]
 from account_pb2 import (
     AllLikesAndViewsResponse,
     LikesAndViewsRequest,
+    LikesAndViewsResponse
 )
 import account_pb2_grpc
 
@@ -34,12 +35,12 @@ class AccountService(account_pb2_grpc.AccountServicer):
     def GetAnimeLikesAndViews(self, request, context):
         return GetUser(request.username).animes
 
-    def GetUser(self, username):
-        results = list(db.find({ "username": user_id}).limit(1))
+def GetUser(self, username):
+    results = list(db.find({ "username": username}).limit(1))
 
-        if len(results) <= 0:
-            raise NotFound("Id not found")
-        return all_lists_to_proto(results[0])
+    if len(results) <= 0:
+        raise NotFound("Id not found")
+    return all_lists_to_proto(results[0])
 
 def all_lists_to_proto(user):
     return LikesAndViewsResponse(

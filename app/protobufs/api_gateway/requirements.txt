@@ -5,3 +5,4 @@ dnspython >= 2.1.0
 connexion >= 2.0.0
 flask >= 0.0.0
 connexion[swagger-ui] >= 0.0.0
+flask_httpauth >= 0.0.0

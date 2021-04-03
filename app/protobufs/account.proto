@@ -1,20 +1,18 @@
 syntax = "proto3";
 
-// Signin
-// import "signin.proto";
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 
 message AllLikesAndViewsResponse {
-    LikesAndViewsResponse books = 1;
+	LikesAndViewsResponse books = 1;
 	LikesAndViewsResponse imdbs = 2;
 	LikesAndViewsResponse animes = 3;
 }
 
 message LikesAndViewsResponse {
-    repeated int64 likes = 1;
+	repeated int64 likes = 1;
 	repeated int64 views = 2;
 }
 

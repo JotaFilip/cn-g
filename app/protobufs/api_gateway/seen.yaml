@@ -241,7 +241,7 @@ paths:
         type: string
       - name: password
         in: query
-        description: Hash password for login
+        description: Hash password + salt for login
         required: true
         type: string
       responses:
@@ -386,6 +386,7 @@ definitions:
         items:
           type: integer
           description: Seen ids
+
   Item:
     type: object
     required:
