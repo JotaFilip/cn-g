@@ -16,6 +16,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(32), index=True)
     email = Column(String, index=True)
+    nonce = Column(Integer)
     password_hash = Column(String(64))
     password_salt = Column(String(64))
 
@@ -25,6 +26,9 @@ class User(Base):
 
     def verify_password(self, password, salt):
         return pwd_context.verify(password + salt, self.password_hash + self.password_salt)
+
+    def verify_nonce(self, nonce):
+        return self.nonce == nonce
 
     def generate_auth_token(self, expiration=600):
         s = Serializer(secret_key, expires_in=expiration)

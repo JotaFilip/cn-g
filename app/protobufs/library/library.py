@@ -14,18 +14,7 @@ from imdb_pb2_grpc import IMDBStub
 from anime_pb2 import *
 from anime_pb2_grpc import AnimeStub
 
-from library_pb2 import (
-    Type,
-    ItemInfoResponse,
-    ItemInfo,
-	Item,
-	LibPageRequest,
-	RecommendationRequest,
-	SearchByNameRequest,
-    SearchByCategoryRequest,
-    AddItemRequest,
-    ItemId
-)
+from library_pb2 import *
 import library_pb2_grpc
 
 # initialize channels

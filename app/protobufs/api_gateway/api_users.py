@@ -37,15 +37,22 @@ def loginUser():
     return jsonify({'token': token.decode('ascii')})
 #
 sign_host = os.getenv("SIGNIN_HOST", "localhost")
-sign_channel = grpc.insecure_channel(f"{sign_host}:50055")
+sign_channel = grpc.insecure_channel(f"{sign_host}:50056")
 sign_client = SignInStub(sign_channel)
 
 def createUser(body):
-    request = CreateUserRequest (
-        username = body.username,
-        password = body.password 
+    request =EmailRequest (
+        email = body["email"],
+        username = body["username"]
     )
-    return sign_client.CreateUser(request)
+    return sign_client.CreateUser(request).success
+def givePassword(body):
+    request = PasswordRequest (
+        username = body["username"],
+        password = body["password"],
+        nonce=body["nonce"]
+    )
+    return sign_client.UserPassword(request).success
 
 
 

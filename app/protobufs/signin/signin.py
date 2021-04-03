@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 #
-engine = create_engine('sqlite:///users.db')
+engine = create_engine('sqlite:///usersWithTokens.db')
 
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
@@ -18,12 +18,8 @@ import secrets
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
-from signin_pb2 import (
-    UserData,
-    UserDataRequest,
-    UserRequest,
-    UpdateUserRequest
-)
+from signin_pb2 import *
+from utils_pb2 import *
 import signin_pb2_grpc
 
 from account_pb2 import AllLikesAndViewsResponse, LikesAndViewsResponse, LikesAndViewsRequest
@@ -45,25 +41,49 @@ class SignInService(signin_pb2_grpc.SignInServicer):
 
     def CreateUser(self, request, context):
         
-        receiver_email = request.email
+        email = request.email
         username = request.username
-        nonce = secrets.randbelow(sys.maxsize)
+        nonce = secrets.randbelow(1000000)
+
+        if username is None or email is None:
+            Success(success = False) #argumentos insuficientes
+        if session.query(User).filter_by(username=username).first() or session.query(User).filter_by(email=email).first() is not None:
+            #user = session.query(User).filter_by(username=username).first()
+            Success(success = False) #Já existe
+        user = User(username=username, email=email, nonce=nonce)
+        #user.hash_password(password)
+        session.add(user)
+        session.commit()
 
         message = """\
         Subject: Hi there
 
         Send your (password; nonce) on the register rest_api 
-        nonce = """ + nonce
-        saveNonceAndEmail(receiver_email,username)
+        nonce = """ + str(nonce)
         context = ssl.create_default_context()
-        with smtplib.SMTP(smtp_server, port) as server:
-            server.ehlo()  # Can be omitted
-            server.starttls(context=context)
-            server.ehlo()  # Can be omitted
-            server.login(sender_email, password)
-            server.sendmail(sender_email, receiver_email, message)
-        return None
+        with smtplib.SMTP(smtp_server, port) as mserver:
+            mserver.ehlo()  # Can be omitted
+            mserver.starttls(context=context)
+            mserver.ehlo()  # Can be omitted
+            mserver.login(sender_email, password)
+            mserver.sendmail(sender_email, email, message)
+        return Success(success = True)
+    def UserPassword(self, request, context):
 
+        username = request.username
+        password = request.password
+        nonce = request.nonce
+        user = session.query(User).filter_by(username=username).first()
+        if user is None:
+            Success(success = False)
+        if not user.verify_nonce(nonce):
+            Success(success = False)
+
+        salt = secrets.randbelow(sys.maxsize)
+        user.hash_password(password, str(salt))
+        session.commit()
+
+        return Success(success = True)
     def LoginUser(self, request, context):
         return None
 
@@ -92,7 +112,7 @@ def serve():
         SignInService(), server
     )
     
-    server.add_insecure_port("[::]:50054")
+    server.add_insecure_port("[::]:50056")
     server.start()
     server.wait_for_termination()
 

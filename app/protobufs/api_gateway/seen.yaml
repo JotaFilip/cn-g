@@ -219,7 +219,30 @@ paths:
         description: Created user object
         required: true
         schema:
-          $ref: '#/definitions/User'
+          $ref: '#/definitions/Email'
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Dados incorretos
+  /user/password:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: Create user
+      operationId: api_users.givePassword
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/Password'
       responses:
         "200":
           description: Successful operation
@@ -231,19 +254,10 @@ paths:
       - user
       summary: Logs user into the system
       operationId: api_users.loginUser
+      security:
+        - basicAuth: []
       produces:
       - application/json
-      parameters:
-      - name: username
-        in: query
-        description: The user name for login
-        required: true
-        type: string
-      - name: password
-        in: query
-        description: Hash password + salt for login
-        required: true
-        type: string
       responses:
         "200":
           description: successful operation
@@ -272,7 +286,7 @@ paths:
       responses:
         default:
           description: successful operation
-  /user/{username}:
+  /user/search/{username}:
     get:
       tags:
       - user
@@ -341,9 +355,9 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
-# securityDefinitions:
-#   BasicAuth:
-#     type: basic
+ securityDefinitions:
+   BasicAuth:
+     type: basic
 #   api_key:
 #     type: apiKey
 #     name: api_key
@@ -386,6 +400,23 @@ definitions:
         items:
           type: integer
           description: Seen ids
+  Email:
+    type: object
+    properties:
+      username:
+        type: string
+      email:
+        type: string
+  Password:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      nonce:
+        type: integer
+
 
   Item:
     type: object

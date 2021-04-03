@@ -18,6 +18,16 @@ message UserData {
 ////////////////////////////////////////////
 ////////////////BASIC REQUESTS//////////////
 ////////////////////////////////////////////
+message EmailRequest {
+	string email = 1;
+	string username = 2;
+}
+
+message PasswordRequest {
+	string username = 1;
+	string password = 2;
+	int64 nonce = 3;
+}
 
 message UserDataRequest {
 	string username = 1;
@@ -38,7 +48,8 @@ message UpdateUserRequest {
 ////////////////////////////////////////////
 
 service SignIn {
-	rpc CreateUser (UserDataRequest) returns (Success);
+	rpc CreateUser (EmailRequest) returns (Success);
+	rpc UserPassword (PasswordRequest) returns (Success);
 	rpc LoginUser (UserDataRequest) returns (Success);
 	rpc LogoutUser (Empty) returns (Success);
 	rpc GetUserByName (UserRequest) returns (UserData);
