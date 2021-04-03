@@ -1,5 +1,7 @@
 
 printf  "Creating Protobufs ."
+rm ./app/protobufs/*/*pb2* &> /dev/null
+rm ./app/protobufs/api_gateway/models.py &> /dev/null
 
 ### GERAR FICHEIROS PARA BOOK
 python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/book/ --grpc_python_out=./app/protobufs/book/ ./app/protobufs/book.proto
@@ -37,4 +39,4 @@ printf " ."
 python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/signin/ --grpc_python_out=./app/protobufs/signin/ ./app/protobufs/signin.proto
 ln ./app/protobufs/signin/*pb2* ./app/protobufs/api_gateway/
 ln app/protobufs/signin/models.py app/protobufs/api_gateway/models.py
-printf " done\n"
+printf " done\n" 

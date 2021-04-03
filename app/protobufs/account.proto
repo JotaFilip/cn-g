@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "utils.proto";
 import "signin.proto";
 
 ////////////////////////////////////////////
