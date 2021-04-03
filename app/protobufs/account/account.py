@@ -37,7 +37,11 @@ class AccountService(account_pb2_grpc.AccountServicer):
         
     def GetAnimeLikesAndViews(self, request, context):
         return GetUser(request.username).animes
+    def VerificarPassword(self, request, context):
 
+        # user = session.query(User).filter_by(username = username_or_token).first()
+        # if not user or not user.verify_password(password):
+        return None
     # SIGN IN
     def CreateUser(self, request, context):
         
