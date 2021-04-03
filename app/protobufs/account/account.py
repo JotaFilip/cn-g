@@ -21,6 +21,7 @@ from account_pb2 import *
 import account_pb2_grpc
 
 import smtplib, ssl
+from email.message import EmailMessage
 smtp_server = "smtp.gmail.com"
 port = 587  # For starttls
 sender_email = "cngroupfcul@gmail.com"
@@ -55,18 +56,19 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.add(user)
         session.commit()
 
-        message = """\
-        Subject: Hi there
+        msg = EmailMessage()
+        text = "Send your (password; nonce) on the register rest_api\nnonce = "+str(nonce)
+        msg.set_content(text)
 
-        Send your (password; nonce) on the register rest_api 
-        nonce = """ + str(nonce)
-        context = ssl.create_default_context()
-        with smtplib.SMTP(smtp_server, port) as mserver:
-            mserver.ehlo()  # Can be omitted
-            mserver.starttls(context=context)
-            mserver.ehlo()  # Can be omitted
+        msg['Subject'] = "Seen nonce register"
+        msg['From'] = sender_email
+        msg['To'] = email
+        message = "Subject: {}\n\n{}".format(subject,text)
+        # context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(smtp_server, port) as mserver:
             mserver.login(sender_email, password)
-            mserver.sendmail(sender_email, email, message)
+            mserver.send_message(sender_email, email, message)
+
         return Success(success = True)
 
     def UserPassword(self, request, context):
