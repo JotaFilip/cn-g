@@ -21,6 +21,8 @@ from account_pb2 import *
 import account_pb2_grpc
 
 import smtplib, ssl
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 smtp_server = "smtp.gmail.com"
 port = 587  # For starttls
 sender_email = "cngroupfcul@gmail.com"
@@ -59,18 +61,20 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.add(user)
         session.commit()
 
-        message = """\
-        Subject: Hi there
+        s = smtplib.SMTP(smtp_server,port)
+        s.starttls()
+        s.login(sender_email,password)
 
-        Send your (password; nonce) on the register rest_api 
-        nonce = """ + str(nonce)
-        context = ssl.create_default_context()
-        with smtplib.SMTP(smtp_server, port) as mserver:
-            mserver.ehlo()  # Can be omitted
-            mserver.starttls(context=context)
-            mserver.ehlo()  # Can be omitted
-            mserver.login(sender_email, password)
-            mserver.sendmail(sender_email, email, message)
+        msg = MIMEMultipart()
+        message = "Dear {}, send your (password; nonce) on the register rest_api\nnonce = {}".format(username,str(nonce))
+        msg['From'] = sender_email
+        msg['To'] = email
+        msg['Subject'] = "Seen nonce register"
+
+        msg.attach(MIMEText(message,'plain'))
+
+        s.send_message(msg)
+        del msg
         return Success(success = True)
 
     def UserPassword(self, request, context):
