@@ -11,6 +11,8 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+import utils_pb2 as utils__pb2
+import signin_pb2 as signin__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -19,8 +21,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\raccount.proto\"\x90\x01\n\x18\x41llLikesAndViewsResponse\x12%\n\x05\x62ooks\x18\x01 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12%\n\x05imdbs\x18\x02 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12&\n\x06\x61nimes\x18\x03 \x01(\x0b\x32\x16.LikesAndViewsResponse\"5\n\x15LikesAndViewsResponse\x12\r\n\x05likes\x18\x01 \x03(\x03\x12\r\n\x05views\x18\x02 \x03(\x03\"(\n\x14LikesAndViewsRequest\x12\x10\n\x08username\x18\x01 \x01(\t2\xa8\x02\n\x07\x41\x63\x63ount\x12G\n\x13GetAllLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x19.AllLikesAndViewsResponse\x12\x45\n\x14GetBookLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x45\n\x14GetIMDBLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x46\n\x15GetAnimeLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponseb\x06proto3'
-)
+  serialized_pb=b'\n\raccount.proto\x1a\x0butils.proto\x1a\x0csignin.proto\"\x90\x01\n\x18\x41llLikesAndViewsResponse\x12%\n\x05\x62ooks\x18\x01 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12%\n\x05imdbs\x18\x02 \x01(\x0b\x32\x16.LikesAndViewsResponse\x12&\n\x06\x61nimes\x18\x03 \x01(\x0b\x32\x16.LikesAndViewsResponse\"5\n\x15LikesAndViewsResponse\x12\r\n\x05likes\x18\x01 \x03(\x03\x12\r\n\x05views\x18\x02 \x03(\x03\"(\n\x14LikesAndViewsRequest\x12\x10\n\x08username\x18\x01 \x01(\t2\xc0\x04\n\x07\x41\x63\x63ount\x12%\n\nCreateUser\x12\r.EmailRequest\x1a\x08.Success\x12*\n\x0cUserPassword\x12\x10.PasswordRequest\x1a\x08.Success\x12\'\n\tLoginUser\x12\x10.UserDataRequest\x1a\x08.Success\x12\x1e\n\nLogoutUser\x12\x06.Empty\x1a\x08.Success\x12(\n\rGetUserByName\x12\x0c.UserRequest\x1a\t.UserData\x12*\n\nUpdateUser\x12\x12.UpdateUserRequest\x1a\x08.Success\x12$\n\nDeleteUser\x12\x0c.UserRequest\x1a\x08.Success\x12G\n\x13GetAllLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x19.AllLikesAndViewsResponse\x12\x45\n\x14GetBookLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x45\n\x14GetIMDBLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponse\x12\x46\n\x15GetAnimeLikesAndViews\x12\x15.LikesAndViewsRequest\x1a\x16.LikesAndViewsResponseb\x06proto3'
+  ,
+  dependencies=[utils__pb2.DESCRIPTOR,signin__pb2.DESCRIPTOR,])
 
 
 
@@ -66,8 +69,8 @@ _ALLLIKESANDVIEWSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=18,
-  serialized_end=162,
+  serialized_start=45,
+  serialized_end=189,
 )
 
 
@@ -105,8 +108,8 @@ _LIKESANDVIEWSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=164,
-  serialized_end=217,
+  serialized_start=191,
+  serialized_end=244,
 )
 
 
@@ -137,8 +140,8 @@ _LIKESANDVIEWSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=219,
-  serialized_end=259,
+  serialized_start=246,
+  serialized_end=286,
 )
 
 _ALLLIKESANDVIEWSRESPONSE.fields_by_name['books'].message_type = _LIKESANDVIEWSRESPONSE
@@ -179,13 +182,83 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=262,
-  serialized_end=558,
+  serialized_start=289,
+  serialized_end=865,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='CreateUser',
+    full_name='Account.CreateUser',
+    index=0,
+    containing_service=None,
+    input_type=signin__pb2._EMAILREQUEST,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='UserPassword',
+    full_name='Account.UserPassword',
+    index=1,
+    containing_service=None,
+    input_type=signin__pb2._PASSWORDREQUEST,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='LoginUser',
+    full_name='Account.LoginUser',
+    index=2,
+    containing_service=None,
+    input_type=signin__pb2._USERDATAREQUEST,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='LogoutUser',
+    full_name='Account.LogoutUser',
+    index=3,
+    containing_service=None,
+    input_type=utils__pb2._EMPTY,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetUserByName',
+    full_name='Account.GetUserByName',
+    index=4,
+    containing_service=None,
+    input_type=signin__pb2._USERREQUEST,
+    output_type=signin__pb2._USERDATA,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='UpdateUser',
+    full_name='Account.UpdateUser',
+    index=5,
+    containing_service=None,
+    input_type=signin__pb2._UPDATEUSERREQUEST,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='DeleteUser',
+    full_name='Account.DeleteUser',
+    index=6,
+    containing_service=None,
+    input_type=signin__pb2._USERREQUEST,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
   _descriptor.MethodDescriptor(
     name='GetAllLikesAndViews',
     full_name='Account.GetAllLikesAndViews',
-    index=0,
+    index=7,
     containing_service=None,
     input_type=_LIKESANDVIEWSREQUEST,
     output_type=_ALLLIKESANDVIEWSRESPONSE,
@@ -195,7 +268,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetBookLikesAndViews',
     full_name='Account.GetBookLikesAndViews',
-    index=1,
+    index=8,
     containing_service=None,
     input_type=_LIKESANDVIEWSREQUEST,
     output_type=_LIKESANDVIEWSRESPONSE,
@@ -205,7 +278,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetIMDBLikesAndViews',
     full_name='Account.GetIMDBLikesAndViews',
-    index=2,
+    index=9,
     containing_service=None,
     input_type=_LIKESANDVIEWSREQUEST,
     output_type=_LIKESANDVIEWSRESPONSE,
@@ -215,7 +288,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetAnimeLikesAndViews',
     full_name='Account.GetAnimeLikesAndViews',
-    index=3,
+    index=10,
     containing_service=None,
     input_type=_LIKESANDVIEWSREQUEST,
     output_type=_LIKESANDVIEWSRESPONSE,
