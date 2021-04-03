@@ -10,11 +10,10 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 #
 import sys
+import secrets
 from concurrent import futures
-from pymongo import MongoClient
 
 import grpc
-import secrets
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
@@ -68,6 +67,7 @@ class SignInService(signin_pb2_grpc.SignInServicer):
             mserver.login(sender_email, password)
             mserver.sendmail(sender_email, email, message)
         return Success(success = True)
+
     def UserPassword(self, request, context):
 
         username = request.username
@@ -85,23 +85,24 @@ class SignInService(signin_pb2_grpc.SignInServicer):
 
         return Success(success = True)
     def LoginUser(self, request, context):
+        # convert and redirect
         return None
 
     def LogoutUser(self, request, context):
+        # convert and redirect
         return None
 
     def GetUserByName(self, request, context):
+        # convert and redirect
         return None
 
     def UpdateUser(self, request, context):
+        # convert and redirect
         return None
 
     def DeleteUser(self, request, context):
+        # convert and redirect
         return None
-
-
-
-
 
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]

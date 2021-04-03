@@ -1,27 +1,30 @@
+from models import Base, User
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy import create_engine
+#
+engine = create_engine('sqlite:///usersWithTokens.db')
+
+Base.metadata.bind = engine
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+#
+import sys
+import secrets
 from concurrent import futures
 
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
-from pymongo import MongoClient
-
-# connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
-user = "seen"
-password = "ifFvApoasv9lLvqR"
-up = user + ":" + password
-
-client = MongoClient("mongodb+srv://"+up+"@seen.2xwmp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-db = client["database"]
-db = db["users"]
-
-from account_pb2 import (
-    AllLikesAndViewsResponse,
-    LikesAndViewsRequest,
-    LikesAndViewsResponse
-)
+from account_pb2 import *
 import account_pb2_grpc
 
+import smtplib, ssl
+smtp_server = "smtp.gmail.com"
+port = 587  # For starttls
+sender_email = "cngroupfcul@gmail.com"
+password = "@GrupoComputacaomovel2021"
 class AccountService(account_pb2_grpc.AccountServicer):
     def GetAllLikesAndViews(self, request, context):
         return GetUser(request.username)
@@ -35,8 +38,72 @@ class AccountService(account_pb2_grpc.AccountServicer):
     def GetAnimeLikesAndViews(self, request, context):
         return GetUser(request.username).animes
 
+    # SIGN IN
+    def CreateUser(self, request, context):
+        
+        email = request.email
+        username = request.username
+        nonce = secrets.randbelow(1000000)
+
+        if username is None or email is None:
+            Success(success = False) #argumentos insuficientes
+        if session.query(User).filter_by(username=username).first() or session.query(User).filter_by(email=email).first() is not None:
+            #user = session.query(User).filter_by(username=username).first()
+            Success(success = False) #Já existe
+        user = User(username=username, email=email, nonce=nonce)
+        #user.hash_password(password)
+        session.add(user)
+        session.commit()
+
+        message = """\
+        Subject: Hi there
+
+        Send your (password; nonce) on the register rest_api 
+        nonce = """ + str(nonce)
+        context = ssl.create_default_context()
+        with smtplib.SMTP(smtp_server, port) as mserver:
+            mserver.ehlo()  # Can be omitted
+            mserver.starttls(context=context)
+            mserver.ehlo()  # Can be omitted
+            mserver.login(sender_email, password)
+            mserver.sendmail(sender_email, email, message)
+        return Success(success = True)
+
+    def UserPassword(self, request, context):
+
+        username = request.username
+        password = request.password
+        nonce = request.nonce
+        user = session.query(User).filter_by(username=username).first()
+        if user is None:
+            Success(success = False)
+        if not user.verify_nonce(nonce):
+            Success(success = False)
+
+        salt = secrets.randbelow(sys.maxsize)
+        user.hash_password(password, str(salt))
+        session.commit()
+
+        return Success(success = True)
+    def LoginUser(self, request, context):
+        return None
+
+    def LogoutUser(self, request, context):
+        return None
+
+    def GetUserByName(self, request, context):
+        return None
+
+    def UpdateUser(self, request, context):
+        return None
+
+    def DeleteUser(self, request, context):
+        return None
+
 def GetUser(self, username):
-    results = list(db.find({ "username": username}).limit(1))
+    # TODO
+    # results = list(db.find({ "username": username}).limit(1))
+    results = []
 
     if len(results) <= 0:
         raise NotFound("Id not found")
