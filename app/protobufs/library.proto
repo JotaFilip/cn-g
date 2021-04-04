@@ -79,8 +79,8 @@ service Library {
 	rpc AddItem (AddItemRequest) returns (Success);
 	rpc GetItem (ItemId) returns (Item);
 	rpc RemoveItem (ItemId) returns (Success);
-	rpc UpdateSeenItem (ItemId) returns (Success);
-	rpc UpdateLikeItem (ItemId) returns (Success);
+	rpc AddSeenItem (ItemId) returns (Success);
+	rpc AddLikeItem (ItemId) returns (Success);
 	rpc SearchByName (SearchByNameRequest) returns (ItemInfoResponse);
 	rpc SearchByCategory (SearchByCategoryRequest) returns (ItemInfoResponse);
 }
