@@ -72,7 +72,29 @@ message LikesAndViewsRequest {
 
 message SeenAndLikeInfo{
     string id= 1;
-    string type = 2;
+    Type type = 2;
+    repeated string categories = 3;
+}
+
+
+message ViewsAndLikesCount{
+    repeated TupleForCategory tuples= 1;
+}
+
+message TupleForCategory{
+    string category = 1;
+    int64 views = 2;
+    int64 likes = 3;
+}
+message SeenAndLikeInfoReturn{
+    string id= 1;
+    Type type = 2;
+}
+message SeensAndLikesInfo{
+    repeated SeenAndLikeInfoReturn infos = 1;
+}
+message UserId{
+    int64 id = 1;
 }
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -85,6 +107,11 @@ service Account {
 	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
 	rpc LoginUser (UserDataRequest) returns (Success);
 	rpc LogoutUser (Empty) returns (Success);
+	rpc Seen(SeenAndLikeInfo) returns (Success);
+	rpc Like (SeenAndLikeInfo) returns (Success);
+	rpc GetLikes(UserId) returns (SeensAndLikesInfo);
+	rpc GetSeens(UserId) returns (SeensAndLikesInfo);
+	rpc GetContagemLikesAndViews(UserId) returns (ViewsAndLikesCount);
 	rpc GetUserByName (UserRequest) returns (UserData);
 	rpc UpdateUser (UpdateUserRequest) returns (Success);
 	rpc DeleteUser (UserRequest) returns (Success);

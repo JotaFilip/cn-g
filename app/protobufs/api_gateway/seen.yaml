@@ -409,13 +409,13 @@ definitions:
       seens:
         type: array
         items:
-          type: integer
+          $ref: '#/definitions/IdTuple'
           description: Seen ids
       likes:
         type: array
         items:
-          type: integer
-          description: Seen ids
+          $ref: '#/definitions/IdTuple'
+          description: Like ids
   Email:
     type: object
     properties:
