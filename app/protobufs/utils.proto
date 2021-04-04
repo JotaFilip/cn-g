@@ -8,6 +8,12 @@ message Success {
 	bool success = 1;
 }
 
+enum Type {
+    BOOK = 0;
+    SHOW = 1;
+    ANIME = 2;
+}
+
 message Empty {
 
 }
