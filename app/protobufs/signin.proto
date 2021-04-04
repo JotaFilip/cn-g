@@ -17,6 +17,7 @@ import "account.proto";
 
 service SignIn {
 	rpc CreateUser (EmailRequest) returns (Success);
+	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
 	rpc UserPassword (PasswordRequest) returns (Success);
 	rpc LoginUser (UserDataRequest) returns (Success);
 	rpc LogoutUser (Empty) returns (Success);

@@ -432,7 +432,17 @@ definitions:
         type: string
       nonce:
         type: integer
-
+  IdTuple:
+    type: object
+    required:
+      - id
+      - type
+    properties:
+      id:
+        type: string
+        example: "605128692d0accf2d480f2cf"
+      type:
+        $ref: '#/definitions/Type'
 
   Item:
     type: object

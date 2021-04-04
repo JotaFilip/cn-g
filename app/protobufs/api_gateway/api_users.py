@@ -1,6 +1,8 @@
 
 # Users API
 import os
+
+from app.protobufs.account.account_pb2 import *
 from signin_pb2 import *
 
 from signin_pb2_grpc import SignInStub
@@ -15,6 +17,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 auth = HTTPBasicAuth()
+signin_host = os.getenv("SIGNIN_HOST", "localhost")
+signin_channel = grpc.insecure_channel(f"{signin_host}:50050")
+signin_client = SignInStub(signin_channel)
 
 
 #@auth.verify_password
@@ -25,7 +30,7 @@ def verify_password(username_or_token, password, required_scopes=None):
         #user = session.query(User).filter_by(username = username_or_token).first()
         #if not user or not user.verify_password(password):
         request = VerificarRequest(username = username_or_token, password=password)
-        response = VerificarPassword(request)
+        response = signin_client.VerificarPassword(request)
         user_id = response.id
         if not user_id:
             return None
