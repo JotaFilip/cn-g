@@ -19,6 +19,6 @@ class Verifier:
         return user_id
 
     @staticmethod
-    def generate_auth_token(id, expiration=600):
+    def generate_auth_token(id, expiration=1800):
         s = Serializer(secret_key, expires_in=expiration)
         return s.dumps({'id': id})

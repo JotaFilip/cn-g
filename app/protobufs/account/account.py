@@ -1,4 +1,4 @@
-from models import Base, User
+from models import Base, User, Seen, Like, Contagem
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
@@ -23,17 +23,6 @@ from utils_pb2 import *
 
 
 class AccountService(account_pb2_grpc.AccountServicer):
-    def GetAllLikesAndViews(self, request, context):
-        return GetUser(request.username)
-        
-    def GetBookLikesAndViews(self, request, context):
-        return GetUser(request.username).books
-
-    def GetIMDBLikesAndViews(self, request, context):
-        return GetUser(request.username).imdbs
-        
-    def GetAnimeLikesAndViews(self, request, context):
-        return GetUser(request.username).animes
     def VerificarPassword(self, request, context):
 
         user = session.query(User).filter_by(username = request.username).first()
@@ -41,7 +30,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
             return Success(success = True)
         return Success(success = False)
 
-    def VerificaSeEhNovo(self,request,context):
+    def VerificaSeEhNovoECria(self,request,context):
         if session.query(User).filter_by(username=request.username).first() or session.query(User).filter_by(
                 email=request.email).first() is not None:
             # user = session.query(User).filter_by(username=username).first()
@@ -73,7 +62,28 @@ class AccountService(account_pb2_grpc.AccountServicer):
 
     def LogoutUser(self, request, context):
         return None
+    #
 
+    def Seen(self,request,context):
+        #user = session.query().filter_by(username=request.username).first()
+        seen = Seen(user=request.user_id, item_id=request.id, item_type=request.type)
+        session.add(seen)
+        session.commit()
+        pass
+    def Like(self,request,context):
+        like = Like(user=request.user_id, item_id=request.id, item_type=request.type)
+        session.add(like)
+        session.commit()
+    def GetLikes(self,request,context):
+        pass
+    def GetSeens(self,request,context):
+        pass
+    def GetContagemLikesAndViews(self,request,context):
+        pass
+
+
+
+    #Username
     def GetUserByName(self, request, context):
         return None
 
