@@ -14,6 +14,11 @@ from imdb_pb2_grpc import IMDBStub
 from anime_pb2 import *
 from anime_pb2_grpc import AnimeStub
 
+from account_pb2 import *
+from account_pb2_grpc import AccountStub
+
+from utils_pb2 import *
+
 from library_pb2 import *
 import library_pb2_grpc
 
@@ -79,18 +84,18 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             r = []
             if(type == "ANIME"):
                 for top in top_categories:
-                    animes_category_request = AnimeByCategoryRequest(category=top[0], max) #top[0] = categoria
+                    animes_category_request = AnimeByCategoryRequest(category=top[0],max_results=max) #top[0] = categoria
                     get_random_sample = animes_client.SearchByCategory(animes_category_request)
                     cur = [ ItemInfo( id = c.anime_id, name = c.anime_title, type = Type.ANIME) for c in get_random_sample ]
                     r = r + cur
                     
             elif(type == "BOOK"):
-                    books_category_request = BooksByCategoryRequest(category=top[0], max) #top[0] = categoria
+                    books_category_request = BooksByCategoryRequest(category=top[0], max_results=max) #top[0] = categoria
                     get_random_sample = books_client.SearchByCategory(books_category_request)
                     cur = [ ItemInfo( id = c.book_id, name = c.book_title, type = Type.BOOK) for c in get_random_sample ]
                     r = r + cur
             elif(type == "SHOW"):
-                    imdbs_category_request = IMDBByCategoryRequest(category=top[0], max) #top[0] = categoria
+                    imdbs_category_request = IMDBByCategoryRequest(category=top[0], max_results=max) #top[0] = categoria
                     get_random_sample = imdbs_client.SearchByCategory(imdbs_category_request)
                     cur = [ ItemInfo( id = c.imdb_id, name = c.imdb_title, type = Type.SHOW) for c in get_random_sample ]
                     r = r + cur
