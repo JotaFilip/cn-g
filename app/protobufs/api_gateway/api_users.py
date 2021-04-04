@@ -2,7 +2,9 @@
 # Users API
 import os
 from signin_pb2 import *
+
 from signin_pb2_grpc import SignInStub
+from account_pb2 import *
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 #

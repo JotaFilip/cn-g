@@ -6,11 +6,6 @@ import "anime.proto";
 
 import "utils.proto";
 
-enum Type {
-    BOOK = 0;
-    SHOW = 1;
-    ANIME = 2;
-}
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////

@@ -1,10 +1,10 @@
 syntax = "proto3";
 import "utils.proto";
-import "signin.proto";
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
+
 
 message AllLikesAndViewsResponse {
 	LikesAndViewsResponse books = 1;
@@ -16,7 +16,48 @@ message LikesAndViewsResponse {
 	repeated int64 likes = 1;
 	repeated int64 views = 2;
 }
+message VerificarRequest{
+    string username = 1;
+    string password = 2;
+}
+message VerificarResponse{
+    int64 id = 1;
+    bool success = 2;
+}
 
+////////////////////////////////////////////
+////////////////BASIC REQUESTS//////////////
+////////////////////////////////////////////
+message EmailRequest {
+	string email = 1;
+	string username = 2;
+}
+
+message PasswordRequest {
+	string username = 1;
+	string password = 2;
+	int64 nonce = 3;
+}
+
+message UserData {
+    string username = 1;
+    string password = 2;
+}
+
+message UserDataRequest {
+	string username = 1;
+	string password = 2;
+}
+
+message UserRequest {
+	string username = 1;
+}
+
+message UpdateUserRequest {
+	string username = 1;
+	string new_username = 2;
+	string new_password = 3;
+}
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -29,6 +70,10 @@ message LikesAndViewsRequest {
     string username = 1;
 }
 
+message SeenAndLikeInfo{
+    string id= 1;
+    string type = 2;
+}
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -37,6 +82,7 @@ service Account {
 	// Sign in
 	rpc CreateUser (EmailRequest) returns (Success);
 	rpc UserPassword (PasswordRequest) returns (Success);
+	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
 	rpc LoginUser (UserDataRequest) returns (Success);
 	rpc LogoutUser (Empty) returns (Success);
 	rpc GetUserByName (UserRequest) returns (UserData);
