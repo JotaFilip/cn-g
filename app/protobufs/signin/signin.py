@@ -1,14 +1,3 @@
-from models import Base, User
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
-from sqlalchemy import create_engine
-#
-engine = create_engine('sqlite:///usersWithTokens.db')
-
-Base.metadata.bind = engine
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
-#
 import sys
 import secrets
 from concurrent import futures
@@ -23,14 +12,16 @@ import signin_pb2_grpc
 
 from account_pb2 import AllLikesAndViewsResponse, LikesAndViewsResponse, LikesAndViewsRequest
 from account_pb2_grpc import AccountStub
+import os
 
+account_host = os.getenv("ACCOUNT_HOST", "localhost")
+account_channel = grpc.insecure_channel(f"{account_host}:50055")
+account_client = AccountStub(account_channel)
 
-
-def saveNonceAndEmail(receiver_email, username, nonce):
-    pass
 
 import smtplib, ssl
-
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 smtp_server = "smtp.gmail.com"
 port = 587  # For starttls
 sender_email = "cngroupfcul@gmail.com"
@@ -39,51 +30,41 @@ password = "@GrupoComputacaomovel2021"
 class SignInService(signin_pb2_grpc.SignInServicer):
 
     def CreateUser(self, request, context):
-        
         email = request.email
         username = request.username
         nonce = secrets.randbelow(1000000)
 
         if username is None or email is None:
-            Success(success = False) #argumentos insuficientes
-        if session.query(User).filter_by(username=username).first() or session.query(User).filter_by(email=email).first() is not None:
-            #user = session.query(User).filter_by(username=username).first()
-            Success(success = False) #Já existe
-        user = User(username=username, email=email, nonce=nonce)
-        #user.hash_password(password)
-        session.add(user)
-        session.commit()
+            Success(success=False)  # argumentos insuficientes
+        response = account_client.VerificaSeEhNovoECria(request)
 
-        message = """\
-        Subject: Hi there
 
-        Send your (password; nonce) on the register rest_api 
-        nonce = """ + str(nonce)
-        context = ssl.create_default_context()
-        with smtplib.SMTP(smtp_server, port) as mserver:
-            mserver.ehlo()  # Can be omitted
-            mserver.starttls(context=context)
-            mserver.ehlo()  # Can be omitted
-            mserver.login(sender_email, password)
-            mserver.sendmail(sender_email, email, message)
-        return Success(success = True)
+
+
+        s = smtplib.SMTP(smtp_server, port)
+        s.starttls()
+        s.login(sender_email, password)
+
+        msg = MIMEMultipart()
+        message = "Dear {}, send your (password; nonce) on the register rest_api\nnonce = {}".format(username,
+                                                                                                     str(nonce))
+        msg['From'] = sender_email
+        msg['To'] = email
+        msg['Subject'] = "Seen nonce register"
+
+        msg.attach(MIMEText(message, 'plain'))
+
+        s.send_message(msg)
+        del msg
+        return response
+
 
     def UserPassword(self, request, context):
+        return account_client.UserPassword(request)
 
-        username = request.username
-        password = request.password
-        nonce = request.nonce
-        user = session.query(User).filter_by(username=username).first()
-        if user is None:
-            Success(success = False)
-        if not user.verify_nonce(nonce):
-            Success(success = False)
+    def VerificarPassword(self, request, context):
+        return account_client.VerificarPassword(request)
 
-        salt = secrets.randbelow(sys.maxsize)
-        user.hash_password(password, str(salt))
-        session.commit()
-
-        return Success(success = True)
     def LoginUser(self, request, context):
         # convert and redirect
         return None

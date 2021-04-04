@@ -28,9 +28,10 @@ message VerificarResponse{
 ////////////////////////////////////////////
 ////////////////BASIC REQUESTS//////////////
 ////////////////////////////////////////////
-message EmailRequest{
+message EmailAndNonceRequest{
 	string email = 1;
 	string username = 2;
+	int64 nonce = 3;
 }
 
 message PasswordRequest {
@@ -102,7 +103,7 @@ message UserId{
 
 service Account {
 	// Sign in
-	rpc CreateUser (EmailRequest) returns (Success);
+	rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
 	rpc UserPassword (PasswordRequest) returns (Success);
 	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
 	rpc LoginUser (UserDataRequest) returns (Success);

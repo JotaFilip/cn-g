@@ -36,5 +36,4 @@ printf " ."
 ### GERAR FICHEIROS PARA SIGNIN
 python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/signin/ --grpc_python_out=./app/protobufs/signin/ ./app/protobufs/signin.proto --experimental_allow_proto3_optional
 ln ./app/protobufs/signin/*pb2* ./app/protobufs/api_gateway/ &> /dev/null
-ln app/protobufs/signin/models.py app/protobufs/api_gateway/models.py &> /dev/null
 printf " done\n" 

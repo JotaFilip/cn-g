@@ -17,10 +17,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 auth = HTTPBasicAuth()
-signin_host = os.getenv("SIGNIN_HOST", "localhost")
-signin_channel = grpc.insecure_channel(f"{signin_host}:50050")
-signin_client = SignInStub(signin_channel)
-
+sign_host = os.getenv("SIGNIN_HOST", "localhost")
+sign_channel = grpc.insecure_channel(f"{sign_host}:50056")
+signin_client = SignInStub(sign_channel)
 
 #@auth.verify_password
 def verify_password(username_or_token, password, required_scopes=None):
@@ -53,23 +52,21 @@ def loginUser():
     return jsonify({'token': token.decode('ascii')})
 
 #
-sign_host = os.getenv("SIGNIN_HOST", "localhost")
-sign_channel = grpc.insecure_channel(f"{sign_host}:50056")
-sign_client = SignInStub(sign_channel)
+
 
 def createUser(body):
     request =EmailRequest (
         email = body["email"],
         username = body["username"]
     )
-    return sign_client.CreateUser(request).success
+    return signin_client.CreateUser(request).success
 def givePassword(body):
     request = PasswordRequest (
         username = body["username"],
         password = body["password"],
         nonce=body["nonce"]
     )
-    return sign_client.UserPassword(request).success
+    return signin_client.UserPassword(request).success
 
 
 
@@ -80,7 +77,7 @@ def getUserByName(username):
     request = GetUserRequest (
         name = username
     )
-    return sign_client.GetUserByName(request)
+    return signin_client.GetUserByName(request)
 
 def updateUser(username,body):
     request = UpdateUserRequest (
@@ -88,10 +85,10 @@ def updateUser(username,body):
         new_username = body.username,
         new_password = body.password
     )
-    return sign_client.UpdateUser(request)
+    return signin_client.UpdateUser(request)
 
 def deleteUser(username):
     request = DeleteUserRequest (
         username = username
     )
-    return sign_client.DeleteUser(request)
+    return signin_client.DeleteUser(request)

@@ -8,7 +8,7 @@ engine = create_engine('sqlite:///usersWithTokens.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
-#
+
 import sys
 import secrets
 from concurrent import futures
@@ -19,14 +19,9 @@ from grpc_interceptor.exceptions import NotFound
 
 from account_pb2 import *
 import account_pb2_grpc
+from utils_pb2 import *
 
-import smtplib, ssl
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-smtp_server = "smtp.gmail.com"
-port = 587  # For starttls
-sender_email = "cngroupfcul@gmail.com"
-password = "@GrupoComputacaomovel2021"
+
 class AccountService(account_pb2_grpc.AccountServicer):
     def GetAllLikesAndViews(self, request, context):
         return GetUser(request.username)
@@ -41,41 +36,21 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return GetUser(request.username).animes
     def VerificarPassword(self, request, context):
 
-        # user = session.query(User).filter_by(username = username_or_token).first()
-        # if not user or not user.verify_password(password):
-        return None
-    # SIGN IN
-    def CreateUser(self, request, context):
-        
-        email = request.email
-        username = request.username
-        nonce = secrets.randbelow(1000000)
+        user = session.query(User).filter_by(username = request.username).first()
+        if not user or not user.verify_password(request.password):
+            return Success(success = True)
+        return Success(success = False)
 
-        if username is None or email is None:
-            Success(success = False) #argumentos insuficientes
-        if session.query(User).filter_by(username=username).first() or session.query(User).filter_by(email=email).first() is not None:
-            #user = session.query(User).filter_by(username=username).first()
-            Success(success = False) #Já existe
-        user = User(username=username, email=email, nonce=nonce)
-        #user.hash_password(password)
+    def VerificaSeEhNovo(self,request,context):
+        if session.query(User).filter_by(username=request.username).first() or session.query(User).filter_by(
+                email=request.email).first() is not None:
+            # user = session.query(User).filter_by(username=username).first()
+            Success(success=False)  # Já existe
+        user = User(username=request.username, email=request.email, nonce=request.nonce)
+        # user.hash_password(password)
         session.add(user)
         session.commit()
-
-        s = smtplib.SMTP(smtp_server,port)
-        s.starttls()
-        s.login(sender_email,password)
-
-        msg = MIMEMultipart()
-        message = "Dear {}, send your (password; nonce) on the register rest_api\nnonce = {}".format(username,str(nonce))
-        msg['From'] = sender_email
-        msg['To'] = email
-        msg['Subject'] = "Seen nonce register"
-
-        msg.attach(MIMEText(message,'plain'))
-
-        s.send_message(msg)
-        del msg
-        return Success(success = True)
+        Success(success=True)
 
     def UserPassword(self, request, context):
 
