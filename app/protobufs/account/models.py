@@ -51,8 +51,12 @@ class Contagem(Base):
 
     user_id = Column(Integer, primary_key=True)
     category = Column(String, primary_key=True)
-    likes = Column(Integer)
-    views = Column(Integer)
+    likes = Column(Integer, default=0)
+    views = Column(Integer, default=0)
+    def incrementSeens(self):
+        self.views += 1
+    def incrementLikes(self):
+        self.likes += 1
 
 
 

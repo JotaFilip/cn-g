@@ -68,18 +68,49 @@ class AccountService(account_pb2_grpc.AccountServicer):
         #user = session.query().filter_by(username=request.username).first()
         seen = Seen(user=request.user_id, item_id=request.id, item_type=request.type)
         session.add(seen)
+
+        for cat in request.categories:
+            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat)
+            if count is None:
+                count = Contagem(user_id = request.user_id, category = cat, likes = 0, views = 1)
+                session.add(count)
+            else:
+                count.incrementSeens()
+
         session.commit()
         pass
     def Like(self,request,context):
         like = Like(user=request.user_id, item_id=request.id, item_type=request.type)
         session.add(like)
+        for cat in request.categories:
+            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat)
+            if count is None:
+                count = Contagem(user_id = request.user_id, category = cat, likes = 1, views = 0)
+                session.add(count)
+            else:
+                count.incrementLikes()
         session.commit()
     def GetLikes(self,request,context):
-        pass
+        likes = session.query(Like).filter_by(user_id=request.id)
+        ret = []
+        for like in likes:
+            ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
+        return SeensAndLikesInfo(infos=ret)
+
+
+
     def GetSeens(self,request,context):
-        pass
+        seens = session.query(Seen).filter_by(user_id=request.id)
+        ret = []
+        for seen in seens:
+            ret.append(SeenAndLikeInfoReturn(id=seen.item_id, type=seen.type))
+        return SeensAndLikesInfo(infos=ret)
     def GetContagemLikesAndViews(self,request,context):
-        pass
+        counts = session.query(Contagem).filter_by(user_id=request.user_id)
+        ret = []
+        for count in counts:
+            ret.append(TupleForCategory(category = count.category, views = count.views, likes = count.likes))
+        return ViewsAndLikesCount(tuples = ret)
 
 
 
@@ -93,21 +124,21 @@ class AccountService(account_pb2_grpc.AccountServicer):
     def DeleteUser(self, request, context):
         return None
 
-def GetUser(self, username):
-    # TODO
-    # results = list(db.find({ "username": username}).limit(1))
-    results = []
+#def GetUser(self, username):
+#    # TODO
+#    # results = list(db.find({ "username": username}).limit(1))
+#    results = []
 
-    if len(results) <= 0:
-        raise NotFound("Id not found")
-    return all_lists_to_proto(results[0])
+#    if len(results) <= 0:
+#        raise NotFound("Id not found")
+#    return all_lists_to_proto(results[0])
 
-def all_lists_to_proto(user):
-    return LikesAndViewsResponse(
-        books = list_to_proto(user,"books"),
-        imdbs = list_to_proto(user,"imdbs"),
-        animes = list_to_proto(user,"animes")
-    )
+#def all_lists_to_proto(user):
+ #   return LikesAndViewsResponse(
+ #       books = list_to_proto(user,"books"),
+  #      imdbs = list_to_proto(user,"imdbs"),
+  #      animes = list_to_proto(user,"animes")
+  #  )
 
 def list_to_proto(user,type):
     return LikesAndViewsRequest(
