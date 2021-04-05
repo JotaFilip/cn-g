@@ -120,9 +120,9 @@ service Account {
 	//Obter Visualizações do utilizador
 	rpc GetSeens(UserId) returns (SeensAndLikesInfo);
 	//ObterContagem de likes do item
-	GetLikesItem(SeenAndLikeItem) returns (CountInfo);
+	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
 	//ObterContagem de seens do item
-	GetSeensItem(SeenAndLikeItem) returns (CountInfo);
+	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
 	//Obter contagem de likes e views por categoria deste utilizador
 	rpc GetContagemLikesAndViews(UserId) returns (ViewsAndLikesCount);
 
