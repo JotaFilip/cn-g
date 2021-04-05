@@ -75,21 +75,47 @@ def logoutUser():
     return "Logged Out"
 
 def getUserByName(username):
-    request = GetUserRequest (
-        name = username
+    request = UserRequest (
+        username = username
     )
-    return signin_client.GetUserByName(request)
+
+    resp = signin_client.GetUserByName(request)
+    likes = []
+    seens = []
+    for r in resp.seens:
+        type = "All"
+        if (r.type == 0):
+            type = "BOOK"
+        if (r.type == 1):
+            type = "SHOW"
+        if (r.type == 2):
+            type = "ANIME"
+
+        object = {"id": r.id, "type": type}
+        seens.append(object)
+    for r in resp.likes:
+        type = "All"
+        if (r.type == 0):
+            type = "BOOK"
+        if (r.type == 1):
+            type = "SHOW"
+        if (r.type == 2):
+            type = "ANIME"
+
+        object = {"id": r.id, "type": type}
+        likes.append(object)
+    return  {"username": resp.username, "likes": likes, "seens": seens}
 
 def updateUser(username,body):
     request = UpdateUserRequest (
         username = username,
-        new_username = body.username,
-        new_password = body.password
+        new_username = body["username"],
+        new_password = body["password"],
     )
-    return signin_client.UpdateUser(request)
+    return signin_client.UpdateUser(request).success
 
 def deleteUser(username):
-    request = DeleteUserRequest (
+    request = UserRequest (
         username = username
     )
-    return signin_client.DeleteUser(request)
+    return signin_client.DeleteUser(request).success

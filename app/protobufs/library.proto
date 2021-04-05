@@ -25,6 +25,8 @@ message Item {
 	optional BookData book = 1;
 	optional IMDBData imdb = 2;
 	optional AnimeData anime = 3;
+	int64 likes = 4;
+	int64 seens = 5;
 }
 
 ////////////////////////////////////////////

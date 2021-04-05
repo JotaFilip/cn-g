@@ -41,10 +41,17 @@ class AccountService(account_pb2_grpc.AccountServicer):
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
-        if session.query(User).filter_by(username=request.username).first() or session.query(User).filter_by(
-                email=request.email).first() is not None:
+        a= session.query(User).filter_by(username=request.username).first()
+        b= session.query(User).filter_by(
+                email=request.email).first()
+        if a or b is not None:
             # user = session.query(User).filter_by(username=username).first()
-           return Success(success=False)  # Já existe
+            if a is not None:
+                a.nonce = request.nonce
+            else:
+                b.nonce = request.nonce
+            session.commit()
+            return Success(success=False)  # Já existe mas actualiza nonce
         user = User(username=request.username, email=request.email, nonce=request.nonce)
         # user.hash_password(password)
         session.add(user)
@@ -63,9 +70,11 @@ class AccountService(account_pb2_grpc.AccountServicer):
         nonce = request.nonce
         user = session.query(User).filter_by(username=username).first()
         if user is None:
-            Success(success = False)
+            session.rollback()
+            return Success(success = False)
         if not user.verify_nonce(nonce):
-            Success(success = False)
+            session.rollback()
+            return Success(success = False)
 
         salt = secrets.randbelow(sys.maxsize)
         user.hash_password(password, str(salt))
@@ -99,7 +108,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
                 session.add(count)
             else:
                 count.incrementSeens()
-                return Success(success=False)
+
 
         session.commit()
         return Success(success=True)
@@ -132,7 +141,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
-        likes = session.query(Like).filter_by(user_id=request.id)
+        likes = session.query(Like).filter_by(user_id=request.id).all()
         ret = []
         for like in likes:
             ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
@@ -147,7 +156,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
-        seens = session.query(Seen).filter_by(user_id=request.id)
+        seens = session.query(Seen).filter_by(user_id=request.id).all()
         ret = []
         for seen in seens:
             ret.append(SeenAndLikeInfoReturn(id=seen.item_id, type=seen.type))
@@ -159,7 +168,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
-        counts = session.query(Contagem).filter_by(user_id=request.id)
+        counts = session.query(Contagem).filter_by(user_id=request.id).all()
         ret = []
         for count in counts:
             ret.append(TupleForCategory(category = count.category, views = count.views, likes = count.likes))
@@ -170,13 +179,50 @@ class AccountService(account_pb2_grpc.AccountServicer):
 
     #Username
     def GetUserByName(self, request, context):
-        return None
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        user = session.query(User).filter_by(username=request.username).first()
+        if user is None:
+            session.rollback()
+            return UserData()
+        likes = session.query(Like).filter_by(user_id=user.id).all()
+        seens = session.query(Seen).filter_by(user_id=user.id).all()
+        likes = [SeenAndLikeInfoReturn(id=c.item_id, type=c.item_type) for c in likes]
+        seens = [SeenAndLikeInfoReturn(id=c.item_id, type=c.item_type) for c in seens]
+        session.rollback()
+        return UserData(username = request.username, likes = likes, seens = seens)
 
     def UpdateUser(self, request, context):
-        return None
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        user = session.query(User).filter_by(username=request.username).first()
+        userb = session.query(User).filter_by(username=request.new_username).first()
+        if user is None or userb is not None:
+            session.rollback()
+            return Success(success=False)
+        salt = secrets.randbelow(sys.maxsize)
+        user.hash_password(request.new_password, str(salt))
+        user.username = request.new_username
+        session.commit()
+        return Success(success=True)
 
     def DeleteUser(self, request, context):
-        return None
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        user = session.query(User).filter_by(username=request.username).first()
+        if user is not None:
+            session.delete(user)
+        session.commit()
+        return  Success(success=user is not None)
 
 #def GetUser(self, username):
 #    # TODO

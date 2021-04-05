@@ -56,8 +56,7 @@ def getSuggestions(body):
     return ret
 
 def addItem(body):
-
-    request = AddItemRequest(body)
+    request = AddItemRequest(user_id = g.user_id, )
     return lib_client.AddItem(request).success
 
 def getItemById(type,itemId):

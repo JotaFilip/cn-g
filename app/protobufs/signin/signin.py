@@ -35,8 +35,8 @@ class SignInService(signin_pb2_grpc.SignInServicer):
         nonce = secrets.randbelow(1000000)
 
         if username is None or email is None:
-            Success(success=False)  # argumentos insuficientes
-        response = account_client.VerificaSeEhNovoECria(request)
+            return Success(success=False)  # argumentos insuficientes
+        response = account_client.VerificaSeEhNovoECria(EmailAndNonceRequest(email = email, username = username, nonce = nonce))
 
 
 
@@ -74,16 +74,13 @@ class SignInService(signin_pb2_grpc.SignInServicer):
         return None
 
     def GetUserByName(self, request, context):
-        # convert and redirect
-        return None
+        return account_client.GetUserByName(request)
 
     def UpdateUser(self, request, context):
-        # convert and redirect
-        return None
+        return account_client.UpdateUser(request)
 
     def DeleteUser(self, request, context):
-        # convert and redirect
-        return None
+        return account_client.DeleteUser(request)
 
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]

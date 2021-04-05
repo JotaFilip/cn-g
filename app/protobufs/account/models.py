@@ -1,4 +1,4 @@
-from sqlalchemy import Column,Integer,String
+from sqlalchemy import Column,Integer,String,Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
@@ -17,6 +17,7 @@ class User(Base):
     nonce = Column(Integer)
     password_hash = Column(String(64))
     password_salt = Column(String(64))
+    admin = Column(Boolean, default=False)
 
     def hash_password(self, password, salt):
         self.password_hash = pwd_context.encrypt(password + salt)
@@ -27,7 +28,7 @@ class User(Base):
         return pwd_context.verify(password + self.password_salt, self.password_hash)
 
     def verify_nonce(self, nonce):
-        return self.nonce == nonce
+        return self.password_hash is None and self.nonce == nonce
 
     def getId(self):
         return self.id
@@ -36,14 +37,14 @@ class Seen(Base):
     __tablename__ = 'seen'
 
     user_id = Column(Integer, primary_key=True)
-    item_type = Column(String, primary_key=True)
+    item_type = Column(Integer, primary_key=True)
     item_id = Column(String, primary_key=True)
 
 class Like(Base):
     __tablename__ = 'like'
 
     user_id = Column(Integer, primary_key=True)
-    item_type = Column(String, primary_key=True)
+    item_type = Column(Integer, primary_key=True)
     item_id = Column(String, primary_key=True)
 
 class Contagem(Base):

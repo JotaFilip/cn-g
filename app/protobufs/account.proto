@@ -31,7 +31,8 @@ message PasswordRequest {
 
 message UserData {
     string username = 1;
-    //TODO
+    repeated SeenAndLikeInfoReturn likes = 2;
+    repeated SeenAndLikeInfoReturn seens = 3;
 }
 
 message UserDataRequest {
@@ -81,11 +82,18 @@ message SeenAndLikeInfoReturn{
     string id= 1;
     Type type = 2;
 }
+message SeenAndLikeItem{
+    string id= 1;
+    Type type = 2;
+}
 message SeensAndLikesInfo{
     repeated SeenAndLikeInfoReturn infos = 1;
 }
 message UserId{
     int64 id = 1;
+}
+message CountInfo{
+    int64 count = 1;
 }
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -111,6 +119,10 @@ service Account {
 	rpc GetLikes(UserId) returns (SeensAndLikesInfo);
 	//Obter Visualizações do utilizador
 	rpc GetSeens(UserId) returns (SeensAndLikesInfo);
+	//ObterContagem de likes do item
+	GetLikesItem(SeenAndLikeItem) returns (CountInfo);
+	//ObterContagem de seens do item
+	GetSeensItem(SeenAndLikeItem) returns (CountInfo);
 	//Obter contagem de likes e views por categoria deste utilizador
 	rpc GetContagemLikesAndViews(UserId) returns (ViewsAndLikesCount);
 
