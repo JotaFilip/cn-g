@@ -68,6 +68,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         id = request.user_id
         max = request.max_results
         types = request.types
+
         
         user_id_request = UserId(id=id)
         categories = accounts_client.GetContagemLikesAndViews(user_id_request).tuples
@@ -79,28 +80,30 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             
         sorted_categories = sorted(score_list.items(), key=lambda x: x[1], reverse=True)
         top_categories = sorted_categories[0:3]
-        
+        r = []
         for type in types:
-            r = []
-            if(type == "ANIME"):
+
+            if(type == Type.ANIME):
                 for top in top_categories:
                     animes_category_request = AnimeByCategoryRequest(category=top[0],max_results=max) #top[0] = categoria
-                    get_random_sample = animes_client.SearchByCategory(animes_category_request)
+                    get_random_sample = animes_client.SearchByCategory(animes_category_request).animes
                     cur = [ ItemInfo( id = c.anime_id, name = c.anime_title, type = Type.ANIME) for c in get_random_sample ]
                     r = r + cur
                     
-            elif(type == "BOOK"):
+            elif(type == Type.BOOK):
+                for top in top_categories:
                     books_category_request = BooksByCategoryRequest(category=top[0], max_results=max) #top[0] = categoria
-                    get_random_sample = books_client.SearchByCategory(books_category_request)
+                    get_random_sample = books_client.SearchByCategory(books_category_request).books
                     cur = [ ItemInfo( id = c.book_id, name = c.book_title, type = Type.BOOK) for c in get_random_sample ]
                     r = r + cur
-            elif(type == "SHOW"):
+            elif(type == Type.SHOW):
+                for top in top_categories:
                     imdbs_category_request = IMDBByCategoryRequest(category=top[0], max_results=max) #top[0] = categoria
-                    get_random_sample = imdbs_client.SearchByCategory(imdbs_category_request)
+                    get_random_sample = imdbs_client.SearchByCategory(imdbs_category_request).imdbs
                     cur = [ ItemInfo( id = c.imdb_id, name = c.imdb_title, type = Type.SHOW) for c in get_random_sample ]
                     r = r + cur
 
-        return r
+        return ItemInfoResponse(recommendations= r)
 
     def AddItem(self, request, context):
         return None
@@ -108,15 +111,15 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
     def GetItem(self, request, context):
         id = request.id
         type = request.type
-        if(type == "ANIME"):
+        if(type == Type.ANIME):
             animes_request = AnimeByIdRequest(anime_id=id)
             anime = animes_client.SearchById(animes_request)
             return Item(anime = anime)
-        elif(type == "BOOK"):
+        elif(type == Type.BOOK):
             books_request = BookByIdRequest(book_id=id)
             book = books_client.SearchById(books_request)
             return Item(book = book)
-        elif(type == "SHOW"):
+        elif(type == Type.SHOW):
             imdbs_request = IMDBByIdRequest(imdb_id=id)
             imdb = imdbs_client.SearchById(imdbs_request)
             return Item(imdb = imdb)
@@ -136,30 +139,30 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         id = request.id
         type = request.type
         
-        if(type == "ANIME"):
+        if(type == Type.ANIME):
         
             animes_request = AnimeByIdRequest(anime_id=id)
             anime = animes_client.SearchById(animes_request)
             genres = anime.genres
-            seen_and_like_request = SeenAndLikeInfo(id=id, type=type, categories=genres)
+            seen_and_like_request = SeenAndLikeInfo(user_id= request.user_id, id=id, type=type, categories=genres)
             
             return accounts_client.Seen(seen_and_like_request)
             
-        elif(type == "BOOK"):
+        elif(type == Type.BOOK):
         
             books_request = BookByIdRequest(book_id=id)
             book = books_client.SearchById(books_request)
             genres = book.genres
-            seen_and_like_request = SeenAndLikeInfo(id=id, type=type, categories=genres)
+            seen_and_like_request = SeenAndLikeInfo(user_id= request.user_id, id=id, type=type, categories=genres)
             
             return accounts_client.Seen(seen_and_like_request)
             
-        elif(type == "SHOW"):
+        elif(type == Type.SHOW):
         
             imdbs_request = IMDBByIdRequest(imdb_id=id)
             imdb = imdbs_client.SearchById(imdbs_request)
             genres = imdb.genres
-            seen_and_like_request = SeenAndLikeInfo(id=id, type=type, categories=genres)
+            seen_and_like_request = SeenAndLikeInfo(user_id= request.user_id, id=id, type=type, categories=genres)
             
             return accounts_client.Seen(seen_and_like_request)
 
@@ -167,30 +170,31 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         id = request.id
         type = request.type
         
-        if(type == "ANIME"):
+        if(type == Type.ANIME):
         
             animes_request = AnimeByIdRequest(anime_id=id)
             anime = animes_client.SearchById(animes_request)
             genres = anime.genres
-            seen_and_like_request = SeenAndLikeInfo(id=id, type=type, categories=genres)
+            seen_and_like_request = SeenAndLikeInfo(user_id= request.user_id, id=id, type=type, categories=genres)
             
-            return accounts_client.Like(seen_and_like_request)
+            ret = accounts_client.Like(seen_and_like_request)
+            return ret
             
-        elif(type == "BOOK"):
+        elif(type == Type.BOOK):
         
             books_request = BookByIdRequest(book_id=id)
             book = books_client.SearchById(books_request)
             genres = book.genres
-            seen_and_like_request = SeenAndLikeInfo(id=id, type=type, categories=genres)
+            seen_and_like_request = SeenAndLikeInfo(user_id= request.user_id, id=id, type=type, categories=genres)
             
             return accounts_client.Like(seen_and_like_request)
             
-        elif(type == "SHOW"):
+        elif(type == Type.SHOW):
         
             imdbs_request = IMDBByIdRequest(imdb_id=id)
             imdb = imdbs_client.SearchById(imdbs_request)
             genres = imdb.genres
-            seen_and_like_request = SeenAndLikeInfo(id=id, type=type, categories=genres)
+            seen_and_like_request = SeenAndLikeInfo(user_id= request.user_id, id=id, type=type, categories=genres)
             
             return accounts_client.Like(seen_and_like_request)
 
@@ -203,7 +207,9 @@ def serve():
         LibraryService(), server
     )
     
-    
+    server.add_insecure_port("[::]:50050")
+    server.start()
+    server.wait_for_termination()
 
 if __name__ == "__main__":
     serve()

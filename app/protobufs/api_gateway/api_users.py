@@ -30,9 +30,10 @@ def verify_password(username_or_token, password, required_scopes=None):
         #if not user or not user.verify_password(password):
         request = VerificarRequest(username = username_or_token, password=password)
         response = signin_client.VerificarPassword(request)
-        user_id = response.id
-        if not user_id:
+        if not response.success:
             return None
+        user_id = response.id
+
     g.user_id = user_id
     #token = g.user.generate_auth_token()
     return {'sub': user_id, 'valid': True}

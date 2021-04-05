@@ -5,6 +5,7 @@ from library_pb2 import *
 from library_pb2_grpc import LibraryStub
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
+from flask import Flask, jsonify, request, url_for, abort, g
 
 lib_host = os.getenv("LIBRARY_HOST", "localhost")
 lib_channel = grpc.insecure_channel(f"{lib_host}:50050")
@@ -33,19 +34,31 @@ def getLibrary(page):
         ret.append(object)
     return ret
 
-def getSuggestions():
+def getSuggestions(body):
 
     request = RecommendationRequest (
-        user_id = "0",            # TODO
+        user_id = g.user_id,
         max_results = 30,
-        types = []              # TODO
+        types = body["tipos"]
     )
-    return lib_client.Recommend(request)
+    ret = []
+    for r in lib_client.Recommend(request).recommendations:
+        type = "All"
+        if (r.type == 0):
+            type = "BOOK"
+        if (r.type == 1):
+            type = "SHOW"
+        if (r.type == 2):
+            type = "ANIME"
+
+        object = {"id": r.id, "name": r.name, "type": type}
+        ret.append(object)
+    return ret
 
 def addItem(body):
 
     request = AddItemRequest(body)
-    return lib_client.AddItem(request)
+    return lib_client.AddItem(request).success
 
 def getItemById(type,itemId):
 
@@ -80,24 +93,27 @@ def getItemById(type,itemId):
 
 def deleteItem(type,itemId):
 
-    request = ItemId (
+    request = ItemIdAndUser (
+        user_id=g.user_id,
         id = itemId,
         type = type
     )
-    return lib_client.RemoveItem(request)
+    return lib_client.RemoveItem(request).success
 
 def updateItemSeen(type,itemId):
 
-    request = ItemId (
+    request =  ItemIdAndUser (
+        user_id = g.user_id,
         id = itemId,
         type = type
     )
-    return lib_client.UpdateSeenItem(request)
+    return lib_client.AddSeenItem(request).success
 
 def updateItemLike(type,itemId):
 
-    request = ItemId (
+    request =  ItemIdAndUser(
+        user_id=g.user_id,
         id = itemId,
         type = type
     )
-    return lib_client.UpdateLikeItem(request)
+    return lib_client.AddLikeItem(request).success

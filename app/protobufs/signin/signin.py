@@ -10,7 +10,7 @@ from signin_pb2 import *
 from utils_pb2 import *
 import signin_pb2_grpc
 
-from account_pb2 import AllLikesAndViewsResponse, LikesAndViewsResponse, LikesAndViewsRequest
+from account_pb2 import *
 from account_pb2_grpc import AccountStub
 import os
 

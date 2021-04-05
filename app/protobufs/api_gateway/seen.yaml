@@ -40,7 +40,7 @@ paths:
       # security:
       # - api_key: []
   /suggest:
-    get:
+    post:
       tags:
       - library
       summary: Returns suggestions
@@ -50,7 +50,17 @@ paths:
       operationId: api_lib.getSuggestions
       produces:
       - application/json
-      parameters: []
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            properties:
+              tipos:
+                type: array
+                items:
+                  $ref: '#/definitions/Type'
       responses:
         "200":
           description: successful operation
@@ -389,9 +399,9 @@ definitions:
   Type:
     type: string
     enum:
-    - Book
-    - Anime
-    - Show
+    - BOOK
+    - ANIME
+    - SHOW
   Category:
     type: object
     properties:

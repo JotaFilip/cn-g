@@ -41,7 +41,7 @@ message LibPageRequest {
 }
 
 message RecommendationRequest {
-    string user_id = 1;
+    int64 user_id = 1;
     int32 max_results = 2;
 	repeated Type types = 3;
 }
@@ -59,6 +59,7 @@ message SearchByCategoryRequest {
 }
 
 message AddItemRequest {
+    int64 user_id = 5;
 	optional BookData book = 1;
 	optional IMDBData imdb = 2;
 	optional AnimeData anime = 3;
@@ -67,7 +68,12 @@ message AddItemRequest {
 
 message ItemId {
 	string id = 1;
-	string type = 2;
+	Type type = 2;
+}
+message ItemIdAndUser {
+    int64 user_id = 1;
+	string id = 2;
+	Type type = 3;
 }
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -78,7 +84,7 @@ service Library {
     rpc Recommend (RecommendationRequest) returns (ItemInfoResponse);
 	rpc AddItem (AddItemRequest) returns (Success);
 	rpc GetItem (ItemId) returns (Item);
-	rpc RemoveItem (ItemId) returns (Success);
-	rpc AddSeenItem (ItemId) returns (Success);
-	rpc AddLikeItem (ItemId) returns (Success);
+	rpc RemoveItem (ItemIdAndUser) returns (Success);
+	rpc AddSeenItem (ItemIdAndUser) returns (Success);
+	rpc AddLikeItem (ItemIdAndUser) returns (Success);
 }

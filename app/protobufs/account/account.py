@@ -1,13 +1,11 @@
+from sqlalchemy.exc import IntegrityError
+
 from models import Base, User, Seen, Like, Contagem
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 #
-engine = create_engine('sqlite:///usersWithTokens.db')
 
-Base.metadata.bind = engine
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
 
 import sys
 import secrets
@@ -24,24 +22,41 @@ from utils_pb2 import *
 
 class AccountService(account_pb2_grpc.AccountServicer):
     def VerificarPassword(self, request, context):
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
 
         user = session.query(User).filter_by(username = request.username).first()
+        id = user.getId()
+        session.commit()
         if not user or not user.verify_password(request.password):
-            return Success(success = True)
-        return Success(success = False)
+            return VerificarResponse(success = False)
+        return VerificarResponse(success = True, id = id)
 
     def VerificaSeEhNovoECria(self,request,context):
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
         if session.query(User).filter_by(username=request.username).first() or session.query(User).filter_by(
                 email=request.email).first() is not None:
             # user = session.query(User).filter_by(username=username).first()
-            Success(success=False)  # Já existe
+           return Success(success=False)  # Já existe
         user = User(username=request.username, email=request.email, nonce=request.nonce)
         # user.hash_password(password)
         session.add(user)
         session.commit()
-        Success(success=True)
+        return Success(success=True)
 
     def UserPassword(self, request, context):
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
 
         username = request.username
         password = request.password
@@ -65,51 +80,90 @@ class AccountService(account_pb2_grpc.AccountServicer):
     #
 
     def Seen(self,request,context):
-        #user = session.query().filter_by(username=request.username).first()
-        seen = Seen(user=request.user_id, item_id=request.id, item_type=request.type)
-        session.add(seen)
+        engine = create_engine('sqlite:///usersWithTokens.db')
 
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        #user = session.query().filter_by(username=request.username).first()
+        seen = Seen(user_id=request.user_id, item_id=request.id, item_type=request.type)
+        try:
+            session.add(seen)
+            session.commit()
+        except IntegrityError:
+            session.rollback()
         for cat in request.categories:
-            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat)
+            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat).first()
             if count is None:
                 count = Contagem(user_id = request.user_id, category = cat, likes = 0, views = 1)
                 session.add(count)
             else:
                 count.incrementSeens()
+                return Success(success=False)
 
         session.commit()
-        pass
+        return Success(success=True)
     def Like(self,request,context):
-        like = Like(user=request.user_id, item_id=request.id, item_type=request.type)
-        session.add(like)
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        like = Like(user_id=request.user_id, item_id=request.id, item_type=request.type)
+        try:
+            session.add(like)
+            session.commit()
+        except IntegrityError:
+            session.rollback()
+            return Success(success=False)
+
         for cat in request.categories:
-            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat)
+            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat).first()
             if count is None:
                 count = Contagem(user_id = request.user_id, category = cat, likes = 1, views = 0)
                 session.add(count)
             else:
                 count.incrementLikes()
         session.commit()
+        return Success(success=True)
     def GetLikes(self,request,context):
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
         likes = session.query(Like).filter_by(user_id=request.id)
         ret = []
         for like in likes:
             ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
+        session.commit()
         return SeensAndLikesInfo(infos=ret)
 
 
 
     def GetSeens(self,request,context):
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
         seens = session.query(Seen).filter_by(user_id=request.id)
         ret = []
         for seen in seens:
             ret.append(SeenAndLikeInfoReturn(id=seen.item_id, type=seen.type))
+        session.commit()
         return SeensAndLikesInfo(infos=ret)
     def GetContagemLikesAndViews(self,request,context):
-        counts = session.query(Contagem).filter_by(user_id=request.user_id)
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        counts = session.query(Contagem).filter_by(user_id=request.id)
         ret = []
         for count in counts:
             ret.append(TupleForCategory(category = count.category, views = count.views, likes = count.likes))
+        session.commit()
         return ViewsAndLikesCount(tuples = ret)
 
 
