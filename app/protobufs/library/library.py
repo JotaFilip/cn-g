@@ -106,7 +106,28 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         return ItemInfoResponse(recommendations= r)
 
     def AddItem(self, request, context):
-        return None
+        id = request.user_id
+        type = request.type
+        
+        user_id_request = UserId(id=id)
+        isAdmin = accounts_client.VerificarAdmin(user_id_request).success
+        
+        if not isAdmin:
+            return Success(success=False)
+            
+        if(type == Type.ANIME):
+            res = animes_client.AddAnime(animes_request)
+            return Success(success = res)
+        elif(type == Type.BOOK):
+            res = books_client.AddBook(books_request)
+            return Success(success = res)
+        elif(type == Type.SHOW):
+            res = imdbs_client.AddIMDB(imdbs_request)
+            return Success(success = res)
+        else:
+            return Success(success = False)
+
+        
 
     def GetItem(self, request, context):
         id = request.id
@@ -138,7 +159,26 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
 
     def RemoveItem(self, request, context):
-        return None
+        id = request.user_id
+        type = request.type
+        
+        user_id_request = UserId(id=id)
+        isAdmin = accounts_client.VerificarAdmin(user_id_request).success
+        
+        if not isAdmin:
+            return Success(success=False)
+            
+        if(type == Type.ANIME):
+            res = animes_client.RemoveAnime(animes_request)
+            return Success(success = res)
+        elif(type == Type.BOOK):
+            res = books_client.RemoveBook(books_request)
+            return Success(success = res)
+        elif(type == Type.SHOW):
+            res = imdbs_client.RemoveIMDB(imdbs_request)
+            return Success(success = res)
+        else:
+            return Success(success = False)
     
     def AddSeenItem(self, request, context):
         id = request.id
