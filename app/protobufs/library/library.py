@@ -116,14 +116,12 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             return Success(success=False)
             
         if(type == Type.ANIME):
-            res = animes_client.AddAnime(request.anime)
-            return Success(success = res)
+            return animes_client.AddAnime(request.anime)
         elif(type == Type.BOOK):
-            res = books_client.AddBook(request.book)
-            return Success(success = res)
+            return books_client.AddBook(request.book)
         elif(type == Type.SHOW):
-            res = imdbs_client.AddIMDB(request.imdb)
-            return Success(success = res)
+            return imdbs_client.AddIMDB(request.imdb)
+
         else:
             return Success(success = False)
 
@@ -169,16 +167,13 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             return Success(success=False)
             
         if(type == Type.ANIME):
-            res = animes_client.RemoveAnime(request.id)
-            return Success(success = res)
+            return animes_client.RemoveAnime(AnimeByIdRequest(anime_id = request.id))
         elif(type == Type.BOOK):
-            res = books_client.RemoveBook(request.id)
-            return Success(success = res)
+            return books_client.RemoveBook(BookByIdRequest(book_id = request.id))
         elif(type == Type.SHOW):
-            res = imdbs_client.RemoveIMDB(request.id)
-            return Success(success = res)
+            return imdbs_client.RemoveIMDB(IMDBByIdRequest(imdb_id = request.id))
         else:
-            return Success(success = False)
+            return Success(success=False)
     
     def AddSeenItem(self, request, context):
         id = request.id

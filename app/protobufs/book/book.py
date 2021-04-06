@@ -75,7 +75,7 @@ def proto_to_book(proto):
     book = {
         'name': proto.book_title,
         'description': proto.description,
-        'category': proto.genres,
+        'category': [c for c in proto.genres],
         'rating': proto.book_rating,
         'imageURL': proto.img_url
     }

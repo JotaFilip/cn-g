@@ -117,6 +117,13 @@ def getItemById(type,itemId):
 
 def deleteItem(type,itemId):
 
+    if (type == "BOOK"):
+        type = 0
+    if (type == "SHOW"):
+        type = 1
+    if (type == "ANIME"):
+        type = 2
+
     request = ItemIdAndUser(
         user_id=g.user_id,
         id = itemId,
@@ -126,6 +133,13 @@ def deleteItem(type,itemId):
 
 def updateItemSeen(type,itemId):
 
+    if (type == "BOOK"):
+        type = 0
+    if (type == "SHOW"):
+        type = 1
+    if (type == "ANIME"):
+        type = 2
+
     request =  ItemIdAndUser (
         user_id = g.user_id,
         id = itemId,
@@ -134,6 +148,13 @@ def updateItemSeen(type,itemId):
     return lib_client.AddSeenItem(request).success
 
 def updateItemLike(type,itemId):
+
+    if (type == "BOOK"):
+        type = 0
+    if (type == "SHOW"):
+        type = 1
+    if (type == "ANIME"):
+        type = 2
 
     request =  ItemIdAndUser(
         user_id=g.user_id,

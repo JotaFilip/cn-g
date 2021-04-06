@@ -43,7 +43,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
 
-        user = session.query(User).filter_by(user_id = request.id).first()
+        user = session.query(User).filter_by(id = request.id).first()
         t = user.admin
         session.commit()
         return Success(success = t)
