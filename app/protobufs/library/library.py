@@ -111,18 +111,23 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
     def GetItem(self, request, context):
         id = request.id
         type = request.type
+        
+        seen_and_like_item_request = UserId(id=id, type=type)
+        likes = accounts_client.GetLikesItem(seen_and_like_item_request).count
+        seens = accounts_client.GetSeensItem(seen_and_like_item_request).count
+            
         if(type == Type.ANIME):
             animes_request = AnimeByIdRequest(anime_id=id)
             anime = animes_client.SearchById(animes_request)
-            return Item(anime = anime)
+            return Item(anime = anime, likes=likes, seens=seens)
         elif(type == Type.BOOK):
             books_request = BookByIdRequest(book_id=id)
             book = books_client.SearchById(books_request)
-            return Item(book = book)
+            return Item(book = book, likes=likes, seens=seens)
         elif(type == Type.SHOW):
             imdbs_request = IMDBByIdRequest(imdb_id=id)
             imdb = imdbs_client.SearchById(imdbs_request)
-            return Item(imdb = imdb)
+            return Item(imdb = imdb, likes=likes, seens=seens)
         else:
             return Item()
 
@@ -175,6 +180,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             animes_request = AnimeByIdRequest(anime_id=id)
             anime = animes_client.SearchById(animes_request)
             genres = anime.genres
+            
             seen_and_like_request = SeenAndLikeInfo(user_id= request.user_id, id=id, type=type, categories=genres)
             
             ret = accounts_client.Like(seen_and_like_request)
