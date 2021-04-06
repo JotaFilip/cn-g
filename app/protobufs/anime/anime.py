@@ -1,6 +1,7 @@
 from concurrent import futures
 
 import grpc
+from utils_pb2 import *
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
@@ -48,7 +49,16 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
     def SearchByCategory(self, request, context):
         results = list(db.find({ "category": { "$all": [request.category] } }).limit(request.max_results))
         results = [ anime_to_proto(anime) for anime in results ]
-        return AnimeDataList( animes = results )
+        return AnimeDataList(animes=results)
+
+    def AddAnime(self, request, context):
+        db.insert_one(proto_to_anime(request))
+        return Success(success=True)
+
+    def RemoveAnime(self, request, context):
+        db.remove(ObjectId(request.anime_id))
+        return Success(success=True)
+
 
 def anime_to_proto(result):
     anime = AnimeData (
@@ -58,6 +68,15 @@ def anime_to_proto(result):
         img_url = result["imageURL"]
     )
     anime.genres.extend(result["category"])
+    return anime
+
+def proto_to_anime(proto):
+    anime = {
+            'name' : proto.anime_title,
+            'category': proto.genres,
+            'rating' : proto.anime_rating,
+            'imageURL' : proto.img_url
+    }
     return anime
 
 def serve():
@@ -72,6 +91,8 @@ def serve():
     server.add_insecure_port("[::]:50053")
     server.start()
     server.wait_for_termination()
+
+
 
 if __name__ == "__main__":
     serve()

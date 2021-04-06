@@ -2,6 +2,7 @@ from concurrent import futures
 
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
+from utils_pb2 import *
 from grpc_interceptor.exceptions import NotFound
 
 from pymongo import MongoClient
@@ -51,6 +52,14 @@ class BookService(book_pb2_grpc.BookServicer):
         results = [ book_to_proto(book) for book in results ]
         return BookDataList( books = results )
 
+    def AddBook(self, request, context):
+        db.insert_one(proto_to_book(request))
+        return Success(success=True)
+
+    def RemoveBook(self, request, context):
+        db.remove(ObjectId(request.book_id))
+        return Success(success=True)
+
 def book_to_proto(result):
     book = BookData (
         book_id = str(result["_id"]),
@@ -61,6 +70,17 @@ def book_to_proto(result):
     )
     book.genres.extend(result["category"])
     return book
+
+def proto_to_book(proto):
+    book = {
+        'name': proto.book_title,
+        'description': proto.description,
+        'category': proto.genres,
+        'rating': proto.book_rating,
+        'imageURL': proto.img_url
+    }
+    return book
+
 
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]

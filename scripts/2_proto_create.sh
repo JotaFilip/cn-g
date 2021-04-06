@@ -32,6 +32,9 @@ python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/uti
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/library/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/account/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/signin/ &> /dev/null
+ln ./app/protobufs/utils/*pb2* ./app/protobufs/book/ &> /dev/null
+ln ./app/protobufs/utils/*pb2* ./app/protobufs/anime/ &> /dev/null
+ln ./app/protobufs/utils/*pb2* ./app/protobufs/imdb/ &> /dev/null
 printf " ."
 
 ### GERAR FICHEIROS PARA SIGNIN

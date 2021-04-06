@@ -3,6 +3,7 @@ from concurrent import futures
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
+from utils_pb2 import *
 
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -52,6 +53,14 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         results = [ imdb_to_proto(imdb) for imdb in results ]
         return IMDBDataList( imdbs = results )
 
+    def AddIMDB(self, request, context):
+        db.insert_one(proto_to_imdb(request))
+        return Success(success=True)
+
+    def RemoveIMDB(self, request, context):
+        db.remove(ObjectId(request.imdb_id))
+        return Success(success=True)
+
 def imdb_to_proto(result):
     if(result["rating"]== '-'):
         result["rating"] = None
@@ -65,6 +74,16 @@ def imdb_to_proto(result):
     )
     # imdb.genres.extends(result["category"])
     return imdb
+
+def proto_to_imdb(proto):
+    movie = {
+        'name': proto.imdb_title,
+        'category': proto.genres,
+        'rating': proto.imdb_rating,
+        'imageURL' : proto.imdb_url,
+        'type': proto.type
+    }
+    return movie
 
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]
