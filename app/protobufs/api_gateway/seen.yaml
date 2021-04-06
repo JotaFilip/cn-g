@@ -83,18 +83,18 @@ paths:
       - application/json
       produces:
       - application/json
+      security:
+        - basicAuth: [ ]
       parameters:
       - in: body
         name: body
         description: Seen object that needs to be added to the library
         required: true
         schema:
-          $ref: '#/definitions/Item'
+          $ref: '#/definitions/ItemInsert'
       responses:
         "200":
-          description: successful operation
-          schema:
-            $ref: '#/definitions/Item'
+          description: Successful operation
         "405":
           description: Invalid input
       # security:
@@ -498,8 +498,34 @@ definitions:
         format: double
         example: 4,55
         description: Rating
+  ItemInsert:
+    type: object
+    required:
+      - type
+      - name
+    properties:
+      name:
+        type: string
+        example: Titanic
+      photoUrl:
+        type: string
+        description: Image from the Item
+      category:
+        type: array
+        items:
+          $ref: '#/definitions/Category'
+      type:
+        $ref: '#/definitions/Type'
+      rating:
+        type: number
+        format: double
+        example: 4,55
+        description: Rating
+      description:
+        type: string
   ItemList:
     type: array
     items:
       $ref: '#/definitions/Item'
+
 

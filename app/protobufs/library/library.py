@@ -116,13 +116,13 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             return Success(success=False)
             
         if(type == Type.ANIME):
-            res = animes_client.AddAnime(animes_request)
+            res = animes_client.AddAnime(request.anime)
             return Success(success = res)
         elif(type == Type.BOOK):
-            res = books_client.AddBook(books_request)
+            res = books_client.AddBook(request.book)
             return Success(success = res)
         elif(type == Type.SHOW):
-            res = imdbs_client.AddIMDB(imdbs_request)
+            res = imdbs_client.AddIMDB(request.imdb)
             return Success(success = res)
         else:
             return Success(success = False)
@@ -169,13 +169,13 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             return Success(success=False)
             
         if(type == Type.ANIME):
-            res = animes_client.RemoveAnime(animes_request)
+            res = animes_client.RemoveAnime(request.id)
             return Success(success = res)
         elif(type == Type.BOOK):
-            res = books_client.RemoveBook(books_request)
+            res = books_client.RemoveBook(request.id)
             return Success(success = res)
         elif(type == Type.SHOW):
-            res = imdbs_client.RemoveIMDB(imdbs_request)
+            res = imdbs_client.RemoveIMDB(request.id)
             return Success(success = res)
         else:
             return Success(success = False)

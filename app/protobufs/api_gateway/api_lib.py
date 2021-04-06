@@ -63,20 +63,26 @@ def addItem(body):
     if (type == "BOOK"):
 
         type = 0
-        data = BookData(book_title = body["name"], img_url= body["photoUrl"], book_rating= body["rating"], description= body["description"], genres = body["category"] )
+        data = BookData(book_title = body["name"], img_url= body["photoUrl"], book_rating= body["rating"], description= body["description"], genres = category_to_genres(body["category"]) )
         request = AddItemRequest(user_id=g.user_id, type=type, book=data)
     if (type == "SHOW"):
         data = IMDBData(imdb_title=body["name"], img_url=body["photoUrl"], imdb_rating=body["rating"],
-                        description=body["description"], genres=body["category"] , type=body["type"])
+                        description=body["description"], genres= category_to_genres(body["category"]), type=body["type"])
         request = AddItemRequest(user_id=g.user_id, type=type, imdb=data)
         type = 1
     if (type == "ANIME"):
         data = AnimeData(anime_title=body["name"], img_url=body["photoUrl"], anime_rating=body["rating"],
-                        description=body["description"], genres=body["category"])
+                        description=body["description"], genres= category_to_genres(body["category"]))
         request = AddItemRequest(user_id=g.user_id, type=type, anime=data)
         type = 2
 
     return lib_client.AddItem(request).success
+
+def category_to_genres(category):
+    lista = []
+    for c in category:
+        lista.append(c["name"])
+    return lista
 
 def getItemById(type,itemId):
 

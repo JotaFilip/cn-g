@@ -29,6 +29,8 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session = DBSession()
 
         user = session.query(User).filter_by(username = request.username).first()
+        if user is None:
+            return VerificarResponse(success = False)
         id = user.getId()
         session.commit()
         if not user or not user.verify_password(request.password):
