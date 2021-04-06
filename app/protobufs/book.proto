@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "utils.proto";
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
@@ -55,4 +56,6 @@ service Book {
     rpc SearchById (BookByIdRequest) returns (BookData);
 	rpc SearchByName (BooksByNameRequest) returns (BookDataList);
 	rpc SearchByCategory (BooksByCategoryRequest) returns (BookDataList);
+	rpc AddBook (BookData) returns (Success);
+	rpc RemoveBook (BookByIdRequest) returns (Success);
 }

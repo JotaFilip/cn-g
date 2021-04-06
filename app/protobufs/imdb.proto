@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "utils.proto";
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
@@ -57,4 +58,6 @@ service IMDB {
     rpc SearchById (IMDBByIdRequest) returns (IMDBData);
 	rpc SearchByName (IMDBByNameRequest) returns (IMDBDataList);
 	rpc SearchByCategory (IMDBByCategoryRequest) returns (IMDBDataList);
+	rpc AddIMDB (IMDBData) returns (Success);
+	rpc RemoveIMDB (IMDBByIdRequest) returns (Success);
 }
