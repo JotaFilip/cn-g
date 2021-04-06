@@ -1,6 +1,9 @@
 
 # Library API
 import os
+from book_pb2 import *
+from anime_pb2 import *
+from imdb_pb2 import *
 from library_pb2 import *
 from library_pb2_grpc import LibraryStub
 import grpc
@@ -56,7 +59,23 @@ def getSuggestions(body):
     return ret
 
 def addItem(body):
-    request = AddItemRequest(user_id = g.user_id, l)
+    type= body["type"]
+    if (type == "BOOK"):
+
+        type = 0
+        data = BookData(book_title = body["name"], img_url= body["photoUrl"], book_rating= body["rating"], description= body["description"], genres = body["category"] )
+        request = AddItemRequest(user_id=g.user_id, type=type, book=data)
+    if (type == "SHOW"):
+        data = IMDBData(imdb_title=body["name"], img_url=body["photoUrl"], imdb_rating=body["rating"],
+                        description=body["description"], genres=body["category"] , type=body["type"])
+        request = AddItemRequest(user_id=g.user_id, type=type, book=data)
+        type = 1
+    if (type == "ANIME"):
+        data = AnimeData(anime_title=body["name"], img_url=body["photoUrl"], anime_rating=body["rating"],
+                        description=body["description"], genres=body["category"])
+        request = AddItemRequest(user_id=g.user_id, type=type, book=data)
+        type = 2
+
     return lib_client.AddItem(request).success
 
 def getItemById(type,itemId):
@@ -71,14 +90,14 @@ def getItemById(type,itemId):
             category.append(cat)
 
         return {"id" : response.book.book_id, "name" : response.book.book_title, "type" : "BOOK", "description": response.book.description,
-                "photoUrl":response.book.img_url, "category": category, "rating": response.book.book_rating}
+                "photoUrl":response.book.img_url, "category": category, "rating": response.book.book_rating, "likes": response.likes, "seens": response.seens}
     if (response.imdb.imdb_id != ''):
         category = []
         for cat in response.imdb.genres:
             category.append(cat)
 
         return {"id": response.imdb.imdb_id, "name": response.imdb.imdb_title, "type": "SHOW",
-                "photoUrl": response.imdb.img_url, "category": category, "rating": response.imdb.imdb_rating}
+                "photoUrl": response.imdb.img_url, "category": category, "rating": response.imdb.imdb_rating, "likes": response.likes, "seens": response.seens}
 
 
     if (response.anime.anime_id != ''):
@@ -87,7 +106,7 @@ def getItemById(type,itemId):
             category.append(cat)
 
         return {"id":response.anime.anime_id, "name":response.anime.anime_title, "type": "ANIME",
-                "photoUrl": response.anime.img_url, "category": category, "rating": response.anime.anime_rating}
+                "photoUrl": response.anime.img_url, "category": category, "rating": response.anime.anime_rating, "likes": response.likes, "seens": response.seens}
     return 'Id Not Found', 400
 
 def deleteItem(type,itemId):

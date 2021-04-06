@@ -112,7 +112,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         id = request.id
         type = request.type
         
-        seen_and_like_item_request = UserId(id=id, type=type)
+        seen_and_like_item_request = SeenAndLikeItem(id=id, type=type)
         likes = accounts_client.GetLikesItem(seen_and_like_item_request).count
         seens = accounts_client.GetSeensItem(seen_and_like_item_request).count
             
