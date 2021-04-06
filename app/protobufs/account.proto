@@ -105,6 +105,8 @@ service Account {
 	//Actualiza a password do user baseado no nonce enviado para o email
 	rpc UserPassword (PasswordRequest) returns (Success);
 	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
+
+	rpc VerificarAdmin(UserId) returns (Success);
 	//Dar login //nao usado
 	rpc LoginUser (UserDataRequest) returns (Success);
 	//Dar logout //nao usado

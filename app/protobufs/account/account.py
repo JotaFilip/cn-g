@@ -34,6 +34,17 @@ class AccountService(account_pb2_grpc.AccountServicer):
         if not user or not user.verify_password(request.password):
             return VerificarResponse(success = False)
         return VerificarResponse(success = True, id = id)
+    def VerificarAdmin(self, request, context):
+        engine = create_engine('sqlite:///usersWithTokens.db')
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+
+        user = session.query(User).filter_by(user_id = request.id).first()
+        t = user.admin
+        session.commit()
+        return Success(success = t)
 
     def VerificaSeEhNovoECria(self,request,context):
         engine = create_engine('sqlite:///usersWithTokens.db')

@@ -68,12 +68,12 @@ def addItem(body):
     if (type == "SHOW"):
         data = IMDBData(imdb_title=body["name"], img_url=body["photoUrl"], imdb_rating=body["rating"],
                         description=body["description"], genres=body["category"] , type=body["type"])
-        request = AddItemRequest(user_id=g.user_id, type=type, book=data)
+        request = AddItemRequest(user_id=g.user_id, type=type, imdb=data)
         type = 1
     if (type == "ANIME"):
         data = AnimeData(anime_title=body["name"], img_url=body["photoUrl"], anime_rating=body["rating"],
                         description=body["description"], genres=body["category"])
-        request = AddItemRequest(user_id=g.user_id, type=type, book=data)
+        request = AddItemRequest(user_id=g.user_id, type=type, anime=data)
         type = 2
 
     return lib_client.AddItem(request).success
@@ -111,7 +111,7 @@ def getItemById(type,itemId):
 
 def deleteItem(type,itemId):
 
-    request = ItemIdAndUser (
+    request = ItemIdAndUser(
         user_id=g.user_id,
         id = itemId,
         type = type
