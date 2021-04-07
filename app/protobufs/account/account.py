@@ -6,8 +6,8 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 #
 
-#SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:@auyduiedM/7Td8AUsadvb%&(&))FVSÇºASD@saldanha.sytes.net:3306/account'
-SQLALCHEMY_DATABASE_URI = "mariadb:///?User=cngroupfcul&;Password=@auyduiedM/7Td8AUsadvb%&(&))FVSÇºASD&Database=account&Server=saldanha.sytes.net&Port=3306"
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@saldanha.sytes.net:3306/account'
+#SQLALCHEMY_DATABASE_URI = "mariadb:///?User=cngroupfcul&;Password=@auyduiedM/7Td8AUsadvb%&(&))FVSÇºASD&Database=account&Server=saldanha.sytes.net&Port=3306"
 
 import sys
 import secrets
