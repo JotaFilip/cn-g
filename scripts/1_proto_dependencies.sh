@@ -11,4 +11,9 @@ pip3 install grpcio-tools
 pip3 install grpc-interceptor
 pip3 install --upgrade protobuf
 pip3 install wheel
+
+# CORS
+# FLASK
+# FLASH-httpauth
+
 printf " done\n"
