@@ -24,7 +24,7 @@ import csv
 
 ratings = {}
 # load ratings
-with open("cn-g/app/databases/data/IMDB/title.ratings.tsv","r",encoding="utf8") as f:
+with open("app/databases/data/IMDB/title.ratings.tsv","r",encoding="utf8") as f:
     reader = csv.reader(f,delimiter="\t")
 
     first_elem = True
@@ -40,7 +40,7 @@ print("Loaded ratings")
 insert_list = []
 count = 0
 total = 6_300_000
-with open("cn-g/app/databases/data/IMDB/title.basics.tsv","r",encoding="utf8") as f:
+with open("app/databases/data/IMDB/title.basics.tsv","r",encoding="utf8") as f:
     reader = csv.reader(f,delimiter="\t")
 
     first_elem = True
