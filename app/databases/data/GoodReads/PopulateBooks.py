@@ -23,23 +23,24 @@ db = db["books"]
 import csv
 
 insert_list = []
-with open("cn-g/app/databases/data/GoodReads/book_data.csv","r",encoding="utf8") as f:
+with open("app/databases/data/GoodReads/book_data.csv","r",encoding="utf8") as f:
     reader = csv.reader(f)
 
     first_elem = True
     for row in reader:
         genres = row[10].split("|")
+        genres = [ g.strip() for g in genres ]
 
         if first_elem:
             first_elem = False
             continue
 
         book = {
-            'name' : row[9],
-            'description': row[1],
+            'name' : row[9].strip(),
+            'description': row[1].strip(),
             'category': genres,
             'rating' : float(row[6])*2,
-            'imageURL' : row[11]
+            'imageURL' : row[11].strip()
         }
 
         # append 
