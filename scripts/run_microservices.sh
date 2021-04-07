@@ -1,3 +1,4 @@
+#!/bin/bash
 python3 ./app/protobufs/anime/anime.py &
 python3 ./app/protobufs/book/book.py &
 python3 ./app/protobufs/imdb/imdb.py &

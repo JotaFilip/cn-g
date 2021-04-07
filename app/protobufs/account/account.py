@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 #
 
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:@auyduiedM/7Td8AUsadvb%&(&))FVSÇºASD@saldanha.sytes.net:3306/account'
 
 import sys
 import secrets
@@ -22,7 +23,7 @@ from utils_pb2 import *
 
 class AccountService(account_pb2_grpc.AccountServicer):
     def VerificarPassword(self, request, context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -37,7 +38,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
             return VerificarResponse(success = False)
         return VerificarResponse(success = True, id = id)
     def VerificarAdmin(self, request, context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -49,7 +50,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return Success(success = t)
 
     def VerificaSeEhNovoECria(self,request,context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -72,7 +73,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return Success(success=True)
 
     def UserPassword(self, request, context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -102,7 +103,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
     #
 
     def Seen(self,request,context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -126,7 +127,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return Success(success=True)
     def Like(self,request,context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -149,7 +150,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return Success(success=True)
     def GetLikes(self,request,context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -164,7 +165,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
 
 
     def GetSeens(self,request,context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -176,7 +177,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return SeensAndLikesInfo(infos=ret)
     def GetContagemLikesAndViews(self,request,context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -189,7 +190,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return ViewsAndLikesCount(tuples = ret)
 
     def GetLikesItem(self, request, context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -198,7 +199,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return CountInfo(count=counts)
     def GetSeensItem(self, request, context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -211,7 +212,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
 
     #Username
     def GetUserByName(self, request, context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -228,7 +229,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return UserData(username = request.username, likes = likes, seens = seens)
 
     def UpdateUser(self, request, context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -245,7 +246,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return Success(success=True)
 
     def DeleteUser(self, request, context):
-        engine = create_engine('sqlite:///usersWithTokens.db')
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
