@@ -12,11 +12,11 @@ class User(Base):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
-    username = Column(String(32), index=True)
-    email = Column(String, index=True)
+    username = Column(String(128), index=True)
+    email = Column(String(128), index=True)
     nonce = Column(Integer)
-    password_hash = Column(String(64))
-    password_salt = Column(String(64))
+    password_hash = Column(String(128))
+    password_salt = Column(String(128))
     admin = Column(Boolean, default=False)
 
     def hash_password(self, password, salt):
@@ -38,20 +38,20 @@ class Seen(Base):
 
     user_id = Column(Integer, primary_key=True)
     item_type = Column(Integer, primary_key=True)
-    item_id = Column(String, primary_key=True)
+    item_id = Column(String(128), primary_key=True)
 
 class Like(Base):
     __tablename__ = 'like'
 
     user_id = Column(Integer, primary_key=True)
     item_type = Column(Integer, primary_key=True)
-    item_id = Column(String, primary_key=True)
+    item_id = Column(String(128), primary_key=True)
 
 class Contagem(Base):
     __tablename__ = 'contagem'
 
     user_id = Column(Integer, primary_key=True)
-    category = Column(String, primary_key=True)
+    category = Column(String(128), primary_key=True)
     likes = Column(Integer, default=0)
     views = Column(Integer, default=0)
     def incrementSeens(self):
@@ -62,6 +62,6 @@ class Contagem(Base):
 
 
 
-engine = create_engine('sqlite:///usersWithTokens.db')
+engine = create_engine('mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@127.0.0.1:3306/account')
 
 Base.metadata.create_all(engine)
