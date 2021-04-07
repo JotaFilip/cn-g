@@ -24,7 +24,7 @@ import csv
 
 ratings = {}
 # load ratings
-with open("cn-g/app/databases/data/IMDB/title.ratings.tsv","r",encoding="utf8") as f:
+with open("app/databases/data/IMDB/title.ratings.tsv","r",encoding="utf8") as f:
     reader = csv.reader(f,delimiter="\t")
 
     first_elem = True
@@ -40,7 +40,7 @@ print("Loaded ratings")
 insert_list = []
 count = 0
 total = 6_300_000
-with open("cn-g/app/databases/data/IMDB/title.basics.tsv","r",encoding="utf8") as f:
+with open("app/databases/data/IMDB/title.basics.tsv","r",encoding="utf8") as f:
     reader = csv.reader(f,delimiter="\t")
 
     first_elem = True
@@ -57,6 +57,7 @@ with open("cn-g/app/databases/data/IMDB/title.basics.tsv","r",encoding="utf8") a
 
         if len(row) >= 9:
             genres = row[8].split(",")
+            genres = [ g.strip() for g in genres ]
 
         rating = "-"
         if row[0] in ratings:
@@ -64,11 +65,11 @@ with open("cn-g/app/databases/data/IMDB/title.basics.tsv","r",encoding="utf8") a
 
         movie = {
             # 'id': row[0],
-            'name' : row[2],
+            'name' : row[2].strip(),
             'category': genres,
             'rating' : rating,
             # 'imageURL' : "",
-            'type': row[1],
+            'type': row[1].strip(),
         }
 
         # append
