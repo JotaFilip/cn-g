@@ -1,1 +1,0 @@
-rm ./app/protobufs/*/*pb2*
