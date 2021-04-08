@@ -7,5 +7,5 @@ WORKDIR /service
 
 RUN pip install -r requirements.txt
 
-EXPOSE 50056
+EXPOSE 50054
 ENTRYPOINT [ "python", "signin.py" ]

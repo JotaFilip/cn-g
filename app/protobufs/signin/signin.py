@@ -87,7 +87,7 @@ def serve():
         SignInService(), server
     )
     
-    server.add_insecure_port("[::]:50056")
+    server.add_insecure_port("[::]:50054")
     server.start()
     server.wait_for_termination()
 
