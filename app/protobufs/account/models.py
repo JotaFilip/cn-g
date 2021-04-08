@@ -60,6 +60,7 @@ class Contagem(Base):
         self.likes += 1
 
 
-engine = create_engine('mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@saldanha.sytes.net/account')
+#engine = create_engine('mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@127.0.0.1/account')
+engine = create_engine('mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@saldanha.sytes.net:3306/account')
 
 Base.metadata.create_all(engine)
