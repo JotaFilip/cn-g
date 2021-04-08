@@ -68,7 +68,8 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         return imdb_to_proto(results[0])
 
     def SearchByName(self, request, context):
-        results = search_by_name(request.name,request.max_results)
+        req = { "name": { "$regex" : ".*"+request.name+".*" } }
+        results = search_by_name(req,request.max_results)
         return IMDBDataList( imdbs = results )
 
     def SearchByCategory(self, request, context):
@@ -83,12 +84,13 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
 
     def AddIMDB(self, request, context):
 
-        request = search_by_name(request.name,1)
-        if SearchByName(request,None) != []:
+        req = { "name": request.name } 
+        result = search_by_name(req,1)
+        if result != []:
             # Cannot add IMDB
             return Success(sucess=False)
 
-        imdb = proto_to_imdb(request)
+        imdb = proto_to_imdb(result)
         try:
             db1.insert_one(imdb)
         except Exception:
@@ -108,10 +110,10 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
                 return Sucess(success=False) 
         return Success(success=True)
 
-def search_by_name(name,n_results):
-    results = list(db1.find({ "name": request.name}).limit(n_results))
+def search_by_name(request,n_results):
+    results = list(db1.find(request).limit(n_results))
     if len(results) < n_results:
-        results += list(db2.find({ "name": request.name}).limit(len(results)-n_results))
+        results += list(db2.find(request).limit(len(results)-n_results))
 
     return [ imdb_to_proto(imdb) for imdb in results ]
 
