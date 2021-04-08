@@ -89,22 +89,22 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
             return Success(sucess=False)
 
         imdb = proto_to_imdb(request)
-        try
+        try:
             db1.insert_one(imdb)
-        except:
+        except Exception:
             try:
                 db2.insert_one(imdb)
-            except: 
+            except Exception: 
                 return Sucess(success=False) 
         return Success(success=True)
 
     def RemoveIMDB(self, request, context):
-        try
+        try:
             db1.remove_one(ObjectId(request.imdb_id))
-        except:
+        except Exception:
             try:
                 db2.insert_one(ObjectId(request.imdb_id))
-            except: 
+            except Exception: 
                 return Sucess(success=False) 
         return Success(success=True)
 

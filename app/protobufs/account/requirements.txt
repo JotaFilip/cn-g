@@ -6,4 +6,4 @@ passlib >= 0.0.0
 sqlalchemy >= 0.0.0
 pymysql >= 0.0.0
 mysqlclient >=0.0.0
-mysqldb >= 0.0.0
+# mysqldb >= 0.0.0
