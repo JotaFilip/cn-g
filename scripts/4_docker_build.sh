@@ -2,7 +2,7 @@
 printf "Building Dockers\n" 
 printf "\t Building Account . . . " 
 { 
-sudo docker build . -f app/protobufs/account/Dockerfile -t account 
+sudo docker build . -f app/protobufs/account/Dockerfile -t account
 } &> /dev/null 
 printf "done\n" 
  

@@ -1,3 +1,3 @@
 #
-printf "Starting testing \n" 
+printf "Testing \n" 
 printf "\ndone\n" 
