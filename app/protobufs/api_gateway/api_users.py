@@ -12,9 +12,6 @@ from grpc_interceptor import ExceptionToStatusInterceptor
 from verifier import Verifier
 from flask import Flask, jsonify, request, url_for, abort, g
 from flask_httpauth import HTTPBasicAuth
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
-from sqlalchemy import create_engine
 auth = HTTPBasicAuth()
 sign_host = os.getenv("SIGNIN_HOST", "localhost")
 sign_channel = grpc.insecure_channel(f"{sign_host}:50056")

@@ -38,9 +38,6 @@ class SignInService(signin_pb2_grpc.SignInServicer):
             return Success(success=False)  # argumentos insuficientes
         response = account_client.VerificaSeEhNovoECria(EmailAndNonceRequest(email = email, username = username, nonce = nonce))
 
-
-
-
         s = smtplib.SMTP(smtp_server, port)
         s.starttls()
         s.login(sender_email, password)

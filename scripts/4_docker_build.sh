@@ -36,3 +36,9 @@ printf "\t Building SignIn . . . "
 sudo docker build . -f app/protobufs/signin/Dockerfile -t signin 
 } &> /dev/null 
 printf "done\n" 
+
+printf "\t Building API Gateway . . . " 
+{
+sudo docker build . -f app/protobufs/api_gateway/Dockerfile -t api_gateway
+} &> /dev/null 
+printf "done\n"
