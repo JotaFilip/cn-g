@@ -84,22 +84,40 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         for type in types:
 
             if(type == Type.ANIME):
-                for top in top_categories:
-                    animes_category_request = AnimeByCategoryRequest(category=top[0],max_results=max) #top[0] = categoria
-                    get_random_sample = animes_client.SearchByCategory(animes_category_request).animes
+                if categories:
+                    for top in top_categories:
+                        animes_category_request = AnimeByCategoryRequest(category=top[0],max_results=max) #top[0] = categoria
+                        get_random_sample = animes_client.SearchByCategory(animes_category_request).animes
+                        cur = [ ItemInfo( id = c.anime_id, name = c.anime_title, type = Type.ANIME) for c in get_random_sample ]
+                        r = r + cur
+                else:
+                    animes_random_request = GetAnimesRequest(page=0, max_results=max)
+                    get_random_sample = animes_client.GetAnimes(animes_random_request).animes
                     cur = [ ItemInfo( id = c.anime_id, name = c.anime_title, type = Type.ANIME) for c in get_random_sample ]
                     r = r + cur
-                    
             elif(type == Type.BOOK):
-                for top in top_categories:
-                    books_category_request = BooksByCategoryRequest(category=top[0], max_results=max) #top[0] = categoria
-                    get_random_sample = books_client.SearchByCategory(books_category_request).books
+                if categories:
+                    for top in top_categories:
+                        books_category_request = BooksByCategoryRequest(category=top[0], max_results=max) #top[0] = categoria
+                        get_random_sample = books_client.SearchByCategory(books_category_request).books
+                        cur = [ ItemInfo( id = c.book_id, name = c.book_title, type = Type.BOOK) for c in get_random_sample ]
+                        r = r + cur
+                else:
+                    books_random_request = GetBooksRequest(page=0, max_results=max)
+                    get_random_sample = books_client.GetBooks(books_random_request).books
                     cur = [ ItemInfo( id = c.book_id, name = c.book_title, type = Type.BOOK) for c in get_random_sample ]
                     r = r + cur
+                    
             elif(type == Type.SHOW):
-                for top in top_categories:
-                    imdbs_category_request = IMDBByCategoryRequest(category=top[0], max_results=max) #top[0] = categoria
-                    get_random_sample = imdbs_client.SearchByCategory(imdbs_category_request).imdbs
+                if categories:
+                    for top in top_categories:
+                        imdbs_category_request = IMDBByCategoryRequest(category=top[0], max_results=max) #top[0] = categoria
+                        get_random_sample = imdbs_client.SearchByCategory(imdbs_category_request).imdbs
+                        cur = [ ItemInfo( id = c.imdb_id, name = c.imdb_title, type = Type.SHOW) for c in get_random_sample ]
+                        r = r + cur
+                else:
+                    imdbs_random_request = GetIMDBsRequest(page=0, max_results=max)
+                    get_random_sample = imdbs_client.GetIMDBs(imdbs_random_request).imdbs
                     cur = [ ItemInfo( id = c.imdb_id, name = c.imdb_title, type = Type.SHOW) for c in get_random_sample ]
                     r = r + cur
 
