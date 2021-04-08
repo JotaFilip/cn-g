@@ -150,12 +150,6 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         else:
             return Item()
 
-
-
-
-
-
-
     def RemoveItem(self, request, context):
         id = request.user_id
         type = request.type

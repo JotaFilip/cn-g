@@ -59,9 +59,9 @@ app = connexion.App(__name__, specification_dir="./")
 if __name__ == "__main__":
 
 #################################################
-    print("Request - Find anime by ID: 605128692d0accf2d480f2c2")
+    print("Request - Find anime by ID: 606e252aebddc73ebfb15500")
     animes_request = AnimeByIdRequest(
-        anime_id= "605128692d0accf2d480f2c2"
+        anime_id= "606e252aebddc73ebfb15500"
     )
     animes_response = animes_client.SearchById(
         animes_request
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     if(animes_response is None):
         print("Response: Anime not found")
     else:
-        print("Response:", animes_response.anime)
+        print("Response:", animes_response)
 
     print("Request - Find anime by name: Cowboy Bebop")
     

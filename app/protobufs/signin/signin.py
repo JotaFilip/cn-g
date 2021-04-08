@@ -14,10 +14,9 @@ from account_pb2 import *
 from account_pb2_grpc import AccountStub
 import os
 
-account_host = os.getenv("ACCOUNT_HOST", "localhost")
+account_host = os.getenv("ACCOUNTS_HOST", "localhost")
 account_channel = grpc.insecure_channel(f"{account_host}:50055")
 account_client = AccountStub(account_channel)
-
 
 import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
