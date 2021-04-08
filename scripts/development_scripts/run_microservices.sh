@@ -1,4 +1,4 @@
-> ./scripts/pids #clean the file pids
+> ./scripts/development_scripts/pids #clean the file pids
 python3 ./app/protobufs/anime/anime.py & echo $! >> ./scripts/development_scripts/pids #write pid in pids file to kill later
 python3 ./app/protobufs/book/book.py & echo $! >> ./scripts/development_scripts/pids
 python3 ./app/protobufs/imdb/imdb.py & echo $! >> ./scripts/development_scripts/pids
