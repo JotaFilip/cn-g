@@ -1,18 +1,19 @@
 from concurrent import futures
 import os
 
+
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from grpc_interceptor.exceptions import NotFound
 
-from book_pb2 import *
-from book_pb2_grpc import BookStub
+from ..book.book_pb2 import *
+from ..book.book_pb2_grpc import BookStub
 
-from imdb_pb2 import *
-from imdb_pb2_grpc import IMDBStub
+from ..imdb.imdb_pb2 import *
+from ..imdb.imdb_pb2_grpc import IMDBStub
 
-from anime_pb2 import *
-from anime_pb2_grpc import AnimeStub
+from ..anime.anime_pb2 import *
+from ..anime.anime_pb2_grpc import AnimeStub
 
 from account_pb2 import *
 from account_pb2_grpc import AccountStub

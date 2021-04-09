@@ -4,9 +4,10 @@ import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from utils_pb2 import *
 from grpc_interceptor.exceptions import NotFound
-
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+
+
 
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 user = "seen"
