@@ -1,7 +1,7 @@
 FROM python
 
 RUN mkdir /service
-COPY app/protobufs/api_gateway/  /service/
+COPY ./  /service/
 
 WORKDIR /service
 

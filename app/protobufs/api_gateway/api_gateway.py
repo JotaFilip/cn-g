@@ -1,5 +1,4 @@
 # 3rd party moudles
-from flask import render_template
 import connexion
 from flask_cors import CORS
 

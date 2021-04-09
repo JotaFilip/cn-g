@@ -1,7 +1,7 @@
 FROM python
 
 RUN mkdir /service
-COPY app/protobufs/anime/  /service/
+COPY ./  /service/
 
 WORKDIR /service
 

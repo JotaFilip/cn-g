@@ -2,37 +2,41 @@ version: "3.8"
 services:
 
     account:
-        container_name: account
-        build: app/protobufs/account/Dockerfile
+        build:
+            dockerfile: Dockerfile
+            context: ./account
         image: account
         networks:
             - micro_services
         ports:
             - 50055:50055
-            
+
     signin:
-        container_name: signin
         environment:
             ACCOUNTS_HOST: account
-        build: app/protobufs/signin/Dockerfile
+        build:
+            dockerfile: Dockerfile
+            context: ./signin
         image: signin
         networks:
             - micro_services
         ports:
             - 50054:50054
-            
+
     anime:
-        container_name: anime
-        build: app/protobufs/anime/Dockerfile
+        build:
+            dockerfile: Dockerfile
+            context: ./anime
         image: anime
         networks:
             - micro_services
         ports:
             - 50053:50053
-            
+
     book:
-        container_name: book
-        build: app/protobufs/book/Dockerfile
+        build:
+            dockerfile: Dockerfile
+            context: ./book
         image: book
         networks:
             - micro_services
@@ -40,8 +44,9 @@ services:
             - 50051:50051
 
     imdb:
-        container_name: imdb
-        build: app/protobufs/imdb/Dockerfile
+        build:
+            dockerfile: Dockerfile
+            context: ./imdb
         image: imdb
         networks:
             - micro_services
@@ -49,25 +54,28 @@ services:
             - 50052:50052
 
     library:
-        container_name: library
         environment:
-            ANIMES_HOST: anime
             BOOKS_HOST: book
             IMDBS_HOST: imdb
+            ANIMES_HOST: anime
             ACCOUNTS_HOST: account
-        build: app/protobufs/library/Dockerfile
+
+        build:
+            dockerfile: Dockerfile
+            context: ./library
         image: library
         networks:
             - micro_services
         ports:
             - 50050:50050
-            
+
     api_gateway:
-        container_name: api_gateway
         environment:
-            LIBRARY_HOST: library
             SIGNIN_HOST: signin
-        build: app/protobufs/api_gateway/Dockerfile
+            LIBRARY_HOST: library
+        build:
+            dockerfile: Dockerfile
+            context: ./api_gateway
         image: api_gateway
         networks:
             - micro_services
