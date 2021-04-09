@@ -12,6 +12,7 @@ from grpc_interceptor import ExceptionToStatusInterceptor
 from verifier import Verifier
 from flask import Flask, jsonify, request, url_for, abort, g
 from flask_httpauth import HTTPBasicAuth
+
 auth = HTTPBasicAuth()
 sign_host = os.getenv("SIGNIN_HOST", "localhost")
 sign_channel = grpc.insecure_channel(f"{sign_host}:50054", options=(('grpc.enable_http_proxy', 0),))
