@@ -2,6 +2,7 @@ version: "3.8"
 services:
 
     account:
+        container_name: account
         build: app/protobufs/account/Dockerfile
         image: account
         networks:
@@ -10,6 +11,7 @@ services:
             - 50055:50055
             
     signin:
+        container_name: signin
         environment:
             ACCOUNTS_HOST: account
         build: app/protobufs/signin/Dockerfile
@@ -20,6 +22,7 @@ services:
             - 50054:50054
             
     anime:
+        container_name: anime
         build: app/protobufs/anime/Dockerfile
         image: anime
         networks:
@@ -28,6 +31,7 @@ services:
             - 50053:50053
             
     book:
+        container_name: book
         build: app/protobufs/book/Dockerfile
         image: book
         networks:
@@ -36,6 +40,7 @@ services:
             - 50051:50051
 
     imdb:
+        container_name: imdb
         build: app/protobufs/imdb/Dockerfile
         image: imdb
         networks:
@@ -44,12 +49,12 @@ services:
             - 50052:50052
 
     library:
+        container_name: library
         environment:
+            ANIMES_HOST: anime
             BOOKS_HOST: book
             IMDBS_HOST: imdb
-            ANIMES_HOST: anime
             ACCOUNTS_HOST: account
-
         build: app/protobufs/library/Dockerfile
         image: library
         networks:
@@ -58,6 +63,10 @@ services:
             - 50050:50050
             
     api_gateway:
+        container_name: api_gateway
+        environment:
+            LIBRARY_HOST: library
+            SIGNIN_HOST: signin
         build: app/protobufs/api_gateway/Dockerfile
         image: api_gateway
         networks:
