@@ -1,6 +1,6 @@
 
 printf  "Creating Protobufs ."
-
+rm ./app/protobufs/*/*pb2*
 ### GERAR FICHEIROS PARA BOOK
 python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/book/ --grpc_python_out=./app/protobufs/book/ ./app/protobufs/book.proto --experimental_allow_proto3_optional
 ln ./app/protobufs/book/*pb2* ./app/protobufs/library/ &> /dev/null
