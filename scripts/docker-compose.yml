@@ -1,0 +1,69 @@
+version: "3.8"
+services:
+
+    account:
+        build: app/protobufs/account/Dockerfile
+        image: account
+        networks:
+            - micro_services
+        ports:
+            - 50055:50055
+            
+    signin:
+        environment:
+            ACCOUNTS_HOST: account
+        build: app/protobufs/signin/Dockerfile
+        image: signin
+        networks:
+            - micro_services
+        ports:
+            - 50054:50054
+            
+    anime:
+        build: app/protobufs/anime/Dockerfile
+        image: anime
+        networks:
+            - micro_services
+        ports:
+            - 50053:50053
+            
+    book:
+        build: app/protobufs/book/Dockerfile
+        image: book
+        networks:
+            - micro_services
+        ports:
+            - 50051:50051
+
+    imdb:
+        build: app/protobufs/imdb/Dockerfile
+        image: imdb
+        networks:
+            - micro_services
+        ports:
+            - 50052:50052
+
+    library:
+        environment:
+            BOOKS_HOST: book
+            IMDBS_HOST: imdb
+            ANIMES_HOST: anime
+            ACCOUNTS_HOST: account
+
+        build: app/protobufs/library/Dockerfile
+        image: library
+        networks:
+            - micro_services
+        ports:
+            - 50050:50050
+            
+    api_gateway:
+        build: app/protobufs/api_gateway/Dockerfile
+        image: api_gateway
+        networks:
+            - micro_services
+        ports:
+            - 5000:5000
+
+networks:
+    micro_services:
