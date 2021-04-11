@@ -35,11 +35,11 @@ spec:
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
-      ports:
-        - containerPort: 50052
       containers:
       - name: "imdb"
         image: "gcr.io/cn-g14-projecto/imdb:v1"
+        ports:
+        - containerPort: 50052
         readinessProbe:
           periodSeconds: 5
           exec:
@@ -83,11 +83,11 @@ spec:
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
-      ports:
-        - containerPort: 50055
       containers:
       - name: "imdb"
         image: "gcr.io/cn-g14-projecto/account:v1"
+        ports:
+        - containerPort: 50055
         readinessProbe:
           periodSeconds: 5
           exec:
@@ -131,11 +131,11 @@ spec:
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
-      ports:
-        - containerPort: 50051
       containers:
       - name: "imdb"
         image: "gcr.io/cn-g14-projecto/book:v1"
+        ports:
+        - containerPort: 50051
         readinessProbe:
           periodSeconds: 5
           exec:
@@ -179,11 +179,11 @@ spec:
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
-      ports:
-        - containerPort: 50054
       containers:
       - name: "signin"
         image: "gcr.io/cn-g14-projecto/signin:v1"
+        ports:
+        - containerPort: 50054
         readinessProbe:
           periodSeconds: 5
           exec:
@@ -227,11 +227,11 @@ spec:
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
-      ports:
-        - containerPort: 50050
       containers:
       - name: "library"
         image: "gcr.io/cn-g14-projecto/library:v1"
+        ports:
+        - containerPort: 50050
         readinessProbe:
           periodSeconds: 5
           exec:
@@ -349,11 +349,11 @@ spec:
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
-      ports:
-        - containerPort: 50053
       containers:
       - name: "anime"
         image: "gcr.io/cn-g14-projecto/anime:v1"
+        ports:
+        - containerPort: 50053
         readinessProbe:
           periodSeconds: 5
           exec:
