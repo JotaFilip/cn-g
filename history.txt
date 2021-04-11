@@ -1,0 +1,345 @@
+    1  clear
+    2  gcloud services enable cloudapis.googleapis.com container.googleapis.com containerregistry.googleapis.com
+    3  gcloud container clusters create knative --zone=europe-west4-a --cluster-version=latest --num-nodes=3 --machine-type=n1-standard-4 --enable-autoscaling --min-nodes=1 --max-nodes=5 --enable-autorepair --scopes=service-control,service-management,compute-rw,storage-ro,cloudplatform,logging-write,monitoring-write,pubsub,datastore
+    4  gcloud container clusters create knative --zone=europe-west4-a --cluster-version=latest --num-nodes=3 --machine-type=n1-standard-4 --enable-autoscaling --min-nodes=1 --max-nodes=5 --enable-autorepair --scopes=service-control,service-management,compute-rw,storage-ro,cloud-platform,logging-write,monitoring-write,pubsub,datastore
+    5  gcloud config list project
+    6  gcloud auth list
+    7  gcloud -h
+    8  clear
+    9  kubectl get nodes
+   10  kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
+   11  kubectl apply --filename
+   12  https://github.com/knative/serving/releases/download/v0.21.0/serving-crds.yaml
+   13  kubectl apply --filename https://github.com/knative/serving/releases/download/v0.21.0/serving-crds.yaml
+   14  kubectl apply --filename https://github.com/knative/serving/releases/download/v0.21.0/serving-core.yaml
+   15  kubectl apply --filename https://github.com/knative/netistio/releases/download/v0.21.0/istio.yaml
+   16  kubectl apply --filename https://github.com/knative/net-istio/releases/download/v0.21.0/istio.yaml
+   17  kubectl apply --filename https://github.com/knative/net-istio/releases/download/v0.21.0/net-istio.yaml
+   18  kubectl --namespace istio-system get service istio-ingressgateway
+   19  kubectl apply --filename
+   20  https://github.com/knative/serving/releases/download/v0.21.0/serving-defaultdomain.yaml
+   21  kubectl apply --filename https://github.com/knative/serving/releases/download/v0.21.0/serving-defaultdomain.yaml
+   22  kubectl apply --filename https://github.com/knative/serving/releases/download/v0.21.0/serving-default-domain.yaml
+   23  kubectl --namespace istio-system get service istio-ingressgateway
+   24  kubectl get pods --namespace knative-serving
+   25  ls
+   26  sudo nano service.yaml
+   27  sudo pluma service.yaml
+   28  sudo mousepad service.yaml
+   29  sudo apt install mousepad
+   30  sudo mousepad service.yaml
+   31  sudo nano service.yaml
+   32  sudo shutdown
+   33  ls
+   34  kubectl status
+   35  kubectl --help
+   36  kubectl get nodes
+   37  kubectl cluster-info
+   38  kubectl get deployments
+   39  kubectl get all --all-namespace
+   40  kubectl get all
+   41  shutdown -h now
+   42  clear
+   43  kubectl apply --filename service.yaml
+   44  sudo nano service.yaml
+   45  kubectl apply --filename service.yaml
+   46  kubectl get ksvc helloworld-python
+   47  kubectl delete --filename service.yaml
+   48  kubectl get services -n knative-serving
+   49  kubectl get deployments -n knative-serving
+   50  kubectl get services -n knative-serving
+   51  kubectl get deployments -n knative-serving
+   52  git clone https://github.com/knative/docs knative-docs
+   53  cd knative-docs
+   54  kubectl apply --filename docs/serving/autoscaling/autoscale-go/service.yaml
+   55  kubectl get ksvc autoscale-go
+   56  clear
+   57  kubectl get ksvc autoscale-go
+   58  hey -z 30s -c 50 "http://autoscale-go.default.IP-ADDRESS.xip.io?sleep=100&prime=10000&bloat=5"
+   59  hey -z 30s -c 50 "http://autoscale-go.default.35.204.213.121.xip.io?sleep=100&prime=10000&bloat=5"
+   60  kubectl get services   
+   61  kubectl get pods 
+   62  kubectl get nodes
+   63  gcloud components install kubectl
+   64  sudo apt-get install kubectl
+   65  **********
+   66  Reading package lists... Done
+   67  **********
+   68  kubectl get nodes
+   69  gcloud services enable \   cloudapis.googleapis.com \   container.googleapis.com \   containerregistry.googleapis.com 
+   70  kubectl get nodes
+   71  gcloud services enable \   cloudapis.googleapis.com \   container.googleapis.com \   containerregistry.googleapis.com
+   72  kubectl get deployments
+   73  gcloud services enable \   cloudapis.googleapis.com \   container.googleapis.com \   containerregistry.googleapis.com 
+   74  gcloud services enable \   cloudapis.googleapis.com \   container.googleapis.com \   containerregistry.googleapis.com
+   75  gcloud
+   76  gcloud services enable cloudapis.googleapis.com  container.googleapis.com containerregistry.googleapis.com
+   77  kubectl get nodes 
+   78  gcloud container clusters create cluster-recommendations \   --zone=europe-west4-a \   --cluster-version=latest \   --num-nodes=3 \   --machine-type=n1-standard-4 \   --enable-autoscaling --min-nodes=1 --max-nodes=5 \   --enable-autorepair \   --scopes=service-control,service-management,compute-rw,storage-ro,cloud-platform,logging-write,monitoring-write,pubsub,datastore
+   79  gcloud container clusters create cluster-recommendations  --zone=europe-west4-a --cluster-version=latest --num-nodes=3 --machine-type=n1-standard-4  --enable-autoscaling --min-nodes=1 --max-nodes=5   --enable-autorepair   --scopes=service-control,service-management,compute-rw,storage-ro,cloud-platform,logging-write,monitoring-write,pubsub,datastore
+   80  clear
+   81  kubectl get nodes 
+   82  status
+   83  l«kubectl cluster-info
+   84  kubectl cluster-info
+   85  kubectl get nodes
+   86  kubectl get deployments
+   87  clear
+   88  git clone https://github.com/JotaFilip/cn-g.git
+   89  ls
+   90  ls service.yaml 
+   91  cat service.yaml 
+   92  .kubectl get all --all-namespaces
+   93  kubectl get all --all-namespaces
+   94  cat service.yaml 
+   95  kubectl get deployments
+   96  kubectl describe deployments 
+   97  kubectl get endpoints
+   98  export PROJECT_ID=cn-g14-projecto
+   99  echo $PROJECT_ID
+  100  ls
+  101  cd cn-g/
+  102  ls
+  103  cd app/
+  104  ls
+  105  cd protobufs/
+  106  ls
+  107  cd account/
+  108  docker build -t gcr.io/${PROJECT_ID}/hello-app:v1 .
+  109  docker build -t gcr.io/${PROJECT_ID}/account:v1 .
+  110  cd ..
+  111  cd signin/
+  112  docker build -t gcr.io/${PROJECT_ID}/signin:v1 .
+  113  cd ..
+  114  ls
+  115  cd api_gateway/
+  116  docker build -t gcr.io/${PROJECT_ID}/api_gateway:v1 .
+  117  cd ../book/
+  118  docker build -t gcr.io/${PROJECT_ID}/book:v1 .
+  119  cd ../anime/
+  120  docker build -t gcr.io/${PROJECT_ID}/anime:v1 .
+  121  cd ../book
+  122  cd ../imdb/
+  123  docker build -t gcr.io/${PROJECT_ID}/imdb:v1 .
+  124  cd ../library/
+  125  docker build -t gcr.io/${PROJECT_ID}/library:v1 .
+  126  docker images
+  127  gcloud services enable containerregistry.googleapis.com
+  128  gcloud auth configure-docker
+  129  docker push gcr.io/${PROJECT_ID}/imdb:v1
+  130  docker images
+  131  docker push gcr.io/${PROJECT_ID}/library:v1
+  132  docker push gcr.io/${PROJECT_ID}/anime:v1
+  133  docker push gcr.io/${PROJECT_ID}/book:v1
+  134  docker push gcr.io/${PROJECT_ID}/account:v1
+  135  docker push gcr.io/${PROJECT_ID}/signin:v1
+  136  docker push gcr.io/${PROJECT_ID}/api_gateway:v1
+  137  docker images
+  138  gcloud container images list gcr.io/${PROJECT_ID}/
+  139  gcloud container images list --repository=gcr.io/${PROJECT_ID}/
+  140  gcloud container images llist --repository=gcr.io/${PROJECT_ID}/
+  141  gcloud container images list --repository=gcr.io/${PROJECT_ID}/
+  142  gcloud container images list
+  143  kubectl get nodes
+  144  gcloud container clusters get-credentials hello-cluster
+  145  gcloud container clusters get-credentials cluster-recommendations --zone europe-west4-a
+  146  kubectl create deployment api_gateway --image=gcr.io/${PROJECT_ID}/api_gateway:v1
+  147  kubectl get deployments
+  148  kubectl cluster-info
+  149  kubectl create deployment api-gateway --image=gcr.io/${PROJECT_ID}/api_gateway:v1
+  150  kubectl create deployment signin --image=gcr.io/${PROJECT_ID}/signin:v1
+  151  kubectl create deployment account --image=gcr.io/${PROJECT_ID}/account:v1
+  152  kubectl create deployment library --image=gcr.io/${PROJECT_ID}/library:v1
+  153  kubectl create deployment anime --image=gcr.io/${PROJECT_ID}/anime:v1
+  154  kubectl create deployment book --image=gcr.io/${PROJECT_ID}/book:v1
+  155  kubectl create deployment imdb --image=gcr.io/${PROJECT_ID}/imdb:v1
+  156  kubectl get deployments
+  157  ls
+  158  cd cn-g/
+  159  git pull
+  160  kubectl apply -f deployment.yaml 
+  161  git pull
+  162  kubectl apply -f deployment.yaml 
+  163  git pull
+  164  kubectl apply -f deployment.yaml 
+  165  git pull
+  166  kubectl apply -f deployment.yaml 
+  167  cat deployment.yaml 
+  168  vim deployment.yaml 
+  169  kubectl apply -f deployment.yaml 
+  170  vim deployment.yaml 
+  171  kubectl apply -f deployment.yaml 
+  172  ls
+  173  cd cn-g/
+  174  kubectl apply -f deployment.yaml 
+  175  kubectl get pods
+  176  kubectl get deployments 
+  177  kubectl get rs
+  178  kubectl get pods --show-labels
+  179  kubectl describe deployments
+  180  .kubectl get services -n kube-system
+  181  kubectl get services -n kube-system
+  182  .kubectl get services
+  183  kubectl get services
+  184  kubectl get endpoints
+  185  kubectl describe deployments 
+  186  kubectl get pods -l app=account -o wide 
+  187  kubectl get endpoints
+  188  kubectl get pods -l app=api-gateway -o wide 
+  189  .kubectl exec -it mmendati-default-pool-a858db09-dt2s -- curl http://api-gateway 
+  190  kubectl exec -it mmendati-default-pool-a858db09-dt2s -- curl http://api-gateway 
+  191  kubectl get pods -l app=api-gateway -o wide 
+  192  kubectl exec -it api-gateway-6778756886-c2gr6 -- curl http://api-gateway 
+  193  kubectl exec -it api-gateway-6778756886-c2gr6 -- /bin/bash
+  194  kubectl exec -it api-gateway-6778756886-9p5b2 -- /bin/bash
+  195  .kubectl exec -it api-gateway-6778756886-9p5b2 -- cat /etc/resolv.conf
+  196  kubectl exec -it api-gateway-6778756886-9p5b2 -- cat /etc/resolv.conf
+  197  kubectl exec -it api-gateway.api-gateway-6778756886-9p5b2 -- cat /etc/resolv.conf
+  198  kubectl exec -it api-gateway-6778756886-9p5b2 -- cat /etc/resolv.conf
+  199  10.87.244.248
+  200  curl http://10.87.244.248:5000
+  201  curl http://10.87.244.248:5000/ui
+  202  git pull
+  203  kubectl apply -f deployment.yaml 
+  204  curl http:/10.87.244.248:5000
+  205  ping 10.87.244.248
+  206  curl http://localhost:5000
+  207  curl http://localhost:5000/ui
+  208  ls
+  209  usersWithTokens.db
+  210  kubectl get nodes
+  211  ls
+  212  docker images
+  213  cd ..
+  214  ls
+  215  cd cn-g/
+  216  ls
+  217  cd scripts/
+  218  ls
+  219  cat run.sh
+  220  cd ..
+  221  cat run.sh
+  222  git pull
+  223  ls
+  224  cat scripts/run.sh 
+  225  scripts/run.sh 
+  226  ls
+  227  ls app/protobufs/account
+  228  history
+  229  echo $PROJECT_ID
+  230  echo
+  231  echo $PROJECT_ID
+  232  echo "aaa"
+  233  echo $PROJECT_ID
+  234  export PROJECT_ID=cn-g14-projecto
+  235  echo $PROJECT_ID
+  236  ls
+  237  cd cn-g/
+  238  gcloud container images delete gcr.io/${PROJECT_ID}/*:v1  --force-delete-tags --quiet
+  239  gcloud container images delete gcr.io/${PROJECT_ID}/account:v1  --force-delete-tags --quiet
+  240  gcloud container images delete gcr.io/${PROJECT_ID}/signin:v1  --force-delete-tags --quiet
+  241  gcloud container images delete gcr.io/${PROJECT_ID}/api_gateway:v1  --force-delete-tags --quiet
+  242  gcloud container images delete gcr.io/${PROJECT_ID}/library:v1  --force-delete-tags --quiet
+  243  gcloud container images delete gcr.io/${PROJECT_ID}/book:v1  --force-delete-tags --quiet
+  244  gcloud container images delete gcr.io/${PROJECT_ID}/anime:v1  --force-delete-tags --quiet
+  245  gcloud container images delete gcr.io/${PROJECT_ID}/imdb:v1  --force-delete-tags --quiet
+  246  ls
+  247  cd app/
+  248  ls
+  249  cd protobufs/
+  250  ls
+  251  cd account/
+  252  docker build -t gcr.io/${PROJECT_ID}/hello-app:v1 .
+  253  docker build -t gcr.io/${PROJECT_ID}/account:v1 .
+  254  cd ..
+  255  cd signin/
+  256  docker build -t gcr.io/${PROJECT_ID}/signin:v1 .
+  257  cd ..
+  258  ls
+  259  cd api_gateway/
+  260  docker build -t gcr.io/${PROJECT_ID}/api_gateway:v1 .
+  261  cd ../book/
+  262  docker build -t gcr.io/${PROJECT_ID}/book:v1 .
+  263  cd ../anime/
+  264  docker build -t gcr.io/${PROJECT_ID}/anime:v1 .
+  265  cd ../book
+  266  cd ../imdb/
+  267  docker build -t gcr.io/${PROJECT_ID}/imdb:v1 .
+  268  cd ../library/
+  269  docker build -t gcr.io/${PROJECT_ID}/library:v1 .
+  270  docker images
+  271  gcloud services enable containerregistry.googleapis.com
+  272  gcloud auth configure-docker
+  273  docker push gcr.io/${PROJECT_ID}/imdb:v1
+  274  docker images
+  275  histoy
+  276  history
+  277  docker push gcr.io/${PROJECT_ID}/library:v1
+  278  docker push gcr.io/${PROJECT_ID}/anime:v1
+  279  docker push gcr.io/${PROJECT_ID}/book:v1
+  280  docker push gcr.io/${PROJECT_ID}/account:v1
+  281  docker push gcr.io/${PROJECT_ID}/signin:v1
+  282  docker push gcr.io/${PROJECT_ID}/api_gateway:v1
+  283  docker images
+  284  history
+  285  gcloud container images list gcr.io/${PROJECT_ID}/
+  286  gcloud container images llist --repository=gcr.io/${PROJECT_ID}/
+  287  gcloud container images list --repository=gcr.io/${PROJECT_ID}/
+  288  gcloud container images list
+  289  cd ..
+  290  kubectl apply -f deployment.yaml 
+  291  ls app/protobufs/api_gateway/
+  292  kubectl apply -f deployment.yaml 
+  293  ls
+  294  man docker
+  295  export PROJECT_ID=cn-g14-projecto
+  296  echo $PROJECT_ID
+  297  gcloud container images list
+  298  ls
+  299  cd cn-g/
+  300  cd app/protobufs/
+  301  cd api_gateway/
+  302  ls
+  303  ls -liah
+  304  cd ..
+  305  kubectl apply -f deployment.yaml 
+  306  kubectl exec --stdin --tty account -- /bin/bash
+  307  kubectl get pod account
+  308  kubectl get pods account
+  309  kubectl get pods -l app=api-gateway -o wide 
+  310  kubectl exec --stdin --tty api-gateway-65f478f85-g5dsw -- /bin/bash
+  311  kubectl exec -it <POD NAME> -c <CONTAINER NAME> bash
+  312  kubectl exec -it api-gateway-65f478f85-g5dsw -c account bash
+  313  kubectl exec -it api-gateway-65f478f85-g5dsw -c account -- /bin/bash
+  314  kubectl exec -it api-gateway-65f478f85-g5dsw -c account:v1 -- /bin/bash
+  315  kubectl exec -it api-gateway-65f478f85-g5dsw -- /bin/bash
+  316  kubectl exec -it api-gateway-65f478f85-g5dsw -c account:v1 -- /bin/bash
+  317  kubectl get pods --all-namespaces -o jsonpath="{..image}" |tr -s '[[:space:]]' '\n' |sort |uniq -c
+  318  kubectl exec -it api-gateway-65f478f85-g5dsw -c gcr.io/cn-g14-projecto/library:v1 -- /bin/bash
+  319  kubectl exec -it api-gateway-65f478f85-g5dsw -c gcr.io/cn-g14-projecto/api_gateway:v1 -- /bin/bash
+  320  kubectl exec -it api-gateway-65f478f85-g5dsw -c api_gateway:v1 -- /bin/bash
+  321  kubectl get pods --all-namespaces
+  322  kubectl exec -it api-gateway-65f478f85-g5dsw -c api_gateway:v1 -- /bin/bash
+  323  kubectl exec -it api-gateway-65f478f85-g5dsw -c api_gateway -- /bin/bash
+  324  kubectl exec -it api-gateway-65f478f85-g5dsw -c gcr.io/cn-g14-projecto/api_gateway:v1 -- /bin/bash
+  325  gcloud compute instances list
+  326  kubectl get pods -o=custom-columns=POD:.metadata.name,CONTAINERS:.spec.containers[*].name
+  327  kubectl exec -it api-gateway-65f478f85-g5dsw -c api-gateway -- /bin/bash
+  328  kubectl exec -it library-5df565f499-vb249 -c library -- /bin/bash
+  329  kubectl exec -it pod-2 -c service-2 /bin/sh
+  330  kubectl exec  library-5df565f499-vb249 -c library -- /bin/bash
+  331  kubectl get pods -o=custom-columns=POD:.metadata.name,CONTAINERS:.spec.containers[*].name
+  332  kubectl exec -it library-5df565f499-vb249  -- /bin/bash
+  333  kubectl exec -c library-it library-5df565f499-vb249  -- /bin/bash
+  334  kubectl exec -c library -it library-5df565f499-vb249  -- /bin/bash
+  335  gcloud compute instances list
+  336  gcloud compute ssh gke-cluster-recommendati-default-pool-a858db09-dt2s --zone=europe-west4-a
+  337  history
+  338  export PROJECT_ID=cn-g14-projecto
+  339  gcloud config set project $PROJECT_ID
+  340  gcloud services enable \   cloudapis.googleapis.com \   container.googleapis.com \   containerregistry.googleapis.com 
+  341  gcloud services enable cloudapis.googleapis.com container.googleapis.com   containerregistry.googleapis.com 
+  342  history
+  343  gcloud container clusters create cluster-recommendations  --zone=europe-west4-a --cluster-version=latest --num-nodes=3 --machine-type=n1-standard-4  --enable-autoscaling --min-nodes=1 --max-nodes=5   --enable-autorepair   --scopes=service-control,service-management,compute-rw,storage-ro,cloud-platform,logging-write,monitoring-write,pubsub,datastore
+  344  cd cn-g
+  345  history > history.txt
