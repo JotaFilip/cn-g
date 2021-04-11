@@ -1,5 +1,5 @@
 ---
-apiVersion: "v1"
+apiVersion: "v2"
 kind: "ConfigMap"
 metadata:
   name: "recommendations-config-tn5f"
@@ -14,7 +14,7 @@ data:
   SIGNIN_HOST: "signin"
   LIBRARY_HOST: "library"
 ---
-apiVersion: "apps/v1"
+apiVersion: "apps/v2"
 kind: "Deployment"
 metadata:
   name: "imdb"
@@ -37,7 +37,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "imdb"
-        image: "gcr.io/cn-g14-projecto/imdb:v1"
+        image: "gcr.io/cn-g14-projecto/imdb:v2"
         ports:
         - containerPort: 50052
 #        readinessProbe:
@@ -49,7 +49,7 @@ spec:
 #          exec:
 #            command: ["/bin/grpc_health_probe", "-addr=:50052"]
 ---
-apiVersion: v1
+apiVersion: v2
 kind: Service
 metadata:
   name: imdb
@@ -62,7 +62,7 @@ spec:
     port: 50052
     targetPort: 50052
 ---
-apiVersion: "apps/v1"
+apiVersion: "apps/v2"
 kind: "Deployment"
 metadata:
   name: "account"
@@ -85,7 +85,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "account"
-        image: "gcr.io/cn-g14-projecto/account:v1"
+        image: "gcr.io/cn-g14-projecto/account:v2"
         ports:
         - containerPort: 50055
 #        readinessProbe:
@@ -97,7 +97,7 @@ spec:
 #          exec:
 #            command: ["/bin/grpc_health_probe", "-addr=:50055"]
 ---
-apiVersion: v1
+apiVersion: v2
 kind: Service
 metadata:
   name: account
@@ -110,7 +110,7 @@ spec:
     port: 50055
     targetPort: 50055
 ---
-apiVersion: "apps/v1"
+apiVersion: "apps/v2"
 kind: "Deployment"
 metadata:
   name: "book"
@@ -133,7 +133,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "book"
-        image: "gcr.io/cn-g14-projecto/book:v1"
+        image: "gcr.io/cn-g14-projecto/book:v2"
         ports:
         - containerPort: 50051
 #        readinessProbe:
@@ -145,7 +145,7 @@ spec:
 #          exec:
 #            command: ["/bin/grpc_health_probe", "-addr=:50051"]
 ---
-apiVersion: v1
+apiVersion: v2
 kind: Service
 metadata:
   name: book
@@ -158,7 +158,7 @@ spec:
     port: 50051
     targetPort: 50051
 ---
-apiVersion: "apps/v1"
+apiVersion: "apps/v2"
 kind: "Deployment"
 metadata:
   name: "signin"
@@ -181,7 +181,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "signin"
-        image: "gcr.io/cn-g14-projecto/signin:v1"
+        image: "gcr.io/cn-g14-projecto/signin:v2"
         ports:
         - containerPort: 50054
 #        readinessProbe:
@@ -199,7 +199,7 @@ spec:
               key: "ACCOUNTS_HOST"
               name: "recommendations-config-tn5f"
 ---
-apiVersion: v1
+apiVersion: v2
 kind: Service
 metadata:
   name: signin
@@ -212,7 +212,7 @@ spec:
     port: 50054
     targetPort: 50054
 ---
-apiVersion: "apps/v1"
+apiVersion: "apps/v2"
 kind: "Deployment"
 metadata:
   name: "library"
@@ -235,7 +235,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "library"
-        image: "gcr.io/cn-g14-projecto/library:v1"
+        image: "gcr.io/cn-g14-projecto/library:v2"
         ports:
         - containerPort: 50050
 #        readinessProbe:
@@ -268,7 +268,7 @@ spec:
               key: "ACCOUNTS_HOST"
               name: "recommendations-config-tn5f"
 ---
-apiVersion: v1
+apiVersion: v2
 kind: Service
 metadata:
   name: library
@@ -281,7 +281,7 @@ spec:
     port: 50050
     targetPort: 50050
 ---
-apiVersion: "apps/v1"
+apiVersion: "apps/v2"
 kind: Deployment
 metadata:
   name: api-gateway
@@ -301,7 +301,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: api-gateway
-        image: "gcr.io/cn-g14-projecto/api_gateway:v1"
+        image: "gcr.io/cn-g14-projecto/api_gateway:v2"
         ports:
         - containerPort: 5000
 #        readinessProbe:
@@ -332,7 +332,7 @@ spec:
               key: "LIBRARY_HOST"
               name: "recommendations-config-tn5f"
 ---
-apiVersion: "v1"
+apiVersion: "v2"
 kind: Service
 metadata:
   name: api-gateway
@@ -345,7 +345,7 @@ spec:
     port: 80
     targetPort: 5000
 ---
-apiVersion: v1
+apiVersion: v2
 kind: Service
 metadata:
   name: frontend-external
@@ -358,7 +358,7 @@ spec:
     port: 80
     targetPort: 5000
 ---
-apiVersion: "apps/v1"
+apiVersion: "apps/v2"
 kind: "Deployment"
 metadata:
   name: "anime"
@@ -381,7 +381,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "anime"
-        image: "gcr.io/cn-g14-projecto/anime:v1"
+        image: "gcr.io/cn-g14-projecto/anime:v2"
         ports:
         - containerPort: 50053
 #        readinessProbe:
@@ -393,7 +393,7 @@ spec:
 #          exec:
 #            command: ["/bin/grpc_health_probe", "-addr=:50053"]
 ---
-apiVersion: v1
+apiVersion: v2
 kind: Service
 metadata:
   name: anime
@@ -417,7 +417,7 @@ spec:
   scaleTargetRef:
     kind: "Deployment"
     name: "imdb"
-    apiVersion: "apps/v1"
+    apiVersion: "apps/v2"
   minReplicas: 1
   maxReplicas: 20
   metrics:
@@ -437,7 +437,7 @@ spec:
   scaleTargetRef:
     kind: "Deployment"
     name: "api-gateway"
-    apiVersion: "apps/v1"
+    apiVersion: "apps/v2"
   minReplicas: 1
   maxReplicas: 20
   metrics:
@@ -457,7 +457,7 @@ spec:
   scaleTargetRef:
     kind: "Deployment"
     name: "library"
-    apiVersion: "apps/v1"
+    apiVersion: "apps/v2"
   minReplicas: 1
   maxReplicas: 20
   metrics:
@@ -477,7 +477,7 @@ spec:
   scaleTargetRef:
     kind: "Deployment"
     name: "signin"
-    apiVersion: "apps/v1"
+    apiVersion: "apps/v2"
   minReplicas: 1
   maxReplicas: 20
   metrics:
@@ -497,7 +497,7 @@ spec:
   scaleTargetRef:
     kind: "Deployment"
     name: "anime"
-    apiVersion: "apps/v1"
+    apiVersion: "apps/v2"
   minReplicas: 1
   maxReplicas: 20
   metrics:
@@ -517,7 +517,7 @@ spec:
   scaleTargetRef:
     kind: "Deployment"
     name: "book"
-    apiVersion: "apps/v1"
+    apiVersion: "apps/v2"
   minReplicas: 1
   maxReplicas: 20
   metrics:
@@ -537,7 +537,7 @@ spec:
   scaleTargetRef:
     kind: "Deployment"
     name: "account"
-    apiVersion: "apps/v1"
+    apiVersion: "apps/v2"
   minReplicas: 1
   maxReplicas: 20
   metrics:
