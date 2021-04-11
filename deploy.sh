@@ -1,4 +1,4 @@
-
+export PROJECT_ID=cn-g14-projecto
 cd cn-g/
 cd app/
 cd protobufs/
@@ -32,4 +32,5 @@ docker images
 gcloud container images list
 kubectl get nodes
 gcloud container clusters get-credentials cluster-recommendations --zone europe-west4-a
+cd ../../..
 kubectl apply -f deployment.yaml 
