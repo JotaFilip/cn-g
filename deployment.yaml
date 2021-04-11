@@ -307,7 +307,7 @@ spec:
         readinessProbe:
           initialDelaySeconds: 10
           httpGet:
-            path: "/ui"
+            path: "/lib/1"
             port: 5000
 #            httpHeaders:
 #            - name: "Cookie"
@@ -315,7 +315,7 @@ spec:
         livenessProbe:
           initialDelaySeconds: 10
           httpGet:
-            path: "/ui"
+            path: "/lib/1"
             port: 5000
 #            httpHeaders:
 #            - name: "Cookie"
