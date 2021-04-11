@@ -34,20 +34,20 @@ spec:
         app: "imdb"
     spec:
       serviceAccountName: default
-      terminationGracePeriodSeconds: 5
+#      terminationGracePeriodSeconds: 5
       containers:
       - name: "imdb"
         image: "gcr.io/cn-g14-projecto/imdb:v1"
         ports:
         - containerPort: 50052
-        readinessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50052"]
-        livenessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50052"]
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50052"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50052"]
 ---
 apiVersion: v1
 kind: Service
@@ -82,20 +82,20 @@ spec:
         app: "account"
     spec:
       serviceAccountName: default
-      terminationGracePeriodSeconds: 5
+#      terminationGracePeriodSeconds: 5
       containers:
       - name: "account"
         image: "gcr.io/cn-g14-projecto/account:v1"
         ports:
         - containerPort: 50055
-        readinessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50055"]
-        livenessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50055"]
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50055"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50055"]
 ---
 apiVersion: v1
 kind: Service
@@ -130,20 +130,20 @@ spec:
         app: "book"
     spec:
       serviceAccountName: default
-      terminationGracePeriodSeconds: 5
+#      terminationGracePeriodSeconds: 5
       containers:
       - name: "book"
         image: "gcr.io/cn-g14-projecto/book:v1"
         ports:
         - containerPort: 50051
-        readinessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50051"]
-        livenessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50051"]
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#           command: ["/bin/grpc_health_probe", "-addr=:50051"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50051"]
 ---
 apiVersion: v1
 kind: Service
@@ -178,20 +178,20 @@ spec:
         app: "signin"
     spec:
       serviceAccountName: default
-      terminationGracePeriodSeconds: 5
+#      terminationGracePeriodSeconds: 5
       containers:
       - name: "signin"
         image: "gcr.io/cn-g14-projecto/signin:v1"
         ports:
         - containerPort: 50054
-        readinessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50054"]
-        livenessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50054"]
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
 ---
 apiVersion: v1
 kind: Service
@@ -226,20 +226,20 @@ spec:
         app: "library"
     spec:
       serviceAccountName: default
-      terminationGracePeriodSeconds: 5
+#      terminationGracePeriodSeconds: 5
       containers:
       - name: "library"
         image: "gcr.io/cn-g14-projecto/library:v1"
         ports:
         - containerPort: 50050
-        readinessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50050"]
-        livenessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50050"]
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50050"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50050"]
 ---
 apiVersion: v1
 kind: Service
@@ -271,28 +271,28 @@ spec:
         app: api-gateway
     spec:
       serviceAccountName: default
-      terminationGracePeriodSeconds: 5
+#      terminationGracePeriodSeconds: 5
       containers:
       - name: api-gateway
         image: "gcr.io/cn-g14-projecto/api_gateway:v1"
         ports:
         - containerPort: 5000
-        readinessProbe:
-          initialDelaySeconds: 10
-          httpGet:
-            path: "/ui"
-            port: 5000
-            httpHeaders:
-            - name: "Cookie"
-              value: "shop_session-id=x-readiness-probe"
-        livenessProbe:
-          initialDelaySeconds: 10
-          httpGet:
-            path: "/ui"
-            port: 5000
-            httpHeaders:
-            - name: "Cookie"
-              value: "shop_session-id=x-liveness-probe"
+#        readinessProbe:
+#          initialDelaySeconds: 10
+#          httpGet:
+#            path: "/ui"
+#            port: 5000
+#            httpHeaders:
+#            - name: "Cookie"
+#              value: "shop_session-id=x-readiness-probe"
+#        livenessProbe:
+#          initialDelaySeconds: 10
+#          httpGet:
+#            path: "/ui"
+#            port: 5000
+#            httpHeaders:
+#            - name: "Cookie"
+#              value: "shop_session-id=x-liveness-probe"
         env:
         - name: "SIGNIN_HOST"
           valueFrom:
@@ -351,20 +351,20 @@ spec:
         app: "anime"
     spec:
       serviceAccountName: default
-      terminationGracePeriodSeconds: 5
+#      terminationGracePeriodSeconds: 5
       containers:
       - name: "anime"
         image: "gcr.io/cn-g14-projecto/anime:v1"
         ports:
         - containerPort: 50053
-        readinessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50053"]
-        livenessProbe:
-          periodSeconds: 5
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50053"]
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50053"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50053"]
 ---
 apiVersion: v1
 kind: Service
