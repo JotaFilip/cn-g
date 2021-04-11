@@ -1,5 +1,4 @@
 from concurrent import futures
-
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from utils_pb2 import *
