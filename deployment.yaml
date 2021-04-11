@@ -272,24 +272,24 @@ spec:
       containers:
       - name: api-gateway
         image: "gcr.io/cn-g14-projecto/api_gateway:v1"
-          ports:
-          - containerPort: 5000
-          readinessProbe:
-            initialDelaySeconds: 10
-            httpGet:
-              path: "/ui"
-              port: 5000
-              httpHeaders:
-              - name: "Cookie"
-                value: "shop_session-id=x-readiness-probe"
-          livenessProbe:
-            initialDelaySeconds: 10
-            httpGet:
-              path: "/ui"
-              port: 5000
-              httpHeaders:
-              - name: "Cookie"
-                value: "shop_session-id=x-liveness-probe"
+        ports:
+        - containerPort: 5000
+        readinessProbe:
+          initialDelaySeconds: 10
+          httpGet:
+            path: "/ui"
+            port: 5000
+            httpHeaders:
+            - name: "Cookie"
+              value: "shop_session-id=x-readiness-probe"
+        livenessProbe:
+          initialDelaySeconds: 10
+          httpGet:
+            path: "/ui"
+            port: 5000
+            httpHeaders:
+            - name: "Cookie"
+              value: "shop_session-id=x-liveness-probe"
         env:
         - name: "SIGNIN_HOST"
           valueFrom:
