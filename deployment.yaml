@@ -362,16 +362,10 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: api-gateway-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  rules:
-  - http:
-    paths:
-    - path: /
-      backend:
-        serviceName: api-gateway
-        servicePort: 80
+  backend:
+    serviceName: api-gateway
+    servicePort: 80
 ---
 apiVersion: "apps/v1"
 kind: "Deployment"
