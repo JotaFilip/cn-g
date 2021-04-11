@@ -259,6 +259,9 @@ kind: Deployment
 metadata:
   name: api-gateway
 spec:
+  strategy:
+    type: Recreate
+  replicas: 3
   selector:
     matchLabels:
       app: api-gateway
