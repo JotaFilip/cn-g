@@ -192,6 +192,12 @@ spec:
 #          periodSeconds: 5
 #          exec:
 #            command: ["/bin/grpc_health_probe", "-addr=:50054"]
+        env:
+        - name: "ACCOUNTS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "ACCOUNTS_HOST"
+              name: "recommendations-config-tn5f"
 ---
 apiVersion: v1
 kind: Service
@@ -240,6 +246,27 @@ spec:
 #          periodSeconds: 5
 #          exec:
 #            command: ["/bin/grpc_health_probe", "-addr=:50050"]
+        env:
+        - name: "BOOKS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "BOOKS_HOST"
+              name: "recommendations-config-tn5f"
+        - name: "ANIMES_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "ANIMES_HOST"
+              name: "recommendations-config-tn5f"
+        - name: "IMDBS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "IMDBS_HOST"
+              name: "recommendations-config-tn5f"
+        - name: "ACCOUNTS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "ACCOUNTS_HOST"
+              name: "recommendations-config-tn5f"
 ---
 apiVersion: v1
 kind: Service
