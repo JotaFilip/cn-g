@@ -84,7 +84,7 @@ spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
       containers:
-      - name: "imdb"
+      - name: "account"
         image: "gcr.io/cn-g14-projecto/account:v1"
         ports:
         - containerPort: 50055
@@ -113,26 +113,26 @@ spec:
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "account"
+  name: "book"
   namespace: "default"
   labels:
-    app: "account"
+    app: "book"
 spec:
   strategy:
     type: Recreate
   replicas: 3
   selector:
     matchLabels:
-      app: "account"
+      app: "book"
   template:
     metadata:
       labels:
-        app: "account"
+        app: "book"
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
       containers:
-      - name: "imdb"
+      - name: "book"
         image: "gcr.io/cn-g14-projecto/book:v1"
         ports:
         - containerPort: 50051
@@ -322,7 +322,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: frontend
+    app: api-gateway
   ports:
   - name: http
     port: 80
