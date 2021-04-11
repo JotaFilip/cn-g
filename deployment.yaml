@@ -304,19 +304,19 @@ spec:
         image: "gcr.io/cn-g14-projecto/api_gateway:v2"
         ports:
         - containerPort: 5000
-#        readinessProbe:
-#          initialDelaySeconds: 10
-#          httpGet:
-#            path: "/ui"
-#            port: 5000
+        readinessProbe:
+          initialDelaySeconds: 10
+          httpGet:
+            path: "/ui"
+            port: 5000
 #            httpHeaders:
 #            - name: "Cookie"
 #              value: "shop_session-id=x-readiness-probe"
-#        livenessProbe:
-#          initialDelaySeconds: 10
-#          httpGet:
-#            path: "/ui"
-#            port: 5000
+        livenessProbe:
+          initialDelaySeconds: 10
+          httpGet:
+            path: "/ui"
+            port: 5000
 #            httpHeaders:
 #            - name: "Cookie"
 #              value: "shop_session-id=x-liveness-probe"
