@@ -1,7 +1,10 @@
 import random, string
 from itsdangerous import(TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
+gmt = time.gmtime()
+ts = calendar.timegm(gmt)/(3600*24)
+rnd = random.seed(ts)
 
-secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
+secret_key = ''.join(rnd.choice(string.ascii_uppercase + string.digits) for x in range(32))
 
 class Verifier:
     @staticmethod

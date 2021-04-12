@@ -1,4 +1,3 @@
-export PROJECT_ID=cn-g14-projecto
 cd cn-g/
 cd app/
 cd protobufs/
