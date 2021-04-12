@@ -1,3 +1,5 @@
+cn-g/scripts/1_proto_dependencies.sh
+cn-g/scripts/2_proto_create.sh
 cd cn-g/
 cd app/
 cd protobufs/
