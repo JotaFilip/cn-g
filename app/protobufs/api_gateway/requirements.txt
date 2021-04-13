@@ -6,6 +6,7 @@ connexion[swagger-ui]
 connexion >= 2.0.0
 flask >= 0.0.0
 
+pyopenssl >= 0.0.0
 flask_httpauth >= 0.0.0
 flask_cors >= 0.0.0
 # sqlalchemy>=0.0.0

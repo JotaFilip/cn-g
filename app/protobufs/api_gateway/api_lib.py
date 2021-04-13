@@ -22,7 +22,6 @@ lib_host = os.getenv("LIBRARY_HOST", "localhost")
 lib_channel = grpc.secure_channel(f"{lib_host}:50050", creds)
 lib_client = LibraryStub(lib_channel)
 
-print(f"{lib_host}:50050")
 
 # TODO
 # how to handle the user_id situation
