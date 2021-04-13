@@ -290,7 +290,20 @@ def serve():
         AccountService(), server
     )
     
-    server.add_insecure_port("[::]:50055")
+    with open("account.key", "rb") as fp:
+        account_key = fp.read()
+    with open("account.pem", "rb") as fp:
+        account_cert = fp.read()
+    with open("ca.pem", "rb") as fp:
+        ca_cert = fp.read()
+
+    creds = grpc.ssl_server_credentials(
+        [(account_key, account_cert)],
+        root_certificates=ca_cert,
+        require_client_auth=True,
+    )
+    
+    server.add_secure_port("[::]:50055", creds)
     server.start()
     server.wait_for_termination()
 

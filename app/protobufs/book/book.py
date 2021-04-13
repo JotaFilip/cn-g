@@ -91,7 +91,20 @@ def serve():
         BookService(), server
     )
     
-    server.add_insecure_port("[::]:50051")
+    with open("book.key", "rb") as fp:
+        book_key = fp.read()
+    with open("book.pem", "rb") as fp:
+        book_cert = fp.read()
+    with open("ca.pem", "rb") as fp:
+        ca_cert = fp.read()
+    
+    creds = grpc.ssl_server_credentials(
+        [(book_key, book_cert)],
+        root_certificates=ca_cert,
+        require_client_auth=True,
+    )
+    
+    server.add_secure_port("[::]:50051", creds)
     server.start()
     server.wait_for_termination()
 
