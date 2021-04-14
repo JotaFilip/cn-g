@@ -101,7 +101,11 @@ steps:
     - '-c'
     - |
       ### -r = retries; -i = interval; -k = keyword to search for ###
-      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://api-gateway:5000
+      docker network ls
+      nslookup account
+      nslookup api-gateway
+      nslookup book
+      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://localhost:5000
   waitFor: ['compose up']
 
 images:
