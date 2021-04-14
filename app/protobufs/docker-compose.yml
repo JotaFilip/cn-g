@@ -1,19 +1,19 @@
 version: "3.8"
 services:
-#
-#    dns-resolver:
-#        image: defreitas/dns-proxy-server:2.5.1
-#        restart: always
-#        ports:
-#            - 5380
-#        hostname: dns.mageddo.intranet
-#        container_name: dns-resolver
-#        volumes:
-#            - /opt/dns-proxy-server/conf:/app/conf
-#            - /var/run/docker.sock:/var/run/docker.sock
-#            - /etc/resolv.conf:/etc/resolv.conf
-#        networks:
-#            - micro_services
+
+    dns-resolver:
+        image: defreitas/dns-proxy-server:2.5.1
+        restart: always
+        ports:
+            - 5380
+        hostname: dns.mageddo.intranet
+        container_name: dns-resolver
+        volumes:
+            - /opt/dns-proxy-server/conf:/app/conf
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /etc/resolv.conf:/etc/resolv.conf
+        networks:
+            - micro_services
     account:
         build:
             dockerfile: Dockerfile
