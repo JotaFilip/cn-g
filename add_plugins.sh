@@ -1,4 +1,4 @@
-gcloud beta container clusters update cluster-recommendations --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT
+gcloud beta container clusters update cluster-recommendations --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT --zone=europe-west4-a
 
 git clone --recursive https://github.com/GoogleCloudPlatform/click-to-deploy.git
 kubectl apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketplace-k8s-app-tools/master/crd/app-crd.yaml"
