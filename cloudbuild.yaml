@@ -73,16 +73,30 @@ steps:
   ]
   waitFor: ['-'] # start immediately
 
+- id: 'dns up'
+  name: 'gcr.io/cloud-builders/docker'
+  args: [
+    'run',
+    '--rm',
+    '--hostname dns.mageddo',
+    '-v /var/run/docker.sock:/var/run/docker.sock',
+    '-v /etc/resolv.conf:/etc/resolv.conf',
+    'defreitas/dns-proxy-server',
+  ]
+  waitFor: ['-'] # start immediately
+
+
 - id: 'compose up'
   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
   entrypoint: '/bin/bash'
   args:
   - '-c'
   - |
-    docker-compose up -d
+    docker-compose up -d app/protobufs/docker-compose.yml
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['build account','build signin','build api_gateway','build book','build anime','build imdb','build library']
+  waitFor: ['build account','build signin','build api_gateway','build book','build anime','build imdb','build library','dns-up']
+
 
 - id: 'integration tests'
   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
@@ -91,7 +105,7 @@ steps:
     - '-c'
     - |
       ### -r = retries; -i = interval; -k = keyword to search for ###
-      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://api_gateway:5000
+      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://api-gateway:5000
   waitFor: ['compose up']
 
 images:

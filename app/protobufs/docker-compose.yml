@@ -76,7 +76,7 @@ services:
         build:
             dockerfile: Dockerfile
             context: ./api_gateway
-        image: api_gateway
+        image: api-gateway
         networks:
             - micro_services
         ports:
