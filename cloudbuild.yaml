@@ -95,7 +95,7 @@ steps:
     docker-compose up -d app/protobufs/docker-compose.yml
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['build account','build signin','build api_gateway','build book','build anime','build imdb','build library','dns-up']
+  waitFor: ['build account','build signin','build api_gateway','build book','build anime','build imdb','build library','dns up']
 
 
 - id: 'integration tests'
