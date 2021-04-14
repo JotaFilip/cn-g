@@ -31,7 +31,7 @@ done
 sudo apt-get install -y pwgen
 
 # Set the Grafana password
-export GRAFANA_GENERATED_PASSWORD= "$(echo "12345" | base64)"
+export GRAFANA_GENERATED_PASSWORD= "12345"
 
 export PROMETHEUS_REPLICAS=2
 export STORAGE_CLASS="standard"
@@ -60,7 +60,7 @@ echo "http://${SERVICE_IP}/"
 
 #-------CHECK CREDENTIALS-------
 GRAFANA_USERNAME="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-user}' | base64 --decode)"
-GRAFANA_PASSWORD="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-password}' | base64 --decode)"
+GRAFANA_PASSWORD="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-password}'"
 
 echo "Grafana credentials:"
 echo "- user: ${GRAFANA_USERNAME}"
