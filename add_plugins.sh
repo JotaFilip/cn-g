@@ -60,7 +60,7 @@ echo "http://${SERVICE_IP}/"
 
 #-------CHECK CREDENTIALS-------
 GRAFANA_USERNAME="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-user}' | base64 --decode)"
-GRAFANA_PASSWORD="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-password}' | base64 --decode"
+GRAFANA_PASSWORD="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-password}' | base64 --decode)"
 
 echo "Grafana credentials:"
 echo "- user: ${GRAFANA_USERNAME}"
