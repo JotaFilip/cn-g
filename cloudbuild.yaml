@@ -73,13 +73,13 @@ steps:
   ]
   waitFor: ['-'] # start immediately
 
-- id: 'dns up'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [
-      'run', 'defreitas/dns-proxy-server',
-
-  ]
-  waitFor: ['-']
+#- id: 'dns up'
+#  name: 'gcr.io/cloud-builders/docker'
+#  args: [
+#      'run', 'defreitas/dns-proxy-server',
+#
+#  ]
+#  waitFor: ['-']
 
 
 - id: 'compose up'
@@ -96,7 +96,7 @@ steps:
 
 - id: 'integration tests'
   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
-  entrypoint: '/bin/bash'
+  entrypoint: 'bash'
   args:
     - '-c'
     - |
