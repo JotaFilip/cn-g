@@ -31,7 +31,7 @@ done
 sudo apt-get install -y pwgen
 
 # Set the Grafana password
-export GRAFANA_GENERATED_PASSWORD="$(pwgen 12 1 | tr -d '\n' | base64)"
+export GRAFANA_GENERATED_PASSWORD="$(blablablabla | base64)"
 
 export PROMETHEUS_REPLICAS=2
 export STORAGE_CLASS="standard"
