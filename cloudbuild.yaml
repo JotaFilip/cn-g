@@ -72,24 +72,19 @@ steps:
     'app/protobufs/library/.',
   ]
   waitFor: ['-'] # start immediately
-- id: 'dns pull'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [
-    'pull',
-    'defreitas/dns-proxy-server'
-  ]
-  waitFor: ['-'] # start immediately
+
 - id: 'dns up'
   name: 'gcr.io/cloud-builders/docker'
   args: [
     'run',
     '--rm',
+    '--pull missing',
     '--hostname dns.mageddo',
     '-v /var/run/docker.sock:/var/run/docker.sock',
     '-v /etc/resolv.conf:/etc/resolv.conf',
     'defreitas/dns-proxy-server',
   ]
-  waitFor: ['dns pull']
+  waitFor: ['-']
 
 
 - id: 'compose up'
