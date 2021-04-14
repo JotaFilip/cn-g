@@ -3,7 +3,7 @@ username="admin"
 password="admin"
 
 keyword="true"
-retries=10
+retries=5
 interval=1
 url="http://127.0.0.1:5000"
 
