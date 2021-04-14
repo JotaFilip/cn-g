@@ -72,7 +72,6 @@ steps:
     'app/protobufs/library/.',
   ]
   waitFor: ['-'] # start immediately
-defreitas/dns-proxy-server
 - id: 'dns pull'
   name: 'gcr.io/cloud-builders/docker'
   args: [
