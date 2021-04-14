@@ -101,8 +101,8 @@ steps:
     - '-c'
     - |
       ### -r = retries; -i = interval; -k = keyword to search for ###
-      docker network ls
-      sudo apt install dnsutils
+      docker network inspect bridge
+      apt update && apt install dnsutils
       nslookup account
       nslookup api-gateway
       nslookup book
