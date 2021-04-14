@@ -1,4 +1,4 @@
-
+#!/bin/bash -eu
 username="admin"
 password="admin"
 
