@@ -178,7 +178,7 @@ for i in $(seq 0 $retries); do
     exit 1
 done
 
-# Utilizador normal tenta adicionar um livro e nao consegue
+# Utilizador normal tenta adicionaar um livro e nao consegue
 for i in $(seq 0 $retries); do
 
     res_comandocriarlivro=$(curl -k -X POST -u saldanha:saldanha --header  'Content-Type: application/json' -d '{"category": [ { "name": "Test"  } ], "description": "string", "name": "Test", "photoUrl": "test", "rating": 4.55,"type": "BOOK"  }' "$url/item")
