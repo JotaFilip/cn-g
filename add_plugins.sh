@@ -28,7 +28,7 @@ for i in "IMAGE_PROMETHEUS" \
 done
 
 # Install pwgen and base64
-sudo apt-get install -y pwgen base64
+sudo apt-get install -y pwgen
 
 # Set the Grafana password
 export GRAFANA_GENERATED_PASSWORD="$(pwgen 12 1 | tr -d '\n' | base64)"
@@ -52,7 +52,7 @@ awk 'FNR==1 {print "---"}{print}' manifest/* | envsubst '$APP_INSTANCE_NAME $NAM
 kubectl apply -f "${APP_INSTANCE_NAME}_manifest.yaml" --namespace "${NAMESPACE}"
 echo "https://console.cloud.google.com/kubernetes/application/${ZONE}/${CLUSTER}/${NAMESPACE}/${APP_INSTANCE_NAME}"
 
-kubectl patch svc "$APP_INSTANCE_NAME-grafana" --namespace "$NAMESPACE" -p '{"spec": {"type": "LoadBalancer"}}'#IP externo
+kubectl patch svc "$APP_INSTANCE_NAME-grafana" --namespace "$NAMESPACE" -p '{"spec": {"type": "LoadBalancer"}}' #IP externo
 SERVICE_IP=$(kubectl get svc $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo "http://${SERVICE_IP}/"
 
