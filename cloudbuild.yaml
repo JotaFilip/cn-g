@@ -79,7 +79,6 @@ steps:
     'run',
     '--restart=unless-stopped',
     '-p 5380:5380',
-    '--pull missing',
     '--hostname dns.mageddo',
     '-v /var/run/docker.sock:/var/run/docker.sock',
     '-v /etc/resolv.conf:/etc/resolv.conf',
