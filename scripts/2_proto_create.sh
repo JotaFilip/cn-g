@@ -1,4 +1,3 @@
-
 printf  "Creating Protobufs ."
 rm ./app/protobufs/*/*pb2*
 ### GERAR FICHEIROS PARA BOOK
