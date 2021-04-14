@@ -102,9 +102,12 @@ steps:
     - |
       ### -r = retries; -i = interval; -k = keyword to search for ###
       docker network ls
+      sudo apt install dnsutils
       nslookup account
       nslookup api-gateway
       nslookup book
+      curl -k https://localhost:5000/lib/1
+      curl -k https://api-gateway:5000/lib/1
       ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://localhost:5000
   waitFor: ['compose up']
 
