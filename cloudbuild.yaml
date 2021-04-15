@@ -126,7 +126,7 @@ steps:
 - id: 'pushing account'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/account"]
-  waitFor: [ 'integration tests' ]
+  waitFor: [ 'deploy image imdb' ]
 
 
   # deploy container image to GKE
@@ -143,7 +143,7 @@ steps:
 - id: 'pushing signin'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/signin"]
-  waitFor: [ 'integration tests' ]
+  waitFor: [ 'deploy image account' ]
 
 
   # deploy container image to GKE
@@ -160,7 +160,7 @@ steps:
 - id: 'pushing api-gateway'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/api-gateway"]
-  waitFor: [ 'integration tests' ]
+  waitFor: [ 'deploy image signin' ]
 
 
   # deploy container image to GKE
@@ -177,7 +177,7 @@ steps:
 - id: 'pushing book'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/book"]
-  waitFor: [ 'integration tests' ]
+  waitFor: [ 'deploy image api-gateway' ]
 
 
   # deploy container image to GKE
@@ -194,7 +194,7 @@ steps:
 - id: 'pushing anime'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/anime"]
-  waitFor: [ 'integration tests' ]
+  waitFor: [ 'deploy image book' ]
 
 
   # deploy container image to GKE
@@ -211,7 +211,7 @@ steps:
 - id: 'pushing library'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/library"]
-  waitFor: [ 'integration tests' ]
+  waitFor: [ 'deploy image anime' ]
 
 
   # deploy container image to GKE
