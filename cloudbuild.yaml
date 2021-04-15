@@ -106,6 +106,125 @@ steps:
     - 'PROJECT_ID=$PROJECT_ID'
   waitFor: ['compose up']
 
+- id: 'pushing imdb'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/imdb"]
+  waitFor: [ 'integration tests' ]
+
+
+  # deploy container image to GKE
+- id: 'deploy image imdb'
+  name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deployment.yaml
+  - --image=gcr.io/$PROJECT_ID/imdb
+  - --location=${_CLOUDSDK_COMPUTE_ZONE}
+  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  waitFor: [ 'pushing imdb' ]
+
+- id: 'pushing account'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/account"]
+  waitFor: [ 'integration tests' ]
+
+
+  # deploy container image to GKE
+- id: 'deploy image account'
+  name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deployment.yaml
+  - --image=gcr.io/$PROJECT_ID/account
+  - --location=${_CLOUDSDK_COMPUTE_ZONE}
+  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  waitFor: [ 'pushing account' ]
+
+- id: 'pushing signin'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/signin"]
+  waitFor: [ 'integration tests' ]
+
+
+  # deploy container image to GKE
+- id: 'deploy image signin'
+  name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deployment.yaml
+  - --image=gcr.io/$PROJECT_ID/signin
+  - --location=${_CLOUDSDK_COMPUTE_ZONE}
+  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  waitFor: [ 'pushing signin' ]
+
+- id: 'pushing api-gateway'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/api-gateway"]
+  waitFor: [ 'integration tests' ]
+
+
+  # deploy container image to GKE
+- id: 'deploy image api-gateway'
+  name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deployment.yaml
+  - --image=gcr.io/$PROJECT_ID/api-gateway
+  - --location=${_CLOUDSDK_COMPUTE_ZONE}
+  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  waitFor: [ 'pushing api-gateway' ]
+
+- id: 'pushing book'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/book"]
+  waitFor: [ 'integration tests' ]
+
+
+  # deploy container image to GKE
+- id: 'deploy image book'
+  name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deployment.yaml
+  - --image=gcr.io/$PROJECT_ID/book
+  - --location=${_CLOUDSDK_COMPUTE_ZONE}
+  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  waitFor: [ 'pushing book' ]
+
+- id: 'pushing anime'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/anime"]
+  waitFor: [ 'integration tests' ]
+
+
+  # deploy container image to GKE
+- id: 'deploy image anime'
+  name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deployment.yaml
+  - --image=gcr.io/$PROJECT_ID/anime
+  - --location=${_CLOUDSDK_COMPUTE_ZONE}
+  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  waitFor: [ 'pushing anime' ]
+
+- id: 'pushing library'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/library"]
+  waitFor: [ 'integration tests' ]
+
+
+  # deploy container image to GKE
+- id: 'deploy image library'
+  name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deployment.yaml
+  - --image=gcr.io/$PROJECT_ID/library
+  - --location=${_CLOUDSDK_COMPUTE_ZONE}
+  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  waitFor: [ 'pushing library' ]
+
 images:
 - gcr.io/$PROJECT_ID/imdb
 - gcr.io/$PROJECT_ID/account
