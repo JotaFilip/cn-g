@@ -17,7 +17,7 @@ services:
     account:
         build:
             dockerfile: Dockerfile
-            context: ./account
+            context: ./app/protobufs/account
         image: account
         hostname: account
         container_name: account
@@ -29,7 +29,7 @@ services:
             ACCOUNTS_HOST: account
         build:
             dockerfile: Dockerfile
-            context: ./signin
+            context: ./app/protobufs/signin
         image: signin
         hostname: signin
         container_name: signin
@@ -39,7 +39,7 @@ services:
     anime:
         build:
             dockerfile: Dockerfile
-            context: ./anime
+            context: ./app/protobufs/anime
         image: anime
         hostname: anime
         container_name: anime
@@ -49,7 +49,7 @@ services:
     book:
         build:
             dockerfile: Dockerfile
-            context: ./book
+            context: ./app/protobufs/book
         image: book
         hostname: book
         container_name: book
@@ -59,7 +59,7 @@ services:
     imdb:
         build:
             dockerfile: Dockerfile
-            context: ./imdb
+            context: ./app/protobufs/imdb
         image: imdb
         hostname: imdb
         container_name: imdb
@@ -75,7 +75,7 @@ services:
 
         build:
             dockerfile: Dockerfile
-            context: ./library
+            context: ./app/protobufs/library
         image: library
         container_name: library
         hostname: library
@@ -88,7 +88,7 @@ services:
             LIBRARY_HOST: library
         build:
             dockerfile: Dockerfile
-            context: ./api_gateway
+            context: ./app/protobufs/api_gateway
         image: api-gateway
         container_name: api-gateway
         hostname: api-gateway
