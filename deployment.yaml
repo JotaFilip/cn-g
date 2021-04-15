@@ -308,7 +308,7 @@ spec:
           initialDelaySeconds: 10
           httpGet:
             path: "/lib/1"
-            scheme: "HTTPS"
+            scheme: HTTPS
             port: 5000
 #            httpHeaders:
 #            - name: "Cookie"
@@ -318,7 +318,7 @@ spec:
 
           httpGet:
             path: "/lib/1"
-            scheme: "HTTPS"
+            scheme: HTTPS
             port: 5000
 #            httpHeaders:
 #            - name: "Cookie"
