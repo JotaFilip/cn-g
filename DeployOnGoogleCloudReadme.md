@@ -7,5 +7,5 @@ export PROJECT_ID=cn-g14-projecto
 clone this project:
 git clone https://github.com/JotaFilip/cn-g.git
 chmod +x cn-g/create_cluster.sh
-chomd +x cn-g/deploy.sh
+chmod +x cn-g/deploy.sh
 run create_cluster.sh and deploy.sh
