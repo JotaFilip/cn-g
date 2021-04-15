@@ -22,13 +22,13 @@ steps:
   ]
   waitFor: ['-'] # start immediately
 
-- id: 'build api_gateway'
+- id: 'build api-gateway'
   name: 'gcr.io/cloud-builders/docker'
   args: [
     'build',
     '--tag=api_gateway', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/api_gateway',
-    '--cache-from=gcr.io/$PROJECT_ID/api_gateway:latest',
+    '--tag=gcr.io/$PROJECT_ID/api-gateway',
+    '--cache-from=gcr.io/$PROJECT_ID/api-gateway:latest',
     'app/protobufs/api_gateway/.',
   ]
   waitFor: ['-'] # start immediately
@@ -91,7 +91,7 @@ steps:
     echo "Build feitos"
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['build account','build signin','build api_gateway','build book','build anime','build imdb','build library']
+  waitFor: ['build account','build signin','build api-gateway','build book','build anime','build imdb','build library']
 
 
 - id: 'integration tests'
@@ -116,7 +116,7 @@ images:
 - gcr.io/$PROJECT_ID/imdb
 - gcr.io/$PROJECT_ID/account
 - gcr.io/$PROJECT_ID/signin
-- gcr.io/$PROJECT_ID/api_gateway
+- gcr.io/$PROJECT_ID/api-gateway
 - gcr.io/$PROJECT_ID/book
 - gcr.io/$PROJECT_ID/anime
 - gcr.io/$PROJECT_ID/library
