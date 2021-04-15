@@ -88,16 +88,13 @@ steps:
   args:
   - '-c'
   - |
-    echo "Build feitos"
-    docker run -d --rm --hostname dns.mageddo --name dns-proxy-server -p 5380:5380 \
+    docker run -d --hostname dns.mageddo --name dns-proxy-server -p 5380:5380 \
             -v /opt/dns-proxy-server/conf:/app/conf \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v /etc/resolv.conf:/etc/resolv.conf \
             defreitas/dns-proxy-server
-    ls
     cd app/protobufs
-    ls
-    docker-compose up -d --force-recreate
+    docker-compose up -d --force-recreate --build
   env:
   - 'PROJECT_ID=$PROJECT_ID'
   waitFor: ['build account','build signin','build api-gateway','build book','build anime','build imdb','build library']
