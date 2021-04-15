@@ -21,21 +21,29 @@ from utils_pb2 import *
 from library_pb2 import *
 import library_pb2_grpc
 
+with open("library.key", "rb") as fp:
+    library_key = fp.read()
+with open("library.pem", "rb") as fp:
+    library_cert = fp.read()
+with open("ca.pem", "rb") as fp:
+    ca_cert = fp.read()
+creds = grpc.ssl_channel_credentials(ca_cert, library_key, library_cert)
+
 # initialize channels
 books_host = os.getenv("BOOKS_HOST", "localhost")
-books_channel = grpc.insecure_channel(f"{books_host}:50051")
+books_channel = grpc.secure_channel(f"{books_host}:50051", creds)
 books_client = BookStub(books_channel)
 
 imdbs_host = os.getenv("IMDBS_HOST", "localhost")
-imdbs_channel = grpc.insecure_channel(f"{imdbs_host}:50052")
+imdbs_channel = grpc.secure_channel(f"{imdbs_host}:50052", creds)
 imdbs_client = IMDBStub(imdbs_channel)
 
 animes_host = os.getenv("ANIMES_HOST", "localhost")
-animes_channel = grpc.insecure_channel(f"{animes_host}:50053")
+animes_channel = grpc.secure_channel(f"{animes_host}:50053", creds)
 animes_client = AnimeStub(animes_channel)
 
 accounts_host = os.getenv("ACCOUNTS_HOST", "localhost")
-accounts_channel = grpc.insecure_channel(f"{accounts_host}:50055")
+accounts_channel = grpc.secure_channel(f"{accounts_host}:50055", creds)
 accounts_client = AccountStub(accounts_channel)
 
 
@@ -260,7 +268,13 @@ def serve():
         LibraryService(), server
     )
 
-    server.add_insecure_port("[::]:50050")
+    creds_server = grpc.ssl_server_credentials(
+        [(library_key, library_cert)],
+        root_certificates=ca_cert,
+        require_client_auth=True,
+    )
+    
+    server.add_secure_port("[::]:50050", creds_server)
     server.start()
     server.wait_for_termination()
 

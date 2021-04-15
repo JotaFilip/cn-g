@@ -495,7 +495,7 @@ definitions:
       rating:
         type: number
         format: double
-        example: 4,55
+        example: 4.55
         description: Rating
   ItemInsert:
     type: object
@@ -518,13 +518,24 @@ definitions:
       rating:
         type: number
         format: double
-        example: 4,55
+        example: 4.55
         description: Rating
       description:
         type: string
   ItemList:
     type: array
     items:
-      $ref: '#/definitions/Item'
+      $ref: '#/definitions/ItemReturn'
+  ItemReturn:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "605128692d0accf2d480f2cf"
+      name:
+        type: string
+        example: Titanic
+      type:
+        $ref: '#/definitions/Type'
 
 

@@ -10,11 +10,18 @@ import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from flask import Flask, jsonify, request, url_for, abort, g
 
+with open("api_gateway.key", "rb") as fp:
+    api_gateway_key = fp.read()
+with open("api_gateway.pem", "rb") as fp:
+    api_gateway_cert = fp.read()
+with open("ca.pem", "rb") as fp:
+    ca_cert = fp.read()
+creds = grpc.ssl_channel_credentials(ca_cert, api_gateway_key, api_gateway_cert)
+
 lib_host = os.getenv("LIBRARY_HOST", "localhost")
-lib_channel = grpc.insecure_channel(f"{lib_host}:50050",options=(('grpc.enable_http_proxy', 0),))
+lib_channel = grpc.secure_channel(f"{lib_host}:50050", creds)
 lib_client = LibraryStub(lib_channel)
 
-print(f"{lib_host}:50050")
 
 # TODO
 # how to handle the user_id situation

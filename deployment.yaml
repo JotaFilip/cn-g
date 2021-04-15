@@ -308,14 +308,17 @@ spec:
           initialDelaySeconds: 10
           httpGet:
             path: "/lib/1"
+            scheme: "HTTPS"
             port: 5000
 #            httpHeaders:
 #            - name: "Cookie"
 #              value: "shop_session-id=x-readiness-probe"
         livenessProbe:
           initialDelaySeconds: 10
+
           httpGet:
             path: "/lib/1"
+            scheme: "HTTPS"
             port: 5000
 #            httpHeaders:
 #            - name: "Cookie"
@@ -342,7 +345,7 @@ spec:
   selector:
     app: api-gateway
   ports:
-  - name: http
+  - name: https
     port: 80
     targetPort: 5000
 ---
@@ -362,6 +365,8 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: api-gateway-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   backend:
     serviceName: api-gateway

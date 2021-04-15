@@ -1,5 +1,7 @@
-export PROJECT_ID=cn-g14-projecto
+export PROJECT_ID=$(gcloud info --format='value(config.project)')
 cd cn-g/
+./scripts/1_proto_dependencies.sh
+./scripts/2_proto_create.sh
 cd app/
 cd protobufs/
 cd account/
