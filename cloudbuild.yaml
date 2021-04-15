@@ -91,7 +91,8 @@ steps:
     docker run -d --hostname dns.mageddo --name dns-proxy-server -p 5380:5380 \
             -v /opt/dns-proxy-server/conf:/app/conf \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v /etc/resolv.conf:/etc/resolv.conf \
+            -v /etc:/host/etc \
+            -e MG_RESOLVCONF=/host/etc/resolv.conf \
             defreitas/dns-proxy-server
     cd app/protobufs
     docker-compose up -d --force-recreate --build
@@ -106,13 +107,12 @@ steps:
   args:
     - '-c'
     - |
-      docker image ls
       apt update && apt install dnsutils -y
       docker container ls -a
       nslookup account
       nslookup api-gateway
       nslookup book
-      curl -k https://localhost:5000/lib/1
+      curl -k https://127.0.0.1:5000/lib/1
       curl -k https://api-gateway:5000/lib/1
       ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://api-gateway:5000
   waitFor: ['compose up']
