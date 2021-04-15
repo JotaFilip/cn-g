@@ -21,8 +21,6 @@ services:
         image: account
         hostname: account
         container_name: account
-        networks:
-            - micro_services
         ports:
             - 50055:50055
 
@@ -35,8 +33,6 @@ services:
         image: signin
         hostname: signin
         container_name: signin
-        networks:
-            - micro_services
         ports:
             - 50054:50054
 
@@ -47,8 +43,6 @@ services:
         image: anime
         hostname: anime
         container_name: anime
-        networks:
-            - micro_services
         ports:
             - 50053:50053
 
@@ -59,8 +53,6 @@ services:
         image: book
         hostname: book
         container_name: book
-        networks:
-            - micro_services
         ports:
             - 50051:50051
 
@@ -71,8 +63,6 @@ services:
         image: imdb
         hostname: imdb
         container_name: imdb
-        networks:
-            - micro_services
         ports:
             - 50052:50052
 
@@ -89,8 +79,6 @@ services:
         image: library
         container_name: library
         hostname: library
-        networks:
-            - micro_services
         ports:
             - 50050:50050
 
@@ -104,13 +92,10 @@ services:
         image: api-gateway
         container_name: api-gateway
         hostname: api-gateway
-        networks:
-            - micro_services
         ports:
             - 5000:5000
 
 networks:
-    micro_services:
-        name: micro_services
+    default:
         external:
-            name: micro_services
+            name: cloudbuild
