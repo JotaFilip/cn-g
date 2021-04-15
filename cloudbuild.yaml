@@ -114,7 +114,7 @@ steps:
       nslookup book
       curl -k https://localhost:5000/lib/1
       curl -k https://api-gateway:5000/lib/1
-      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://localhost:5000
+      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://api-gateway:5000
   waitFor: ['compose up']
 
 images:
