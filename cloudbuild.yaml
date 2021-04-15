@@ -88,7 +88,7 @@ steps:
   args:
   - '-c'
   - |
-    docker-compose up -d --force-recreate -f app/protobufs/docker-compose.yml
+    echo "Build feitos"
   env:
   - 'PROJECT_ID=$PROJECT_ID'
   waitFor: ['build account','build signin','build api_gateway','build book','build anime','build imdb','build library']
@@ -100,6 +100,7 @@ steps:
   args:
     - '-c'
     - |
+      docker-compose up -d --force-recreate -f app/protobufs/docker-compose.yml
       docker image ls
       apt update && apt install dnsutils -y
       docker container ls -a
