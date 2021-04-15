@@ -55,6 +55,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
   fi
+  echo "$res"
   exit 1
 done
 
@@ -68,6 +69,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
   fi
+  echo "$res"
   exit 1
 done
 
@@ -81,6 +83,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
   fi
+  echo "$res"
   exit 1
 done
 
@@ -94,6 +97,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
   fi
+  echo "$res"
   exit 1
 done
 
@@ -107,6 +111,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
   fi
+  echo "$res"
   exit 1
 done
 
@@ -120,6 +125,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
   fi
+  echo "$res"
   exit 1
 done
 
@@ -133,6 +139,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
   fi
+  echo "$res"
   exit 1
 done
 
@@ -146,6 +153,7 @@ for i in $(seq 0 $retries); do
     else
         break
   fi
+  echo "$res"
   exit 1
 done
 
@@ -159,6 +167,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
   fi
+  echo "$res"
   exit 1
 done
 
@@ -175,6 +184,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
     fi
+    echo "$res"
     exit 1
 done
 
@@ -191,6 +201,7 @@ for i in $(seq 0 $retries); do
     else
         sleep "$interval"
     fi
+    echo "$res"
     exit 1
 done
 #
