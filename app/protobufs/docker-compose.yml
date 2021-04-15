@@ -20,6 +20,7 @@ services:
             context: ./account
         image: account
         hostname: account
+        container_name: account
         networks:
             - micro_services
         ports:
@@ -33,6 +34,7 @@ services:
             context: ./signin
         image: signin
         hostname: signin
+        container_name: signin
         networks:
             - micro_services
         ports:
@@ -44,6 +46,7 @@ services:
             context: ./anime
         image: anime
         hostname: anime
+        container_name: anime
         networks:
             - micro_services
         ports:
@@ -55,6 +58,7 @@ services:
             context: ./book
         image: book
         hostname: book
+        container_name: book
         networks:
             - micro_services
         ports:
@@ -66,6 +70,7 @@ services:
             context: ./imdb
         image: imdb
         hostname: imdb
+        container_name: imdb
         networks:
             - micro_services
         ports:
@@ -82,6 +87,7 @@ services:
             dockerfile: Dockerfile
             context: ./library
         image: library
+        container_name: library
         hostname: library
         networks:
             - micro_services
@@ -96,6 +102,7 @@ services:
             dockerfile: Dockerfile
             context: ./api_gateway
         image: api-gateway
+        container_name: api-gateway
         hostname: api-gateway
         networks:
             - micro_services
@@ -104,6 +111,7 @@ services:
 
 networks:
     micro_services:
+        name: micro_services
         driver: bridge
         ipam:
           config:
