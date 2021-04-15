@@ -112,7 +112,5 @@ services:
 networks:
     micro_services:
         name: micro_services
-        driver: bridge
-        ipam:
-          config:
-            - subnet: 172.2.0.0/16
+        external:
+            name: micro_services
