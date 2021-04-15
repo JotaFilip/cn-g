@@ -1,27 +1,26 @@
 version: "3.8"
 services:
 
-    dns-resolver:
-        image: defreitas/dns-proxy-server:2.5.1
-        restart: always
-        ports:
-            - 5380
-        hostname: dns.mageddo.intranet
-        container_name: dns-resolver
-        volumes:
-            - /opt/dns-proxy-server/conf:/app/conf
-            - /var/run/docker.sock:/var/run/docker.sock
-            - /etc/resolv.conf:/etc/resolv.conf
-        networks:
-            - micro_services
+#    dns-resolver:
+#        image: defreitas/dns-proxy-server:2.5.1
+#        restart: always
+#        ports:
+#            - 5380
+#        hostname: dns.mageddo.intranet
+#        container_name: dns-resolver
+#        volumes:
+#            - /opt/dns-proxy-server/conf:/app/conf
+#            - /var/run/docker.sock:/var/run/docker.sock
+#            - /etc/resolv.conf:/etc/resolv.conf
+#        networks:
+#            - micro_services
     account:
         build:
             dockerfile: Dockerfile
             context: ./account
         image: account
         hostname: account
-        networks:
-            - micro_services
+        container_name: account
         ports:
             - 50055:50055
 
@@ -33,8 +32,7 @@ services:
             context: ./signin
         image: signin
         hostname: signin
-        networks:
-            - micro_services
+        container_name: signin
         ports:
             - 50054:50054
 
@@ -44,8 +42,7 @@ services:
             context: ./anime
         image: anime
         hostname: anime
-        networks:
-            - micro_services
+        container_name: anime
         ports:
             - 50053:50053
 
@@ -55,8 +52,7 @@ services:
             context: ./book
         image: book
         hostname: book
-        networks:
-            - micro_services
+        container_name: book
         ports:
             - 50051:50051
 
@@ -66,8 +62,7 @@ services:
             context: ./imdb
         image: imdb
         hostname: imdb
-        networks:
-            - micro_services
+        container_name: imdb
         ports:
             - 50052:50052
 
@@ -82,9 +77,8 @@ services:
             dockerfile: Dockerfile
             context: ./library
         image: library
+        container_name: library
         hostname: library
-        networks:
-            - micro_services
         ports:
             - 50050:50050
 
@@ -96,15 +90,12 @@ services:
             dockerfile: Dockerfile
             context: ./api_gateway
         image: api-gateway
+        container_name: api-gateway
         hostname: api-gateway
-        networks:
-            - micro_services
         ports:
             - 5000:5000
 
 networks:
-    micro_services:
-        driver: bridge
-        ipam:
-          config:
-            - subnet: 172.2.0.0/16
+    default:
+        external:
+            name: cloudbuild

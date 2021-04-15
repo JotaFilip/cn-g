@@ -29,10 +29,10 @@ echo "url: "$url
 
 
 #Pronto:
-res_get=$(curl -k -X -u admin:admin GET --header 'Accept: text/html' "$url/item/607615b3aeb60e0f26f7c1df/BOOK")
+res_get=$(curl -k -X -u admin:admin GET --header 'Accept: text/html' "$url"'/item/607615b3aeb60e0f26f7c1df/BOOK')
 
-res_like_existe=$(curl -k -X -u admin:admin PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/607615b3aeb60e0f26f7c1df/BOOK/like")
-res_like_nao_existe=$(curl -k -X -u admin:admin PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/12345/BOOK/like")
+res_like_existe=$(curl -k -X -u admin:admin PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/607615b3aeb60e0f26f7c1df/BOOK/like')
+res_like_nao_existe=$(curl -k -X -u admin:admin PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/12345/BOOK/like')
 
 res_seen_existe=$(curl -k -X -u admin:admin PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/607615b3aeb60e0f26f7c1df/BOOK/seen")
 res_seen_nao_existe=$(curl -k -X -u admin:admin PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/12345/BOOK/seen")

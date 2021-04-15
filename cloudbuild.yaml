@@ -88,7 +88,6 @@ steps:
   args:
   - '-c'
   - |
-    cd app/protobufs
     docker-compose up -d --force-recreate --build
   env:
   - 'PROJECT_ID=$PROJECT_ID'
@@ -102,10 +101,6 @@ steps:
     - '-c'
     - |
       docker container ls -a
-      nslookup book
-      docker network inspect micro_services
-      curl -k https://127.0.0.1:5000/lib/1
-      curl -k https://api-gateway:5000/lib/1
       ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://api-gateway:5000
   env:
     - 'PROJECT_ID=$PROJECT_ID'
