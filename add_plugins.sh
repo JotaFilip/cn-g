@@ -53,14 +53,14 @@ kubectl --insecure-skip-tls-verify apply -f "${APP_INSTANCE_NAME}_manifest.yaml"
 echo "https://console.cloud.google.com/kubernetes/application/${ZONE}/${CLUSTER}/${NAMESPACE}/${APP_INSTANCE_NAME}"
 
 kubectl --insecure-skip-tls-verify patch svc "$APP_INSTANCE_NAME-grafana" --namespace "$NAMESPACE" -p '{"spec": {"type": "LoadBalancer"}}' #IP externo
-SERVICE_IP=$(kubectl get svc $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+SERVICE_IP=$(kubectl --insecure-skip-tls-verify get svc $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo "http://${SERVICE_IP}/"
 
 #kubectl --insecure-skip-tls-verify port-forward --namespace ${NAMESPACE} ${APP_INSTANCE_NAME}-grafana-0 3000 #IP local
 
 #-------CHECK CREDENTIALS-------
-GRAFANA_USERNAME="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-user}' | base64 --decode)"
-GRAFANA_PASSWORD="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-password}' | base64 --decode)"
+GRAFANA_USERNAME="$(kubectl --insecure-skip-tls-verify get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-user}' | base64 --decode)"
+GRAFANA_PASSWORD="$(kubectl --insecure-skip-tls-verify get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-password}' | base64 --decode)"
 
 echo "Grafana credentials:"
 echo "- user: ${GRAFANA_USERNAME}"
