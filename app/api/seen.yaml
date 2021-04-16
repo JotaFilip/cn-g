@@ -1,10 +1,10 @@
+---
 swagger: "2.0"
 info:
   description: |
     Seen is a place where you can discover new Movies, Shows and Books
-  version: 1.0.0
+  version: 1.0.2
   title: Seen. Movies, Shows and Books
-host: virtserver.swaggerhub.com
 basePath: /
 tags:
 - name: library
@@ -35,21 +35,31 @@ paths:
         "200":
           description: successful operation
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Item'
+            $ref: '#/definitions/ItemList'
       # security:
       # - api_key: []
   /suggest:
-    get:
+    post:
       tags:
       - library
       summary: Returns suggestions
+      security:
+        - basicAuth: [ ]
       description: Returns a map of item codes
       operationId: api_lib.getSuggestions
       produces:
       - application/json
-      parameters: []
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            properties:
+              tipos:
+                type: array
+                items:
+                  $ref: '#/definitions/Type'
       responses:
         "200":
           description: successful operation
@@ -72,26 +82,24 @@ paths:
       - application/json
       produces:
       - application/json
+      security:
+        - basicAuth: [ ]
       parameters:
       - in: body
         name: body
         description: Seen object that needs to be added to the library
         required: true
         schema:
-          $ref: '#/definitions/Item'
+          $ref: '#/definitions/ItemInsert'
       responses:
         "200":
-          description: successful operation
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Item'
+          description: Successful operation
         "405":
           description: Invalid input
       # security:
       # - seen_auth:
       #   - write:items
-  /item/{itemId}:
+  /item/{type}/{itemId}:
     get:
       tags:
       - library
@@ -105,8 +113,12 @@ paths:
         in: path
         description: Id of item to return
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -124,6 +136,8 @@ paths:
       summary: Deletes an item
       description: Deletes a item
       operationId: api_lib.deleteItem
+      security:
+        - basicAuth: [ ]
       produces:
       - application/json
       parameters:
@@ -131,8 +145,12 @@ paths:
         in: path
         description: Id of the item to delete
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -143,20 +161,26 @@ paths:
       # security:
       # - seen_auth:
       #   - write:items
-  /item/{itemId}/seen:
+  /item/{type}/{itemId}/seen:
     put:
       tags:
       - library
       summary: Mark item as seen
       description: Mark a item as seen
       operationId: api_lib.updateItemSeen
+      security:
+        - basicAuth: [ ]
       parameters:
       - name: itemId
         in: path
         description: Id of item to update
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -166,23 +190,91 @@ paths:
           description: Item not found
       # security:
       # - api_key: []
-  /item/{itemId}/like:
+  /item/{type}/{itemId}/like:
     put:
       tags:
       - library
       summary: Mark item with like
       description: Mark a item with like
+      security:
+        - basicAuth: [ ]
       operationId: api_lib.updateItemLike
       parameters:
       - name: itemId
         in: path
         description: Id of item to update
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      # security:
+      # - api_key: []
+  /item/{type}/{itemId}/views:
+    get:
+      tags:
+      - library
+      summary: Returns how many views a specific Item has
+      description: Returns the value of views of an Item
+      operationId: api_lib.getViewsOf
+      produces:
+      - application/json
+      parameters:
+      - name: itemId
+        in: path
+        description: Id of item to return
+        required: true
+        type: string
+      - name: type
+        in: path
+        description: type of item to return views
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: integer
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      # security:
+      # - api_key: []
+  /item/{type}/{itemId}/likes:
+    get:
+      tags:
+      - library
+      summary: Returns how many likes a specific Item has
+      description: Returns the value of views of an Item
+      operationId: api_lib.getLikesOf
+      produces:
+      - application/json
+      parameters:
+      - name: itemId
+        in: path
+        description: Id of item to return likes
+        required: true
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: integer
         "400":
           description: Invalid ID supplied
         "404":
@@ -206,7 +298,30 @@ paths:
         description: Created user object
         required: true
         schema:
-          $ref: '#/definitions/User'
+          $ref: '#/definitions/Email'
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Dados incorretos
+  /user/password:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: Create user
+      operationId: api_users.givePassword
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/Password'
       responses:
         "200":
           description: Successful operation
@@ -214,23 +329,15 @@ paths:
           description: Dados incorretos
   /user/login:
     get:
+
       tags:
       - user
       summary: Logs user into the system
       operationId: api_users.loginUser
+      security:
+        - basicAuth: [ ]
       produces:
       - application/json
-      parameters:
-      - name: username
-        in: query
-        description: The user name for login
-        required: true
-        type: string
-      - name: password
-        in: query
-        description: Hash password for login
-        required: true
-        type: string
       responses:
         "200":
           description: successful operation
@@ -252,6 +359,8 @@ paths:
       tags:
       - user
       summary: Logs out current logged in user session
+      security:
+        - basicAuth: [ ]
       operationId: api_users.logoutUser
       produces:
       - application/json
@@ -259,7 +368,7 @@ paths:
       responses:
         default:
           description: successful operation
-  /user/{username}:
+  /user/search/{username}:
     get:
       tags:
       - user
@@ -288,6 +397,8 @@ paths:
       summary: Updated user
       description: This can only be done by the logged in user.
       operationId: api_users.updateUser
+      security:
+        - basicAuth: [ ]
       produces:
       - application/json
       parameters:
@@ -301,7 +412,7 @@ paths:
         description: Updated user object
         required: true
         schema:
-          $ref: '#/definitions/User'
+          $ref: '#/definitions/UserAndPassword'
       responses:
         "200":
           description: Successful operation
@@ -313,6 +424,8 @@ paths:
       tags:
       - user
       summary: Delete user
+      security:
+        - basicAuth: [ ]
       description: This can only be done by the logged in user.
       operationId: api_users.deleteUser
       produces:
@@ -328,9 +441,10 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
-# securityDefinitions:
-#   BasicAuth:
-#     type: basic
+securityDefinitions:
+  basicAuth:
+    type: basic
+    x-basicInfoFunc: api_users.verify_password
 #   api_key:
 #     type: apiKey
 #     name: api_key
@@ -346,23 +460,19 @@ definitions:
   Type:
     type: string
     enum:
-    - book
-    - film
-    - show
+    - BOOK
+    - ANIME
+    - SHOW
   Category:
     type: object
     properties:
-      id:
-        type: integer
-        format: int64
       name:
         type: string
   User:
     type: object
     properties:
       id:
-        type: integer
-        format: int64
+        type: string
       username:
         type: string
       password:
@@ -370,22 +480,58 @@ definitions:
       seens:
         type: array
         items:
-          type: integer
+          $ref: '#/definitions/IdTuple'
           description: Seen ids
       likes:
         type: array
         items:
-          type: integer
-          description: Seen ids
+          $ref: '#/definitions/IdTuple'
+          description: Like ids
+  Email:
+    type: object
+    properties:
+      username:
+        type: string
+      email:
+        type: string
+  Password:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      nonce:
+        type: integer
+  UserAndPassword:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+  IdTuple:
+    type: object
+    required:
+      - id
+      - type
+    properties:
+      id:
+        type: string
+        example: "605128692d0accf2d480f2cf"
+      type:
+        $ref: '#/definitions/Type'
+
   Item:
     type: object
     required:
-    - category
+    - id
+    - type
     - name
     properties:
       id:
-        type: integer
-        format: int64
+        type: string
+        example: "605128692d0accf2d480f2cf"
       name:
         type: string
         example: Titanic
@@ -402,9 +548,56 @@ definitions:
         type: integer
         format: int32
         example: 21005
-        description: How manny people has seen this
+        description: How many people has seen this
       likes:
         type: integer
         format: int32
         example: 2399
-        description: How manny people liked this
+        description: How many people liked this
+      rating:
+        type: number
+        format: double
+        example: 4.55
+        description: Rating
+  ItemInsert:
+    type: object
+    required:
+      - type
+      - name
+    properties:
+      name:
+        type: string
+        example: Titanic
+      photoUrl:
+        type: string
+        description: Image from the Item
+      category:
+        type: array
+        items:
+          $ref: '#/definitions/Category'
+      type:
+        $ref: '#/definitions/Type'
+      rating:
+        type: number
+        format: double
+        example: 4.55
+        description: Rating
+      description:
+        type: string
+  ItemList:
+    type: array
+    items:
+      $ref: '#/definitions/ItemReturn'
+  ItemReturn:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "605128692d0accf2d480f2cf"
+      name:
+        type: string
+        example: Titanic
+      type:
+        $ref: '#/definitions/Type'
+
+
