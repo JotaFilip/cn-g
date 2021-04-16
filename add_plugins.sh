@@ -1,7 +1,7 @@
 gcloud beta container clusters update cluster-recommendations --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT --zone=europe-west4-a
 
 git clone --recursive https://github.com/GoogleCloudPlatform/click-to-deploy.git
-kubectl apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketplace-k8s-app-tools/master/crd/app-crd.yaml"
+kubectl --insecure-skip-tls-verify apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketplace-k8s-app-tools/master/crd/app-crd.yaml"
 cd click-to-deploy/k8s/prometheus
 
 export APP_INSTANCE_NAME=prometheus-1
@@ -36,8 +36,8 @@ export GRAFANA_GENERATED_PASSWORD= "$(echo "12345" | base64)"
 export PROMETHEUS_REPLICAS=2
 export STORAGE_CLASS="standard"
 
-kubectl create namespace "$NAMESPACE"
-kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $(gcloud config get-value account)
+kubectl --insecure-skip-tls-verify create namespace "$NAMESPACE"
+kubectl --insecure-skip-tls-verify create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $(gcloud config get-value account)
 
 export PROMETHEUS_SERVICE_ACCOUNT="${APP_INSTANCE_NAME}-prometheus"
 export KUBE_STATE_METRICS_SERVICE_ACCOUNT="${APP_INSTANCE_NAME}-kube-state-metrics"
@@ -47,20 +47,20 @@ export NODE_EXPORTER_SERVICE_ACCOUNT="${APP_INSTANCE_NAME}-node-exporter"
 
 cat resources/service-accounts.yaml | envsubst '$NAMESPACE $PROMETHEUS_SERVICE_ACCOUNT $KUBE_STATE_METRICS_SERVICE_ACCOUNT $ALERTMANAGER_SERVICE_ACCOUNT $GRAFANA_SERVICE_ACCOUNT $NODE_EXPORTER_SERVICE_ACCOUNT' > "${APP_INSTANCE_NAME}_sa_manifest.yaml"
 
-kubectl apply -f "${APP_INSTANCE_NAME}_sa_manifest.yaml" --namespace "${NAMESPACE}"
+kubectl --insecure-skip-tls-verify apply -f "${APP_INSTANCE_NAME}_sa_manifest.yaml" --namespace "${NAMESPACE}"
 awk 'FNR==1 {print "---"}{print}' manifest/* | envsubst '$APP_INSTANCE_NAME $NAMESPACE $STORAGE_CLASS $IMAGE_PROMETHEUS $IMAGE_ALERTMANAGER $IMAGE_KUBE_STATE_METRICS $IMAGE_NODE_EXPORTER $IMAGE_GRAFANA $IMAGE_PROMETHEUS_INIT $NAMESPACE $GRAFANA_GENERATED_PASSWORD $PROMETHEUS_REPLICAS $PROMETHEUS_REPLICAS $PROMETHEUS_SERVICE_ACCOUNT $KUBE_STATE_METRICS_SERVICE_ACCOUNT $ALERTMANAGER_SERVICE_ACCOUNT $GRAFANA_SERVICE_ACCOUNT $NODE_EXPORTER_SERVICE_ACCOUNT' > "${APP_INSTANCE_NAME}_manifest.yaml"
-kubectl apply -f "${APP_INSTANCE_NAME}_manifest.yaml" --namespace "${NAMESPACE}"
+kubectl --insecure-skip-tls-verify apply -f "${APP_INSTANCE_NAME}_manifest.yaml" --namespace "${NAMESPACE}"
 echo "https://console.cloud.google.com/kubernetes/application/${ZONE}/${CLUSTER}/${NAMESPACE}/${APP_INSTANCE_NAME}"
 
-kubectl patch svc "$APP_INSTANCE_NAME-grafana" --namespace "$NAMESPACE" -p '{"spec": {"type": "LoadBalancer"}}' #IP externo
-SERVICE_IP=$(kubectl get svc $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+kubectl --insecure-skip-tls-verify patch svc "$APP_INSTANCE_NAME-grafana" --namespace "$NAMESPACE" -p '{"spec": {"type": "LoadBalancer"}}' #IP externo
+SERVICE_IP=$(kubectl --insecure-skip-tls-verify get svc $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo "http://${SERVICE_IP}/"
 
-#kubectl port-forward --namespace ${NAMESPACE} ${APP_INSTANCE_NAME}-grafana-0 3000 #IP local
+#kubectl --insecure-skip-tls-verify port-forward --namespace ${NAMESPACE} ${APP_INSTANCE_NAME}-grafana-0 3000 #IP local
 
 #-------CHECK CREDENTIALS-------
-GRAFANA_USERNAME="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-user}' | base64 --decode)"
-GRAFANA_PASSWORD="$(kubectl get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-password}' | base64 --decode)"
+GRAFANA_USERNAME="$(kubectl --insecure-skip-tls-verify get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-user}' | base64 --decode)"
+GRAFANA_PASSWORD="$(kubectl --insecure-skip-tls-verify get secret $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output=jsonpath='{.data.admin-password}' | base64 --decode)"
 
 echo "Grafana credentials:"
 echo "- user: ${GRAFANA_USERNAME}"
