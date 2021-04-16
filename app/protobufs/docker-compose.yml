@@ -1,13 +1,29 @@
 version: "3.8"
 services:
 
+    dns-resolver:
+        image: defreitas/dns-proxy-server:2.5.1
+        restart: always
+        ports:
+            - 5380
+        hostname: dns.mageddo.intranet
+        container_name: dns-resolver
+        volumes:
+            - /opt/dns-proxy-server/conf:/app/conf
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /etc/resolv.conf:/etc/resolv.conf
+        networks:
+            - micro_services
     account:
         build:
             dockerfile: Dockerfile
             context: ./account
         image: account
+        hostname: account
         networks:
             - micro_services
+        volumes:
+            - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
             - 50055:50055
 
@@ -18,8 +34,11 @@ services:
             dockerfile: Dockerfile
             context: ./signin
         image: signin
+        hostname: signin
         networks:
             - micro_services
+        volumes:
+            - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
             - 50054:50054
 
@@ -28,8 +47,11 @@ services:
             dockerfile: Dockerfile
             context: ./anime
         image: anime
+        hostname: anime
         networks:
             - micro_services
+        volumes:
+            - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
             - 50053:50053
 
@@ -38,8 +60,11 @@ services:
             dockerfile: Dockerfile
             context: ./book
         image: book
+        hostname: book
         networks:
             - micro_services
+        volumes:
+            - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
             - 50051:50051
 
@@ -48,8 +73,11 @@ services:
             dockerfile: Dockerfile
             context: ./imdb
         image: imdb
+        hostname: imdb
         networks:
             - micro_services
+        volumes:
+            - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
             - 50052:50052
 
@@ -64,23 +92,33 @@ services:
             dockerfile: Dockerfile
             context: ./library
         image: library
+        hostname: library
         networks:
             - micro_services
+        volumes:
+            - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
             - 50050:50050
 
-    api_gateway:
+    api-gateway:
         environment:
             SIGNIN_HOST: signin
             LIBRARY_HOST: library
         build:
             dockerfile: Dockerfile
             context: ./api_gateway
-        image: api_gateway
+        image: api-gateway
+        hostname: api-gateway
         networks:
             - micro_services
+        volumes:
+            - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
-            - 5000:5000
+            - 8080:8080
 
 networks:
     micro_services:
+        driver: bridge
+        ipam:
+          config:
+            - subnet: 172.2.0.0/16

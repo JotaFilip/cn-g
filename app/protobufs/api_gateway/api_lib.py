@@ -69,6 +69,7 @@ def getSuggestions(body):
     return ret
 
 def addItem(body):
+    # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     type= body["type"]
     if (type == "BOOK"):
 
@@ -95,7 +96,7 @@ def category_to_genres(category):
     return lista
 
 def getItemById(type,itemId):
-
+    # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemId(id = itemId, type=type)
     response= lib_client.GetItem(request)
     if(response.book.book_id == '' and response.imdb.imdb_id == '' and response.anime.anime_id == ''):
@@ -133,7 +134,7 @@ def deleteItem(type,itemId):
         type = 1
     if (type == "ANIME"):
         type = 2
-
+    # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemIdAndUser(
         user_id=g.user_id,
         id = itemId,
