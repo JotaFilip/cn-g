@@ -301,7 +301,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: api-gateway
-        image: "gcr.io/cn-g14-projecto/api_gateway"
+        image: "gcr.io/cn-g14-projecto/api-gateway"
         ports:
         - containerPort: 8080
         readinessProbe:

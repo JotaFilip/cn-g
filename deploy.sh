@@ -11,7 +11,7 @@ cd signin/
 docker build -t gcr.io/${PROJECT_ID}/signin .
 cd ..
 cd api_gateway/
-docker build -t gcr.io/${PROJECT_ID}/api_gateway .
+docker build -t gcr.io/${PROJECT_ID}/api-gateway .
 cd ../book/
 docker build -t gcr.io/${PROJECT_ID}/book .
 cd ../anime/
@@ -29,7 +29,7 @@ docker push gcr.io/${PROJECT_ID}/anime
 docker push gcr.io/${PROJECT_ID}/book
 docker push gcr.io/${PROJECT_ID}/account
 docker push gcr.io/${PROJECT_ID}/signin
-docker push gcr.io/${PROJECT_ID}/api_gateway
+docker push gcr.io/${PROJECT_ID}/api-gateway
 docker images
 gcloud container images list
 kubectl get nodes
