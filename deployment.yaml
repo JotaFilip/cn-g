@@ -372,7 +372,7 @@ metadata:
     kubernetes.io/ingress.allow-http: "false"
 spec:
   tls:
-    - secretName: secret-name
+    - secretName: recommendations
   rules:
   - https:
       paths:
