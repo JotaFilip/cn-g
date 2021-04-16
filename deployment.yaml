@@ -308,7 +308,7 @@ spec:
         readinessProbe:
           initialDelaySeconds: 10
           httpGet:
-            path: /lib/1
+            path: "/lib/1"
             scheme: HTTPS
             port: 8080
 #            httpHeaders:
