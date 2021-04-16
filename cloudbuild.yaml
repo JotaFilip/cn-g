@@ -120,8 +120,8 @@ steps:
   - run
   - --filename=deployment.yaml
   - --image=gcr.io/$PROJECT_ID/imdb
-  - --location=${_CLOUDSDK_COMPUTE_ZONE}
-  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  - --location=europe-west4-a
+  - --cluster=cluster-recommendations
   waitFor: [ 'pushing imdb' ]
 
 - id: 'pushing account'
@@ -137,8 +137,8 @@ steps:
   - run
   - --filename=deployment.yaml
   - --image=gcr.io/$PROJECT_ID/account
-  - --location=${_CLOUDSDK_COMPUTE_ZONE}
-  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  - --location=europe-west4-a
+  - --cluster=cluster-recommendations
   waitFor: [ 'pushing account' ]
 
 - id: 'pushing signin'
@@ -154,8 +154,8 @@ steps:
   - run
   - --filename=deployment.yaml
   - --image=gcr.io/$PROJECT_ID/signin
-  - --location=${_CLOUDSDK_COMPUTE_ZONE}
-  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  - --location=europe-west4-a
+  - --cluster=cluster-recommendations
   waitFor: [ 'pushing signin' ]
 
 - id: 'pushing api-gateway'
@@ -171,8 +171,8 @@ steps:
   - run
   - --filename=deployment.yaml
   - --image=gcr.io/$PROJECT_ID/api-gateway
-  - --location=${_CLOUDSDK_COMPUTE_ZONE}
-  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  - --location=europe-west4-a
+  - --cluster=cluster-recommendations
   waitFor: [ 'pushing api-gateway' ]
 
 - id: 'pushing book'
@@ -188,8 +188,8 @@ steps:
   - run
   - --filename=deployment.yaml
   - --image=gcr.io/$PROJECT_ID/book
-  - --location=${_CLOUDSDK_COMPUTE_ZONE}
-  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  - --location=europe-west4-a
+  - --cluster=cluster-recommendations
   waitFor: [ 'pushing book' ]
 
 - id: 'pushing anime'
@@ -205,8 +205,8 @@ steps:
   - run
   - --filename=deployment.yaml
   - --image=gcr.io/$PROJECT_ID/anime
-  - --location=${_CLOUDSDK_COMPUTE_ZONE}
-  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  - --location=europe-west4-a
+  - --cluster=cluster-recommendations
   waitFor: [ 'pushing anime' ]
 
 - id: 'pushing library'
@@ -222,8 +222,8 @@ steps:
   - run
   - --filename=deployment.yaml
   - --image=gcr.io/$PROJECT_ID/library
-  - --location=${_CLOUDSDK_COMPUTE_ZONE}
-  - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  - --location=europe-west4-a
+  - --cluster=cluster-recommendations
   waitFor: [ 'pushing library' ]
 
 images:
