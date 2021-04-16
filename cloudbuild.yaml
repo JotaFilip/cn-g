@@ -169,7 +169,7 @@ steps:
   - --filename=deployment.yaml
   - --location=europe-west4-a
   - --cluster=cluster-recommendations
-  waitFor: [ 'pushing library' ]
+  waitFor: ['pushing account','pushing signin','pushing api-gateway','pushing book','pushing anime','pushing imdb','pushing library']
 
 images:
 - gcr.io/$PROJECT_ID/imdb
