@@ -374,7 +374,7 @@ spec:
   tls:
     - secretName: recommendations
   rules:
-  - https:
+  - http:
       paths:
       - path: /*
         backend:
