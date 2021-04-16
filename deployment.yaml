@@ -302,12 +302,13 @@ spec:
       containers:
       - name: api-gateway
         image: "gcr.io/cn-g14-projecto/api-gateway"
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         readinessProbe:
           initialDelaySeconds: 10
           httpGet:
-            path: "/lib/1"
+            path: /lib/1
             scheme: HTTPS
             port: 8080
 #            httpHeaders:
