@@ -113,106 +113,52 @@ steps:
   waitFor: [ 'integration tests' ]
 
 
-  # deploy container image to GKE
-- id: 'deploy image imdb'
-  name: "gcr.io/cloud-builders/gke-deploy"
-  args:
-  - run
-  - --filename=deployment.yaml
-  - --image=gcr.io/$PROJECT_ID/imdb
-  - --location=europe-west4-a
-  - --cluster=cluster-recommendations
-  waitFor: [ 'pushing imdb' ]
 
 - id: 'pushing account'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/account"]
-  waitFor: [ 'deploy image imdb' ]
+  waitFor: [ 'integration tests' ]
 
 
-  # deploy container image to GKE
-- id: 'deploy image account'
-  name: "gcr.io/cloud-builders/gke-deploy"
-  args:
-  - run
-  - --filename=deployment.yaml
-  - --image=gcr.io/$PROJECT_ID/account
-  - --location=europe-west4-a
-  - --cluster=cluster-recommendations
-  waitFor: [ 'pushing account' ]
+
+
+
 
 - id: 'pushing signin'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/signin"]
-  waitFor: [ 'deploy image account' ]
+  waitFor: [ 'integration tests' ]
 
 
-  # deploy container image to GKE
-- id: 'deploy image signin'
-  name: "gcr.io/cloud-builders/gke-deploy"
-  args:
-  - run
-  - --filename=deployment.yaml
-  - --image=gcr.io/$PROJECT_ID/signin
-  - --location=europe-west4-a
-  - --cluster=cluster-recommendations
-  waitFor: [ 'pushing signin' ]
+
 
 - id: 'pushing api-gateway'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/api-gateway"]
-  waitFor: [ 'deploy image signin' ]
+  waitFor: [ 'integration tests' ]
 
 
-  # deploy container image to GKE
-- id: 'deploy image api-gateway'
-  name: "gcr.io/cloud-builders/gke-deploy"
-  args:
-  - run
-  - --filename=deployment.yaml
-  - --image=gcr.io/$PROJECT_ID/api-gateway
-  - --location=europe-west4-a
-  - --cluster=cluster-recommendations
-  waitFor: [ 'pushing api-gateway' ]
+
 
 - id: 'pushing book'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/book"]
-  waitFor: [ 'deploy image api-gateway' ]
+  waitFor: [ 'integration tests' ]
 
 
-  # deploy container image to GKE
-- id: 'deploy image book'
-  name: "gcr.io/cloud-builders/gke-deploy"
-  args:
-  - run
-  - --filename=deployment.yaml
-  - --image=gcr.io/$PROJECT_ID/book
-  - --location=europe-west4-a
-  - --cluster=cluster-recommendations
-  waitFor: [ 'pushing book' ]
+
 
 - id: 'pushing anime'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/anime"]
-  waitFor: [ 'deploy image book' ]
+  waitFor: [ 'integration tests' ]
 
 
-  # deploy container image to GKE
-- id: 'deploy image anime'
-  name: "gcr.io/cloud-builders/gke-deploy"
-  args:
-  - run
-  - --filename=deployment.yaml
-  - --image=gcr.io/$PROJECT_ID/anime
-  - --location=europe-west4-a
-  - --cluster=cluster-recommendations
-  waitFor: [ 'pushing anime' ]
 
 - id: 'pushing library'
   name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/library"]
-  waitFor: [ 'deploy image anime' ]
+  waitFor: [ 'integration tests' ]
 
 
   # deploy container image to GKE
@@ -221,7 +167,6 @@ steps:
   args:
   - run
   - --filename=deployment.yaml
-  - --image=gcr.io/$PROJECT_ID/library
   - --location=europe-west4-a
   - --cluster=cluster-recommendations
   waitFor: [ 'pushing library' ]

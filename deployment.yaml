@@ -37,7 +37,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "imdb"
-        image: "gcr.io/cn-g14-projecto/imdb:v2"
+        image: "gcr.io/cn-g14-projecto/imdb"
         ports:
         - containerPort: 50052
 #        readinessProbe:
@@ -85,7 +85,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "account"
-        image: "gcr.io/cn-g14-projecto/account:v2"
+        image: "gcr.io/cn-g14-projecto/account"
         ports:
         - containerPort: 50055
 #        readinessProbe:
@@ -133,7 +133,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "book"
-        image: "gcr.io/cn-g14-projecto/book:v2"
+        image: "gcr.io/cn-g14-projecto/book"
         ports:
         - containerPort: 50051
 #        readinessProbe:
@@ -181,7 +181,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "signin"
-        image: "gcr.io/cn-g14-projecto/signin:v2"
+        image: "gcr.io/cn-g14-projecto/signin"
         ports:
         - containerPort: 50054
 #        readinessProbe:
@@ -235,7 +235,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "library"
-        image: "gcr.io/cn-g14-projecto/library:v2"
+        image: "gcr.io/cn-g14-projecto/library"
         ports:
         - containerPort: 50050
 #        readinessProbe:
@@ -301,7 +301,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: api-gateway
-        image: "gcr.io/cn-g14-projecto/api_gateway:v2"
+        image: "gcr.io/cn-g14-projecto/api_gateway"
         ports:
         - containerPort: 5000
         readinessProbe:
@@ -395,7 +395,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "anime"
-        image: "gcr.io/cn-g14-projecto/anime:v2"
+        image: "gcr.io/cn-g14-projecto/anime"
         ports:
         - containerPort: 50053
 #        readinessProbe:
