@@ -22,13 +22,13 @@ steps:
   ]
   waitFor: ['-'] # start immediately
 
-- id: 'build api_gateway'
+- id: 'build api-gateway'
   name: 'gcr.io/cloud-builders/docker'
   args: [
     'build',
     '--tag=api_gateway', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/api_gateway',
-    '--cache-from=gcr.io/$PROJECT_ID/api_gateway:latest',
+    '--tag=gcr.io/$PROJECT_ID/api-gateway',
+    '--cache-from=gcr.io/$PROJECT_ID/api-gateway:latest',
     'app/protobufs/api_gateway/.',
   ]
   waitFor: ['-'] # start immediately
@@ -73,16 +73,26 @@ steps:
   ]
   waitFor: ['-'] # start immediately
 
+#- id: 'dns up'
+#  name: 'gcr.io/cloud-builders/docker'
+#  args: [
+#      'run', 'defreitas/dns-proxy-server',
+#
+#  ]
+#  waitFor: ['-']
+
+
 - id: 'compose up'
   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
   entrypoint: '/bin/bash'
   args:
   - '-c'
   - |
-    docker-compose up -d
+    docker-compose up -d --force-recreate --build
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['build account','build signin','build api_gateway','build book','build anime','build imdb','build library']
+  waitFor: ['build account','build signin','build api-gateway','build book','build anime','build imdb','build library']
+
 
 - id: 'integration tests'
   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
@@ -90,15 +100,82 @@ steps:
   args:
     - '-c'
     - |
-      ### -r = retries; -i = interval; -k = keyword to search for ###
-      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://api_gateway:5000
+      docker container ls -a
+      sleep 10
+      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://api-gateway:8080
+  env:
+    - 'PROJECT_ID=$PROJECT_ID'
   waitFor: ['compose up']
+
+- id: 'pushing imdb'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/imdb"]
+  waitFor: [ 'integration tests' ]
+
+
+
+- id: 'pushing account'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/account"]
+  waitFor: [ 'integration tests' ]
+
+
+
+
+
+
+- id: 'pushing signin'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/signin"]
+  waitFor: [ 'integration tests' ]
+
+
+
+
+- id: 'pushing api-gateway'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/api-gateway"]
+  waitFor: [ 'integration tests' ]
+
+
+
+
+- id: 'pushing book'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/book"]
+  waitFor: [ 'integration tests' ]
+
+
+
+
+- id: 'pushing anime'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/anime"]
+  waitFor: [ 'integration tests' ]
+
+
+
+- id: 'pushing library'
+  name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/library"]
+  waitFor: [ 'integration tests' ]
+
+
+  # deploy container image to GKE
+- id: 'deploy image library'
+  name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=deployment.yaml
+  - --location=europe-west4-a
+  - --cluster=cluster-recommendations
+  waitFor: ['pushing account','pushing signin','pushing api-gateway','pushing book','pushing anime','pushing imdb','pushing library']
 
 images:
 - gcr.io/$PROJECT_ID/imdb
 - gcr.io/$PROJECT_ID/account
 - gcr.io/$PROJECT_ID/signin
-- gcr.io/$PROJECT_ID/api_gateway
+- gcr.io/$PROJECT_ID/api-gateway
 - gcr.io/$PROJECT_ID/book
 - gcr.io/$PROJECT_ID/anime
 - gcr.io/$PROJECT_ID/library

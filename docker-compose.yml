@@ -1,0 +1,101 @@
+version: "3.8"
+services:
+
+#    dns-resolver:
+#        image: defreitas/dns-proxy-server:2.5.1
+#        restart: always
+#        ports:
+#            - 5380
+#        hostname: dns.mageddo.intranet
+#        container_name: dns-resolver
+#        volumes:
+#            - /opt/dns-proxy-server/conf:/app/conf
+#            - /var/run/docker.sock:/var/run/docker.sock
+#            - /etc/resolv.conf:/etc/resolv.conf
+#        networks:
+#            - micro_services
+    account:
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/account
+        image: account
+        hostname: account
+        container_name: account
+        ports:
+            - 50055:50055
+
+    signin:
+        environment:
+            ACCOUNTS_HOST: account
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/signin
+        image: signin
+        hostname: signin
+        container_name: signin
+        ports:
+            - 50054:50054
+
+    anime:
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/anime
+        image: anime
+        hostname: anime
+        container_name: anime
+        ports:
+            - 50053:50053
+
+    book:
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/book
+        image: book
+        hostname: book
+        container_name: book
+        ports:
+            - 50051:50051
+
+    imdb:
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/imdb
+        image: imdb
+        hostname: imdb
+        container_name: imdb
+        ports:
+            - 50052:50052
+
+    library:
+        environment:
+            BOOKS_HOST: book
+            IMDBS_HOST: imdb
+            ANIMES_HOST: anime
+            ACCOUNTS_HOST: account
+
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/library
+        image: library
+        container_name: library
+        hostname: library
+        ports:
+            - 50050:50050
+
+    api-gateway:
+        environment:
+            SIGNIN_HOST: signin
+            LIBRARY_HOST: library
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/api_gateway
+        image: api-gateway
+        container_name: api-gateway
+        hostname: api-gateway
+        ports:
+            - 8080:8080
+
+networks:
+    default:
+        external:
+            name: cloudbuild
