@@ -54,7 +54,7 @@ kind: Service
 metadata:
   name: imdb
 spec:
-#  type: ClusterIP
+  type: ClusterIP
   selector:
     app: imdb
   ports:
@@ -102,7 +102,7 @@ kind: Service
 metadata:
   name: account
 spec:
-#  type: ClusterIP
+  type: ClusterIP
   selector:
     app: account
   ports:
@@ -150,7 +150,7 @@ kind: Service
 metadata:
   name: book
 spec:
-#  type: ClusterIP
+  type: ClusterIP
   selector:
     app: book
   ports:
@@ -204,7 +204,7 @@ kind: Service
 metadata:
   name: signin
 spec:
-#  type: ClusterIP
+  type: ClusterIP
   selector:
     app: signin
   ports:
@@ -273,7 +273,7 @@ kind: Service
 metadata:
   name: library
 spec:
-#  type: ClusterIP
+  type: ClusterIP
   selector:
     app: library
   ports:
@@ -423,7 +423,7 @@ kind: Service
 metadata:
   name: anime
 spec:
-#  type: ClusterIP
+  type: ClusterIP
   selector:
     app: anime
   ports:
