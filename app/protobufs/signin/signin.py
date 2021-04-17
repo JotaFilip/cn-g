@@ -14,16 +14,20 @@ from account_pb2 import *
 from account_pb2_grpc import AccountStub
 import os
 
-with open("signin.key", "rb") as fp:
-    signin_key = fp.read()
-with open("signin.pem", "rb") as fp:
-    signin_cert = fp.read()
-with open("ca.pem", "rb") as fp:
-    ca_cert = fp.read()
-creds = grpc.ssl_channel_credentials(ca_cert, signin_key, signin_cert)
+# with open("signin.key", "rb") as fp:
+    # signin_key = fp.read()
+# with open("signin.pem", "rb") as fp:
+    # signin_cert = fp.read()
+# with open("ca.pem", "rb") as fp:
+    # ca_cert = fp.read()
+# creds = grpc.ssl_channel_credentials(ca_cert, signin_key, signin_cert)
+
+# account_host = os.getenv("ACCOUNTS_HOST", "localhost")
+# account_channel = grpc.secure_channel(f"{account_host}:50055", creds)
+# account_client = AccountStub(account_channel)
 
 account_host = os.getenv("ACCOUNTS_HOST", "localhost")
-account_channel = grpc.secure_channel(f"{account_host}:50055", creds)
+account_channel = grpc.insecure_channel(f"{account_host}:50055")
 account_client = AccountStub(account_channel)
 
 import smtplib, ssl
@@ -95,13 +99,14 @@ def serve():
         SignInService(), server
     )
     
-    creds_server = grpc.ssl_server_credentials(
-        [(signin_key, signin_cert)],
-        root_certificates=ca_cert,
-        require_client_auth=True,
-    )
+    # creds_server = grpc.ssl_server_credentials(
+        # [(signin_key, signin_cert)],
+        # root_certificates=ca_cert,
+        # require_client_auth=True,
+    # )
     
-    server.add_secure_port("[::]:50054", creds_server)
+    # server.add_secure_port("[::]:50054", creds_server)
+    server.add_insecure_port("[::]:50054")
     server.start()
     server.wait_for_termination()
 
