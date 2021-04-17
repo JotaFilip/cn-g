@@ -35,7 +35,7 @@ spec:
     -
       name: http2
       nodePort: 31380
-      port: 8080
+      port: 80
       targetPort: 80
     -
       name: https
@@ -283,7 +283,7 @@ spec:
       release: istio
       app: istio-ingressgateway
       istio: ingressgateway
-—
+---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
