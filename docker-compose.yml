@@ -93,7 +93,7 @@ services:
         container_name: api-gateway
         hostname: api-gateway
         ports:
-            - 80:80
+            - 443:443
 
 networks:
     default:
