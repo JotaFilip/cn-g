@@ -574,6 +574,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: ingress-gateway-recommendations
+  namespace: default
 spec:
   selector:
     istio: ingressgateway # use istio default ingress gateway
@@ -591,12 +592,12 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: recommendations
+  name: recommendations-service-istio
 spec:
   hosts:
   - "*"
   gateways:
-  - ingress-gateway-recommendations
+  - ingress-gateway-recommendations.default.svc.cluster.local
   http:
   - match:
     - uri:
@@ -605,5 +606,5 @@ spec:
     - destination:
         port:
           number: 80
-        host: api-gateway
+        host: api-gateway.default.svc.cluster.local
 ---
