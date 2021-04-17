@@ -1,4 +1,4 @@
-gcloud beta container clusters update cluster-recommendations --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT --zone=europe-west4-a
+gcloud beta container clusters update cluster-recommendations --update-addons=Istio=ENABLED --istio-config=auth=MTLS_PERMISSIVE --zone=europe-west4-a
 kubectl label namespace default istio-injection=enabled
 
 
