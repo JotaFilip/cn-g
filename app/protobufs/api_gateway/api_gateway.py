@@ -15,7 +15,7 @@ app.add_api("seen.yaml")
 #app.run(host='0.0.0.0', port=80, ssl_context=context, threaded=True, debug=True)
 
 
-app.run(port=80)
+app.run(port=443)
 CORS(app.app)
 
 if __name__ == "__main__":
