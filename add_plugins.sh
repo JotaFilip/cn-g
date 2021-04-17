@@ -5,7 +5,6 @@ kubectl label namespace default istio-injection=enabled
 
 
 
-
 git clone --recursive https://github.com/GoogleCloudPlatform/click-to-deploy.git
 kubectl --insecure-skip-tls-verify apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketplace-k8s-app-tools/master/crd/app-crd.yaml"
 cd click-to-deploy/k8s/prometheus
