@@ -571,41 +571,41 @@ spec:
     resource:
       name: "cpu"
       targetAverageUtilization: 80
----
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: ingress-gateway-recommendations
-spec:
-  selector:
-    istio: ingressgateway # use istio default ingress gateway
-  servers:
-  - port:
-      number: 80
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: recommendations # must be the same as secret
-    hosts:
-    - recommendations.sytes.net
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: recommendations
-spec:
-  hosts:
-  - "recommendations.sytes.net"
-  gateways:
-  - ingress-gateway-recommendations
-  http:
-  - match:
-    - uri:
-        prefix: /
-    route:
-    - destination:
-        port:
-          number: 80
-        host: api-gateway
----
+#---
+#apiVersion: networking.istio.io/v1alpha3
+#kind: Gateway
+#metadata:
+#  name: ingress-gateway-recommendations
+#spec:
+#  selector:
+#    istio: ingressgateway # use istio default ingress gateway
+#  servers:
+#  - port:
+#      number: 80
+#      name: https
+#      protocol: HTTPS
+#    tls:
+#      mode: SIMPLE
+#      credentialName: recommendations # must be the same as secret
+#    hosts:
+#    - recommendations.sytes.net
+#---
+#apiVersion: networking.istio.io/v1alpha3
+#kind: VirtualService
+#metadata:
+#  name: recommendations
+#spec:
+#  hosts:
+#  - "*"
+#  gateways:
+#  - ingress-gateway-recommendations
+#  http:
+#  - match:
+#    - uri:
+#        prefix: /
+#    route:
+#    - destination:
+#        port:
+#          number: 80
+#        host: api-gateway
+#---
