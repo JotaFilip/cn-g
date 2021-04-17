@@ -12,7 +12,7 @@ app.add_api("seen.yaml")
 
 
 context = ('api_gateway.pem', 'api_gateway.key')
-app.run(host='0.0.0.0', port=443, ssl_context=context, threaded=True, debug=True)
+app.run(host='0.0.0.0', port=80, ssl_context=context, threaded=True, debug=True)
 
 
 #app.run(port=5000)

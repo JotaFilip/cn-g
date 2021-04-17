@@ -114,7 +114,7 @@ services:
         volumes:
             - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
-            - 443:443
+            - 80:80
 
 networks:
     micro_services:
