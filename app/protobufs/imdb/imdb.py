@@ -150,20 +150,21 @@ def serve():
         IMDBService(), server
     )
     
-    with open("imdb.key", "rb") as fp:
-        imdb_key = fp.read()
-    with open("imdb.pem", "rb") as fp:
-        imdb_cert = fp.read()
-    with open("ca.pem", "rb") as fp:
-        ca_cert = fp.read()
+    # with open("imdb.key", "rb") as fp:
+        # imdb_key = fp.read()
+    # with open("imdb.pem", "rb") as fp:
+        # imdb_cert = fp.read()
+    # with open("ca.pem", "rb") as fp:
+        # ca_cert = fp.read()
     
-    creds = grpc.ssl_server_credentials(
-        [(imdb_key, imdb_cert)],
-        root_certificates=ca_cert,
-        require_client_auth=True,
-    )
+    # creds = grpc.ssl_server_credentials(
+        # [(imdb_key, imdb_cert)],
+        # root_certificates=ca_cert,
+        # require_client_auth=True,
+    # )
     
-    server.add_secure_port("[::]:50052", creds)
+    # server.add_secure_port("[::]:50052", creds)
+    server.add_insecure_port("[::]:50052")
     server.start()
     server.wait_for_termination()
 
