@@ -88,20 +88,21 @@ def serve():
         AnimeService(), server
     )
     
-    with open("anime.key", "rb") as fp:
-        anime_key = fp.read()
-    with open("anime.pem", "rb") as fp:
-        anime_cert = fp.read()
-    with open("ca.pem", "rb") as fp:
-        ca_cert = fp.read()
+    # with open("anime.key", "rb") as fp:
+        # anime_key = fp.read()
+    # with open("anime.pem", "rb") as fp:
+        # anime_cert = fp.read()
+    # with open("ca.pem", "rb") as fp:
+        # ca_cert = fp.read()
 
-    creds = grpc.ssl_server_credentials(
-        [(anime_key, anime_cert)],
-        root_certificates=ca_cert,
-        require_client_auth=True,
-    )
+    # creds = grpc.ssl_server_credentials(
+        # [(anime_key, anime_cert)],
+        # root_certificates=ca_cert,
+        # require_client_auth=True,
+    # )
     
-    server.add_secure_port("[::]:50053", creds)
+    # server.add_secure_port("[::]:50053", creds)
+    server.add_insecure_port("[::]:50053")
     server.start()
     server.wait_for_termination()
 

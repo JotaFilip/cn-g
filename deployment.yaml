@@ -54,7 +54,7 @@ kind: Service
 metadata:
   name: imdb
 spec:
-  type: ClusterIP
+  #  type: ClusterIP
   selector:
     app: imdb
   ports:
@@ -102,7 +102,7 @@ kind: Service
 metadata:
   name: account
 spec:
-  type: ClusterIP
+  #  type: ClusterIP
   selector:
     app: account
   ports:
@@ -150,7 +150,7 @@ kind: Service
 metadata:
   name: book
 spec:
-  type: ClusterIP
+  #  type: ClusterIP
   selector:
     app: book
   ports:
@@ -204,7 +204,7 @@ kind: Service
 metadata:
   name: signin
 spec:
-  type: ClusterIP
+  #  type: ClusterIP
   selector:
     app: signin
   ports:
@@ -273,7 +273,7 @@ kind: Service
 metadata:
   name: library
 spec:
-  type: ClusterIP
+  #  type: ClusterIP
   selector:
     app: library
   ports:
@@ -302,14 +302,15 @@ spec:
       containers:
       - name: api-gateway
         image: "gcr.io/cn-g14-projecto/api-gateway"
+        imagePullPolicy: Always
         ports:
-        - containerPort: 8080
+        - containerPort: 8443
         readinessProbe:
           initialDelaySeconds: 10
           httpGet:
             path: "/lib/1"
-            scheme: HTTPS
-            port: 8080
+#            scheme: HTTPS
+            port: 8443
 #            httpHeaders:
 #            - name: "Cookie"
 #              value: "shop_session-id=x-readiness-probe"
@@ -318,8 +319,8 @@ spec:
 
           httpGet:
             path: "/lib/1"
-            scheme: HTTPS
-            port: 8080
+#            scheme: HTTPS
+            port: 8443
 #            httpHeaders:
 #            - name: "Cookie"
 #              value: "shop_session-id=x-liveness-probe"
@@ -339,17 +340,16 @@ apiVersion: "v1"
 kind: Service
 metadata:
   name: api-gateway
-  annotations:
-    cloud.google.com/app-protocols: '{"https":"HTTPS"}'
+#  annotations:
+#    cloud.google.com/app-protocols: '{"https":"HTTPS"}'
 spec:
 #  type: ClusterIP
-  type: NodePort
   selector:
     app: api-gateway
   ports:
-  - name: https
-    port: 8080
-    targetPort: 8080
+  - name: http
+    port: 8443
+    targetPort: 8443
 ---
 #apiVersion: v1
 #kind: Service
@@ -362,27 +362,26 @@ spec:
 #  ports:
 #  - name: http
 #    port: 80
-#    targetPort: 5000
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: api-gateway-ingress
-  annotations:
-    ingress.kubernetes.io/backend-protocol: "HTTPS"
-    kubernetes.io/ingress.allow-http: "false"
-spec:
-  tls:
-    - secretName: recommendations
-  rules:
-  - http:
-      paths:
-      - path: /*
-        backend:
-          serviceName: api-gateway
-          servicePort: 8080
-
-
----
+#    targetPort: 80
+#---
+#apiVersion: networking.k8s.io/v1beta1
+#kind: Ingress
+#metadata:
+#  name: api-gateway-ingress
+#  annotations:
+##    ingress.kubernetes.io/backend-protocol: "HTTPS"
+#    kubernetes.io/ingress.allow-http: "false"
+#spec:
+#  tls:
+#    - secretName: recommendations
+#  rules:
+#  - http:
+#      paths:
+#      - path: /*
+#        backend:
+#          serviceName: api-gateway
+#          servicePort: 8443
+#---
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
@@ -423,7 +422,7 @@ kind: Service
 metadata:
   name: anime
 spec:
-  type: ClusterIP
+  #  type: ClusterIP
   selector:
     app: anime
   ports:
@@ -570,4 +569,45 @@ spec:
     resource:
       name: "cpu"
       targetAverageUtilization: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ingress-gateway-recommendations
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key # must be the same as secret
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: recommendations-service-istio
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - ingress-gateway-recommendations
+  http:
+  - match:
+    - uri:
+        prefix: /
+    - uri:
+        prefix: /lib
+    route:
+    - destination:
+        port:
+          number: 8443
+        host: api-gateway
 ---

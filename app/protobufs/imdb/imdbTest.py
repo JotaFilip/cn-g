@@ -43,7 +43,7 @@ recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
 # creds = grpc.ssl_channel_credentials(ca_cert, client_key, client_cert)
 #
 # recommendations_channel = grpc.secure_channel(
-#     f"{recommendations_host}:443", creds
+#     f"{recommendations_host}:80", creds
 # )
 #books_channel = grpc.insecure_channel(f"{recommendations_host}:50051")
 #books_client = BookStub(books_channel)
