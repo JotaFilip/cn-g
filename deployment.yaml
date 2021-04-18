@@ -580,12 +580,12 @@ spec:
     istio: ingressgateway # use istio default ingress gateway
   servers:
   - port:
-      number: 80
-      name: http
-      protocol: HTTP
-#    tls:
-#      mode: SIMPLE
-#      credentialName: recommendations # must be the same as secret
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: recommendations # must be the same as secret
     hosts:
     - "*"
 ---
