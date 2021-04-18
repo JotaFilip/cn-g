@@ -320,7 +320,7 @@ spec:
           httpGet:
             path: "/lib/1"
 #            scheme: HTTPS
-            port: 443
+            port: 8443
 #            httpHeaders:
 #            - name: "Cookie"
 #              value: "shop_session-id=x-liveness-probe"
@@ -348,8 +348,8 @@ spec:
     app: api-gateway
   ports:
   - name: http
-    port: 443
-    targetPort: 443
+    port: 8443
+    targetPort: 8443
 ---
 #apiVersion: v1
 #kind: Service
@@ -605,6 +605,6 @@ spec:
     route:
     - destination:
         port:
-          number: 443
+          number: 8443
         host: api-gateway
 ---
