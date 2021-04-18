@@ -585,7 +585,8 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: recommendations # must be the same as secret
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key # must be the same as secret
     hosts:
     - "*"
 ---
