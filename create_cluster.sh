@@ -6,3 +6,4 @@ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-ad
 cd cn-g
 #kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem --dry-run=client
 kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem
+kubectl create -n istio-system secret tls istio-ingressgateway-certs --key scripts/privkey1.pem --cert scripts/fullchain1.pem
