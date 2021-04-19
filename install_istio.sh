@@ -1,3 +1,4 @@
+cd ~
 gcloud config set compute/zone europe-west4-a
 gcloud services enable container.googleapis.com
 curl -L https://istio.io/downloadIstio | sh -
