@@ -2,7 +2,7 @@ cd ~
 ZONE=europe-west4-a
 PROJECT=$(gcloud config get-value project)
 CLUSTER=gke-load-test
-TARGET="https://recommendations.sytes.net"
+TARGET="recommendations.sytes.net"
 SCOPE="https://www.googleapis.com/auth/cloud-platform"
 
 gcloud config set compute/zone ${ZONE}
