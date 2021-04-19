@@ -1,3 +1,4 @@
+gcloud container clusters get-credentials cluster-recommendations --zone europe-west4-a
 cd ~
 gcloud config set compute/zone europe-west4-a
 gcloud services enable container.googleapis.com
