@@ -8,7 +8,7 @@ SCOPE="https://www.googleapis.com/auth/cloud-platform"
 gcloud config set compute/zone ${ZONE}
 gcloud config set project ${PROJECT}
 
-git clone https://github.com/GoogleCloudPlatform/distributed-load-testing-using-kubernetes
+git clone https://github.com/tiagorncarvalho/distributed-load-testing-using-kubernetes
 cd distributed-load-testing-using-kubernetes
 
 gcloud container clusters create $CLUSTER --zone $ZONE --scopes $SCOPE --enable-autoscaling --min-nodes "3" --max-nodes "10" --scopes=logging-write,storage-ro --addons HorizontalPodAutoscaling,HttpLoadBalancing
