@@ -10,4 +10,4 @@ istioctl install
 kubectl get svc -n istio-system
 kubectl get pods -n istio-system
 kubectl label namespace default istio-injection=enabled
-kubectl create -n istio-system secret tls istio-ingressgateway-certs --key ../cn-g/scripts/privkey1.pem --cert ../cn-g/scripts/fullchain1.pem
+kubectl create -n default secret tls istio-ingressgateway-certs --key ../cn-g/scripts/privkey1.pem --cert ../cn-g/scripts/fullchain1.pem
