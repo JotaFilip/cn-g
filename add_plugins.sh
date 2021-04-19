@@ -11,7 +11,7 @@ kubectl apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketpl
 cd click-to-deploy/k8s/prometheus
 
 export APP_INSTANCE_NAME=prometheus-1
-export NAMESPACE=default
+export NAMESPACE=grafana
 
 TAG=2.11
 export IMAGE_PROMETHEUS="marketplace.gcr.io/google/prometheus:${TAG}"
