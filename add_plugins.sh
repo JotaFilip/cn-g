@@ -11,7 +11,7 @@ kubectl apply -f "https://raw.githubusercontent.com/GoogleCloudPlatform/marketpl
 cd click-to-deploy/k8s/prometheus
 
 export APP_INSTANCE_NAME=prometheus-1
-export NAMESPACE=default
+export NAMESPACE=grafana
 
 TAG=2.11
 export IMAGE_PROMETHEUS="marketplace.gcr.io/google/prometheus:${TAG}"
@@ -59,8 +59,8 @@ kubectl apply -f "${APP_INSTANCE_NAME}_manifest.yaml" --namespace "${NAMESPACE}"
 echo "https://console.cloud.google.com/kubernetes/application/${ZONE}/${CLUSTER}/${NAMESPACE}/${APP_INSTANCE_NAME}"
 
 kubectl patch svc "$APP_INSTANCE_NAME-grafana" --namespace "$NAMESPACE" -p '{"spec": {"type": "LoadBalancer"}}' #IP externo
-SERVICE_IP=$(kubectl get svc $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
-echo "http://${SERVICE_IP}/"
+#SERVICE_IP=$(kubectl get svc $APP_INSTANCE_NAME-grafana --namespace $NAMESPACE --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+#echo "http://${SERVICE_IP}/"
 
 #kubectl --insecure-skip-tls-verify port-forward --namespace ${NAMESPACE} ${APP_INSTANCE_NAME}-grafana-0 3000 #IP local
 
