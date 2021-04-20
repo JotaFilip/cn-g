@@ -36,7 +36,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
             return VerificarResponse(success = False)
         id = user.getId()
         session.commit()
-        if not user or not user.verify_password(request.password):
+        if not user.verify_password(request.password):
             return VerificarResponse(success = False)
         return VerificarResponse(success = True, id = id)
     def VerificarAdmin(self, request, context):

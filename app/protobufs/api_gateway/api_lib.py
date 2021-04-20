@@ -72,6 +72,7 @@ def getSuggestions(body):
     return ret
 
 def addItem(body):
+
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     type= body["type"]
     if (type == "BOOK"):
@@ -79,17 +80,18 @@ def addItem(body):
         type = 0
         data = BookData(book_title = body["name"], img_url= body["photoUrl"], book_rating= body["rating"], description= body["description"], genres = category_to_genres(body["category"]) )
         request = AddItemRequest(user_id=g.user_id, type=type, book=data)
-    if (type == "SHOW"):
+    elif (type == "SHOW"):
         data = IMDBData(imdb_title=body["name"], img_url=body["photoUrl"], imdb_rating=body["rating"],
                         description=body["description"], genres= category_to_genres(body["category"]), type=body["type"])
         request = AddItemRequest(user_id=g.user_id, type=type, imdb=data)
         type = 1
-    if (type == "ANIME"):
+    elif (type == "ANIME"):
         data = AnimeData(anime_title=body["name"], img_url=body["photoUrl"], anime_rating=body["rating"],
                         description=body["description"], genres= category_to_genres(body["category"]))
         request = AddItemRequest(user_id=g.user_id, type=type, anime=data)
         type = 2
-
+    else:
+        return 'false',405
     return lib_client.AddItem(request).success
 
 def category_to_genres(category):
@@ -99,6 +101,14 @@ def category_to_genres(category):
     return lista
 
 def getItemById(type,itemId):
+    if (type == "BOOK"):
+        type = 0
+    elif (type == "SHOW"):
+        type = 1
+    elif (type == "ANIME"):
+        type = 2
+    else:
+        return 'false', 400
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemId(id = itemId, type=type)
     response= lib_client.GetItem(request)
@@ -130,13 +140,14 @@ def getItemById(type,itemId):
     return 'Id Not Found', 400
 
 def deleteItem(type,itemId):
-
     if (type == "BOOK"):
         type = 0
-    if (type == "SHOW"):
+    elif (type == "SHOW"):
         type = 1
-    if (type == "ANIME"):
+    elif (type == "ANIME"):
         type = 2
+    else:
+        return 'false', 400
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemIdAndUser(
         user_id=g.user_id,
@@ -146,13 +157,14 @@ def deleteItem(type,itemId):
     return lib_client.RemoveItem(request).success
 
 def updateItemSeen(type,itemId):
-
     if (type == "BOOK"):
         type = 0
-    if (type == "SHOW"):
+    elif (type == "SHOW"):
         type = 1
-    if (type == "ANIME"):
+    elif (type == "ANIME"):
         type = 2
+    else:
+        return 'false', 400
 
     request =  ItemIdAndUser (
         user_id = g.user_id,
@@ -162,13 +174,14 @@ def updateItemSeen(type,itemId):
     return lib_client.AddSeenItem(request).success
 
 def updateItemLike(type,itemId):
-
     if (type == "BOOK"):
         type = 0
-    if (type == "SHOW"):
+    elif (type == "SHOW"):
         type = 1
-    if (type == "ANIME"):
+    elif (type == "ANIME"):
         type = 2
+    else:
+        return 'false', 400
 
     request =  ItemIdAndUser(
         user_id=g.user_id,
