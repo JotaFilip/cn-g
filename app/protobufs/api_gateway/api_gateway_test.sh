@@ -31,7 +31,7 @@ echo "url: "$url
 #Pronto:
 res_get=$(curl -k  -u admin:admin -X  GET --header 'Accept: text/html' "$url"'/item/BOOK/607615b3aeb60e0f26f7c1df')
 
-res_like_existe=$(curl -k  -u admin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/607615b3aeb60e0f26f7c1dflike')
+res_like_existe=$(curl -k  -u admin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/607615b3aeb60e0f26f7c1df/like')
 res_like_nao_existe=$(curl -k  -u admin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/12345/like')
 
 res_seen_existe=$(curl -k  -u admin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/607615b3aeb60e0f26f7c1df/seen")

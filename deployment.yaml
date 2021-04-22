@@ -603,8 +603,6 @@ spec:
   - match:
     - uri:
         prefix: /
-    - uri:
-        prefix: /lib
     route:
     - destination:
         port:

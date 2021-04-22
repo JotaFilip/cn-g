@@ -23,7 +23,7 @@ from flask import Flask, jsonify, request, url_for, abort, g
 # lib_client = LibraryStub(lib_channel)
 
 lib_host = os.getenv("LIBRARY_HOST", "localhost")
-lib_channel = grpc.insecure_channel(f"{lib_host}:50050",options=(('grpc.enable_http_proxy', 0),))
+lib_channel = grpc.insecure_channel(f"{lib_host}:50050")
 lib_client = LibraryStub(lib_channel)
 
 # TODO

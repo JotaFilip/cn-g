@@ -123,6 +123,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
         #user = session.query().filter_by(username=request.username).first()
+        #TODO verificar se já existe antes
         seen = Seen(user_id=request.user_id, item_id=request.id, item_type=request.type)
         try:
             session.add(seen)
@@ -146,6 +147,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
+        #TODO verificar se já existe antes
         like = Like(user_id=request.user_id, item_id=request.id, item_type=request.type)
         try:
             session.add(like)
