@@ -18,17 +18,25 @@ animes_channel = grpc.secure_channel(f"{animes_host}:50053", creds)
 animes_client = AnimeStub(animes_channel)
 
 class AnimeTestCase(unittest.TestCase):
+
     def test_get_anime(self):
         animes_request = AnimeByIdRequest(anime_id="606e252aebddc73ebfb15500")
         self.assertEqual(animes_client.SearchById(animes_request).anime_title, "Inu X Boku Secret Service")
 
     def test_remove_anime(self):
         animes_request = AnimeByIdRequest(anime_id="606e252aebddc73ebfb15500")
-        self.assertEqual(animes_client.SearchById(animes_request).anime_title, True)
+        self.assertEqual(animes_client.RemoveAnime(animes_request), True)
 
     def test_add_anime(self):
         animes_request = AnimeByIdRequest(anime_id="606e252aebddc73ebfb15500")
-        self.assertEqual(animes_client.SearchById(animes_request).anime_title, True)
+        self.assertEqual(animes_client.AddAnime(animes_request), True)
+        
+    def test_anime_search_by_name(self):
+        animes_request = AnimeByIdRequest(anime_id="606e252aebddc73ebfb15522")
+        self.assertEqual(animes_client.SearchByName("One Piece")[0], animes_request)
 
+    def test_anime_search_by_category(self):
+        self.assertEqual(animes_client.assertNotEqual("Action"), None)
+        
 if __name__ == '__main__':
     unittest.main()
