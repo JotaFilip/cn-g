@@ -28,9 +28,29 @@ class AnimeTestCase(unittest.TestCase):
 
     def test_add_anime(self):
 
-        animes_request = AnimeData(anime_title="Testa", genres = ["T"], anime_rating = 4.55, img_url="teste.jpg")
+        animes_request = AnimeData()
+        animes_request.anime_title="Testa"
+        animes_request.genres.append("Action")
+        
+        #animes_request.genres.extend(["Action", "Adventure"])
+        #animes_request.genres = ["Action"]
+        
+        #-------------------------------------------------------
+        #animes_genres = AnimeByIdRequest(anime_id="606e252aebddc73ebfb15542")
+        #animes_request.genres.extend(animes_client.SearchById(animes_genres).genres)
+        #-------------------------------------------------------
+        
+        #animes_request.genres[:] = ["Action"]
+        
+        animes_request.anime_rating = 4.55
+        animes_request.img_url="https://myanimelist.cdn-dena.com/images/anime/6/73245.jpg"
+        
+        #animes_request = AnimeData(anime_id="lqh8252mebdd8plebfb15522", anime_title="Testa", genres = extend(["Action"]), anime_rating = 4.55, img_url="https://myanimelist.cdn-dena.com/images/anime/6/73245.jpg")
+        
         id = animes_client.AddAnime(animes_request).anime_id
+        
         self.assertNotEqual(id, None)
+        
         animes_request = AnimeByIdRequest(anime_id=id)
         self.assertEqual(animes_client.RemoveAnime(animes_request).success, True)
 
@@ -44,7 +64,7 @@ class AnimeTestCase(unittest.TestCase):
 
     def test_anime_search_by_category(self):
         animes_request = AnimeByCategoryRequest(category="Action", max_results=32)
-        self.assertNotEqual(animes_client.SearchByCategory(animes_request).animes.size, 0)
+        self.assertNotEqual(len(animes_client.SearchByCategory(animes_request).animes), 0)
 
 if __name__ == '__main__':
     unittest.main()
