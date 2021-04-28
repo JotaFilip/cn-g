@@ -22,7 +22,8 @@ from anime_pb2 import (
     AnimeDataList,
     AnimeByIdRequest,
     AnimeByNameRequest,
-    AnimeByCategoryRequest
+    AnimeByCategoryRequest,
+    AddAnimeResponse
 )
 import anime_pb2_grpc
 
@@ -52,11 +53,11 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         return AnimeDataList(animes=results)
 
     def AddAnime(self, request, context):
-        db.insert_one(proto_to_anime(request))
-        return Success(success=True)
+        id = db.insert_one(proto_to_anime(request)).inserted_id
+        return AddAnimeResponse(anime_id=str(id))
 
     def RemoveAnime(self, request, context):
-        db.delete_one("_id",ObjectId(request.anime_id))
+        db.delete_one({"_id": ObjectId(request.anime_id)})
         return Success(success=True)
 
 
@@ -73,10 +74,11 @@ def anime_to_proto(result):
 def proto_to_anime(proto):
     anime = {
             'name' : proto.anime_title,
-            'category': proto.genres,
+            'category': [c for c in proto.genres],
             'rating' : proto.anime_rating,
             'imageURL' : proto.img_url
     }
+    
     return anime
 
 def serve():
