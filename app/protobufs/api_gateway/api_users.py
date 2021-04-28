@@ -7,6 +7,13 @@ from signin_pb2 import *
 from signin_pb2_grpc import SignInStub
 from account_pb2 import *
 import grpc
+import json
+from six.moves.urllib.request import urlopen
+from functools import wraps
+
+from flask import Flask, request, jsonify, _request_ctx_stack
+from flask_cors import cross_origin
+from jose import jwt
 from grpc_interceptor import ExceptionToStatusInterceptor
 #
 from verifier import Verifier

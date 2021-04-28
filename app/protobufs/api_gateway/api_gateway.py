@@ -1,7 +1,7 @@
 # 3rd party moudles
 import connexion
 from flask_cors import CORS
-
+from flask_cors import cross_origin
 from OpenSSL import SSL
 
 # Create the application instance
