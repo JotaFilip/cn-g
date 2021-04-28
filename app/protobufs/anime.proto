@@ -26,8 +26,14 @@ message AnimeDataList {
 ////////////////BASIC REQUESTS//////////////
 ////////////////////////////////////////////
 
-//Message used to search an anime by ID 
+
+//Message used to search an anime by ID
 message AnimeByIdRequest {
+    string anime_id = 1;
+}
+
+//Message used to search an anime by ID
+message AddAnimeByIdResponse {
     string anime_id = 1;
 }
 

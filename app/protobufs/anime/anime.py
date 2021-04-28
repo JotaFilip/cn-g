@@ -38,7 +38,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         results = list(db.find({ "_id": ObjectId(request.anime_id)}).limit(1))
 
         if len(results) <= 0:
-            raise NotFound("Id not found")
+           return AnimeData()
         return anime_to_proto(results[0])
 
     def SearchByName(self, request, context):
@@ -56,7 +56,7 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         return Success(success=True)
 
     def RemoveAnime(self, request, context):
-        db.remove(ObjectId(request.anime_id))
+        db.delete_one("_id",ObjectId(request.anime_id))
         return Success(success=True)
 
 
@@ -87,7 +87,7 @@ def serve():
     anime_pb2_grpc.add_AnimeServicer_to_server(
         AnimeService(), server
     )
-    
+
     # with open("anime.key", "rb") as fp:
         # anime_key = fp.read()
     # with open("anime.pem", "rb") as fp:
@@ -100,7 +100,7 @@ def serve():
         # root_certificates=ca_cert,
         # require_client_auth=True,
     # )
-    
+
     # server.add_secure_port("[::]:50053", creds)
     server.add_insecure_port("[::]:50053")
     server.start()
