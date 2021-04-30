@@ -23,8 +23,11 @@ imdbs_client = IMDBStub(imdbs_channel)
 
 class imdbTestCase(unittest.TestCase):
 
+    def test_get_animes(self):
+        imdbs_request = GetIMDBsRequest(page=1, max_results=32)
+        self.assertEqual(len(imdbs_client.GetIMDBs(imdbs_request).imdbs), 32)
+
     def test_add_imdb(self):
-    
         imdbs_request = IMDBData()
         imdbs_request.imdb_title="Testa"
         imdbs_request.genres.append("Documentary")

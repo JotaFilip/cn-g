@@ -24,8 +24,11 @@ books_client = BookStub(books_channel)
 
 class bookTestCase(unittest.TestCase):
 
+    def test_get_animes(self):
+        books_request = GetBooksRequest(page=1, max_results=32)
+        self.assertEqual(len(books_client.GetBooks(books_request).books), 32)
+
     def test_add_book(self):
-    
         books_request = BookData()
         books_request.book_title="Testa"
         books_request.description="Um livro temporario para testar"
