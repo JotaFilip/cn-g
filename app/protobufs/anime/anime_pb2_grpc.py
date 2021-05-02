@@ -42,7 +42,7 @@ class AnimeStub(object):
         self.AddAnime = channel.unary_unary(
                 '/Anime/AddAnime',
                 request_serializer=anime__pb2.AnimeData.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
+                response_deserializer=anime__pb2.AddAnimeResponse.FromString,
                 )
         self.RemoveAnime = channel.unary_unary(
                 '/Anime/RemoveAnime',
@@ -120,7 +120,7 @@ def add_AnimeServicer_to_server(servicer, server):
             'AddAnime': grpc.unary_unary_rpc_method_handler(
                     servicer.AddAnime,
                     request_deserializer=anime__pb2.AnimeData.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
+                    response_serializer=anime__pb2.AddAnimeResponse.SerializeToString,
             ),
             'RemoveAnime': grpc.unary_unary_rpc_method_handler(
                     servicer.RemoveAnime,
@@ -222,7 +222,7 @@ class Anime(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Anime/AddAnime',
             anime__pb2.AnimeData.SerializeToString,
-            utils__pb2.Success.FromString,
+            anime__pb2.AddAnimeResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

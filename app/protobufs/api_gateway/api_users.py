@@ -7,6 +7,13 @@ from signin_pb2 import *
 from signin_pb2_grpc import SignInStub
 from account_pb2 import *
 import grpc
+import json
+from six.moves.urllib.request import urlopen
+from functools import wraps
+
+from flask import Flask, request, jsonify, _request_ctx_stack
+from flask_cors import cross_origin
+from jose import jwt
 from grpc_interceptor import ExceptionToStatusInterceptor
 #
 from verifier import Verifier
@@ -56,12 +63,18 @@ def verify_password(username_or_token, password, required_scopes=None):
     #    }
     #    return jsonify(responseObject), 200
 #@auth.login_required
-def loginUser():
 
-    token = Verifier.generate_auth_token(g.user_id)
+def verify_token(token):
+    print(token)
+    return None
+
+def loginUser(user):
+
+    return user
+    #token = Verifier.generate_auth_token(g.user_id)
     #token = g.user.generate_auth_token()
     #
-    return jsonify({'token': token.decode('ascii')})
+    #return jsonify({'token': token.decode('ascii')})
 
 #
 

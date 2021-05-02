@@ -22,7 +22,8 @@ from book_pb2 import (
     BookDataList,
     BookByIdRequest,
     BooksByNameRequest,
-    BooksByCategoryRequest
+    BooksByCategoryRequest,
+    AddBookResponse
 )
 import book_pb2_grpc
 
@@ -53,11 +54,11 @@ class BookService(book_pb2_grpc.BookServicer):
         return BookDataList( books = results )
 
     def AddBook(self, request, context):
-        db.insert_one(proto_to_book(request))
-        return Success(success=True)
+        id = db.insert_one(proto_to_book(request)).inserted_id
+        return AddBookResponse(book_id=str(id))
 
     def RemoveBook(self, request, context):
-        db.remove(ObjectId(request.book_id))
+        db.delete_one({"_id": ObjectId(request.book_id)})
         return Success(success=True)
 
 def book_to_proto(result):

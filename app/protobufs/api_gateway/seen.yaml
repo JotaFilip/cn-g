@@ -44,7 +44,9 @@ paths:
       - library
       summary: Returns suggestions
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+          - write_suggest
+          - read_suggest
       description: Returns a map of item codes
       operationId: api_lib.getSuggestions
       produces:
@@ -83,7 +85,9 @@ paths:
       produces:
       - application/json
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write_item
+            - read_item
       parameters:
       - in: body
         name: body
@@ -137,7 +141,9 @@ paths:
       description: Deletes a item
       operationId: api_lib.deleteItem
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write_itemId
+            - read_itemId
       produces:
       - application/json
       parameters:
@@ -169,7 +175,9 @@ paths:
       description: Mark a item as seen
       operationId: api_lib.updateItemSeen
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write_seen
+            - read_seen
       parameters:
       - name: itemId
         in: path
@@ -197,7 +205,9 @@ paths:
       summary: Mark item with like
       description: Mark a item with like
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write_like
+            - read_like
       operationId: api_lib.updateItemLike
       parameters:
       - name: itemId
@@ -273,7 +283,9 @@ paths:
       summary: Logs user into the system
       operationId: api_users.loginUser
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write_login
+            - read_login
       produces:
       - application/json
       responses:
@@ -298,7 +310,9 @@ paths:
       - user
       summary: Logs out current logged in user session
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write_logout
+            - read_logout
       operationId: api_users.logoutUser
       produces:
       - application/json
@@ -336,7 +350,9 @@ paths:
       description: This can only be done by the logged in user.
       operationId: api_users.updateUser
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write_username
+            - read_username
       produces:
       - application/json
       parameters:
@@ -363,7 +379,9 @@ paths:
       - user
       summary: Delete user
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write_username
+            - read_username
       description: This can only be done by the logged in user.
       operationId: api_users.deleteUser
       produces:
@@ -379,21 +397,41 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
+
 securityDefinitions:
-  basicAuth:
-    type: basic
-    x-basicInfoFunc: api_users.verify_password
+#basicAuth:
+  #type: basic
+  #x-tokenInfoFunc: api_users.verify_password
 #   api_key:
 #     type: apiKey
 #     name: api_key
 #     in: header
-  # seen_auth:
-  #   type: oauth2
-  #   authorizationUrl: http://seen.swagger.io/oauth/dialog
-  #   flow: implicit
-  #   scopes:
-  #     write:items: modify items in your account
-  #     read:items: read your items
+  oAuthCheck:
+    type: oauth2
+    #x-tokenInfoFunc: api_users.verify_token
+    x-tokenInfoUrl: https://saldanha.eu.auth0.com/oauth/token
+    authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize
+    #authorizationUrl: https://saldanha.eu.auth0.com/u/login
+    #authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize?audience=api_users
+    flow: implicit
+    scopes:
+      write_suggest: wsuggest
+      read_suggest: a
+      write_item: a
+      read_item: a
+      write_itemId: a
+      read_itemId: a
+      write_seen: a
+      read_seen: a
+      write_like: a
+      read_like: a
+      write_login: a
+      read_login: a
+      write_logout: a
+      read_logout: a
+      write_username: a
+      read_username: a
+
 definitions:
   Type:
     type: string

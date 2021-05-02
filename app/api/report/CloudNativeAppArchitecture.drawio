@@ -37,10 +37,10 @@
                 <mxCell id="YoeQHAKXdlg0IQOAOjzS-11" value="Anime&lt;br&gt;Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="414" y="1377" width="90" height="55" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="YoeQHAKXdlg0IQOAOjzS-12" target="2">
+                <mxCell id="3" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" parent="1" source="YoeQHAKXdlg0IQOAOjzS-12" target="5" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="YoeQHAKXdlg0IQOAOjzS-12" target="YoeQHAKXdlg0IQOAOjzS-9">
+                <mxCell id="4" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;" parent="1" source="YoeQHAKXdlg0IQOAOjzS-12" target="YoeQHAKXdlg0IQOAOjzS-9" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="YoeQHAKXdlg0IQOAOjzS-12" value="Account &lt;br&gt;Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
@@ -163,8 +163,11 @@
                         <mxPoint x="414" y="1470" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="2" value="Spark&lt;br&gt;Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
-                    <mxGeometry x="540" y="1490" width="90" height="55" as="geometry"/>
+                <mxCell id="2" value="Spark&lt;br&gt;Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="550" y="1495" width="90" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;h6&gt;&lt;span style=&quot;font-size: 8px ; font-weight: 400&quot;&gt;gRPC&lt;/span&gt;&lt;br&gt;&lt;/h6&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="1510" width="25" height="25" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
