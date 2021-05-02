@@ -14,7 +14,7 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     host="saldanha.sytes.net",
     port=3306,
     database="account",
-#    query={"ssl_ca": "chain1.pem"},
+    query={"ssl_ca": "chain1.pem"},
 )
 
 
