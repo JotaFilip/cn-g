@@ -69,7 +69,7 @@ sqlUrl = sqlalchemy.engine.url.URL.create(
     host="saldanha.sytes.net",
     port=3306,
     database="account",
-    query={"ssl_ca": "chain1.pem"},
+    #query={"ssl_ca": "chain1.pem"},
 )
 
 #engine = create_engine('mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@127.0.0.1/account')
