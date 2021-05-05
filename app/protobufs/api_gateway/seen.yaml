@@ -45,8 +45,7 @@ paths:
       summary: Returns suggestions
       security:
         - oAuthCheck:
-          - write_suggest
-          - read_suggest
+          - read:suggest
       description: Returns a map of item codes
       operationId: api_lib.getSuggestions
       produces:
@@ -86,8 +85,7 @@ paths:
       - application/json
       security:
         - oAuthCheck:
-            - write_item
-            - read_item
+            - write:item
       parameters:
       - in: body
         name: body
@@ -142,8 +140,7 @@ paths:
       operationId: api_lib.deleteItem
       security:
         - oAuthCheck:
-            - write_itemId
-            - read_itemId
+            - delete:item
       produces:
       - application/json
       parameters:
@@ -176,8 +173,7 @@ paths:
       operationId: api_lib.updateItemSeen
       security:
         - oAuthCheck:
-            - write_seen
-            - read_seen
+            - write:seen
       parameters:
       - name: itemId
         in: path
@@ -206,8 +202,7 @@ paths:
       description: Mark a item with like
       security:
         - oAuthCheck:
-            - write_like
-            - read_like
+            - write:like
       operationId: api_lib.updateItemLike
       parameters:
       - name: itemId
@@ -282,10 +277,10 @@ paths:
       - user
       summary: Logs user into the system
       operationId: api_users.loginUser
-      security:
-        - oAuthCheck:
-            - write_login
-            - read_login
+#      security:
+#        - oAuthCheck:
+#            - write_login
+#            - read_login
       produces:
       - application/json
       responses:
@@ -309,10 +304,10 @@ paths:
       tags:
       - user
       summary: Logs out current logged in user session
-      security:
-        - oAuthCheck:
-            - write_logout
-            - read_logout
+#      security:
+#        - oAuthCheck:
+#            - write_logout
+#            - read_logout
       operationId: api_users.logoutUser
       produces:
       - application/json
@@ -351,8 +346,7 @@ paths:
       operationId: api_users.updateUser
       security:
         - oAuthCheck:
-            - write_username
-            - read_username
+            - write:username
       produces:
       - application/json
       parameters:
@@ -380,8 +374,7 @@ paths:
       summary: Delete user
       security:
         - oAuthCheck:
-            - write_username
-            - read_username
+            - delete:username
       description: This can only be done by the logged in user.
       operationId: api_users.deleteUser
       produces:
@@ -413,24 +406,19 @@ securityDefinitions:
     authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize
     #authorizationUrl: https://saldanha.eu.auth0.com/u/login
     #authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize?audience=api_users
+
+    audiance = https://recommendations.sytes.net/api
+    String url = String url = "https://saldanha.eu.auth0.com/oauth2/authorize"+ "?response_type=id_token" + "&response_mode=form_post" +"&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF" + "&redirect_uri=https://recommendations.sytes.net/callback" + CALLBACK_URL + "&scope=" + SCOPE;
+
     flow: implicit
     scopes:
-      write_suggest: wsuggest
-      read_suggest: a
-      write_item: a
-      read_item: a
-      write_itemId: a
-      read_itemId: a
-      write_seen: a
-      read_seen: a
-      write_like: a
-      read_like: a
-      write_login: a
-      read_login: a
-      write_logout: a
-      read_logout: a
-      write_username: a
-      read_username: a
+      read:suggest: read a suggestion
+      write:item: write item
+      delete:item: delete item
+      write:seen: write seen
+      write:like: write like
+      write:username: write username
+      delete:username: delete username
 
 definitions:
   Type:
