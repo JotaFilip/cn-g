@@ -403,12 +403,12 @@ securityDefinitions:
     type: oauth2
     #x-tokenInfoFunc: api_users.verify_token
     x-tokenInfoUrl: https://saldanha.eu.auth0.com/oauth/token
-    authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize
+    authorizationUrl: https://saldanha.eu.auth0.com/authorize?response_type=id_token&redirect_uri=https://recommendations.sytes.net/ui&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF
     #authorizationUrl: https://saldanha.eu.auth0.com/u/login
     #authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize?audience=api_users
-
-    audiance = https://recommendations.sytes.net/api
-    String url = String url = "https://saldanha.eu.auth0.com/oauth2/authorize"+ "?response_type=id_token" + "&response_mode=form_post" +"&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF" + "&redirect_uri=https://recommendations.sytes.net/callback" + CALLBACK_URL + "&scope=" + SCOPE;
+#https://saldanha.eu.auth0.com/authorize?scope=openid%20name%20email%20nickname&response_type=token&state=my-custom-state&sso=false&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=https%3A%2F%2Fsaldanha.eu12.webtask.io%2Fauth0-authentication-api-debugger&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiNi44LjQifQ
+#    audiance = https://recommendations.sytes.net/api
+#    String url = String url = "https://saldanha.eu.auth0.com/oauth2/authorize"+ "?response_type=id_token" + "&response_mode=form_post" +"&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF" + "&redirect_uri=https://recommendations.sytes.net/callback" + CALLBACK_URL + "&scope=" + SCOPE;
 
     flow: implicit
     scopes:
