@@ -44,7 +44,8 @@ paths:
       - library
       summary: Returns suggestions
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+          - read:suggest
       description: Returns a map of item codes
       operationId: api_lib.getSuggestions
       produces:
@@ -83,7 +84,8 @@ paths:
       produces:
       - application/json
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write:item
       parameters:
       - in: body
         name: body
@@ -137,7 +139,8 @@ paths:
       description: Deletes a item
       operationId: api_lib.deleteItem
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - delete:item
       produces:
       - application/json
       parameters:
@@ -169,7 +172,8 @@ paths:
       description: Mark a item as seen
       operationId: api_lib.updateItemSeen
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write:seen
       parameters:
       - name: itemId
         in: path
@@ -197,7 +201,8 @@ paths:
       summary: Mark item with like
       description: Mark a item with like
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write:like
       operationId: api_lib.updateItemLike
       parameters:
       - name: itemId
@@ -272,8 +277,10 @@ paths:
       - user
       summary: Logs user into the system
       operationId: api_users.loginUser
-      security:
-        - basicAuth: [ ]
+#      security:
+#        - oAuthCheck:
+#            - write_login
+#            - read_login
       produces:
       - application/json
       responses:
@@ -297,8 +304,10 @@ paths:
       tags:
       - user
       summary: Logs out current logged in user session
-      security:
-        - basicAuth: [ ]
+#      security:
+#        - oAuthCheck:
+#            - write_logout
+#            - read_logout
       operationId: api_users.logoutUser
       produces:
       - application/json
@@ -336,7 +345,8 @@ paths:
       description: This can only be done by the logged in user.
       operationId: api_users.updateUser
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - write:username
       produces:
       - application/json
       parameters:
@@ -363,7 +373,8 @@ paths:
       - user
       summary: Delete user
       security:
-        - basicAuth: [ ]
+        - oAuthCheck:
+            - delete:username
       description: This can only be done by the logged in user.
       operationId: api_users.deleteUser
       produces:
@@ -379,21 +390,36 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
+
 securityDefinitions:
-  basicAuth:
-    type: basic
-    x-basicInfoFunc: api_users.verify_password
+#basicAuth:
+  #type: basic
+  #x-tokenInfoFunc: api_users.verify_password
 #   api_key:
 #     type: apiKey
 #     name: api_key
 #     in: header
-  # seen_auth:
-  #   type: oauth2
-  #   authorizationUrl: http://seen.swagger.io/oauth/dialog
-  #   flow: implicit
-  #   scopes:
-  #     write:items: modify items in your account
-  #     read:items: read your items
+  oAuthCheck:
+    type: oauth2
+    #x-tokenInfoFunc: api_users.verify_token
+    x-tokenInfoUrl: https://saldanha.eu.auth0.com/oauth/token
+    authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize
+    #authorizationUrl: https://saldanha.eu.auth0.com/u/login
+    #authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize?audience=api_users
+
+    audiance = https://recommendations.sytes.net/api
+    String url = String url = "https://saldanha.eu.auth0.com/oauth2/authorize"+ "?response_type=id_token" + "&response_mode=form_post" +"&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF" + "&redirect_uri=https://recommendations.sytes.net/callback" + CALLBACK_URL + "&scope=" + SCOPE;
+
+    flow: implicit
+    scopes:
+      read:suggest: read a suggestion
+      write:item: write item
+      delete:item: delete item
+      write:seen: write seen
+      write:like: write like
+      write:username: write username
+      delete:username: delete username
+
 definitions:
   Type:
     type: string

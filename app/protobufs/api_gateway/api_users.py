@@ -63,12 +63,18 @@ def verify_password(username_or_token, password, required_scopes=None):
     #    }
     #    return jsonify(responseObject), 200
 #@auth.login_required
-def loginUser():
 
-    token = Verifier.generate_auth_token(g.user_id)
+def verify_token(token):
+    print(token)
+    return None
+
+def loginUser(user):
+
+    return user
+    #token = Verifier.generate_auth_token(g.user_id)
     #token = g.user.generate_auth_token()
     #
-    return jsonify({'token': token.decode('ascii')})
+    #return jsonify({'token': token.decode('ascii')})
 
 #
 

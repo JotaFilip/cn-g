@@ -23,30 +23,18 @@ animes_client = AnimeStub(animes_channel)
 
 class AnimeTestCase(unittest.TestCase):
 
-
-
+    def test_get_animes(self):
+        animes_request = GetAnimesRequest(page=1, max_results=32)
+        self.assertEqual(len(animes_client.GetAnimes(animes_request).animes), 32)
 
     def test_add_anime(self):
-
         animes_request = AnimeData()
         animes_request.anime_title="Testa"
         animes_request.genres.append("Action")
         
-        #animes_request.genres.extend(["Action", "Adventure"])
-        #animes_request.genres = ["Action"]
-        
-        #-------------------------------------------------------
-        #animes_genres = AnimeByIdRequest(anime_id="606e252aebddc73ebfb15542")
-        #animes_request.genres.extend(animes_client.SearchById(animes_genres).genres)
-        #-------------------------------------------------------
-        
-        #animes_request.genres[:] = ["Action"]
-        
         animes_request.anime_rating = 4.55
         animes_request.img_url="https://myanimelist.cdn-dena.com/images/anime/6/73245.jpg"
-        
-        #animes_request = AnimeData(anime_id="lqh8252mebdd8plebfb15522", anime_title="Testa", genres = extend(["Action"]), anime_rating = 4.55, img_url="https://myanimelist.cdn-dena.com/images/anime/6/73245.jpg")
-        
+
         id = animes_client.AddAnime(animes_request).anime_id
         
         self.assertNotEqual(id, None)
