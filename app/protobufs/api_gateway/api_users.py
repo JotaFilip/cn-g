@@ -13,7 +13,7 @@ from functools import wraps
 
 from flask import Flask, request, jsonify, _request_ctx_stack
 from flask_cors import cross_origin
-from jose import jwt
+#from jose import jwt
 from grpc_interceptor import ExceptionToStatusInterceptor
 #
 from verifier import Verifier
