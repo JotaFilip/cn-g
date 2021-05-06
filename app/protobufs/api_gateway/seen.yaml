@@ -413,6 +413,7 @@ securityDefinitions:
 
     flow: implicit
     scopes:
+      openid: Obtain id
       read:suggest: read a suggestion
       write:item: write item
       delete:item: delete item

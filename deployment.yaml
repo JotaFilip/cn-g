@@ -13,6 +13,9 @@ data:
   IMDBS_HOST: "imdb"
   SIGNIN_HOST: "signin"
   LIBRARY_HOST: "library"
+  OAUTH_CLIENT_ID: "72wQelC6FubulYS6qlY7ZhSVkyNgoTYF"
+  OAUTH_SCOPES: "openid"
+  OAUTH2_REDIRECT_URL: "https://recommendations.sytes.net/ui"
 ---
 apiVersion: "apps/v1"
 kind: "Deployment"

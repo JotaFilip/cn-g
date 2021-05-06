@@ -3,8 +3,16 @@ import connexion
 from flask_cors import CORS
 from flask_cors import cross_origin
 from OpenSSL import SSL
-
 # Create the application instance
+# options = {
+#     "swagger_ui_config" : {
+#         "oauth2RedirectUrl": "recommendations.sytes.net:8443/ui",
+#
+#
+#
+#     }
+# }
+# , options = options
 app = connexion.App(__name__, specification_dir="./")
 
 # read the swagger.yml file to configure the endpoints
