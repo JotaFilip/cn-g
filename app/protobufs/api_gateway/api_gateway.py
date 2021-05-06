@@ -39,7 +39,7 @@ swagger_yml = load(open(swagger_path, 'r'), Loader=Loader)
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
     swagger_path,
-    config={'spec': swagger_yml, 'oauth2RedirectUrl' : "http://localhost:8443/ui"},
+    config={'spec': swagger_yml, 'oauth2RedirectUrl' : "http://recommendations.sytes.net/ui"},
     # config={  # Swagger UI config overrides
     #     'app_name': "Test application"
     # },
