@@ -338,6 +338,22 @@ spec:
             configMapKeyRef:
               key: "LIBRARY_HOST"
               name: "recommendations-config-tn5f"
+        - name: "OAUTH_CLIENT_ID"
+          valueFrom:
+            configMapKeyRef:
+              key: "OAUTH_CLIENT_ID"
+              name: "recommendations-config-tn5f"
+        - name: "OAUTH_SCOPES"
+          valueFrom:
+            configMapKeyRef:
+              key: "OAUTH_SCOPES"
+              name: "recommendations-config-tn5f"
+        - name: "OAUTH2_REDIRECT_URL"
+          valueFrom:
+            configMapKeyRef:
+              key: "OAUTH2_REDIRECT_URL"
+              name: "recommendations-config-tn5f"
+
 ---
 apiVersion: "v1"
 kind: Service
