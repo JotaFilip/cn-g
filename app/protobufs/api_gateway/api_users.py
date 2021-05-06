@@ -2,6 +2,7 @@
 # Users API
 import os
 
+#from app.protobufs.api_gateway.api_gateway import auth0
 from signin_pb2 import *
 
 from signin_pb2_grpc import SignInStub
@@ -68,9 +69,10 @@ def verify_token(token):
     print(token)
     return None
 
-def loginUser(user):
+def loginUser():
 
-    return user
+    return auth0.authorize_redirect(redirect_uri='/callback')
+
     #token = Verifier.generate_auth_token(g.user_id)
     #token = g.user.generate_auth_token()
     #

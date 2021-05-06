@@ -277,9 +277,9 @@ paths:
       - user
       summary: Logs user into the system
       operationId: api_users.loginUser
-#      security:
-#        - oAuthCheck:
-#            - write_login
+      security:
+        - oAuthCheck:
+            - openid
 #            - read_login
       produces:
       - application/json
@@ -404,6 +404,8 @@ securityDefinitions:
     #x-tokenInfoFunc: api_users.verify_token
     x-tokenInfoUrl: https://saldanha.eu.auth0.com/userinfo
     authorizationUrl: https://saldanha.eu.auth0.com/authorize
+    #?response_type=token&state=my-custom-state&sso=false&redirect_uri=http%3A%2F%2Flocalhost%2Fui&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF
+    #client_id: 72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&
     #?response_type=token&state=my-custom-state&sso=false&redirect_uri=http%3A%2F%2Flocalhost%2Fui&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF
     #authorizationUrl: https://saldanha.eu.auth0.com/u/login
     #authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize?audience=api_users
