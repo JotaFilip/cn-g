@@ -1,7 +1,7 @@
 # GROUP NUMBER 14
 
 # Running
-##Delivery3
+## Delivery3
 Install docker and run the script:
 `./scripts/run.sh`
 ##Delivery4
