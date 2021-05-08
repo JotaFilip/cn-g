@@ -11,10 +11,10 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     drivername="mysql+mysqlconnector",
     username="cngroupfcul",
     password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
-    host="saldanha.sytes.net",
+    host="34.90.227.81",
     port=3306,
     database="account",
-    query={"ssl_ca": "chain1.pem"},
+    query={"ssl_ca": "server-ca.pem"},
 )
 
 
