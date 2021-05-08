@@ -133,4 +133,7 @@ service Account {
 	rpc UpdateUser (UpdateUserRequest) returns (Success);
 	rpc DeleteUser (UserRequest) returns (Success);
 
+	// GetLikes and GetViews to Account
+	rpc GetViews(ViewsRequest) returns(Count);
+	rpc GetLikes(LikesRequest) returns(Count);
 }

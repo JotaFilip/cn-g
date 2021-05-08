@@ -17,6 +17,16 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     query={"ssl_ca": "server-ca.pem"},
 )
 
+SPARK_DATABASE_URI = sqlalchemy.engine.url.URL.create(
+    drivername="sparksql",
+    username="cngroupfcul",
+    password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
+    host="34.90.227.81",
+    port=3306,
+    database="account",
+    query={"ssl_ca": "server-ca.pem"},
+)
+
 
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@saldanha.sytes.net:3306/account?ssl=true'
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@127.0.0.1:3306/account'
@@ -165,8 +175,9 @@ class AccountService(account_pb2_grpc.AccountServicer):
                 count.incrementLikes()
         session.commit()
         return Success(success=True)
+        
     def GetLikes(self,request,context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+        engine = create_engine(SPARK_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -178,10 +189,8 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return SeensAndLikesInfo(infos=ret)
 
-
-
     def GetSeens(self,request,context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+        engine = create_engine(SPARK_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -192,6 +201,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
             ret.append(SeenAndLikeInfoReturn(id=seen.item_id, type=seen.type))
         session.commit()
         return SeensAndLikesInfo(infos=ret)
+
     def GetContagemLikesAndViews(self,request,context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
 

@@ -189,3 +189,29 @@ def updateItemLike(type,itemId):
         type = type
     )
     return lib_client.AddLikeItem(request).success
+
+def getViewsOf(type,itemId):
+    tp = -1
+    if   (tp == 'BOOK'):    tp = 0
+    elif (tp == 'SHOW'):    tp = 1
+    elif (tp == 'ANIME'):   tp = 2
+    else:                   return 'false', 400
+
+    request = ViewsRequest(
+        id   = itemId,
+        type = tp
+    )
+    return lib_client.GetViews(request).count
+
+def getLikesOf(type,itemId):
+    tp = -1
+    if   (tp == 'BOOK'):    tp = 0
+    elif (tp == 'SHOW'):    tp = 1
+    elif (tp == 'ANIME'):   tp = 2
+    else:                   return 'false', 400
+
+    request = LikesRequest(
+        id   = itemId,
+        type = tp
+    )
+    return lib_client.GetViews(request).count

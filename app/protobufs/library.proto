@@ -81,6 +81,28 @@ message ItemIdAndUser {
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
+////////////////////////////////////////////
+///////// Likes and Views REQUESTS /////////
+////////////////////////////////////////////
+
+message GetViews {
+	string id = 1;
+	Type type = 2;
+}
+
+message GetLikes {
+	string id = 1;
+	Type type = 2;
+}
+
+message Count {
+	int64 count = 1;
+}
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
 service Library {
 	rpc Library (LibPageRequest) returns (ItemInfoResponse);
     rpc Recommend (RecommendationRequest) returns (ItemInfoResponse);
@@ -89,4 +111,8 @@ service Library {
 	rpc RemoveItem (ItemIdAndUser) returns (Success);
 	rpc AddSeenItem (ItemIdAndUser) returns (Success);
 	rpc AddLikeItem (ItemIdAndUser) returns (Success);
+
+	// GetLikes and GetViews to Account
+	rpc GetViews(ViewsRequest) returns(Count);
+	rpc GetLikes(LikesRequest) returns(Count);
 }
