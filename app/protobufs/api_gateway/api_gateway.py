@@ -12,6 +12,7 @@ from flask import Flask
 from flask import jsonify
 from yaml import Loader, load
 from flask import redirect
+
 from flask import render_template
 from flask import session
 from flask import url_for
@@ -39,13 +40,16 @@ swagger_yml = load(open(swagger_path, 'r'), Loader=Loader)
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
     swagger_path,
-    config={'spec': swagger_yml, 'oauth2RedirectUrl' : "http://recommendations.sytes.net/ui"},
+    config={'spec': swagger_yml,
+ #           'oauth2RedirectUrl' : "http://localhost:8443/callback"},
+    },
     # config={  # Swagger UI config overrides
     #     'app_name': "Test application"
     # },
      oauth_config={  # OAuth config. See https://github.com/swagger-api/swagger-ui#oauth2-configuration .
         'clientId': "72wQelC6FubulYS6qlY7ZhSVkyNgoTYF",
     #    'clientSecret': "your-client-secret-if-required",
+    #     'audience': 'https://recommendations.sytes.net/api'
 
     #    'realm': "your-realms",
     #    'appName': "your-app-name",
@@ -56,21 +60,14 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 
 app.app.register_blueprint(swaggerui_blueprint)
 CORS(app.app)
-oauth = OAuth(app.app)
-auth0 = oauth.register(
-    'auth0',
-    client_id='72wQelC6FubulYS6qlY7ZhSVkyNgoTYF',
-    #    client_secret='YOUR_CLIENT_SECRET',
-    api_base_url='https://saldanha.eu.auth0.com',
-    access_token_url='https://saldanha.eu.auth0.com/oauth/token',
-    authorize_url='https://saldanha.eu.auth0.com/authorize',
-    client_kwargs={
-        'scope': 'openid profile email',
-    },
-)
+
 # app = Flask(__name__)
 
+
+
+
 app.add_api("seen.yaml")
+
 
 
 # swaggerui_blueprint = get_swaggerui_blueprint(
@@ -126,10 +123,25 @@ app.add_api("seen.yaml")
 #context = ('api_gateway.pem', 'api_gateway.key')
 #app.run(host='0.0.0.0', port=80, ssl_context=context, threaded=True, debug=True)
 
-#app.register_blueprint(swaggerui_blueprint)
-app.run(port=8443)
+
+
+
+
+
+
 
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    app.run(debug=True, port=8443)
+
+
+    #return auth0.authorize_redirect(redirect_uri='/callback')
+
+    #token = Verifier.generate_auth_token(g.user_id)
+    #token = g.user.generate_auth_token()
+    #
+    #return jsonify({'token': token.decode('ascii')})
+
+#

@@ -9,6 +9,7 @@ from library_pb2_grpc import LibraryStub
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 from flask import Flask, jsonify, request, url_for, abort, g
+import connexion
 
 # with open("api_gateway.key", "rb") as fp:
     # api_gateway_key = fp.read()
@@ -21,11 +22,13 @@ from flask import Flask, jsonify, request, url_for, abort, g
 # lib_host = os.getenv("LIBRARY_HOST", "localhost")
 # lib_channel = grpc.secure_channel(f"{lib_host}:50050", creds)
 # lib_client = LibraryStub(lib_channel)
-
+from functools import wraps
 lib_host = os.getenv("LIBRARY_HOST", "localhost")
 lib_channel = grpc.insecure_channel(f"{lib_host}:50050")
 lib_client = LibraryStub(lib_channel)
+from flask import session
 
+from flask import redirect
 # TODO
 # how to handle the user_id situation
 
@@ -50,15 +53,18 @@ def getLibrary(page):
         ret.append(object)
     return ret
 
-def getSuggestions(body):
+def getSuggestions(user,body):
+   # print(user)
+#    print(request.context['user'])
+#    print(request.context['user'])
 
-    request = RecommendationRequest (
-        user_id = g.user_id,
+    r = RecommendationRequest (
+        user_id = user,
         max_results = 30,
         types = body["tipos"]
     )
     ret = []
-    for r in lib_client.Recommend(request).recommendations:
+    for r in lib_client.Recommend(r).recommendations:
         type = "All"
         if (r.type == 0):
             type = "BOOK"

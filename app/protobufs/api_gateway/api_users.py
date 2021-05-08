@@ -3,6 +3,8 @@
 import os
 
 #from app.protobufs.api_gateway.api_gateway import auth0
+
+
 from signin_pb2 import *
 
 from signin_pb2_grpc import SignInStub
@@ -14,12 +16,25 @@ from functools import wraps
 
 from flask import Flask, request, jsonify, _request_ctx_stack
 from flask_cors import cross_origin
-#from jose import jwt
+from jose import jwt
+import json
+from six.moves.urllib.request import urlopen
+
+from jose import jwt
+
+AUTH0_DOMAIN = 'saldanha.eu.auth0.com'
+API_AUDIENCE = 'https://recommendations.sytes.net/api'
+ALGORITHMS = ["RS256"]
 from grpc_interceptor import ExceptionToStatusInterceptor
 #
+
 from verifier import Verifier
 from flask import Flask, jsonify, request, url_for, abort, g
-from flask_httpauth import HTTPBasicAuth
+#from flask_httpauth import HTTPBasicAuth
+
+from flask import session
+
+from flask import redirect
 
 # with open("api_gateway.key", "rb") as fp:
     # api_gateway_key = fp.read()
@@ -34,13 +49,14 @@ from flask_httpauth import HTTPBasicAuth
 # sign_channel = grpc.secure_channel(f"{sign_host}:50054", creds)
 # signin_client = SignInStub(sign_channel)
 
-auth = HTTPBasicAuth()
+#auth = HTTPBasicAuth()
 sign_host = os.getenv("SIGNIN_HOST", "localhost")
 sign_channel = grpc.insecure_channel(f"{sign_host}:50054", options=(('grpc.enable_http_proxy', 0),))
 signin_client = SignInStub(sign_channel)
 
 
 #@auth.verify_password
+
 def verify_password(username_or_token, password, required_scopes=None):
     #Try to see if it's a token first
     user_id = Verifier.verify_auth_token(username_or_token)
@@ -65,20 +81,49 @@ def verify_password(username_or_token, password, required_scopes=None):
     #    return jsonify(responseObject), 200
 #@auth.login_required
 
-def verify_token(token):
-    print(token)
+def verify_token(access_token) -> dict:
+    jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
+    jwks = json.loads(jsonurl.read())
+    unverified_header = jwt.get_unverified_header(access_token)
+    rsa_key = {}
+    for key in jwks["keys"]:
+        if key["kid"] == unverified_header["kid"]:
+            rsa_key = {
+                "kty": key["kty"],
+                "kid": key["kid"],
+                "use": key["use"],
+                "n": key["n"],
+                "e": key["e"]
+            }
+    if rsa_key:
+        try:
+            payload = jwt.decode(
+                access_token,
+                rsa_key,
+                algorithms=ALGORITHMS,
+                audience=API_AUDIENCE,
+                issuer="https://"+AUTH0_DOMAIN+"/"
+            )
+        except jwt.ExpiredSignatureError:
+            raise AuthError({"code": "token_expired",
+                             "description": "token is expired"}, 401)
+        except jwt.JWTClaimsError:
+            raise AuthError({"code": "invalid_claims",
+                             "description":
+                                 "incorrect claims,"
+                                 "please check the audience and issuer"}, 401)
+        except Exception:
+            raise AuthError({"code": "invalid_header",
+                             "description":
+                                 "Unable to parse authentication"
+                                 " token."}, 401)
+    unverified_claims = jwt.get_unverified_claims(access_token)
+    if unverified_claims.get("scope") and unverified_claims.get("sub"):
+        token_scopes = unverified_claims["scope"].split()
+        return {'sub': unverified_claims.get("sub"), 'scope': token_scopes}
     return None
 
-def loginUser():
 
-    return auth0.authorize_redirect(redirect_uri='/callback')
-
-    #token = Verifier.generate_auth_token(g.user_id)
-    #token = g.user.generate_auth_token()
-    #
-    #return jsonify({'token': token.decode('ascii')})
-
-#
 
 
 def createUser(body):
@@ -96,9 +141,11 @@ def givePassword(body):
     return signin_client.UserPassword(request).success
 
 
+from six.moves.urllib.parse import urlencode
 
 def logoutUser():
-    return "Logged Out"
+    #params = {'returnTo': url_for('home', _external=True), 'client_id': '72wQelC6FubulYS6qlY7ZhSVkyNgoTYF'}
+    return redirect('https://saldanha.eu.auth0.com/v2/logout')
 
 def getUserByName(username):
     request = UserRequest (
