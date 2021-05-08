@@ -189,7 +189,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return SeensAndLikesInfo(infos=ret)
 
-    def GetSeens(self,request,context):
+    def GetViews(self,request,context):
         engine = create_engine(SPARK_DATABASE_URI)
 
         Base.metadata.bind = engine

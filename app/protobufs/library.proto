@@ -6,7 +6,6 @@ import "anime.proto";
 
 import "utils.proto";
 
-
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
@@ -85,12 +84,12 @@ message ItemIdAndUser {
 ///////// Likes and Views REQUESTS /////////
 ////////////////////////////////////////////
 
-message GetViews {
+message ViewsRequest {
 	string id = 1;
 	Type type = 2;
 }
 
-message GetLikes {
+message LikesRequest {
 	string id = 1;
 	Type type = 2;
 }

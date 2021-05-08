@@ -14,6 +14,7 @@ services:
             - /etc/resolv.conf:/etc/resolv.conf
         networks:
             - micro_services
+
     account:
         build:
             dockerfile: Dockerfile
