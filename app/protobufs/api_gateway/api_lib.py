@@ -25,7 +25,6 @@ from functools import wraps
 lib_host = os.getenv("LIBRARY_HOST", "localhost")
 lib_channel = grpc.insecure_channel(f"{lib_host}:50050")
 lib_client = LibraryStub(lib_channel)
-from flask import session
 
 from flask import redirect
 # TODO
