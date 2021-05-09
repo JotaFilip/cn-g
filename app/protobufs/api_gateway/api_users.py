@@ -13,7 +13,6 @@ import grpc
 import json
 from six.moves.urllib.request import urlopen
 from functools import wraps
-
 from flask import Flask, request, jsonify, _request_ctx_stack
 from flask_cors import cross_origin
 from jose import jwt
@@ -144,7 +143,8 @@ def verify_token(access_token) -> dict:
 #     )
 #     return signin_client.CreateUser(request).success
 def createUsername(user,body):
-    request = PasswordRequest (
+    request = UsernameRequest(
+        user_id = user,
         username = body["username"]
     )
     return signin_client.UserPassword(request).success

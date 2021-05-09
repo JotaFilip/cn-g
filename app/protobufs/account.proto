@@ -23,10 +23,9 @@ message EmailAndNonceRequest{
 	int64 nonce = 3;
 }
 
-message PasswordRequest {
+message UsernameRequest {
 	string username = 1;
-	string password = 2;
-	int64 nonce = 3;
+	string user_id = 2;
 }
 
 message UserData {
