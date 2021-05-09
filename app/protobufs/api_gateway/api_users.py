@@ -5,10 +5,9 @@ import os
 #from app.protobufs.api_gateway.api_gateway import auth0
 
 
-from signin_pb2 import *
+# from signin_pb2 import *
+# from signin_pb2_grpc import SignInStub
 
-from signin_pb2_grpc import SignInStub
-from account_pb2 import *
 import grpc
 import json
 from six.moves.urllib.request import urlopen
@@ -48,10 +47,17 @@ from flask import redirect
 # sign_channel = grpc.secure_channel(f"{sign_host}:50054", creds)
 # signin_client = SignInStub(sign_channel)
 
-#auth = HTTPBasicAuth()
-sign_host = os.getenv("SIGNIN_HOST", "localhost")
-sign_channel = grpc.insecure_channel(f"{sign_host}:50054", options=(('grpc.enable_http_proxy', 0),))
-signin_client = SignInStub(sign_channel)
+# #auth = HTTPBasicAuth()
+# sign_host = os.getenv("SIGNIN_HOST", "localhost")
+# sign_channel = grpc.insecure_channel(f"{sign_host}:50054", options=(('grpc.enable_http_proxy', 0),))
+# signin_client = SignInStub(sign_channel)
+
+
+from account_pb2_grpc import AccountStub
+from account_pb2 import *
+account_host = os.getenv("ACCOUNT_HOST", "localhost")
+account_channel = grpc.insecure_channel(f"{account_host}:50055")
+account_client = AccountStub(account_channel)
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
@@ -133,9 +139,6 @@ def verify_token(access_token) -> dict:
                                      "Unable to parse authentication"
                                      " token."}, 401))
 
-
-
-
 # def createUser(body):
 #     request =EmailRequest (
 #         email = body["email"],
@@ -164,7 +167,7 @@ def getUserByName(username):
         username = username
     )
 
-    resp = signin_client.GetUserByName(request)
+    resp = account_client.GetUserByName(request)
     likes = []
     seens = []
     for r in resp.seens:
@@ -197,10 +200,10 @@ def updateUser(user, body):
         user_id = user,
         new_username = body["username"],
     )
-    return signin_client.UpdateUser(request).success
+    return account_client.UpdateUser(request).success
 
 def deleteUser(user):
     request = UserRequest (
         user_id = user,
     )
-    return signin_client.DeleteUser(request).success
+    return account_client.DeleteUser(request).success

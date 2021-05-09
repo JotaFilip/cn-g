@@ -109,16 +109,16 @@ message TopTenRequest {
 
 service Account {
 	// CriarUtilizador
-	/*rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
+	// rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
 	//Actualiza a password do user baseado no nonce enviado para o email
-	rpc UserPassword (PasswordRequest) returns (Success);
-	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);*/
+	// rpc UserPassword (PasswordRequest) returns (Success);
+	// rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
 
 	//rpc VerificarAdmin(UserId) returns (Success);
 	//Dar login //nao usado
-	//rpc LoginUser (UserDataRequest) returns (Success);
+	// rpc LoginUser (UserDataRequest) returns (Success);
 	//Dar logout //nao usado
-	//rpc LogoutUser (Empty) returns (Success);
+	// rpc LogoutUser (Empty) returns (Success);
 
 	//Parte da library
 	//Marcar item como visto
