@@ -16,6 +16,10 @@
 
 % For images
 \usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+% links
+\usepackage{hyperref}
 
 % for shorter paragraph spaces
 \setlength{\parindent}{1ex}
@@ -48,27 +52,154 @@ João Afonso fc51111 \\
 \maketitle
 
 \section{Motivation}
+\label{sec:motivation}
+\fpar For our project we were thinking about an API that could help us decide which shows to watch next, by marking shows as viewed and/or liked.
+\par Because we can watch more than just movies, like anime, we wanted to use more than one dataset. Both animes and movies can have a lot in common not only with each other but also with books, so we also decided to use a book dataset.
+\par So we have three datasets, and we can effortlessly search thought any of them, mark them as seen of viewed, and get suggestions. Having very similar categories in every single one of them.
+\par For the suggestions our idea would be making a recommendation list having in mind the item's rating and user's likes and views, which would indicate to us which categories the user prefers.
+\par So it makes sense to call our API “Seen”.
 
 \section{Dataset characterization}
-  \subsection{Dataset 1 - }
-  \subsection{Dataset 2 - }
-  \subsection{Dataset 3 - }
+\label{sec:dataset}
+  \subsection{Dataset 1 — IMDB}
+  \label{sec:imdb}
+  \fpar This data set provides a lot of information about movies and shows that can be seen in \href{https://www.imdb.com}{IMDB}.
+  \par We downloaded the dataset from the \href{https://www.kaggle.com/ashirwadsangwan/imdb-dataset}{Kaggle} website, updated one year ago.
+  \par From the whole data this where the columns that were important to us:
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{l|l}
+      Columns & Example                     \\ \hline
+      id      & 606e2683b3fff1da8a207ae9    \\
+      name    & The Arrival of a Train      \\
+      category& [Action,Documentary,Short]  \\
+      rating  & 7.4                         \\
+      type    & short
+    \end{tabular}
+  \end{table}
+
+  \subsection{Dataset 2 — MyAnimeList}
+  \label{sec:anime}
+  \fpar For the second data set we got it from \href{https://www.kaggle.com/azathoth42/myanimelist}{Kaggle}, about the \href{https://myanimelist.net/}{MyAnimeList} website.
+  \par This data not only has a lot of anime content but also user information, but because we want to connect with the other datasets doesn't make sense to use that data. Meaning we used these columns:
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{l|l}
+      Columns & Example                       \\ \hline
+      id      & 606e252aebddc73ebfb15507      \\
+      name    & Shakugan no Shana: Season II  \\
+      category& [Action,Drama,Fantasy,Romance,School,Supernatural]  \\
+      rating  & 7.72                          \\
+      imageUrl& https://myanimelist.cdn-dena.com/images/anime/10/18669.jpg
+    \end{tabular}
+  \end{table}
+
+  \subsection{Dataset 3 — GoodReads}
+  \label{sec:reads}
+  \fpar At last, this data set represents books from the \href{https://www.goodreads.com/}{GoodReads} website, also downloaded from \href{https://www.kaggle.com/meetnaren/goodreads-best-books}{Kaggle}.
+  \par The helpful data from this data set, to be able to use with animes and movies, is its categories and rating:
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{l|l}
+      Columns & Example                       \\ \hline
+      id      & 606e25ad5e927a606f534284      \\
+      name    & Of Mice and Men               \\
+      description & The compelling story of two outsiders [...]           \\
+      category& [Classics,Fiction,Academic,School,Literature,Historical]  \\
+      rating  & 7.7                           \\
+      imageUrl& https://images.gr-assets.com/books/1511302904l/890.jpg
+    \end{tabular}
+  \end{table}
 
 \section{Use cases}
+\label{sec:cases}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{c|c|l} 
+    Services & User & Functionalities \\ \hline
+    \multirow{7}{*}{ Normal }
+      & \multirow{5}{*}{ Regular } 
+        & User Log in/Sign in \\
+      & & See Book, Show and Movie Library \\
+      & & Set Book/Show/Movie as seen \\
+      & & Set Book/Show/Movie as liked \\ 
+      & & Ask for suggestions to read and/or watch \\ \cline{2-3}
+    & \multirow{2}{*}{ Admin } 
+        & Add Book/Show/Movie to Library \\
+      & & Remove Book/Show/Movie from Library \\ \hline
+    \multirow{2}{*}{ Spark }
+      & \multirow{2}{*}{ Regular }
+        & Count how many views a specific Item has \\
+      & & Count how many likes a specific Item has \\
+  \end{tabular}
+\end{table}
 
 \section{API}
+\label{sec:api}
+\begin{table}[H]
+  \centering
+  \begin{tabular}{l l l l l}
+    % TODO - update
+    \multicolumn{4}{c}{Path} & description 
+    \\ \hline
+    /lib & \multicolumn{3}{l}{/\{page\}} &
+    TODO
+    \\
+    \multicolumn{4}{l}{/suggest} &
+    TOOD
+    \\
+    /item & & & &
+    TODO
+    \\
+    /item & /\{type\} & /\{itemId\} & &
+    TODO
+    \\
+    /item & /\{type\} & /\{itemId\} & /seen &
+    TODO
+    \\
+    /item & /\{type\} & /\{itemId\} & /like &
+    TODO
+    \\
+    /item & /\{type\} & /\{itemId\} & /views &
+    TODO
+    \\
+    /item & /\{type\} & /\{itemId\} & /likes &
+    TODO
+    \\
+    \multicolumn{4}{l}{/user} &
+    TODO
+    \\
+    /user & \multicolumn{3}{l}{/password} &
+    TODO
+    \\
+    /user & \multicolumn{3}{l}{/login} &
+    TODO
+    \\
+    /user & \multicolumn{3}{l}{/logout} &
+    TODO
+    \\
+    /user & /search & \multicolumn{2}{l}{/\{username\}} &
+    TODO
+  \end{tabular}
+\end{table}
 
 \section{Architecture (application and technical)}
+\label{sec:arch}
+% say hwo to took care of item's id that can have duplicates (even if only being a small chance)
 
 \section{Implementation}
+\label{sec:impl}
 
 \section{Evaluation and validation}
+\label{sec:eval}
 
 \section{Cost analysis}
+\label{sec:cost}
 
 \section{Discussion}
+\label{sec:disc}
 
 \section{Conclusions}
-
+\label{sec:conc}
 
 \end{document}
