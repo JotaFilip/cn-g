@@ -4,9 +4,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 
-from models import Base, User, Seen, Like, Contagem
+from models import Base, User, Seen, Like
 
 from sqlalchemy import insert
+
+import random
 
 SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     drivername="mysql+mysqlconnector",
@@ -19,26 +21,28 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
 )
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
-# Users -> id:String | username:String | email:String
-new_users_ids = []
+print("Creating Users",end=" \t")
+new_users_ids = [ i for i in range(1,2001) ]
 new_users     = []
-for i in range(2000):
+for i in new_users_ids:
     username = "User_" +str(i)
     email    = "email_"+str(i)+"@email.com"
     new_users.append(
         User(
-            username=username, 
-            email=email
+            id = i,
+            username = username, 
+            email = email
         )
     )
-    new_users_ids.append(username)
+print("done")
 
+print("Populating Users",end=" \t")
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 session.add_all(new_users)
 session.commit()
+print("done")
 
-exit()
 from pymongo import MongoClient
 
 driver = "mongodb+srv://" 
@@ -64,18 +68,21 @@ animes = animes["animes"]
 
 databases = [(books,0),(imdb1,1),(imdb2,1),(animes,3)]
 
+print("Fetching Items",end=" \t")
 likes = []
 views = []
 for (d,t) in databases:
     ls = list(d.find().limit(10))
-    ls = [ (l['_id'],t) for l in ls ]
+    ls = [ (str(l['_id']),t) for l in ls ]
     likes += ls
 
     vs = list(d.find().limit(10))
-    vs = [ (v['_id'],t) for v in vs ]
+    vs = [ (str(v['_id']),t) for v in vs ]
     views += vs
+print("done")
 
 # Users -> id:String | username:String | email:String
+print("Creating Likes",end=" \t")
 new_likes = []
 i = 0
 for (like,tp) in likes:
@@ -87,13 +94,15 @@ for (like,tp) in likes:
         )
     )
     i += 1
-    i %= len(new_likes)
+    i %= len(new_users_ids)
+print("done")
 
+print("Creating Views",end=" \t")
 new_views = []
 i = 0
 for (view,tp) in views:
     new_views.append(
-        View(
+        Seen(
             user_id = new_users_ids[i], 
             item_id = view,
             item_type = tp,
@@ -101,9 +110,12 @@ for (view,tp) in views:
     )
     i += 1
     i %= len(new_users_ids)
+print("done")
 
+print("Populating Likes and Views",end=" \t")
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
-session.add_all(new_views)
 session.add_all(new_likes)
+session.add_all(new_views)
 session.commit()
+print("done")

@@ -77,4 +77,5 @@ engine = create_engine(SQLALCHEMY_DATABASE_URI)
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@192.168.1.250:3306/account'
 #engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
+Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
