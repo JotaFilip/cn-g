@@ -5,14 +5,14 @@ import "utils.proto";
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 //Verificar password
-message VerificarRequest{
-    string username = 1;
-    string password = 2;
-}
-message VerificarResponse{
-    int64 id = 1;
-    bool success = 2;
-}
+//message VerificarRequest{
+//    string username = 1;
+//    string password = 2;
+//}
+//message VerificarResponse{
+//    int64 id = 1;
+//    bool success = 2;
+//}
 
 ////////////////////////////////////////////
 ////////////////BASIC REQUESTS//////////////
@@ -61,7 +61,7 @@ message LikesAndViewsRequest {
 }
 
 message SeenAndLikeInfo{
-    int64 user_id = 1;
+    string user_id = 1;
     string id= 2;
     Type type = 3;
     repeated string categories = 4;
@@ -89,7 +89,7 @@ message SeensAndLikesInfo{
     repeated SeenAndLikeInfoReturn infos = 1;
 }
 message UserId{
-    int64 id = 1;
+    string id = 1;
 }
 message CountInfo{
     int64 count = 1;

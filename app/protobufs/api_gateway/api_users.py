@@ -64,21 +64,21 @@ def handle_auth_error(ex):
     return response
 #@auth.verify_password
 
-def verify_password(username_or_token, password, required_scopes=None):
-    #Try to see if it's a token first
-    user_id = Verifier.verify_auth_token(username_or_token)
-    if not user_id: #significa que o token é invalido
-        #user = session.query(User).filter_by(username = username_or_token).first()
-        #if not user or not user.verify_password(password):
-        request = VerificarRequest(username = username_or_token, password=password)
-        response = signin_client.VerificarPassword(request)
-        if not response.success:
-            return None
-        user_id = response.id
-
-    g.user_id = user_id
-    #token = g.user.generate_auth_token()
-    return {'sub': user_id, 'valid': True}
+# def verify_password(username_or_token, password, required_scopes=None):
+#     #Try to see if it's a token first
+#     user_id = Verifier.verify_auth_token(username_or_token)
+#     if not user_id: #significa que o token é invalido
+#         #user = session.query(User).filter_by(username = username_or_token).first()
+#         #if not user or not user.verify_password(password):
+#         request = VerificarRequest(username = username_or_token, password=password)
+#         response = signin_client.VerificarPassword(request)
+#         if not response.success:
+#             return None
+#         user_id = response.id
+#
+#     g.user_id = user_id
+#     #token = g.user.generate_auth_token()
+#     return {'sub': user_id, 'valid': True}
     #if token:
     #    responseObject = {
     #        'status': 'success',
@@ -147,7 +147,7 @@ def createUsername(body):
         user_id = user,
         username = body["username"]
     )
-    return signin_client.UserPassword(request).success
+    return signin_client.Username(request).success
 
 
 from six.moves.urllib.parse import urlencode

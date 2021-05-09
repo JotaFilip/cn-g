@@ -5,10 +5,10 @@ import "account.proto";
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 
-message EmailRequest{
-	string email = 1;
-	string username = 2;
-}
+//message EmailRequest{
+//	string email = 1;
+//	string username = 2;
+//}
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -19,11 +19,9 @@ message EmailRequest{
 ////////////////////////////////////////////
 
 service SignIn {
-	rpc CreateUser (EmailRequest) returns (Success);
-	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
-	rpc UserPassword (PasswordRequest) returns (Success);
-	rpc LoginUser (UserDataRequest) returns (Success);
-	rpc LogoutUser (Empty) returns (Success);
+//	rpc CreateUser (EmailRequest) returns (Success);
+//	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
+	rpc Username (UsernameRequest) returns (Success);
 	rpc GetUserByName (UserRequest) returns (UserData);
 	rpc UpdateUser (UpdateUserRequest) returns (Success);
 	rpc DeleteUser (UserRequest) returns (Success);

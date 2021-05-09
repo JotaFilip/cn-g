@@ -48,32 +48,32 @@ from utils_pb2 import *
 
 
 class AccountService(account_pb2_grpc.AccountServicer):
-    def VerificarPassword(self, request, context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
-
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
-
-        user = session.query(User).filter_by(username = request.username).first()
-        if user is None:
-            return VerificarResponse(success = False)
-        id = user.getId()
-        session.commit()
-        if not user.verify_password(request.password):
-            return VerificarResponse(success = False)
-        return VerificarResponse(success = True, id = id)
-    def VerificarAdmin(self, request, context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
-
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
-
-        user = session.query(User).filter_by(id = request.id).first()
-        t = user.admin
-        session.commit()
-        return Success(success = t)
+    # def VerificarPassword(self, request, context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #
+    #     user = session.query(User).filter_by(username = request.username).first()
+    #     if user is None:
+    #         return VerificarResponse(success = False)
+    #     id = user.getId()
+    #     session.commit()
+    #     if not user.verify_password(request.password):
+    #         return VerificarResponse(success = False)
+    #     return VerificarResponse(success = True, id = id)
+    # def VerificarAdmin(self, request, context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #
+    #     user = session.query(User).filter_by(id = request.id).first()
+    #     t = user.admin
+    #     session.commit()
+    #     return Success(success = t)
 
     def VerificaSeEhNovoECria(self,request,context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
