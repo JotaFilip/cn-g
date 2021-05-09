@@ -142,12 +142,12 @@ def verify_token(access_token) -> dict:
 #         username = body["username"]
 #     )
 #     return signin_client.CreateUser(request).success
-def createUsername(body):
-    request = UsernameRequest(
-        user_id = user,
-        username = body["username"]
-    )
-    return signin_client.Username(request).success
+# def createUsername(body):
+#     request = UsernameRequest(
+#         user_id = user,
+#         username = body["username"]
+#     )
+#     return signin_client.Username(request).success
 
 
 from six.moves.urllib.parse import urlencode
