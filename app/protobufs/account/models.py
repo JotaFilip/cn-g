@@ -69,11 +69,11 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     host="34.90.227.81",
     port=3306,
     database="account",
-    query={"ssl_ca": "server-ca.pem"},
+    query={"ssl_ca": "server-ca.pem", 'ssl_cert': 'client-cert.pem', 'ssl_key': 'client-key.pem'},
 )
 
 #engine = create_engine('mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@127.0.0.1/account')
-engine = create_engine(sqlUrl)
+engine = create_engine(SQLALCHEMY_DATABASE_URI)
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@192.168.1.250:3306/account'
 #engine = create_engine(SQLALCHEMY_DATABASE_URI)
 

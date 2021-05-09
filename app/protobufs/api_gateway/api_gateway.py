@@ -7,9 +7,6 @@ import json
 from os import environ as env
 from werkzeug.exceptions import HTTPException
 #from settings import SWAGGER_URL, swagger_path
-from dotenv import load_dotenv, find_dotenv
-from flask import Flask
-from flask import jsonify
 from yaml import Loader, load
 from flask import redirect
 
