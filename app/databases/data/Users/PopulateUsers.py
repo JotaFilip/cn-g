@@ -15,7 +15,7 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     host="34.90.227.81",
     port=3306,
     database="account",
-    query={"ssl_ca": "server-ca.pem"},
+    query={"ssl_ca": "server-ca.pem", 'ssl_cert': 'client-cert.pem', 'ssl_key': 'client-key.pem'},
 )
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
