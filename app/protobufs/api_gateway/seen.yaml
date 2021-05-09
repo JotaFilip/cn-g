@@ -270,7 +270,35 @@ paths:
           description: Successful operation
         "400":
           description: Dados incorretos
+  /user/login:
+    get:
 
+      tags:
+      - user
+      summary: Logs user into the system
+      operationId: api_users.loginUser
+#      security:
+#        - oAuthCheck:
+#            - openid
+##            - read_login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              type: integer
+              format: int32
+              description: calls per hour allowed by the user
+            X-Expires-After:
+              type: string
+              format: date-time
+              description: date in UTC when token expires
+          schema:
+            type: string
+        "400":
+          description: Invalid username/password supplied
   /user/logout:
     get:
       tags:

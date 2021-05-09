@@ -54,7 +54,15 @@ sign_host = os.getenv("SIGNIN_HOST", "localhost")
 sign_channel = grpc.insecure_channel(f"{sign_host}:50054", options=(('grpc.enable_http_proxy', 0),))
 signin_client = SignInStub(sign_channel)
 
+class AuthError(Exception):
+    def __init__(self, error, status_code):
+        self.error = error
+        self.status_code = status_code
 
+def handle_auth_error(ex):
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response
 #@auth.verify_password
 
 def verify_password(username_or_token, password, required_scopes=None):
@@ -105,38 +113,39 @@ def verify_token(access_token) -> dict:
                 issuer="https://"+AUTH0_DOMAIN+"/"
             )
         except jwt.ExpiredSignatureError:
-            raise AuthError({"code": "token_expired",
-                             "description": "token is expired"}, 401)
+            handle_auth_error(AuthError({"code": "token_expired",
+                             "description": "token is expired"}, 401))
         except jwt.JWTClaimsError:
-            raise AuthError({"code": "invalid_claims",
+            handle_auth_error(AuthError({"code": "invalid_claims",
                              "description":
                                  "incorrect claims,"
-                                 "please check the audience and issuer"}, 401)
+                                 "please check the audience and issuer"}, 401))
         except Exception:
-            raise AuthError({"code": "invalid_header",
+            handle_auth_error(AuthError({"code": "invalid_header",
                              "description":
                                  "Unable to parse authentication"
-                                 " token."}, 401)
+                                 " token."}, 401))
     unverified_claims = jwt.get_unverified_claims(access_token)
     if unverified_claims.get("scope") and unverified_claims.get("sub"):
         token_scopes = unverified_claims["scope"].split()
         return {'sub': unverified_claims.get("sub"), 'scope': token_scopes}
-    return None
+    handle_auth_error(AuthError({"code": "invalid_header",
+                                 "description":
+                                     "Unable to parse authentication"
+                                     " token."}, 401))
 
 
 
 
-def createUser(body):
-    request =EmailRequest (
-        email = body["email"],
-        username = body["username"]
-    )
-    return signin_client.CreateUser(request).success
-def givePassword(body):
+# def createUser(body):
+#     request =EmailRequest (
+#         email = body["email"],
+#         username = body["username"]
+#     )
+#     return signin_client.CreateUser(request).success
+def createUsername(user,body):
     request = PasswordRequest (
-        username = body["username"],
-        password = body["password"],
-        nonce=body["nonce"]
+        username = body["username"]
     )
     return signin_client.UserPassword(request).success
 
@@ -144,8 +153,11 @@ def givePassword(body):
 from six.moves.urllib.parse import urlencode
 
 def logoutUser():
-    #params = {'returnTo': url_for('home', _external=True), 'client_id': '72wQelC6FubulYS6qlY7ZhSVkyNgoTYF'}
     return redirect('https://saldanha.eu.auth0.com/v2/logout')
+def loginUser():
+
+    #return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=token&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=http%3A%2F%2Flocalhost%3A8443%2Fui%2Foauth2-redirect.html&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
+    return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=token&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=https%3A%2F%2Frecommendations.sytes.net%3A443%2Fui%2Foauth2-redirect.html&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
 
 def getUserByName(username):
     request = UserRequest (
@@ -179,15 +191,14 @@ def getUserByName(username):
         likes.append(object)
     return  {"username": resp.username, "likes": likes, "seens": seens}
 
-def updateUser(username,body):
+def updateUser(user,username,body):
     request = UpdateUserRequest (
         username = username,
         new_username = body["username"],
-        new_password = body["password"],
     )
     return signin_client.UpdateUser(request).success
 
-def deleteUser(username):
+def deleteUser(user,username):
     request = UserRequest (
         username = username
     )
