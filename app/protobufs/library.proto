@@ -91,6 +91,6 @@ service Library {
 	rpc AddLikeItem (ItemIdAndUser) returns (Success);
 
 	// GetLikes and GetViews to Account
-	rpc GetViews(ViewsRequest) returns(Count);
-	rpc GetLikes(LikesRequest) returns(Count);
+	rpc GetViews(SeenAndLikeItem) returns(Count);
+	rpc GetLikes(SeenAndLikeItem) returns(Count);
 }

@@ -8,7 +8,6 @@ from library_pb2 import *
 from library_pb2_grpc import LibraryStub
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
-from flask import Flask, jsonify, request, url_for, abort, g
 import connexion
 
 # with open("api_gateway.key", "rb") as fp:
@@ -85,17 +84,19 @@ def addItem(body):
 
         type = 0
         data = BookData(book_title = body["name"], img_url= body["photoUrl"], book_rating= body["rating"], description= body["description"], genres = category_to_genres(body["category"]) )
-        request = AddItemRequest(user_id=g.user_id, type=type, book=data)
+        request = AddItemRequest(type=type, book=data)
     elif (type == "SHOW"):
+        type = 1
         data = IMDBData(imdb_title=body["name"], img_url=body["photoUrl"], imdb_rating=body["rating"],
                         description=body["description"], genres= category_to_genres(body["category"]), type=body["type"])
-        request = AddItemRequest(user_id=g.user_id, type=type, imdb=data)
-        type = 1
+        request = AddItemRequest(type=type, imdb=data)
+
     elif (type == "ANIME"):
+        type = 2
         data = AnimeData(anime_title=body["name"], img_url=body["photoUrl"], anime_rating=body["rating"],
                         description=body["description"], genres= category_to_genres(body["category"]))
-        request = AddItemRequest(user_id=g.user_id, type=type, anime=data)
-        type = 2
+        request = AddItemRequest( type=type, anime=data)
+
     else:
         return 'false',405
     return lib_client.AddItem(request).success
@@ -156,7 +157,6 @@ def deleteItem(type,itemId):
         return 'false', 400
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemIdAndUser(
-        user_id=g.user_id,
         id = itemId,
         type = type
     )
@@ -173,7 +173,6 @@ def updateItemSeen(type,itemId):
         return 'false', 400
 
     request =  ItemIdAndUser (
-        user_id = g.user_id,
         id = itemId,
         type = type
     )
@@ -190,47 +189,43 @@ def updateItemLike(type,itemId):
         return 'false', 400
 
     request =  ItemIdAndUser(
-        user_id=g.user_id,
         id = itemId,
         type = type
     )
     return lib_client.AddLikeItem(request).success
 
 def getViewsOf(type,itemId):
-    tp = -1
-    if   (tp == 'BOOK'):    tp = 0
-    elif (tp == 'SHOW'):    tp = 1
-    elif (tp == 'ANIME'):   tp = 2
+    if   (type == 'BOOK'):    type = 0
+    elif (type == 'SHOW'):    type = 1
+    elif (type == 'ANIME'):   type = 2
     else:                   return 'false', 400
 
-    request = ViewsRequest(
+    request = SeenAndLikeItem(
         id   = itemId,
-        type = tp
+        type = type
     )
     return lib_client.GetViews(request).count
 
 def getLikesOf(type,itemId):
-    tp = -1
-    if   (tp == 'BOOK'):    tp = 0
-    elif (tp == 'SHOW'):    tp = 1
-    elif (tp == 'ANIME'):   tp = 2
+    if   (type == 'BOOK'):    type = 0
+    elif (type == 'SHOW'):    type = 1
+    elif (type == 'ANIME'):   type = 2
     else:                   return 'false', 400
 
-    request = LikesRequest(
+    request = SeenAndLikeItem(
         id   = itemId,
-        type = tp
+        type = type
     )
-    return lib_client.GetViews(request).count
+    return lib_client.GetLikes(request).count
 
 def getTopTen(type):
-     tp = -1
-    if   (tp == 'BOOK'):    tp = 0
-    elif (tp == 'SHOW'):    tp = 1
-    elif (tp == 'ANIME'):   tp = 2
+    if   (type == 'BOOK'):    type = 0
+    elif (type == 'SHOW'):    type = 1
+    elif (type == 'ANIME'):   type = 2
     else:                   return 'false', 400
 
     request = TopTenRequest(
-        type = tp
+        type = type
     )
 
     return lib_client.getTopTen(request)
