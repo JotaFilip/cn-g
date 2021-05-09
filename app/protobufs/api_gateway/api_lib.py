@@ -6,6 +6,7 @@ from anime_pb2 import *
 from imdb_pb2 import *
 from library_pb2 import *
 from library_pb2_grpc import LibraryStub
+from account_pb2 import *
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
 import connexion
