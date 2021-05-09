@@ -98,15 +98,7 @@ message CountInfo{
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
-message ViewsRequest {
-	string id = 1;
-	Type type = 2;
-}
 
-message LikesRequest {
-	string id = 1;
-	Type type = 2;
-}
 
 message Count {
 	int64 count = 1;
