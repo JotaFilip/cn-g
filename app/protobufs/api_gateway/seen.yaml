@@ -339,10 +339,10 @@ paths:
       - user
       summary: Logs user into the system
       operationId: api_users.loginUser
-      security:
-        - oAuthCheck:
-            - openid
-#            - read_login
+#      security:
+#        - oAuthCheck:
+#            - openid
+##            - read_login
       produces:
       - application/json
       responses:
@@ -463,21 +463,24 @@ securityDefinitions:
 #     in: header
   oAuthCheck:
     type: oauth2
-    #x-tokenInfoFunc: api_users.verify_token
-    x-tokenInfoUrl: https://saldanha.eu.auth0.com/userinfo
-    authorizationUrl: https://saldanha.eu.auth0.com/authorize
+    x-tokenInfoFunc: api_users.verify_token
+    #x-tokenInfoUrl: https://saldanha.eu.auth0.com/userinfo
+    authorizationUrl: https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api
     #?response_type=token&state=my-custom-state&sso=false&redirect_uri=http%3A%2F%2Flocalhost%2Fui&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF
     #client_id: 72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&
     #?response_type=token&state=my-custom-state&sso=false&redirect_uri=http%3A%2F%2Flocalhost%2Fui&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF
     #authorizationUrl: https://saldanha.eu.auth0.com/u/login
     #authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize?audience=api_users
 #https://saldanha.eu.auth0.com/authorize?scope=openid%20name%20email%20nickname&response_type=token&state=my-custom-state&sso=false&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=https%3A%2F%2Fsaldanha.eu12.webtask.io%2Fauth0-authentication-api-debugger&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiNi44LjQifQ
-#    audiance = https://recommendations.sytes.net/api
+    #audience: https://recommendations.sytes.net/api
 #    String url = String url = "https://saldanha.eu.auth0.com/oauth2/authorize"+ "?response_type=id_token" + "&response_mode=form_post" +"&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF" + "&redirect_uri=https://recommendations.sytes.net/callback" + CALLBACK_URL + "&scope=" + SCOPE;
 
     flow: implicit
     scopes:
       openid: Obtain id
+      name: name
+      email: email
+      nickname: nickname
       read:suggest: read a suggestion
       write:item: write item
       delete:item: delete item

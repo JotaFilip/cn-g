@@ -23,10 +23,9 @@ message EmailAndNonceRequest{
 	int64 nonce = 3;
 }
 
-message PasswordRequest {
+message UsernameRequest {
 	string username = 1;
-	string password = 2;
-	int64 nonce = 3;
+	string user_id = 2;
 }
 
 message UserData {
@@ -113,6 +112,10 @@ message Count {
 	int64 count = 1;
 }
 
+message TopTenRequest {
+	Type type = 1;
+}
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -154,4 +157,7 @@ service Account {
 	// GetLikes and GetViews to Account
 	rpc GetViews(ViewsRequest) returns(Count);
 	rpc GetLikes(LikesRequest) returns(Count);
+
+	//Get Top Ten Animes, Books or Movies
+	rpc GetTopTen(TopTenRequest) return(SeensAndLikesInfo);
 }

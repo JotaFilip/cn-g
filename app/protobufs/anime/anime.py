@@ -36,11 +36,14 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         return AnimeDataList(animes = results)
 
     def SearchById(self, request, context):
-        results = list(db.find({ "_id": ObjectId(request.anime_id)}).limit(1))
+        try:
+            results = list(db.find({ "_id": ObjectId(request.anime_id)}).limit(1))
 
-        if len(results) <= 0:
-           return AnimeData()
-        return anime_to_proto(results[0])
+            if len(results) <= 0:
+               return AnimeData()
+            return anime_to_proto(results[0])
+        except:
+            return AnimeData()
 
     def SearchByName(self, request, context):
         results = list(db.find({ "name": request.name}).limit(request.max_results))
@@ -57,8 +60,11 @@ class AnimeService(anime_pb2_grpc.AnimeServicer):
         return AddAnimeResponse(anime_id=str(id))
 
     def RemoveAnime(self, request, context):
-        db.delete_one({"_id": ObjectId(request.anime_id)})
-        return Success(success=True)
+        try:
+            db.delete_one({"_id": ObjectId(request.anime_id)})
+            return Success(success=True)
+        except:
+            return Success(success=False)
 
 
 def anime_to_proto(result):

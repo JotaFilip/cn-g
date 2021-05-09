@@ -43,7 +43,7 @@ message LibPageRequest {
 }
 
 message RecommendationRequest {
-    int64 user_id = 1;
+    string user_id = 1;
     int32 max_results = 2;
 	repeated Type types = 3;
 }
