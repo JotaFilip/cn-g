@@ -36,11 +36,14 @@ class BookService(book_pb2_grpc.BookServicer):
         return BookDataList( books = results )
 
     def SearchById(self, request, context):
-        results = list(db.find({ "_id": ObjectId(request.book_id) }).limit(1))
+        try:
+            results = list(db.find({ "_id": ObjectId(request.book_id) }).limit(1))
 
-        if len(results) <= 0:
+            if len(results) <= 0:
+                return BookData()
+            return book_to_proto(results[0])
+        except:
             return BookData()
-        return book_to_proto(results[0])
         
 
     def SearchByName(self, request, context):
@@ -58,8 +61,11 @@ class BookService(book_pb2_grpc.BookServicer):
         return AddBookResponse(book_id=str(id))
 
     def RemoveBook(self, request, context):
-        db.delete_one({"_id": ObjectId(request.book_id)})
-        return Success(success=True)
+        try:
+            db.delete_one({"_id": ObjectId(request.book_id)})
+            return Success(success=True)
+        except:
+            return Success(success=False)
 
 def book_to_proto(result):
     book = BookData (

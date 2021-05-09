@@ -64,7 +64,6 @@ class AnimeTestCase(unittest.TestCase):
 
     def test_anime_search_by_name_not_exists(self):
         animes_request = AnimeByNameRequest(name="teste123 name not exists 123 $$$", max_results=32)
-        print(animes_client.SearchByName(animes_request))
         self.assertFalse(animes_client.SearchByName(animes_request).animes)
 
     def test_anime_search_by_category(self):
