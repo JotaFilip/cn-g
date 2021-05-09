@@ -228,4 +228,4 @@ def getTopTen(type):
         type = type
     )
 
-    return lib_client.getTopTen(request)
+    return lib_client.GetTopTen(request).infos

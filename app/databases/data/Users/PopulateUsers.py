@@ -20,18 +20,18 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     query={"ssl_ca": "server-ca.pem", 'ssl_cert': 'client-cert.pem', 'ssl_key': 'client-key.pem'},
 )
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
+Base.metadata.drop_all(engine)
+Base.metadata.create_all(engine)
 
 print("Creating Users",end=" \t")
-new_users_ids = [ i for i in range(1,2001) ]
+new_users_ids = [ str(i) for i in range(1,2001) ]
 new_users     = []
 for i in new_users_ids:
     username = "User_" +str(i)
-    email    = "email_"+str(i)+"@email.com"
     new_users.append(
         User(
-            id = i,
+            user_id = i,
             username = username, 
-            email = email
         )
     )
 print("done")

@@ -265,8 +265,8 @@ class AccountService(account_pb2_grpc.AccountServicer):
         if user is None:
             session.rollback()
             return UserData()
-        likes = session.query(Like).filter_by(user_id=user.id).all()
-        seens = session.query(Seen).filter_by(user_id=user.id).all()
+        likes = session.query(Like).filter_by(user_id=user.user_id).all()
+        seens = session.query(Seen).filter_by(user_id=user.user_id).all()
         likes = [SeenAndLikeInfoReturn(id=c.item_id, type=c.item_type) for c in likes]
         seens = [SeenAndLikeInfoReturn(id=c.item_id, type=c.item_type) for c in seens]
         session.rollback()
