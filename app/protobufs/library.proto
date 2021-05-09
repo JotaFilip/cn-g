@@ -16,7 +16,7 @@ message ItemInfoResponse {
 }
 
 message ItemInfo {
-    string id = 1;
+	string id = 1;
 	string name = 2;
 	Type type = 3;
 }
@@ -73,7 +73,7 @@ message ItemId {
 	Type type = 2;
 }
 message ItemIdAndUser {
-    int64 user_id = 1;
+	string user_id = 1;
 	string id = 2;
 	Type type = 3;
 }

@@ -191,15 +191,16 @@ def getUserByName(username):
         likes.append(object)
     return  {"username": resp.username, "likes": likes, "seens": seens}
 
-def updateUser(username,body):
+def updateUser(user, body):
     request = UpdateUserRequest (
-        username = username,
+
+        user_id = user,
         new_username = body["username"],
     )
     return signin_client.UpdateUser(request).success
 
-def deleteUser(username):
+def deleteUser(user):
     request = UserRequest (
-        username = username
+        user_id = user,
     )
     return signin_client.DeleteUser(request).success

@@ -21,7 +21,6 @@ import "account.proto";
 service SignIn {
 //	rpc CreateUser (EmailRequest) returns (Success);
 //	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
-	rpc Username (UsernameRequest) returns (Success);
 	rpc GetUserByName (UserRequest) returns (UserData);
 	rpc UpdateUser (UpdateUserRequest) returns (Success);
 	rpc DeleteUser (UserRequest) returns (Success);

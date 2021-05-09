@@ -17,16 +17,12 @@ import "utils.proto";
 ////////////////////////////////////////////
 ////////////////BASIC REQUESTS//////////////
 ////////////////////////////////////////////
-message EmailAndNonceRequest{
-	string email = 1;
-	string username = 2;
-	int64 nonce = 3;
-}
+//message EmailAndNonceRequest{
+//	string email = 1;
+//	string username = 2;
+//	int64 nonce = 3;
+//}
 
-message UsernameRequest {
-	string username = 1;
-	string user_id = 2;
-}
 
 message UserData {
     string username = 1;
@@ -34,19 +30,18 @@ message UserData {
     repeated SeenAndLikeInfoReturn seens = 3;
 }
 
-message UserDataRequest {
-	string username = 1;
-	string password = 2;
-}
+//message UserDataRequest {
+//	string username = 1;
+//	string password = 2;
+//}
 
 message UserRequest {
-	string username = 1;
+	string user_id = 1;
 }
 
 message UpdateUserRequest {
-	string username = 1;
+	string user_id = 1;
 	string new_username = 2;
-	string new_password = 3;
 }
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -151,5 +146,5 @@ service Account {
 	rpc GetLikes(LikesRequest) returns(Count);
 
 	//Get Top Ten Animes, Books or Movies
-	rpc GetTopTen(TopTenRequest) return(SeensAndLikesInfo);
+	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
 }
