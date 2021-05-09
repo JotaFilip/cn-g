@@ -109,16 +109,16 @@ message TopTenRequest {
 
 service Account {
 	// CriarUtilizador
-	rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
+	// rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
 	//Actualiza a password do user baseado no nonce enviado para o email
-	rpc UserPassword (PasswordRequest) returns (Success);
-	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
+	// rpc UserPassword (PasswordRequest) returns (Success);
+	// rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
 
 	rpc VerificarAdmin(UserId) returns (Success);
 	//Dar login //nao usado
-	rpc LoginUser (UserDataRequest) returns (Success);
+	// rpc LoginUser (UserDataRequest) returns (Success);
 	//Dar logout //nao usado
-	rpc LogoutUser (Empty) returns (Success);
+	// rpc LogoutUser (Empty) returns (Success);
 
 	//Parte da library
 	//Marcar item como visto
@@ -142,8 +142,8 @@ service Account {
 	rpc DeleteUser (UserRequest) returns (Success);
 
 	// GetLikes and GetViews to Account
-	rpc GetViews(ViewsRequest) returns(Count);
-	rpc GetLikes(LikesRequest) returns(Count);
+	rpc GetViews(LikesAndViewsRequest) returns(Count);
+	rpc GetLikes(LikesAndViewsRequest) returns(Count);
 
 	//Get Top Ten Animes, Books or Movies
 	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);

@@ -34,9 +34,9 @@ ln ./app/protobufs/utils/*pb2* ./app/protobufs/signin/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/book/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/anime/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/imdb/ &> /dev/null
-printf " ."
 
+# printf " ."
 ### GERAR FICHEIROS PARA SIGNIN
-python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/signin/ --grpc_python_out=./app/protobufs/signin/ ./app/protobufs/signin.proto --experimental_allow_proto3_optional
-ln ./app/protobufs/signin/*pb2* ./app/protobufs/api_gateway/ &> /dev/null
+# python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/signin/ --grpc_python_out=./app/protobufs/signin/ ./app/protobufs/signin.proto --experimental_allow_proto3_optional
+# ln ./app/protobufs/signin/*pb2* ./app/protobufs/api_gateway/ &> /dev/null
 printf " done\n" 

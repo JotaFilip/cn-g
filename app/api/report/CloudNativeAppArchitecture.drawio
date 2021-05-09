@@ -1,6 +1,6 @@
 <mxfile>
     <diagram id="pzcaLb88da6VexAs1_aC" name="Architectural Design">
-        <mxGraphModel dx="1096" dy="-419" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="299" dy="-732" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -66,10 +66,10 @@
                         <mxPoint x="422.5" y="1404.5" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="YoeQHAKXdlg0IQOAOjzS-17" value="" style="endArrow=classic;startArrow=classic;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="YoeQHAKXdlg0IQOAOjzS-6" target="YoeQHAKXdlg0IQOAOjzS-38" edge="1">
+                <mxCell id="YoeQHAKXdlg0IQOAOjzS-17" value="" style="endArrow=classic;startArrow=classic;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="YoeQHAKXdlg0IQOAOjzS-6" target="YoeQHAKXdlg0IQOAOjzS-32" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="457" y="1475" as="sourcePoint"/>
-                        <mxPoint x="419" y="1472.5" as="targetPoint"/>
+                        <mxPoint x="304" y="1472.5" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="YoeQHAKXdlg0IQOAOjzS-18" value="Client" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
@@ -145,18 +145,6 @@
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="425" y="1440" as="sourcePoint"/>
                         <mxPoint x="439" y="1460" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="YoeQHAKXdlg0IQOAOjzS-37" value="SignIn&lt;br&gt;Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="314" y="1445" width="90" height="55" as="geometry"/>
-                </mxCell>
-                <mxCell id="YoeQHAKXdlg0IQOAOjzS-38" value="&lt;h6&gt;&lt;span style=&quot;font-size: 8px ; font-weight: 400&quot;&gt;gRPC&lt;/span&gt;&lt;br&gt;&lt;/h6&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=center;" parent="1" vertex="1">
-                    <mxGeometry x="304" y="1460" width="25" height="25" as="geometry"/>
-                </mxCell>
-                <mxCell id="YoeQHAKXdlg0IQOAOjzS-39" value="" style="endArrow=classic;startArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="YoeQHAKXdlg0IQOAOjzS-37" target="YoeQHAKXdlg0IQOAOjzS-32" edge="1">
-                    <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="374" y="1375" as="sourcePoint"/>
-                        <mxPoint x="449" y="1470" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="5" value="&lt;h6&gt;&lt;span style=&quot;font-size: 8px ; font-weight: 400&quot;&gt;Spark&lt;/span&gt;&lt;br&gt;&lt;/h6&gt;" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
