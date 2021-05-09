@@ -93,4 +93,6 @@ service Library {
 	// GetLikes and GetViews to Account
 	rpc GetViews(SeenAndLikeItem) returns(Count);
 	rpc GetLikes(SeenAndLikeItem) returns(Count);
+
+	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
 }

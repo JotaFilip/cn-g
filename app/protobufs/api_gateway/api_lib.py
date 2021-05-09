@@ -218,7 +218,7 @@ def getLikesOf(type,itemId):
     )
     return lib_client.GetLikes(request).count
 
-def getTopTen(type):
+def getTop10(type):
     if   (type == 'BOOK'):    type = 0
     elif (type == 'SHOW'):    type = 1
     elif (type == 'ANIME'):   type = 2
