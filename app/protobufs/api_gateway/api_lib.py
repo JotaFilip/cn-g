@@ -220,10 +220,10 @@ def getLikesOf(type,itemId):
         id   = itemId,
         type = tp
     )
-    return lib_client.GetViews(request).count
+    return lib_client.GetLikes(request).count
 
 def getTopTen(type):
-     tp = -1
+    tp = -1
     if   (tp == 'BOOK'):    tp = 0
     elif (tp == 'SHOW'):    tp = 1
     elif (tp == 'ANIME'):   tp = 2
