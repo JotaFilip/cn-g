@@ -5,9 +5,9 @@ import os
 #from app.protobufs.api_gateway.api_gateway import auth0
 
 
-from signin_pb2 import *
+# from signin_pb2 import *
+# from signin_pb2_grpc import SignInStub
 
-from signin_pb2_grpc import SignInStub
 import grpc
 import json
 from six.moves.urllib.request import urlopen
