@@ -58,15 +58,17 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         return IMDBDataList( imdbs = results )
         
     def SearchById(self, request, context):
-        
-        results = list(db1.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
-        if len(results) <= 0:
-            results = list(db2.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
+        try:
+            results = list(db1.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
+            if len(results) <= 0:
+                results = list(db2.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
 
-        if len(results) <= 0:
-            raise NotFound("Id not found")
+            if len(results) <= 0:
+                raise NotFound("Id not found")
 
-        return imdb_to_proto(results[0])
+            return imdb_to_proto(results[0])
+        except:
+            return IMDBData()
 
     def SearchByName(self, request, context):
         req = { "name": { "$regex" : ".*"+request.name+".*" } }

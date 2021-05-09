@@ -142,7 +142,7 @@ def verify_token(access_token) -> dict:
 #         username = body["username"]
 #     )
 #     return signin_client.CreateUser(request).success
-def createUsername(user,body):
+def createUsername(body):
     request = UsernameRequest(
         user_id = user,
         username = body["username"]
@@ -191,14 +191,14 @@ def getUserByName(username):
         likes.append(object)
     return  {"username": resp.username, "likes": likes, "seens": seens}
 
-def updateUser(user,username,body):
+def updateUser(username,body):
     request = UpdateUserRequest (
         username = username,
         new_username = body["username"],
     )
     return signin_client.UpdateUser(request).success
 
-def deleteUser(user,username):
+def deleteUser(username):
     request = UserRequest (
         username = username
     )

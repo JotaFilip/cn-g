@@ -24,7 +24,7 @@ books_client = BookStub(books_channel)
 
 class bookTestCase(unittest.TestCase):
 
-    def test_get_animes(self):
+    def test_get_books(self):
         books_request = GetBooksRequest(page=1, max_results=32)
         self.assertEqual(len(books_client.GetBooks(books_request).books), 32)
 
@@ -44,17 +44,37 @@ class bookTestCase(unittest.TestCase):
         books_request = BookByIdRequest(book_id=id)
         self.assertEqual(books_client.RemoveBook(books_request).success, True)
 
+    def test_remove_book_invalid_id(self):
+        books_request = BookByIdRequest(book_id="")
+        self.assertEqual(books_client.RemoveBook(books_request).success, False)
+
     def test_get_book(self):
         books_request = BookByIdRequest(book_id="606e25ad5e927a606f534284")
         self.assertEqual(books_client.SearchById(books_request).book_title, "Of Mice and Men")
+
+    def test_get_book_not_exists(self):
+        books_request = BookByIdRequest(book_id="000000000000000000000000")
+        self.assertEqual(books_client.SearchById(books_request), BookData())
+
+    def test_get_book_invalid_id(self):
+        books_request = BookByIdRequest(book_id="")
+        self.assertEqual(books_client.SearchById(books_request), BookData())
 
     def test_book_search_by_name(self):
         books_request = BooksByNameRequest(name="Of Mice and Men", max_results=32)
         self.assertEqual(books_client.SearchByName(books_request).books[0].book_id, "606e25ad5e927a606f534284")
 
+    def test_book_search_by_name_not_exists(self):
+        books_request = BooksByNameRequest(name="teste123 name not exists 123 $$$", max_results=32)
+        self.assertFalse(books_client.SearchByName(books_request).books)
+
     def test_book_search_by_category(self):
         books_request = BooksByCategoryRequest(category="Classics", max_results=32)
         self.assertNotEqual(len(books_client.SearchByCategory(books_request).books), 0)
-                
+
+    def test_book_search_by_category_not_exists(self):
+        books_request = BooksByCategoryRequest(category="teste123 category not exists 123 $$$", max_results=32)
+        self.assertEqual(len(books_client.SearchByCategory(books_request).books), 0)
+
 if __name__ == '__main__':
     unittest.main()
