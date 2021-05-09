@@ -24,6 +24,7 @@ printf " ."
 python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/account/ --grpc_python_out=./app/protobufs/account/ ./app/protobufs/account.proto --experimental_allow_proto3_optional
 ln ./app/protobufs/account/*pb2* ./app/protobufs/signin/ &> /dev/null
 ln ./app/protobufs/account/*pb2* ./app/protobufs/library/ &> /dev/null
+ln ./app/protobufs/account/*pb2* ./app/protobufs/api_gateway/ &> /dev/null
 printf " ."
 
 ### GERAR FICHEIROS PARA UTILS

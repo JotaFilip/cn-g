@@ -114,7 +114,7 @@ service Account {
 	// rpc UserPassword (PasswordRequest) returns (Success);
 	// rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
 
-	rpc VerificarAdmin(UserId) returns (Success);
+	//rpc VerificarAdmin(UserId) returns (Success);
 	//Dar login //nao usado
 	// rpc LoginUser (UserDataRequest) returns (Success);
 	//Dar logout //nao usado
@@ -142,8 +142,8 @@ service Account {
 	rpc DeleteUser (UserRequest) returns (Success);
 
 	// GetLikes and GetViews to Account
-	rpc GetViews(LikesAndViewsRequest) returns(Count);
-	rpc GetLikes(LikesAndViewsRequest) returns(Count);
+	rpc GetViews(SeenAndLikeItem) returns(Count);
+	rpc GetLikes(SeenAndLikeItem) returns(Count);
 
 	//Get Top Ten Animes, Books or Movies
 	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
