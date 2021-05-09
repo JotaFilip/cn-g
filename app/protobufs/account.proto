@@ -99,6 +99,24 @@ message CountInfo{
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
+message ViewsRequest {
+	string id = 1;
+	Type type = 2;
+}
+
+message LikesRequest {
+	string id = 1;
+	Type type = 2;
+}
+
+message Count {
+	int64 count = 1;
+}
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
 service Account {
 	// CriarUtilizador
 	rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
@@ -118,9 +136,9 @@ service Account {
 	//Marcar item como gostado
 	rpc Like(SeenAndLikeInfo) returns (Success);
 	//Obter likes do utilizador
-	rpc GetLikes(UserId) returns (SeensAndLikesInfo);
-	//Obter Visualizações do utilizador
-	rpc GetSeens(UserId) returns (SeensAndLikesInfo);
+	// rpc GetLikes(UserId) returns (SeensAndLikesInfo);
+	// //Obter Visualizações do utilizador
+	// rpc GetSeens(UserId) returns (SeensAndLikesInfo);
 	//ObterContagem de likes do item
 	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
 	//ObterContagem de seens do item
@@ -133,4 +151,7 @@ service Account {
 	rpc UpdateUser (UpdateUserRequest) returns (Success);
 	rpc DeleteUser (UserRequest) returns (Success);
 
+	// GetLikes and GetViews to Account
+	rpc GetViews(ViewsRequest) returns(Count);
+	rpc GetLikes(LikesRequest) returns(Count);
 }

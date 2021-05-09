@@ -3,9 +3,9 @@ syntax = "proto3";
 import "book.proto";
 import "imdb.proto";
 import "anime.proto";
+import "account.proto";
 
 import "utils.proto";
-
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
@@ -89,4 +89,8 @@ service Library {
 	rpc RemoveItem (ItemIdAndUser) returns (Success);
 	rpc AddSeenItem (ItemIdAndUser) returns (Success);
 	rpc AddLikeItem (ItemIdAndUser) returns (Success);
+
+	// GetLikes and GetViews to Account
+	rpc GetViews(ViewsRequest) returns(Count);
+	rpc GetLikes(LikesRequest) returns(Count);
 }

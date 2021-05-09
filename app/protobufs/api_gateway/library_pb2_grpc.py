@@ -2,6 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+import account_pb2 as account__pb2
 import library_pb2 as library__pb2
 import utils_pb2 as utils__pb2
 
@@ -50,6 +51,16 @@ class LibraryStub(object):
                 request_serializer=library__pb2.ItemIdAndUser.SerializeToString,
                 response_deserializer=utils__pb2.Success.FromString,
                 )
+        self.GetViews = channel.unary_unary(
+                '/Library/GetViews',
+                request_serializer=account__pb2.ViewsRequest.SerializeToString,
+                response_deserializer=account__pb2.Count.FromString,
+                )
+        self.GetLikes = channel.unary_unary(
+                '/Library/GetLikes',
+                request_serializer=account__pb2.LikesRequest.SerializeToString,
+                response_deserializer=account__pb2.Count.FromString,
+                )
 
 
 class LibraryServicer(object):
@@ -97,6 +108,19 @@ class LibraryServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetViews(self, request, context):
+        """GetLikes and GetViews to Account
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetLikes(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_LibraryServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -134,6 +158,16 @@ def add_LibraryServicer_to_server(servicer, server):
                     servicer.AddLikeItem,
                     request_deserializer=library__pb2.ItemIdAndUser.FromString,
                     response_serializer=utils__pb2.Success.SerializeToString,
+            ),
+            'GetViews': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetViews,
+                    request_deserializer=account__pb2.ViewsRequest.FromString,
+                    response_serializer=account__pb2.Count.SerializeToString,
+            ),
+            'GetLikes': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetLikes,
+                    request_deserializer=account__pb2.LikesRequest.FromString,
+                    response_serializer=account__pb2.Count.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -261,5 +295,39 @@ class Library(object):
         return grpc.experimental.unary_unary(request, target, '/Library/AddLikeItem',
             library__pb2.ItemIdAndUser.SerializeToString,
             utils__pb2.Success.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetViews(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Library/GetViews',
+            account__pb2.ViewsRequest.SerializeToString,
+            account__pb2.Count.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetLikes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Library/GetLikes',
+            account__pb2.LikesRequest.SerializeToString,
+            account__pb2.Count.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

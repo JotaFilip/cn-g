@@ -11,10 +11,20 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     drivername="mysql+mysqlconnector",
     username="cngroupfcul",
     password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
-    host="saldanha.sytes.net",
+    host="34.90.227.81",
     port=3306,
     database="account",
-    query={"ssl_ca": "chain1.pem"},
+    query={"ssl_ca": "server-ca.pem"},
+)
+
+SPARK_DATABASE_URI = sqlalchemy.engine.url.URL.create(
+    drivername="sparksql",
+    username="cngroupfcul",
+    password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
+    host="34.90.227.81",
+    port=3306,
+    database="account",
+    query={"ssl_ca": "server-ca.pem"},
 )
 
 
@@ -165,8 +175,9 @@ class AccountService(account_pb2_grpc.AccountServicer):
                 count.incrementLikes()
         session.commit()
         return Success(success=True)
+        
     def GetLikes(self,request,context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+        engine = create_engine(SPARK_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -178,10 +189,8 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return SeensAndLikesInfo(infos=ret)
 
-
-
-    def GetSeens(self,request,context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    def GetViews(self,request,context):
+        engine = create_engine(SPARK_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -192,6 +201,23 @@ class AccountService(account_pb2_grpc.AccountServicer):
             ret.append(SeenAndLikeInfoReturn(id=seen.item_id, type=seen.type))
         session.commit()
         return SeensAndLikesInfo(infos=ret)
+
+    def GetTopTen(self, request, context):
+        engine = create_engine(SPARK_DATABASE_URI)
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        ret = []
+        #get list of user ids
+        ids = session.query(User)#not sure how this works
+        for id in ids:
+            likes = session.query(Like).filter_by(user_id=id).all()
+            for like in likes:
+                ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
+        #aggregate ret items with the same id and type, summing the number of likes (group by id and type)
+        session.commit()
+        return SeensAndLikesInfo(infos=ret[0:11])#return top 10
+
     def GetContagemLikesAndViews(self,request,context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
 

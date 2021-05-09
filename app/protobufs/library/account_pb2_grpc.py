@@ -7,7 +7,11 @@ import utils_pb2 as utils__pb2
 
 
 class AccountStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """//////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -55,16 +59,6 @@ class AccountStub(object):
                 request_serializer=account__pb2.SeenAndLikeInfo.SerializeToString,
                 response_deserializer=utils__pb2.Success.FromString,
                 )
-        self.GetLikes = channel.unary_unary(
-                '/Account/GetLikes',
-                request_serializer=account__pb2.UserId.SerializeToString,
-                response_deserializer=account__pb2.SeensAndLikesInfo.FromString,
-                )
-        self.GetSeens = channel.unary_unary(
-                '/Account/GetSeens',
-                request_serializer=account__pb2.UserId.SerializeToString,
-                response_deserializer=account__pb2.SeensAndLikesInfo.FromString,
-                )
         self.GetLikesItem = channel.unary_unary(
                 '/Account/GetLikesItem',
                 request_serializer=account__pb2.SeenAndLikeItem.SerializeToString,
@@ -95,10 +89,24 @@ class AccountStub(object):
                 request_serializer=account__pb2.UserRequest.SerializeToString,
                 response_deserializer=utils__pb2.Success.FromString,
                 )
+        self.GetViews = channel.unary_unary(
+                '/Account/GetViews',
+                request_serializer=account__pb2.ViewsRequest.SerializeToString,
+                response_deserializer=account__pb2.Count.FromString,
+                )
+        self.GetLikes = channel.unary_unary(
+                '/Account/GetLikes',
+                request_serializer=account__pb2.LikesRequest.SerializeToString,
+                response_deserializer=account__pb2.Count.FromString,
+                )
 
 
 class AccountServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """//////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    """
 
     def VerificaSeEhNovoECria(self, request, context):
         """CriarUtilizador
@@ -155,22 +163,12 @@ class AccountServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetLikes(self, request, context):
-        """Obter likes do utilizador
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetSeens(self, request, context):
-        """Obter Visualizações do utilizador
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def GetLikesItem(self, request, context):
-        """ObterContagem de likes do item
+        """Obter likes do utilizador
+        rpc GetLikes(UserId) returns (SeensAndLikesInfo);
+        //Obter Visualizações do utilizador
+        rpc GetSeens(UserId) returns (SeensAndLikesInfo);
+        ObterContagem de likes do item
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -204,6 +202,19 @@ class AccountServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def DeleteUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetViews(self, request, context):
+        """GetLikes and GetViews to Account
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetLikes(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -252,16 +263,6 @@ def add_AccountServicer_to_server(servicer, server):
                     request_deserializer=account__pb2.SeenAndLikeInfo.FromString,
                     response_serializer=utils__pb2.Success.SerializeToString,
             ),
-            'GetLikes': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetLikes,
-                    request_deserializer=account__pb2.UserId.FromString,
-                    response_serializer=account__pb2.SeensAndLikesInfo.SerializeToString,
-            ),
-            'GetSeens': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetSeens,
-                    request_deserializer=account__pb2.UserId.FromString,
-                    response_serializer=account__pb2.SeensAndLikesInfo.SerializeToString,
-            ),
             'GetLikesItem': grpc.unary_unary_rpc_method_handler(
                     servicer.GetLikesItem,
                     request_deserializer=account__pb2.SeenAndLikeItem.FromString,
@@ -292,6 +293,16 @@ def add_AccountServicer_to_server(servicer, server):
                     request_deserializer=account__pb2.UserRequest.FromString,
                     response_serializer=utils__pb2.Success.SerializeToString,
             ),
+            'GetViews': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetViews,
+                    request_deserializer=account__pb2.ViewsRequest.FromString,
+                    response_serializer=account__pb2.Count.SerializeToString,
+            ),
+            'GetLikes': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetLikes,
+                    request_deserializer=account__pb2.LikesRequest.FromString,
+                    response_serializer=account__pb2.Count.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'Account', rpc_method_handlers)
@@ -300,7 +311,11 @@ def add_AccountServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Account(object):
-    """Missing associated documentation comment in .proto file."""
+    """//////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    """
 
     @staticmethod
     def VerificaSeEhNovoECria(request,
@@ -439,40 +454,6 @@ class Account(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetLikes(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Account/GetLikes',
-            account__pb2.UserId.SerializeToString,
-            account__pb2.SeensAndLikesInfo.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def GetSeens(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Account/GetSeens',
-            account__pb2.UserId.SerializeToString,
-            account__pb2.SeensAndLikesInfo.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
     def GetLikesItem(request,
             target,
             options=(),
@@ -571,5 +552,39 @@ class Account(object):
         return grpc.experimental.unary_unary(request, target, '/Account/DeleteUser',
             account__pb2.UserRequest.SerializeToString,
             utils__pb2.Success.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetViews(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Account/GetViews',
+            account__pb2.ViewsRequest.SerializeToString,
+            account__pb2.Count.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetLikes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Account/GetLikes',
+            account__pb2.LikesRequest.SerializeToString,
+            account__pb2.Count.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
