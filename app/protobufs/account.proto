@@ -39,6 +39,10 @@ message UserRequest {
 	string user_id = 1;
 }
 
+message UsernameRequest {
+	string username = 1;
+}
+
 message UpdateUserRequest {
 	string user_id = 1;
 	string new_username = 2;
@@ -137,7 +141,7 @@ service Account {
 	rpc GetContagemLikesAndViews(UserId) returns (ViewsAndLikesCount);
 
 	//Username
-	rpc GetUserByName (UserRequest) returns (UserData);
+	rpc GetUserByName (UsernameRequest) returns (UserData);
 	rpc UpdateUser (UpdateUserRequest) returns (Success);
 	rpc DeleteUser (UserRequest) returns (Success);
 
