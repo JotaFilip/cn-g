@@ -202,6 +202,21 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return SeensAndLikesInfo(infos=ret)
 
+    def GetTopTen(self, request, context):
+        engine = create_engine(SPARK_DATABASE_URI)
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        #for each user
+            likes = session.query(Like).filter_by(user_id=request.id).all()
+            ret = []
+            for like in likes:
+                ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
+        #aggregate ret items with the same id, summing the number of likes
+        session.commit()
+        #return 10 first elements of ret
+        return SeensAndLikesInfo(infos=ret)
+
     def GetContagemLikesAndViews(self,request,context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
