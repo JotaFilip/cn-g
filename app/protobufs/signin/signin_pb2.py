@@ -21,60 +21,13 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0csignin.proto\x1a\x0butils.proto\x1a\raccount.proto\"/\n\x0c\x45mailRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t2\xdc\x02\n\x06SignIn\x12%\n\nCreateUser\x12\r.EmailRequest\x1a\x08.Success\x12:\n\x11VerificarPassword\x12\x11.VerificarRequest\x1a\x12.VerificarResponse\x12*\n\x0cUserPassword\x12\x10.PasswordRequest\x1a\x08.Success\x12\'\n\tLoginUser\x12\x10.UserDataRequest\x1a\x08.Success\x12\x1e\n\nLogoutUser\x12\x06.Empty\x1a\x08.Success\x12(\n\rGetUserByName\x12\x0c.UserRequest\x1a\t.UserData\x12*\n\nUpdateUser\x12\x12.UpdateUserRequest\x1a\x08.Success\x12$\n\nDeleteUser\x12\x0c.UserRequest\x1a\x08.Successb\x06proto3'
+  serialized_pb=b'\n\x0csignin.proto\x1a\x0butils.proto\x1a\raccount.proto2\x84\x01\n\x06SignIn\x12(\n\rGetUserByName\x12\x0c.UserRequest\x1a\t.UserData\x12*\n\nUpdateUser\x12\x12.UpdateUserRequest\x1a\x08.Success\x12$\n\nDeleteUser\x12\x0c.UserRequest\x1a\x08.Successb\x06proto3'
   ,
   dependencies=[utils__pb2.DESCRIPTOR,account__pb2.DESCRIPTOR,])
 
 
 
-
-_EMAILREQUEST = _descriptor.Descriptor(
-  name='EmailRequest',
-  full_name='EmailRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='email', full_name='EmailRequest.email', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='username', full_name='EmailRequest.username', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=44,
-  serialized_end=91,
-)
-
-DESCRIPTOR.message_types_by_name['EmailRequest'] = _EMAILREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
-
-EmailRequest = _reflection.GeneratedProtocolMessageType('EmailRequest', (_message.Message,), {
-  'DESCRIPTOR' : _EMAILREQUEST,
-  '__module__' : 'signin_pb2'
-  # @@protoc_insertion_point(class_scope:EmailRequest)
-  })
-_sym_db.RegisterMessage(EmailRequest)
 
 
 
@@ -85,63 +38,13 @@ _SIGNIN = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=94,
-  serialized_end=442,
+  serialized_start=45,
+  serialized_end=177,
   methods=[
-  _descriptor.MethodDescriptor(
-    name='CreateUser',
-    full_name='SignIn.CreateUser',
-    index=0,
-    containing_service=None,
-    input_type=_EMAILREQUEST,
-    output_type=utils__pb2._SUCCESS,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='VerificarPassword',
-    full_name='SignIn.VerificarPassword',
-    index=1,
-    containing_service=None,
-    input_type=account__pb2._VERIFICARREQUEST,
-    output_type=account__pb2._VERIFICARRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='UserPassword',
-    full_name='SignIn.UserPassword',
-    index=2,
-    containing_service=None,
-    input_type=account__pb2._PASSWORDREQUEST,
-    output_type=utils__pb2._SUCCESS,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='LoginUser',
-    full_name='SignIn.LoginUser',
-    index=3,
-    containing_service=None,
-    input_type=account__pb2._USERDATAREQUEST,
-    output_type=utils__pb2._SUCCESS,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='LogoutUser',
-    full_name='SignIn.LogoutUser',
-    index=4,
-    containing_service=None,
-    input_type=utils__pb2._EMPTY,
-    output_type=utils__pb2._SUCCESS,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
   _descriptor.MethodDescriptor(
     name='GetUserByName',
     full_name='SignIn.GetUserByName',
-    index=5,
+    index=0,
     containing_service=None,
     input_type=account__pb2._USERREQUEST,
     output_type=account__pb2._USERDATA,
@@ -151,7 +54,7 @@ _SIGNIN = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='UpdateUser',
     full_name='SignIn.UpdateUser',
-    index=6,
+    index=1,
     containing_service=None,
     input_type=account__pb2._UPDATEUSERREQUEST,
     output_type=utils__pb2._SUCCESS,
@@ -161,7 +64,7 @@ _SIGNIN = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='DeleteUser',
     full_name='SignIn.DeleteUser',
-    index=7,
+    index=2,
     containing_service=None,
     input_type=account__pb2._USERREQUEST,
     output_type=utils__pb2._SUCCESS,

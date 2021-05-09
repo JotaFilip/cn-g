@@ -53,12 +53,12 @@ class LibraryStub(object):
                 )
         self.GetViews = channel.unary_unary(
                 '/Library/GetViews',
-                request_serializer=account__pb2.ViewsRequest.SerializeToString,
+                request_serializer=account__pb2.SeenAndLikeItem.SerializeToString,
                 response_deserializer=account__pb2.Count.FromString,
                 )
         self.GetLikes = channel.unary_unary(
                 '/Library/GetLikes',
-                request_serializer=account__pb2.LikesRequest.SerializeToString,
+                request_serializer=account__pb2.SeenAndLikeItem.SerializeToString,
                 response_deserializer=account__pb2.Count.FromString,
                 )
 
@@ -161,12 +161,12 @@ def add_LibraryServicer_to_server(servicer, server):
             ),
             'GetViews': grpc.unary_unary_rpc_method_handler(
                     servicer.GetViews,
-                    request_deserializer=account__pb2.ViewsRequest.FromString,
+                    request_deserializer=account__pb2.SeenAndLikeItem.FromString,
                     response_serializer=account__pb2.Count.SerializeToString,
             ),
             'GetLikes': grpc.unary_unary_rpc_method_handler(
                     servicer.GetLikes,
-                    request_deserializer=account__pb2.LikesRequest.FromString,
+                    request_deserializer=account__pb2.SeenAndLikeItem.FromString,
                     response_serializer=account__pb2.Count.SerializeToString,
             ),
     }
@@ -310,7 +310,7 @@ class Library(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Library/GetViews',
-            account__pb2.ViewsRequest.SerializeToString,
+            account__pb2.SeenAndLikeItem.SerializeToString,
             account__pb2.Count.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -327,7 +327,7 @@ class Library(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Library/GetLikes',
-            account__pb2.LikesRequest.SerializeToString,
+            account__pb2.SeenAndLikeItem.SerializeToString,
             account__pb2.Count.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

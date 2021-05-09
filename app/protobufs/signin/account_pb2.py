@@ -20,181 +20,11 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\raccount.proto\x1a\x0butils.proto\"6\n\x10VerificarRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"0\n\x11VerificarResponse\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x0f\n\x07success\x18\x02 \x01(\x08\"F\n\x14\x45mailAndNonceRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t\x12\r\n\x05nonce\x18\x03 \x01(\x03\"D\n\x0fPasswordRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\r\n\x05nonce\x18\x03 \x01(\x03\"j\n\x08UserData\x12\x10\n\x08username\x18\x01 \x01(\t\x12%\n\x05likes\x18\x02 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\x12%\n\x05seens\x18\x03 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\"5\n\x0fUserDataRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"\x1f\n\x0bUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\"Q\n\x11UpdateUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x14\n\x0cnew_username\x18\x02 \x01(\t\x12\x14\n\x0cnew_password\x18\x03 \x01(\t\"(\n\x14LikesAndViewsRequest\x12\x10\n\x08username\x18\x01 \x01(\t\"W\n\x0fSeenAndLikeInfo\x12\x0f\n\x07user_id\x18\x01 \x01(\x03\x12\n\n\x02id\x18\x02 \x01(\t\x12\x13\n\x04type\x18\x03 \x01(\x0e\x32\x05.Type\x12\x12\n\ncategories\x18\x04 \x03(\t\"7\n\x12ViewsAndLikesCount\x12!\n\x06tuples\x18\x01 \x03(\x0b\x32\x11.TupleForCategory\"B\n\x10TupleForCategory\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\r\n\x05views\x18\x02 \x01(\x03\x12\r\n\x05likes\x18\x03 \x01(\x03\"8\n\x15SeenAndLikeInfoReturn\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\"2\n\x0fSeenAndLikeItem\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\":\n\x11SeensAndLikesInfo\x12%\n\x05infos\x18\x01 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\"\x14\n\x06UserId\x12\n\n\x02id\x18\x01 \x01(\x03\"\x1a\n\tCountInfo\x12\r\n\x05\x63ount\x18\x01 \x01(\x03\"/\n\x0cViewsRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\"/\n\x0cLikesRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\"\x16\n\x05\x43ount\x12\r\n\x05\x63ount\x18\x01 \x01(\x03\x32\xb9\x05\n\x07\x41\x63\x63ount\x12\x38\n\x15VerificaSeEhNovoECria\x12\x15.EmailAndNonceRequest\x1a\x08.Success\x12*\n\x0cUserPassword\x12\x10.PasswordRequest\x1a\x08.Success\x12:\n\x11VerificarPassword\x12\x11.VerificarRequest\x1a\x12.VerificarResponse\x12#\n\x0eVerificarAdmin\x12\x07.UserId\x1a\x08.Success\x12\'\n\tLoginUser\x12\x10.UserDataRequest\x1a\x08.Success\x12\x1e\n\nLogoutUser\x12\x06.Empty\x1a\x08.Success\x12\"\n\x04Seen\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12\"\n\x04Like\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12,\n\x0cGetLikesItem\x12\x10.SeenAndLikeItem\x1a\n.CountInfo\x12,\n\x0cGetSeensItem\x12\x10.SeenAndLikeItem\x1a\n.CountInfo\x12\x38\n\x18GetContagemLikesAndViews\x12\x07.UserId\x1a\x13.ViewsAndLikesCount\x12(\n\rGetUserByName\x12\x0c.UserRequest\x1a\t.UserData\x12*\n\nUpdateUser\x12\x12.UpdateUserRequest\x1a\x08.Success\x12$\n\nDeleteUser\x12\x0c.UserRequest\x1a\x08.Success\x12!\n\x08GetViews\x12\r.ViewsRequest\x1a\x06.Count\x12!\n\x08GetLikes\x12\r.LikesRequest\x1a\x06.Countb\x06proto3'
+  serialized_pb=b'\n\raccount.proto\x1a\x0butils.proto\"j\n\x08UserData\x12\x10\n\x08username\x18\x01 \x01(\t\x12%\n\x05likes\x18\x02 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\x12%\n\x05seens\x18\x03 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\"\x1e\n\x0bUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\":\n\x11UpdateUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x14\n\x0cnew_username\x18\x02 \x01(\t\"(\n\x14LikesAndViewsRequest\x12\x10\n\x08username\x18\x01 \x01(\t\"W\n\x0fSeenAndLikeInfo\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x13\n\x04type\x18\x03 \x01(\x0e\x32\x05.Type\x12\x12\n\ncategories\x18\x04 \x03(\t\"7\n\x12ViewsAndLikesCount\x12!\n\x06tuples\x18\x01 \x03(\x0b\x32\x11.TupleForCategory\"B\n\x10TupleForCategory\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\r\n\x05views\x18\x02 \x01(\x03\x12\r\n\x05likes\x18\x03 \x01(\x03\"8\n\x15SeenAndLikeInfoReturn\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\"2\n\x0fSeenAndLikeItem\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\":\n\x11SeensAndLikesInfo\x12%\n\x05infos\x18\x01 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\"\x14\n\x06UserId\x12\n\n\x02id\x18\x01 \x01(\t\"\x1a\n\tCountInfo\x12\r\n\x05\x63ount\x18\x01 \x01(\x03\"\x16\n\x05\x43ount\x12\r\n\x05\x63ount\x18\x01 \x01(\x03\"$\n\rTopTenRequest\x12\x13\n\x04type\x18\x01 \x01(\x0e\x32\x05.Type2\xe0\x03\n\x07\x41\x63\x63ount\x12\"\n\x04Seen\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12\"\n\x04Like\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12,\n\x0cGetLikesItem\x12\x10.SeenAndLikeItem\x1a\n.CountInfo\x12,\n\x0cGetSeensItem\x12\x10.SeenAndLikeItem\x1a\n.CountInfo\x12\x38\n\x18GetContagemLikesAndViews\x12\x07.UserId\x1a\x13.ViewsAndLikesCount\x12(\n\rGetUserByName\x12\x0c.UserRequest\x1a\t.UserData\x12*\n\nUpdateUser\x12\x12.UpdateUserRequest\x1a\x08.Success\x12$\n\nDeleteUser\x12\x0c.UserRequest\x1a\x08.Success\x12$\n\x08GetViews\x12\x10.SeenAndLikeItem\x1a\x06.Count\x12$\n\x08GetLikes\x12\x10.SeenAndLikeItem\x1a\x06.Count\x12/\n\tGetTopTen\x12\x0e.TopTenRequest\x1a\x12.SeensAndLikesInfob\x06proto3'
   ,
   dependencies=[utils__pb2.DESCRIPTOR,])
 
 
-
-
-_VERIFICARREQUEST = _descriptor.Descriptor(
-  name='VerificarRequest',
-  full_name='VerificarRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='username', full_name='VerificarRequest.username', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='password', full_name='VerificarRequest.password', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=30,
-  serialized_end=84,
-)
-
-
-_VERIFICARRESPONSE = _descriptor.Descriptor(
-  name='VerificarResponse',
-  full_name='VerificarResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='id', full_name='VerificarResponse.id', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='success', full_name='VerificarResponse.success', index=1,
-      number=2, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=86,
-  serialized_end=134,
-)
-
-
-_EMAILANDNONCEREQUEST = _descriptor.Descriptor(
-  name='EmailAndNonceRequest',
-  full_name='EmailAndNonceRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='email', full_name='EmailAndNonceRequest.email', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='username', full_name='EmailAndNonceRequest.username', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='nonce', full_name='EmailAndNonceRequest.nonce', index=2,
-      number=3, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=136,
-  serialized_end=206,
-)
-
-
-_PASSWORDREQUEST = _descriptor.Descriptor(
-  name='PasswordRequest',
-  full_name='PasswordRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='username', full_name='PasswordRequest.username', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='password', full_name='PasswordRequest.password', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='nonce', full_name='PasswordRequest.nonce', index=2,
-      number=3, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=208,
-  serialized_end=276,
-)
 
 
 _USERDATA = _descriptor.Descriptor(
@@ -238,47 +68,8 @@ _USERDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=278,
-  serialized_end=384,
-)
-
-
-_USERDATAREQUEST = _descriptor.Descriptor(
-  name='UserDataRequest',
-  full_name='UserDataRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='username', full_name='UserDataRequest.username', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='password', full_name='UserDataRequest.password', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=386,
-  serialized_end=439,
+  serialized_start=30,
+  serialized_end=136,
 )
 
 
@@ -291,7 +82,7 @@ _USERREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='username', full_name='UserRequest.username', index=0,
+      name='user_id', full_name='UserRequest.user_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -309,8 +100,8 @@ _USERREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=441,
-  serialized_end=472,
+  serialized_start=138,
+  serialized_end=168,
 )
 
 
@@ -323,7 +114,7 @@ _UPDATEUSERREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='username', full_name='UpdateUserRequest.username', index=0,
+      name='user_id', full_name='UpdateUserRequest.user_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -332,13 +123,6 @@ _UPDATEUSERREQUEST = _descriptor.Descriptor(
     _descriptor.FieldDescriptor(
       name='new_username', full_name='UpdateUserRequest.new_username', index=1,
       number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='new_password', full_name='UpdateUserRequest.new_password', index=2,
-      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -355,8 +139,8 @@ _UPDATEUSERREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=474,
-  serialized_end=555,
+  serialized_start=170,
+  serialized_end=228,
 )
 
 
@@ -387,8 +171,8 @@ _LIKESANDVIEWSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=557,
-  serialized_end=597,
+  serialized_start=230,
+  serialized_end=270,
 )
 
 
@@ -402,8 +186,8 @@ _SEENANDLIKEINFO = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='user_id', full_name='SeenAndLikeInfo.user_id', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -440,8 +224,8 @@ _SEENANDLIKEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=599,
-  serialized_end=686,
+  serialized_start=272,
+  serialized_end=359,
 )
 
 
@@ -472,8 +256,8 @@ _VIEWSANDLIKESCOUNT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=688,
-  serialized_end=743,
+  serialized_start=361,
+  serialized_end=416,
 )
 
 
@@ -518,8 +302,8 @@ _TUPLEFORCATEGORY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=745,
-  serialized_end=811,
+  serialized_start=418,
+  serialized_end=484,
 )
 
 
@@ -557,8 +341,8 @@ _SEENANDLIKEINFORETURN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=813,
-  serialized_end=869,
+  serialized_start=486,
+  serialized_end=542,
 )
 
 
@@ -596,8 +380,8 @@ _SEENANDLIKEITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=871,
-  serialized_end=921,
+  serialized_start=544,
+  serialized_end=594,
 )
 
 
@@ -628,8 +412,8 @@ _SEENSANDLIKESINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=923,
-  serialized_end=981,
+  serialized_start=596,
+  serialized_end=654,
 )
 
 
@@ -643,8 +427,8 @@ _USERID = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='id', full_name='UserId.id', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -660,8 +444,8 @@ _USERID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=983,
-  serialized_end=1003,
+  serialized_start=656,
+  serialized_end=676,
 )
 
 
@@ -692,86 +476,8 @@ _COUNTINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1005,
-  serialized_end=1031,
-)
-
-
-_VIEWSREQUEST = _descriptor.Descriptor(
-  name='ViewsRequest',
-  full_name='ViewsRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='id', full_name='ViewsRequest.id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='type', full_name='ViewsRequest.type', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1033,
-  serialized_end=1080,
-)
-
-
-_LIKESREQUEST = _descriptor.Descriptor(
-  name='LikesRequest',
-  full_name='LikesRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='id', full_name='LikesRequest.id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='type', full_name='LikesRequest.type', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1082,
-  serialized_end=1129,
+  serialized_start=678,
+  serialized_end=704,
 )
 
 
@@ -802,8 +508,40 @@ _COUNT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1131,
-  serialized_end=1153,
+  serialized_start=706,
+  serialized_end=728,
+)
+
+
+_TOPTENREQUEST = _descriptor.Descriptor(
+  name='TopTenRequest',
+  full_name='TopTenRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='type', full_name='TopTenRequest.type', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=730,
+  serialized_end=766,
 )
 
 _USERDATA.fields_by_name['likes'].message_type = _SEENANDLIKEINFORETURN
@@ -813,14 +551,8 @@ _VIEWSANDLIKESCOUNT.fields_by_name['tuples'].message_type = _TUPLEFORCATEGORY
 _SEENANDLIKEINFORETURN.fields_by_name['type'].enum_type = utils__pb2._TYPE
 _SEENANDLIKEITEM.fields_by_name['type'].enum_type = utils__pb2._TYPE
 _SEENSANDLIKESINFO.fields_by_name['infos'].message_type = _SEENANDLIKEINFORETURN
-_VIEWSREQUEST.fields_by_name['type'].enum_type = utils__pb2._TYPE
-_LIKESREQUEST.fields_by_name['type'].enum_type = utils__pb2._TYPE
-DESCRIPTOR.message_types_by_name['VerificarRequest'] = _VERIFICARREQUEST
-DESCRIPTOR.message_types_by_name['VerificarResponse'] = _VERIFICARRESPONSE
-DESCRIPTOR.message_types_by_name['EmailAndNonceRequest'] = _EMAILANDNONCEREQUEST
-DESCRIPTOR.message_types_by_name['PasswordRequest'] = _PASSWORDREQUEST
+_TOPTENREQUEST.fields_by_name['type'].enum_type = utils__pb2._TYPE
 DESCRIPTOR.message_types_by_name['UserData'] = _USERDATA
-DESCRIPTOR.message_types_by_name['UserDataRequest'] = _USERDATAREQUEST
 DESCRIPTOR.message_types_by_name['UserRequest'] = _USERREQUEST
 DESCRIPTOR.message_types_by_name['UpdateUserRequest'] = _UPDATEUSERREQUEST
 DESCRIPTOR.message_types_by_name['LikesAndViewsRequest'] = _LIKESANDVIEWSREQUEST
@@ -832,38 +564,9 @@ DESCRIPTOR.message_types_by_name['SeenAndLikeItem'] = _SEENANDLIKEITEM
 DESCRIPTOR.message_types_by_name['SeensAndLikesInfo'] = _SEENSANDLIKESINFO
 DESCRIPTOR.message_types_by_name['UserId'] = _USERID
 DESCRIPTOR.message_types_by_name['CountInfo'] = _COUNTINFO
-DESCRIPTOR.message_types_by_name['ViewsRequest'] = _VIEWSREQUEST
-DESCRIPTOR.message_types_by_name['LikesRequest'] = _LIKESREQUEST
 DESCRIPTOR.message_types_by_name['Count'] = _COUNT
+DESCRIPTOR.message_types_by_name['TopTenRequest'] = _TOPTENREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
-
-VerificarRequest = _reflection.GeneratedProtocolMessageType('VerificarRequest', (_message.Message,), {
-  'DESCRIPTOR' : _VERIFICARREQUEST,
-  '__module__' : 'account_pb2'
-  # @@protoc_insertion_point(class_scope:VerificarRequest)
-  })
-_sym_db.RegisterMessage(VerificarRequest)
-
-VerificarResponse = _reflection.GeneratedProtocolMessageType('VerificarResponse', (_message.Message,), {
-  'DESCRIPTOR' : _VERIFICARRESPONSE,
-  '__module__' : 'account_pb2'
-  # @@protoc_insertion_point(class_scope:VerificarResponse)
-  })
-_sym_db.RegisterMessage(VerificarResponse)
-
-EmailAndNonceRequest = _reflection.GeneratedProtocolMessageType('EmailAndNonceRequest', (_message.Message,), {
-  'DESCRIPTOR' : _EMAILANDNONCEREQUEST,
-  '__module__' : 'account_pb2'
-  # @@protoc_insertion_point(class_scope:EmailAndNonceRequest)
-  })
-_sym_db.RegisterMessage(EmailAndNonceRequest)
-
-PasswordRequest = _reflection.GeneratedProtocolMessageType('PasswordRequest', (_message.Message,), {
-  'DESCRIPTOR' : _PASSWORDREQUEST,
-  '__module__' : 'account_pb2'
-  # @@protoc_insertion_point(class_scope:PasswordRequest)
-  })
-_sym_db.RegisterMessage(PasswordRequest)
 
 UserData = _reflection.GeneratedProtocolMessageType('UserData', (_message.Message,), {
   'DESCRIPTOR' : _USERDATA,
@@ -871,13 +574,6 @@ UserData = _reflection.GeneratedProtocolMessageType('UserData', (_message.Messag
   # @@protoc_insertion_point(class_scope:UserData)
   })
 _sym_db.RegisterMessage(UserData)
-
-UserDataRequest = _reflection.GeneratedProtocolMessageType('UserDataRequest', (_message.Message,), {
-  'DESCRIPTOR' : _USERDATAREQUEST,
-  '__module__' : 'account_pb2'
-  # @@protoc_insertion_point(class_scope:UserDataRequest)
-  })
-_sym_db.RegisterMessage(UserDataRequest)
 
 UserRequest = _reflection.GeneratedProtocolMessageType('UserRequest', (_message.Message,), {
   'DESCRIPTOR' : _USERREQUEST,
@@ -956,26 +652,19 @@ CountInfo = _reflection.GeneratedProtocolMessageType('CountInfo', (_message.Mess
   })
 _sym_db.RegisterMessage(CountInfo)
 
-ViewsRequest = _reflection.GeneratedProtocolMessageType('ViewsRequest', (_message.Message,), {
-  'DESCRIPTOR' : _VIEWSREQUEST,
-  '__module__' : 'account_pb2'
-  # @@protoc_insertion_point(class_scope:ViewsRequest)
-  })
-_sym_db.RegisterMessage(ViewsRequest)
-
-LikesRequest = _reflection.GeneratedProtocolMessageType('LikesRequest', (_message.Message,), {
-  'DESCRIPTOR' : _LIKESREQUEST,
-  '__module__' : 'account_pb2'
-  # @@protoc_insertion_point(class_scope:LikesRequest)
-  })
-_sym_db.RegisterMessage(LikesRequest)
-
 Count = _reflection.GeneratedProtocolMessageType('Count', (_message.Message,), {
   'DESCRIPTOR' : _COUNT,
   '__module__' : 'account_pb2'
   # @@protoc_insertion_point(class_scope:Count)
   })
 _sym_db.RegisterMessage(Count)
+
+TopTenRequest = _reflection.GeneratedProtocolMessageType('TopTenRequest', (_message.Message,), {
+  'DESCRIPTOR' : _TOPTENREQUEST,
+  '__module__' : 'account_pb2'
+  # @@protoc_insertion_point(class_scope:TopTenRequest)
+  })
+_sym_db.RegisterMessage(TopTenRequest)
 
 
 
@@ -986,73 +675,13 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1156,
-  serialized_end=1853,
+  serialized_start=769,
+  serialized_end=1249,
   methods=[
-  _descriptor.MethodDescriptor(
-    name='VerificaSeEhNovoECria',
-    full_name='Account.VerificaSeEhNovoECria',
-    index=0,
-    containing_service=None,
-    input_type=_EMAILANDNONCEREQUEST,
-    output_type=utils__pb2._SUCCESS,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='UserPassword',
-    full_name='Account.UserPassword',
-    index=1,
-    containing_service=None,
-    input_type=_PASSWORDREQUEST,
-    output_type=utils__pb2._SUCCESS,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='VerificarPassword',
-    full_name='Account.VerificarPassword',
-    index=2,
-    containing_service=None,
-    input_type=_VERIFICARREQUEST,
-    output_type=_VERIFICARRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='VerificarAdmin',
-    full_name='Account.VerificarAdmin',
-    index=3,
-    containing_service=None,
-    input_type=_USERID,
-    output_type=utils__pb2._SUCCESS,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='LoginUser',
-    full_name='Account.LoginUser',
-    index=4,
-    containing_service=None,
-    input_type=_USERDATAREQUEST,
-    output_type=utils__pb2._SUCCESS,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='LogoutUser',
-    full_name='Account.LogoutUser',
-    index=5,
-    containing_service=None,
-    input_type=utils__pb2._EMPTY,
-    output_type=utils__pb2._SUCCESS,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
   _descriptor.MethodDescriptor(
     name='Seen',
     full_name='Account.Seen',
-    index=6,
+    index=0,
     containing_service=None,
     input_type=_SEENANDLIKEINFO,
     output_type=utils__pb2._SUCCESS,
@@ -1062,7 +691,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='Like',
     full_name='Account.Like',
-    index=7,
+    index=1,
     containing_service=None,
     input_type=_SEENANDLIKEINFO,
     output_type=utils__pb2._SUCCESS,
@@ -1072,7 +701,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetLikesItem',
     full_name='Account.GetLikesItem',
-    index=8,
+    index=2,
     containing_service=None,
     input_type=_SEENANDLIKEITEM,
     output_type=_COUNTINFO,
@@ -1082,7 +711,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetSeensItem',
     full_name='Account.GetSeensItem',
-    index=9,
+    index=3,
     containing_service=None,
     input_type=_SEENANDLIKEITEM,
     output_type=_COUNTINFO,
@@ -1092,7 +721,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetContagemLikesAndViews',
     full_name='Account.GetContagemLikesAndViews',
-    index=10,
+    index=4,
     containing_service=None,
     input_type=_USERID,
     output_type=_VIEWSANDLIKESCOUNT,
@@ -1102,7 +731,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetUserByName',
     full_name='Account.GetUserByName',
-    index=11,
+    index=5,
     containing_service=None,
     input_type=_USERREQUEST,
     output_type=_USERDATA,
@@ -1112,7 +741,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='UpdateUser',
     full_name='Account.UpdateUser',
-    index=12,
+    index=6,
     containing_service=None,
     input_type=_UPDATEUSERREQUEST,
     output_type=utils__pb2._SUCCESS,
@@ -1122,7 +751,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='DeleteUser',
     full_name='Account.DeleteUser',
-    index=13,
+    index=7,
     containing_service=None,
     input_type=_USERREQUEST,
     output_type=utils__pb2._SUCCESS,
@@ -1132,9 +761,9 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetViews',
     full_name='Account.GetViews',
-    index=14,
+    index=8,
     containing_service=None,
-    input_type=_VIEWSREQUEST,
+    input_type=_SEENANDLIKEITEM,
     output_type=_COUNT,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
@@ -1142,10 +771,20 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetLikes',
     full_name='Account.GetLikes',
-    index=15,
+    index=9,
     containing_service=None,
-    input_type=_LIKESREQUEST,
+    input_type=_SEENANDLIKEITEM,
     output_type=_COUNT,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetTopTen',
+    full_name='Account.GetTopTen',
+    index=10,
+    containing_service=None,
+    input_type=_TOPTENREQUEST,
+    output_type=_SEENSANDLIKESINFO,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

@@ -3,12 +3,19 @@
 import grpc
 
 import account_pb2 as account__pb2
-import signin_pb2 as signin__pb2
 import utils_pb2 as utils__pb2
 
 
 class SignInStub(object):
-    """//////////////////////////////////////////
+    """message EmailRequest{
+    	string email = 1;
+    	string username = 2;
+    }
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    //////////////////////////////////////////
     //////////////////////////////////////////
     //////////////////////////////////////////
 
@@ -20,31 +27,6 @@ class SignInStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.CreateUser = channel.unary_unary(
-                '/SignIn/CreateUser',
-                request_serializer=signin__pb2.EmailRequest.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
-                )
-        self.VerificarPassword = channel.unary_unary(
-                '/SignIn/VerificarPassword',
-                request_serializer=account__pb2.VerificarRequest.SerializeToString,
-                response_deserializer=account__pb2.VerificarResponse.FromString,
-                )
-        self.UserPassword = channel.unary_unary(
-                '/SignIn/UserPassword',
-                request_serializer=account__pb2.PasswordRequest.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
-                )
-        self.LoginUser = channel.unary_unary(
-                '/SignIn/LoginUser',
-                request_serializer=account__pb2.UserDataRequest.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
-                )
-        self.LogoutUser = channel.unary_unary(
-                '/SignIn/LogoutUser',
-                request_serializer=utils__pb2.Empty.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
-                )
         self.GetUserByName = channel.unary_unary(
                 '/SignIn/GetUserByName',
                 request_serializer=account__pb2.UserRequest.SerializeToString,
@@ -63,44 +45,24 @@ class SignInStub(object):
 
 
 class SignInServicer(object):
-    """//////////////////////////////////////////
+    """message EmailRequest{
+    	string email = 1;
+    	string username = 2;
+    }
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    //////////////////////////////////////////
     //////////////////////////////////////////
     //////////////////////////////////////////
 
     """
 
-    def CreateUser(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def VerificarPassword(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UserPassword(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def LoginUser(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def LogoutUser(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def GetUserByName(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """	rpc CreateUser (EmailRequest) returns (Success);
+        	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -120,31 +82,6 @@ class SignInServicer(object):
 
 def add_SignInServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'CreateUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateUser,
-                    request_deserializer=signin__pb2.EmailRequest.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
-            ),
-            'VerificarPassword': grpc.unary_unary_rpc_method_handler(
-                    servicer.VerificarPassword,
-                    request_deserializer=account__pb2.VerificarRequest.FromString,
-                    response_serializer=account__pb2.VerificarResponse.SerializeToString,
-            ),
-            'UserPassword': grpc.unary_unary_rpc_method_handler(
-                    servicer.UserPassword,
-                    request_deserializer=account__pb2.PasswordRequest.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
-            ),
-            'LoginUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.LoginUser,
-                    request_deserializer=account__pb2.UserDataRequest.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
-            ),
-            'LogoutUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.LogoutUser,
-                    request_deserializer=utils__pb2.Empty.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
-            ),
             'GetUserByName': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUserByName,
                     request_deserializer=account__pb2.UserRequest.FromString,
@@ -168,96 +105,19 @@ def add_SignInServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class SignIn(object):
-    """//////////////////////////////////////////
+    """message EmailRequest{
+    	string email = 1;
+    	string username = 2;
+    }
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    //////////////////////////////////////////
     //////////////////////////////////////////
     //////////////////////////////////////////
 
     """
-
-    @staticmethod
-    def CreateUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/SignIn/CreateUser',
-            signin__pb2.EmailRequest.SerializeToString,
-            utils__pb2.Success.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def VerificarPassword(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/SignIn/VerificarPassword',
-            account__pb2.VerificarRequest.SerializeToString,
-            account__pb2.VerificarResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def UserPassword(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/SignIn/UserPassword',
-            account__pb2.PasswordRequest.SerializeToString,
-            utils__pb2.Success.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def LoginUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/SignIn/LoginUser',
-            account__pb2.UserDataRequest.SerializeToString,
-            utils__pb2.Success.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def LogoutUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/SignIn/LogoutUser',
-            utils__pb2.Empty.SerializeToString,
-            utils__pb2.Success.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def GetUserByName(request,

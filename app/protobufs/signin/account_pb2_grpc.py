@@ -11,6 +11,7 @@ class AccountStub(object):
     //////////////////////////////////////////
     //////////////////////////////////////////
 
+    CriarUtilizador
     """
 
     def __init__(self, channel):
@@ -19,36 +20,6 @@ class AccountStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.VerificaSeEhNovoECria = channel.unary_unary(
-                '/Account/VerificaSeEhNovoECria',
-                request_serializer=account__pb2.EmailAndNonceRequest.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
-                )
-        self.UserPassword = channel.unary_unary(
-                '/Account/UserPassword',
-                request_serializer=account__pb2.PasswordRequest.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
-                )
-        self.VerificarPassword = channel.unary_unary(
-                '/Account/VerificarPassword',
-                request_serializer=account__pb2.VerificarRequest.SerializeToString,
-                response_deserializer=account__pb2.VerificarResponse.FromString,
-                )
-        self.VerificarAdmin = channel.unary_unary(
-                '/Account/VerificarAdmin',
-                request_serializer=account__pb2.UserId.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
-                )
-        self.LoginUser = channel.unary_unary(
-                '/Account/LoginUser',
-                request_serializer=account__pb2.UserDataRequest.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
-                )
-        self.LogoutUser = channel.unary_unary(
-                '/Account/LogoutUser',
-                request_serializer=utils__pb2.Empty.SerializeToString,
-                response_deserializer=utils__pb2.Success.FromString,
-                )
         self.Seen = channel.unary_unary(
                 '/Account/Seen',
                 request_serializer=account__pb2.SeenAndLikeInfo.SerializeToString,
@@ -91,13 +62,18 @@ class AccountStub(object):
                 )
         self.GetViews = channel.unary_unary(
                 '/Account/GetViews',
-                request_serializer=account__pb2.ViewsRequest.SerializeToString,
+                request_serializer=account__pb2.SeenAndLikeItem.SerializeToString,
                 response_deserializer=account__pb2.Count.FromString,
                 )
         self.GetLikes = channel.unary_unary(
                 '/Account/GetLikes',
-                request_serializer=account__pb2.LikesRequest.SerializeToString,
+                request_serializer=account__pb2.SeenAndLikeItem.SerializeToString,
                 response_deserializer=account__pb2.Count.FromString,
+                )
+        self.GetTopTen = channel.unary_unary(
+                '/Account/GetTopTen',
+                request_serializer=account__pb2.TopTenRequest.SerializeToString,
+                response_deserializer=account__pb2.SeensAndLikesInfo.FromString,
                 )
 
 
@@ -106,50 +82,22 @@ class AccountServicer(object):
     //////////////////////////////////////////
     //////////////////////////////////////////
 
+    CriarUtilizador
     """
 
-    def VerificaSeEhNovoECria(self, request, context):
-        """CriarUtilizador
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UserPassword(self, request, context):
-        """Actualiza a password do user baseado no nonce enviado para o email
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def VerificarPassword(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def VerificarAdmin(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def LoginUser(self, request, context):
-        """Dar login //nao usado
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def LogoutUser(self, request, context):
-        """Dar logout //nao usado
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def Seen(self, request, context):
-        """Parte da library
+        """rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
+        //Actualiza a password do user baseado no nonce enviado para o email
+        rpc UserPassword (PasswordRequest) returns (Success);
+        rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
+
+        rpc VerificarAdmin(UserId) returns (Success);
+        Dar login //nao usado
+        rpc LoginUser (UserDataRequest) returns (Success);
+        Dar logout //nao usado
+        rpc LogoutUser (Empty) returns (Success);
+
+        Parte da library
         Marcar item como visto
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -220,39 +168,16 @@ class AccountServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetTopTen(self, request, context):
+        """Get Top Ten Animes, Books or Movies
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AccountServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'VerificaSeEhNovoECria': grpc.unary_unary_rpc_method_handler(
-                    servicer.VerificaSeEhNovoECria,
-                    request_deserializer=account__pb2.EmailAndNonceRequest.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
-            ),
-            'UserPassword': grpc.unary_unary_rpc_method_handler(
-                    servicer.UserPassword,
-                    request_deserializer=account__pb2.PasswordRequest.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
-            ),
-            'VerificarPassword': grpc.unary_unary_rpc_method_handler(
-                    servicer.VerificarPassword,
-                    request_deserializer=account__pb2.VerificarRequest.FromString,
-                    response_serializer=account__pb2.VerificarResponse.SerializeToString,
-            ),
-            'VerificarAdmin': grpc.unary_unary_rpc_method_handler(
-                    servicer.VerificarAdmin,
-                    request_deserializer=account__pb2.UserId.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
-            ),
-            'LoginUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.LoginUser,
-                    request_deserializer=account__pb2.UserDataRequest.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
-            ),
-            'LogoutUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.LogoutUser,
-                    request_deserializer=utils__pb2.Empty.FromString,
-                    response_serializer=utils__pb2.Success.SerializeToString,
-            ),
             'Seen': grpc.unary_unary_rpc_method_handler(
                     servicer.Seen,
                     request_deserializer=account__pb2.SeenAndLikeInfo.FromString,
@@ -295,13 +220,18 @@ def add_AccountServicer_to_server(servicer, server):
             ),
             'GetViews': grpc.unary_unary_rpc_method_handler(
                     servicer.GetViews,
-                    request_deserializer=account__pb2.ViewsRequest.FromString,
+                    request_deserializer=account__pb2.SeenAndLikeItem.FromString,
                     response_serializer=account__pb2.Count.SerializeToString,
             ),
             'GetLikes': grpc.unary_unary_rpc_method_handler(
                     servicer.GetLikes,
-                    request_deserializer=account__pb2.LikesRequest.FromString,
+                    request_deserializer=account__pb2.SeenAndLikeItem.FromString,
                     response_serializer=account__pb2.Count.SerializeToString,
+            ),
+            'GetTopTen': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetTopTen,
+                    request_deserializer=account__pb2.TopTenRequest.FromString,
+                    response_serializer=account__pb2.SeensAndLikesInfo.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -315,109 +245,8 @@ class Account(object):
     //////////////////////////////////////////
     //////////////////////////////////////////
 
+    CriarUtilizador
     """
-
-    @staticmethod
-    def VerificaSeEhNovoECria(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Account/VerificaSeEhNovoECria',
-            account__pb2.EmailAndNonceRequest.SerializeToString,
-            utils__pb2.Success.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def UserPassword(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Account/UserPassword',
-            account__pb2.PasswordRequest.SerializeToString,
-            utils__pb2.Success.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def VerificarPassword(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Account/VerificarPassword',
-            account__pb2.VerificarRequest.SerializeToString,
-            account__pb2.VerificarResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def VerificarAdmin(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Account/VerificarAdmin',
-            account__pb2.UserId.SerializeToString,
-            utils__pb2.Success.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def LoginUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Account/LoginUser',
-            account__pb2.UserDataRequest.SerializeToString,
-            utils__pb2.Success.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def LogoutUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Account/LogoutUser',
-            utils__pb2.Empty.SerializeToString,
-            utils__pb2.Success.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def Seen(request,
@@ -567,7 +396,7 @@ class Account(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Account/GetViews',
-            account__pb2.ViewsRequest.SerializeToString,
+            account__pb2.SeenAndLikeItem.SerializeToString,
             account__pb2.Count.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -584,7 +413,24 @@ class Account(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Account/GetLikes',
-            account__pb2.LikesRequest.SerializeToString,
+            account__pb2.SeenAndLikeItem.SerializeToString,
             account__pb2.Count.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetTopTen(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Account/GetTopTen',
+            account__pb2.TopTenRequest.SerializeToString,
+            account__pb2.SeensAndLikesInfo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
