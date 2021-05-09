@@ -207,12 +207,13 @@ class AccountService(account_pb2_grpc.AccountServicer):
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
-        #for each user
-            likes = session.query(Like).filter_by(user_id=request.id).all()
-            ret = []
+        ret = []
+        #get list of user ids
+        #for id in ids
+            likes = session.query(Like).filter_by(user_id=id).all()
             for like in likes:
                 ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
-        #aggregate ret items with the same id, summing the number of likes
+        #aggregate ret items with the same id and type, summing the number of likes (group by id and type)
         session.commit()
         #return 10 first elements of ret
         return SeensAndLikesInfo(infos=ret)
