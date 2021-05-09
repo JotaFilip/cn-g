@@ -209,14 +209,14 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session = DBSession()
         ret = []
         #get list of user ids
-        #for id in ids
+        ids = session.query(User)#not sure how this works
+        for id in ids:
             likes = session.query(Like).filter_by(user_id=id).all()
             for like in likes:
                 ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
         #aggregate ret items with the same id and type, summing the number of likes (group by id and type)
         session.commit()
-        #return 10 first elements of ret
-        return SeensAndLikesInfo(infos=ret)
+        return SeensAndLikesInfo(infos=ret[0:11])#return top 10
 
     def GetContagemLikesAndViews(self,request,context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
