@@ -28,20 +28,20 @@ services:
         ports:
             - 50055:50055
 
-    # signin:
-    #     environment:
-    #         ACCOUNTS_HOST: account
-    #     build:
-    #         dockerfile: Dockerfile
-    #         context: ./signin
-    #     image: signin
-    #     hostname: signin
-    #     networks:
-    #         - micro_services
-    #     volumes:
-    #         - /etc/resolv.conf:/etc/resolv.conf:ro
-    #     ports:
-    #         - 50054:50054
+#    signin:
+#        environment:
+#            ACCOUNTS_HOST: account
+#        build:
+#            dockerfile: Dockerfile
+#            context: ./signin
+#        image: signin
+#        hostname: signin
+#        networks:
+#            - micro_services
+#        volumes:
+#            - /etc/resolv.conf:/etc/resolv.conf:ro
+#        ports:
+#            - 50054:50054
 
     anime:
         build:
@@ -104,7 +104,7 @@ services:
     api-gateway:
         environment:
             # SIGNIN_HOST: signin
-            ACCOUNTS_HOST: account
+            ACCOUNT_HOST: account
             LIBRARY_HOST: library
         build:
             dockerfile: Dockerfile
