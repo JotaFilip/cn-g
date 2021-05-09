@@ -61,6 +61,11 @@ class LibraryStub(object):
                 request_serializer=account__pb2.SeenAndLikeItem.SerializeToString,
                 response_deserializer=account__pb2.Count.FromString,
                 )
+        self.GetTopTen = channel.unary_unary(
+                '/Library/GetTopTen',
+                request_serializer=account__pb2.TopTenRequest.SerializeToString,
+                response_deserializer=account__pb2.SeensAndLikesInfo.FromString,
+                )
 
 
 class LibraryServicer(object):
@@ -121,6 +126,12 @@ class LibraryServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetTopTen(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_LibraryServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -168,6 +179,11 @@ def add_LibraryServicer_to_server(servicer, server):
                     servicer.GetLikes,
                     request_deserializer=account__pb2.SeenAndLikeItem.FromString,
                     response_serializer=account__pb2.Count.SerializeToString,
+            ),
+            'GetTopTen': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetTopTen,
+                    request_deserializer=account__pb2.TopTenRequest.FromString,
+                    response_serializer=account__pb2.SeensAndLikesInfo.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -329,5 +345,22 @@ class Library(object):
         return grpc.experimental.unary_unary(request, target, '/Library/GetLikes',
             account__pb2.SeenAndLikeItem.SerializeToString,
             account__pb2.Count.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetTopTen(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Library/GetTopTen',
+            account__pb2.TopTenRequest.SerializeToString,
+            account__pb2.SeensAndLikesInfo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
