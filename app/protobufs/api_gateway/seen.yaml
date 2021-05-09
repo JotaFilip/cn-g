@@ -292,7 +292,7 @@ paths:
       - user
       summary: Create user
       description: Create user
-      operationId: api_users.createUser
+      operationId: api_users.createUsername
       consumes:
       - application/json
       produces:
@@ -303,30 +303,7 @@ paths:
         description: Created user object
         required: true
         schema:
-          $ref: '#/definitions/Email'
-      responses:
-        "200":
-          description: Successful operation
-        "400":
-          description: Dados incorretos
-  /user/password:
-    post:
-      tags:
-        - user
-      summary: Create user
-      description: Create user
-      operationId: api_users.givePassword
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: Created user object
-          required: true
-          schema:
-            $ref: '#/definitions/Password'
+          $ref: '#/definitions/Username'
       responses:
         "200":
           description: Successful operation
@@ -375,7 +352,7 @@ paths:
       - application/json
       parameters: []
       responses:
-        default:
+        "200":
           description: successful operation
   /user/search/{username}:
     get:
@@ -520,12 +497,10 @@ definitions:
         items:
           $ref: '#/definitions/IdTuple'
           description: Like ids
-  Email:
+  Username:
     type: object
     properties:
       username:
-        type: string
-      email:
         type: string
   Password:
     type: object
