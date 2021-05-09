@@ -112,6 +112,10 @@ message Count {
 	int64 count = 1;
 }
 
+message TopTenRequest {
+	Type type = 1;
+}
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -153,4 +157,7 @@ service Account {
 	// GetLikes and GetViews to Account
 	rpc GetViews(ViewsRequest) returns(Count);
 	rpc GetLikes(LikesRequest) returns(Count);
+
+	//Get Top Ten Animes, Books or Movies
+	rpc GetTopTen(TopTenRequest) return(SeensAndLikesInfo);
 }
