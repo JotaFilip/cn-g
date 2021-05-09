@@ -221,3 +221,16 @@ def getLikesOf(type,itemId):
         type = tp
     )
     return lib_client.GetViews(request).count
+
+def getTopTen(type):
+     tp = -1
+    if   (tp == 'BOOK'):    tp = 0
+    elif (tp == 'SHOW'):    tp = 1
+    elif (tp == 'ANIME'):   tp = 2
+    else:                   return 'false', 400
+
+    request = TopTenRequest(
+        type = tp
+    )
+
+    return lib_client.getTopTen(request)
