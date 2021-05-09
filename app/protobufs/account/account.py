@@ -48,79 +48,79 @@ from utils_pb2 import *
 
 
 class AccountService(account_pb2_grpc.AccountServicer):
-    def VerificarPassword(self, request, context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    # def VerificarPassword(self, request, context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #
+    #     user = session.query(User).filter_by(username = request.username).first()
+    #     if user is None:
+    #         return VerificarResponse(success = False)
+    #     id = user.getId()
+    #     session.commit()
+    #     if not user.verify_password(request.password):
+    #         return VerificarResponse(success = False)
+    #     return VerificarResponse(success = True, id = id)
+    # def VerificarAdmin(self, request, context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #
+    #     user = session.query(User).filter_by(id = request.id).first()
+    #     t = user.admin
+    #     session.commit()
+    #     return Success(success = t)
 
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
+    # def VerificaSeEhNovoECria(self,request,context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #     a= session.query(User).filter_by(username=request.username).first()
+    #     b= session.query(User).filter_by(
+    #             email=request.email).first()
+    #     if a or b is not None:
+    #         # user = session.query(User).filter_by(username=username).first()
+    #         if a is not None:
+    #             a.nonce = request.nonce
+    #         else:
+    #             b.nonce = request.nonce
+    #         session.commit()
+    #         return Success(success=False)  # Já existe mas actualiza nonce
+    #     user = User(username=request.username, email=request.email, nonce=request.nonce)
+    #     # user.hash_password(password)
+    #     session.add(user)
+    #     session.commit()
+    #     return Success(success=True)
 
-        user = session.query(User).filter_by(username = request.username).first()
-        if user is None:
-            return VerificarResponse(success = False)
-        id = user.getId()
-        session.commit()
-        if not user.verify_password(request.password):
-            return VerificarResponse(success = False)
-        return VerificarResponse(success = True, id = id)
-    def VerificarAdmin(self, request, context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
-
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
-
-        user = session.query(User).filter_by(id = request.id).first()
-        t = user.admin
-        session.commit()
-        return Success(success = t)
-
-    def VerificaSeEhNovoECria(self,request,context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
-
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
-        a= session.query(User).filter_by(username=request.username).first()
-        b= session.query(User).filter_by(
-                email=request.email).first()
-        if a or b is not None:
-            # user = session.query(User).filter_by(username=username).first()
-            if a is not None:
-                a.nonce = request.nonce
-            else:
-                b.nonce = request.nonce
-            session.commit()
-            return Success(success=False)  # Já existe mas actualiza nonce
-        user = User(username=request.username, email=request.email, nonce=request.nonce)
-        # user.hash_password(password)
-        session.add(user)
-        session.commit()
-        return Success(success=True)
-
-    def UserPassword(self, request, context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
-
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
-
-        username = request.username
-        password = request.password
-        nonce = request.nonce
-        user = session.query(User).filter_by(username=username).first()
-        if user is None:
-            session.rollback()
-            return Success(success = False)
-        if not user.verify_nonce(nonce):
-            session.rollback()
-            return Success(success = False)
-
-        salt = secrets.randbelow(sys.maxsize)
-        user.hash_password(password, str(salt))
-        session.commit()
-
-        return Success(success = True)
+    # def UpdateUser(self, request, context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #
+    #     username = request.user_id
+    #     new_username = request.new_username
+    #     nonce = request.nonce
+    #     user = session.query(User).filter_by(username=username).first()
+    #     if user is None:
+    #         session.rollback()
+    #         return Success(success = False)
+    #     if not user.verify_nonce(nonce):
+    #         session.rollback()
+    #         return Success(success = False)
+    #
+    #     salt = secrets.randbelow(sys.maxsize)
+    #     user.hash_password(password, str(salt))
+    #     session.commit()
+    #
+    #     return Success(success = True)
     def LoginUser(self, request, context):
         return None
 
@@ -281,13 +281,11 @@ class AccountService(account_pb2_grpc.AccountServicer):
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
-        user = session.query(User).filter_by(username=request.username).first()
+        user = session.query(User).filter_by(user_id=request.user_id).first()
         userb = session.query(User).filter_by(username=request.new_username).first()
         if user is None or userb is not None:
             session.rollback()
             return Success(success=False)
-        salt = secrets.randbelow(sys.maxsize)
-        user.hash_password(request.new_password, str(salt))
         user.username = request.new_username
         session.commit()
         return Success(success=True)
@@ -298,7 +296,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
-        user = session.query(User).filter_by(username=request.username).first()
+        user = session.query(User).filter_by(user_id=request.user_id).first()
         if user is not None:
             session.delete(user)
         session.commit()
