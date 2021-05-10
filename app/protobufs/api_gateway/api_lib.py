@@ -204,7 +204,7 @@ def getViewsOf(type,itemId):
         id   = itemId,
         type = type
     )
-    return lib_client.GetViews(request).count
+    return lib_client.GetSeensItem(request).count
 
 def getLikesOf(type,itemId):
     if   (type == 'BOOK'):    type = 0
@@ -216,7 +216,7 @@ def getLikesOf(type,itemId):
         id   = itemId,
         type = type
     )
-    return lib_client.GetLikes(request).count
+    return lib_client.GetLikesItem(request).count
 
 def getTopTen(type):
     if   (type == 'BOOK'):    type = 0
@@ -227,5 +227,4 @@ def getTopTen(type):
     request = TopTenRequest(
         type = type
     )
-
     return lib_client.GetTopTen(request).infos

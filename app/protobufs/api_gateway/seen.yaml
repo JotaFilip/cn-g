@@ -72,33 +72,6 @@ paths:
           description: Invalid input
       # security:
       # - api_key: []
-  /getTopTen/{type}:
-    post:
-      tags:
-      - library
-      summary: Returns Top 10
-      description: Returns list of the top 10 items
-      operationId: api_lib.getTop10
-      produces:
-      - application/json
-      parameters:
-      - name: type
-        in: path
-        description: type of top 10
-        required: true
-        type: string
-        required: true
-      responses:
-        "200":
-          description: successful operation
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/IdTuple'
-        "405":
-          description: Invalid input
-      # security:
-      # - api_key: []
   /item:
     post:
       tags:
@@ -311,6 +284,32 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Item not found
+      # security:
+      # - api_key: []
+  /getTopTen/{type}:
+    post:
+      tags:
+      - library
+      summary: Returns Top 10
+      description: Returns list of the top 10 items
+      operationId: api_lib.getTopTen
+      produces:
+      - application/json
+      parameters:
+      - name: type
+        in: path
+        description: type of top 10
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/IdTuple'
+        "405":
+          description: Invalid input
       # security:
       # - api_key: []
   /user:

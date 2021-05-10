@@ -236,7 +236,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return CountInfo(count=counts)
 
-    def getTopTen(self, request, context):
+    def GetTopTen(self, request, context):
         engine = create_engine(SPARK_DATABASE_URI)
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -248,11 +248,10 @@ class AccountService(account_pb2_grpc.AccountServicer):
                 .order_by(func.count("*").desc())\
                 .limit(10)\
                 .all()
-        
-        print(likes)
-
+        # print(likes)
         session.commit()
-        return SeensAndLikesInfo(infos=likes)
+        rs = [ SeensAndLikesInfoReturn(id=item_id,type=r.item_type) for r in likes ]
+        return SeensAndLikesInfo(infos=rs)
 
     #Username
     def GetUserByName(self, request, context):
