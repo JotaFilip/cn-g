@@ -218,7 +218,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return ViewsAndLikesCount(tuples = ret)
 
     def GetLikesItem(self, request, context):
-        engine = create_engine(SPARK_DATABASE_URI)
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -227,7 +227,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return CountInfo(count=counts)
     def GetSeensItem(self, request, context):
-        engine = create_engine(SPARK_DATABASE_URI)
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -237,7 +237,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return CountInfo(count=counts)
 
     def GetTopTen(self, request, context):
-        engine = create_engine(SPARK_DATABASE_URI)
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
