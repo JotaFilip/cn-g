@@ -274,7 +274,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             return accounts_client.Like(seen_and_like_request)
 
-    def GetSeendItem(self, request, context):
+    def GetSeensItem(self, request, context):
         return accounts_client.GetSeensItem(request)
     
     def GetLikesItem(self, request, context):

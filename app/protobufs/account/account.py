@@ -1,5 +1,6 @@
 import sqlalchemy
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func, distinct
 
 from models import Base, User, Seen, Like, Contagem
 from sqlalchemy.ext.declarative import declarative_base
@@ -224,8 +225,10 @@ class AccountService(account_pb2_grpc.AccountServicer):
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
         counts = session.query(Like).filter_by(item_id=request.id, item_type=request.type).count()
+        print(counts)
         session.commit()
         return CountInfo(count=counts)
+        
     def GetSeensItem(self, request, context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
@@ -233,6 +236,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
         counts = session.query(Seen).filter_by(item_id=request.id, item_type=request.type).count()
+        print(counts)
         session.commit()
         return CountInfo(count=counts)
 
@@ -251,7 +255,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
                         .all()
         # print(likes)
         session.commit()
-        rs = [ SeensAndLikesInfoReturn(id=item_id,type=r.item_type) for r in likes ]
+        rs = [ SeenAndLikeInfoReturn(id=r.item_id,type=r.item_type) for r in likes ]
         return SeensAndLikesInfo(infos=rs)
 
     #Username

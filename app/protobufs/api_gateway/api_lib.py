@@ -227,4 +227,6 @@ def getTopTen(type):
     request = TopTenRequest(
         type = type
     )
-    return lib_client.GetTopTen(request).infos
+    rs = lib_client.GetTopTen(request).infos
+    t = lambda x : { 'id': x.id, 'type': x.type }
+    return [ t(r) for r in rs ]
