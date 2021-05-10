@@ -242,12 +242,13 @@ class AccountService(account_pb2_grpc.AccountServicer):
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
 
-        likes = session.query(Like)\
-                .filter_by(item_type=request.type)\
-                .group_by(Like.item_id)\
-                .order_by(func.count("*").desc())\
-                .limit(10)\
-                .all()
+        count_ = func.count(distinct(Like.user_id))
+        likes = session.query(Like.item_type, Like.item_id, count_.label('likes')) \
+                        .filter_by(item_type=request.type) \
+                        .group_by(Like.item_type, Like.item_id) \
+                        .order_by('likes') \
+                        .limit(10) \
+                        .all()
         # print(likes)
         session.commit()
         rs = [ SeensAndLikesInfoReturn(id=item_id,type=r.item_type) for r in likes ]
