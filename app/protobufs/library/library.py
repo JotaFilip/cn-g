@@ -275,10 +275,14 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             return accounts_client.Like(seen_and_like_request)
 
     def GetSeensItem(self, request, context):
-        return accounts_client.GetSeensItem(request)
+        resp = accounts_client.GetSeensItem(request)
+        resp.count -= 1
+        return resp
     
     def GetLikesItem(self, request, context):
-        return accounts_client.GetLikesItem(request)
+        resp = accounts_client.GetLikesItem(request)
+        resp.count -= 1
+        return resp
 
     def GetTopTen(self,request,context):
         return accounts_client.GetTopTen(request)

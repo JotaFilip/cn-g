@@ -225,9 +225,8 @@ class AccountService(account_pb2_grpc.AccountServicer):
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
         counts = session.query(Like).filter_by(item_id=request.id, item_type=request.type).count()
-        print(counts)
         session.commit()
-        return CountInfo(count=counts)
+        return CountInfo(count=counts-1)
         
     def GetSeensItem(self, request, context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
@@ -236,9 +235,8 @@ class AccountService(account_pb2_grpc.AccountServicer):
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
         counts = session.query(Seen).filter_by(item_id=request.id, item_type=request.type).count()
-        print(counts)
         session.commit()
-        return CountInfo(count=counts)
+        return CountInfo(count=counts-1)
 
     def GetTopTen(self, request, context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
