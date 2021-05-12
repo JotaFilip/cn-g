@@ -280,7 +280,7 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
     def GetLikes(self, request, context):
         return accounts_client.GetLikes(request)
 
-    def GetTopTen(self,request,context):
+    def GetTopTen(self, request, context):
         return accounts_client.GetTopTen(request)
 
 def serve():

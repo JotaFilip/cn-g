@@ -4,7 +4,8 @@ from sqlalchemy.exc import IntegrityError
 from models import Base, User, Seen, Like, Contagem
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func
+
 #
 
 SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
@@ -18,16 +19,19 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
 
 )
 
-SPARK_DATABASE_URI = sqlalchemy.engine.url.URL.create(
-    drivername="sparksql",
-    username="cngroupfcul",
-    password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
-    host="34.90.227.81",
-    port=3306,
-    database="account",
-    query={"ssl_ca": "server-ca.pem", 'ssl_cert': 'client-cert.pem', 'ssl_key': 'client-key.pem'},
+SPARK_DATABASE_URI = "sparksql:///?Server=sparksql.sytes.net"
 
-)
+
+#     sqlalchemy.engine.url.URL.create(
+#     drivername="sparksql",
+#     username="cngroupfcul",
+#     password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
+#     host="34.90.227.81",
+#     port=3306,
+#     database="account",
+#     query={"ssl_ca": "server-ca.pem", 'ssl_cert': 'client-cert.pem', 'ssl_key': 'client-key.pem'},
+#
+# )
 
 
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@saldanha.sytes.net:3306/account?ssl=true'
@@ -236,7 +240,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return CountInfo(count=counts)
 
-    def getTopTen(self, request, context):
+    def GetTopTen(self, request, context):
         engine = create_engine(SPARK_DATABASE_URI)
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)

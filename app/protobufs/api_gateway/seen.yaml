@@ -73,7 +73,7 @@ paths:
       # security:
       # - api_key: []
   /getTopTen/{type}:
-    post:
+    get:
       tags:
       - library
       summary: Returns Top 10
@@ -87,7 +87,6 @@ paths:
         description: type of top 10
         required: true
         type: string
-        required: true
       responses:
         "200":
           description: successful operation
