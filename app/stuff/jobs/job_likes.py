@@ -1,4 +1,4 @@
-from .job_fetch import ImportData
+from job_fetch import ImportData
 
 likes = ImportData().import_likes()
 from pyspark.sql import SparkSession
