@@ -9,9 +9,13 @@ spark_channel = grpc.insecure_channel(f"{spark_host}:50058")
 spark_client = Spark_ConnectorStub(spark_channel)
 
 def director(name):
-    # TODO
-    pass
+    response = spark_client.GetDirectorWork(Director())
+    movies = 
+    work = {
+        'director_name': response.name,
+        'movies': [ {'movie_name':m.name,'cast':m.actors} for m in response.movies ]
+    }
+    return work
 
 def actor():
-    # TODO
-    pass
+    return spark_client.GetFamousActor(Actor()).name

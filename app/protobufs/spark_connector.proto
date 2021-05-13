@@ -5,7 +5,6 @@ syntax = "proto3";
 ////////////////////////////////////////////
 
 message Director {
-    string director = 1;
 }
 
 message Actor {
@@ -16,10 +15,12 @@ message Actor {
 ////////////////////////////////////////////
 
 message DirectorWork {
+    string name = 1;
     repeated Movie movies = 1;
 }
 
 message Movie {
+    string name = 1;
     repeated string actors = 1;
 }
 

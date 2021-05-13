@@ -322,12 +322,6 @@ paths:
       operationId: api_spark.director
       produces:
       - application/json
-      parameters:
-      - name: name
-        in: path
-        description: Director's name
-        required: true
-        type: string
       responses:
         "200":
           description: Successful operation
