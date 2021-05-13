@@ -31,6 +31,27 @@ from flask import redirect
 # TODO
 # how to handle the user_id situation
 
+types = {
+    "BOOK":  0,
+    "SHOW":  1,
+    "ANIME": 2,
+}
+ids = {
+    0: "BOOK",
+    1: "SHOW",
+    2: "ANIME",
+}
+
+def get_type(type):
+    if type not in types:
+        return None
+    return types[type]
+
+def get_id(id):
+    if id not in ids:
+        return None
+    return ids[id]
+
 def getLibrary(page):
 
     request = LibPageRequest (
@@ -40,13 +61,8 @@ def getLibrary(page):
     print(request)
     ret = []
     for r in lib_client.Library(request).recommendations:
-        type= "All"
-        if (r.type == 0):
-            type = "BOOK"
-        if (r.type == 1):
-            type = "SHOW"
-        if (r.type == 2):
-            type = "ANIME"
+        tp = get_id(r.type)
+        type = "All" if not tp else tp
 
         object = {"id" : r.id, "name" : r.name, "type" : type}
         ret.append(object)
@@ -64,13 +80,8 @@ def getSuggestions(user,body):
     )
     ret = []
     for r in lib_client.Recommend(r).recommendations:
-        type = "All"
-        if (r.type == 0):
-            type = "BOOK"
-        if (r.type == 1):
-            type = "SHOW"
-        if (r.type == 2):
-            type = "ANIME"
+        tp = get_id(r.type)
+        type = "All" if not tp else tp
 
         object = {"id": r.id, "name": r.name, "type": type}
         ret.append(object)
@@ -108,14 +119,9 @@ def category_to_genres(category):
     return lista
 
 def getItemById(type,itemId):
-    if (type == "BOOK"):
-        type = 0
-    elif (type == "SHOW"):
-        type = 1
-    elif (type == "ANIME"):
-        type = 2
-    else:
-        return 'false', 400
+    type = get_type(type)
+    if not type: return 'false', 400
+
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemId(id = itemId, type=type)
     response= lib_client.GetItem(request)
@@ -147,14 +153,9 @@ def getItemById(type,itemId):
     return 'Id Not Found', 400
 
 def deleteItem(type,itemId):
-    if (type == "BOOK"):
-        type = 0
-    elif (type == "SHOW"):
-        type = 1
-    elif (type == "ANIME"):
-        type = 2
-    else:
-        return 'false', 400
+    type = get_type(type)
+    if not type: return 'false', 400
+
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemIdAndUser(
         id = itemId,
@@ -163,14 +164,8 @@ def deleteItem(type,itemId):
     return lib_client.RemoveItem(request).success
 
 def updateItemSeen(type,itemId):
-    if (type == "BOOK"):
-        type = 0
-    elif (type == "SHOW"):
-        type = 1
-    elif (type == "ANIME"):
-        type = 2
-    else:
-        return 'false', 400
+    type = get_type(type)
+    if not type: return 'false', 400
 
     request =  ItemIdAndUser (
         id = itemId,
@@ -179,14 +174,8 @@ def updateItemSeen(type,itemId):
     return lib_client.AddSeenItem(request).success
 
 def updateItemLike(type,itemId):
-    if (type == "BOOK"):
-        type = 0
-    elif (type == "SHOW"):
-        type = 1
-    elif (type == "ANIME"):
-        type = 2
-    else:
-        return 'false', 400
+    type = get_type(type)
+    if not type: return 'false', 400
 
     request =  ItemIdAndUser(
         id = itemId,
@@ -195,37 +184,34 @@ def updateItemLike(type,itemId):
     return lib_client.AddLikeItem(request).success
 
 def getViewsOf(type,itemId):
-    if   (type == 'BOOK'):    type = 0
-    elif (type == 'SHOW'):    type = 1
-    elif (type == 'ANIME'):   type = 2
-    else:                   return 'false', 400
+    type = get_type(type)
+    if not type: return 'false', 400
 
     request = SeenAndLikeItem(
         id   = itemId,
         type = type
     )
-    return lib_client.GetViews(request).count
+    r = lib_client.GetSeensItem(request).count
+    return r
 
 def getLikesOf(type,itemId):
-    if   (type == 'BOOK'):    type = 0
-    elif (type == 'SHOW'):    type = 1
-    elif (type == 'ANIME'):   type = 2
-    else:                   return 'false', 400
+    type = get_type(type)
+    if not type: return 'false', 400
 
     request = SeenAndLikeItem(
         id   = itemId,
         type = type
     )
-    return lib_client.GetLikes(request).count
+    r = lib_client.GetLikesItem(request).count
+    return r
 
-def getTop10(type):
-    if   (type == 'BOOK'):    type = 0
-    elif (type == 'SHOW'):    type = 1
-    elif (type == 'ANIME'):   type = 2
-    else:                   return 'false', 400
+def getTopTen(type):
+    type = get_type(type)
+    if not type: return 'false', 400
 
     request = TopTenRequest(
         type = type
     )
-
-    return lib_client.GetTopTen(request).infos
+    rs = lib_client.GetTopTen(request).infos
+    t = lambda x : { 'id': x.id, 'type': x.type }
+    return [ t(r) for r in rs ]

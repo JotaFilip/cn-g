@@ -1,5 +1,6 @@
 import sqlalchemy
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func, distinct
 
 from models import Base, User, Seen, Like, Contagem
 from sqlalchemy.ext.declarative import declarative_base
@@ -19,19 +20,16 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
 
 )
 
-SPARK_DATABASE_URI = "sparksql:///?Server=sparksql.sytes.net"
+SPARK_DATABASE_URI = sqlalchemy.engine.url.URL.create(
+    drivername="sparksql",
+    username="cngroupfcul",
+    password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
+    host="34.90.227.81",
+    port=3306,
+    database="account",
+    query={"ssl_ca": "server-ca.pem", 'ssl_cert': 'client-cert.pem', 'ssl_key': 'client-key.pem'},
 
-
-#     sqlalchemy.engine.url.URL.create(
-#     drivername="sparksql",
-#     username="cngroupfcul",
-#     password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
-#     host="34.90.227.81",
-#     port=3306,
-#     database="account",
-#     query={"ssl_ca": "server-ca.pem", 'ssl_cert': 'client-cert.pem', 'ssl_key': 'client-key.pem'},
-#
-# )
+)
 
 
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@saldanha.sytes.net:3306/account?ssl=true'
@@ -222,7 +220,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return ViewsAndLikesCount(tuples = ret)
 
     def GetLikesItem(self, request, context):
-        engine = create_engine(SPARK_DATABASE_URI)
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -231,7 +229,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return CountInfo(count=counts)
     def GetSeensItem(self, request, context):
-        engine = create_engine(SPARK_DATABASE_URI)
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
@@ -241,22 +239,22 @@ class AccountService(account_pb2_grpc.AccountServicer):
         return CountInfo(count=counts)
 
     def GetTopTen(self, request, context):
-        engine = create_engine(SPARK_DATABASE_URI)
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
 
-        likes = session.query(Like)\
-                .filter_by(item_type=request.type)\
-                .group_by(Like.item_id)\
-                .order_by(func.count("*").desc())\
-                .limit(10)\
-                .all()
-        
-        print(likes)
-
+        count_ = func.count(distinct(Like.user_id))
+        likes = session.query(Like.item_type, Like.item_id, count_.label('likes')) \
+                        .filter_by(item_type=request.type) \
+                        .group_by(Like.item_type, Like.item_id) \
+                        .order_by('likes') \
+                        .limit(10) \
+                        .all()
+        # print(likes)
         session.commit()
-        return SeensAndLikesInfo(infos=likes)
+        rs = [ SeenAndLikeInfoReturn(id=r.item_id,type=r.item_type) for r in likes ]
+        return SeensAndLikesInfo(infos=rs)
 
     #Username
     def GetUserByName(self, request, context):

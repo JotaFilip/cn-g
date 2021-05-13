@@ -6,7 +6,11 @@
 \usepackage{lmodern}
 
 % For tables
+\usepackage{adjustbox}
 \usepackage{multirow}
+\setlength\arrayrulewidth{0.2pt}
+\usepackage{color, colortbl}
+\definecolor{Gray}{gray}{0.95}
 
 % For identing the table at the right place
 \usepackage{float}
@@ -55,8 +59,8 @@ João Afonso fc51111 \\
 \label{sec:motivation}
 \fpar For our project we were thinking about an API that could help us decide which shows to watch next, by marking shows as viewed and/or liked.
 \par Because we can watch more than just movies, like anime, we wanted to use more than one dataset. Both animes and movies can have a lot in common not only with each other but also with books, so we also decided to use a book dataset.
-\par So we have three datasets, and we can effortlessly search thought any of them, mark them as seen of viewed, and get suggestions. Having very similar categories in every single one of them.
-\par For the suggestions our idea would be making a recommendation list having in mind the item's rating and user's likes and views, which would indicate to us which categories the user prefers.
+\par So we have three datasets, and we can effortlessly search thought any of them, mark them as seen or liked, and get suggestions. Having very similar categories in every single one of them.
+\par For the suggestions our idea was making a recommendation list having in mind the item's rating and user's likes and views, which would indicate to us which categories the user prefers.
 \par So it makes sense to call our API “Seen”.
 
 \section{Dataset characterization}
@@ -111,26 +115,31 @@ João Afonso fc51111 \\
     \end{tabular}
   \end{table}
 
+\clearpage
 \section{Use cases}
 \label{sec:cases}
+\fpar We have 3 types of Users: an Admin, which is a logged-in user with special permissions, a Regular user, which is a logged-in user, and a not logged-in user that we call Any.
 \begin{table}[H]
   \centering
   \begin{tabular}{c|c|l} 
     Services & User & Functionalities \\ \hline
-    \multirow{7}{*}{ Normal }
-      & \multirow{5}{*}{ Regular } 
-        & User Log in/Sign in \\
-      & & See Book, Show and Movie Library \\
+    \multirow{8}{*}{ Normal }
+      & \multirow{2}{*}{ Any } 
+        & Sign in \\
+      & & See Book, Show and Movie Library \\ \cline{2-3}
+      & \multirow{4}{*}{ Regular } 
+        & User Log in \\
       & & Set Book/Show/Movie as seen \\
       & & Set Book/Show/Movie as liked \\ 
       & & Ask for suggestions to read and/or watch \\ \cline{2-3}
     & \multirow{2}{*}{ Admin } 
         & Add Book/Show/Movie to Library \\
       & & Remove Book/Show/Movie from Library \\ \hline
-    \multirow{2}{*}{ Spark }
-      & \multirow{2}{*}{ Regular }
+    \multirow{3}{*}{ Spark }
+      & \multirow{3}{*}{ Any }
         & Count how many views a specific Item has \\
       & & Count how many likes a specific Item has \\
+      & & Top 10 Items with more likes
   \end{tabular}
 \end{table}
 
@@ -138,54 +147,87 @@ João Afonso fc51111 \\
 \label{sec:api}
 \begin{table}[H]
   \centering
-  \begin{tabular}{l l l l l}
+  \addtolength{\leftskip} {-20cm}
+  \addtolength{\rightskip}{-20cm}
+  % \resizebox{1.2\textwidth}{!}{% use resizebox with textwidth
+  \begin{adjustbox}{width=1.4\textwidth}
+  \begin{tabular}{ c|l l l l|l|l|l|l|l }
     % TODO - update
-    \multicolumn{4}{c}{Path} & description 
+    \rowcolor{Gray}
+    User & \multicolumn{4}{c|}{Path} & get & post & put & del & description 
     \\ \hline
-    /lib & \multicolumn{3}{l}{/\{page\}} &
-    TODO
+    & /lib & \multicolumn{3}{l|}{/\{page\}} &
+    X & & & &
+    Returns a $page$ from the database
     \\
-    \multicolumn{4}{l}{/suggest} &
-    TOOD
+    \multirow{-2}{*}{Regular} & 
+    \multicolumn{4}{l|}{/suggest} &
+     & X & & &
+    List of suggestions to watch
+    \\ \cline{1-9} \rowcolor{Gray}
+    Admin & /item & & & &
+    & X & & &
+    Creates an item to add to the database
+    \\ \cline{1-9} 
+    Any &
+    /item & /\{type\} & /\{id\} & &
+    X & & & X &
+    Gets/Deletes item with specific $id$ and $type$ 
+    \\ \cline{1-9} \rowcolor{Gray}
+    & /item & /\{type\} & /\{id\} & /seen &
+    & & X & &
+    Marks item as seen
+    \\ \rowcolor{Gray}
+    \multirow{-2}{*}{Regular}
+    & /item & /\{type\} & /\{id\} & /like &
+    & & X & &
+    Marks item as liked
+    \\ \cline{1-9}
+    & /item & /\{type\} & /\{id\} & /views* &
+    X & & & &
+    Returns Item's number of views
     \\
-    /item & & & &
-    TODO
+    & /item & /\{type\} & /\{id\} & /likes* &
+    X & & & &
+    Returns Item's number of likes
+    \\ 
+    & /getTopTen & /\{type\} &  &  &
+    X & & & &
+    Returns top ten most liked Items with $type$
+    \\ 
+    & \multicolumn{4}{l|}{/user} &
+    & X & & &
+    Creates User
     \\
-    /item & /\{type\} & /\{itemId\} & &
-    TODO
-    \\
-    /item & /\{type\} & /\{itemId\} & /seen &
-    TODO
-    \\
-    /item & /\{type\} & /\{itemId\} & /like &
-    TODO
-    \\
-    /item & /\{type\} & /\{itemId\} & /views &
-    TODO
-    \\
-    /item & /\{type\} & /\{itemId\} & /likes &
-    TODO
-    \\
-    \multicolumn{4}{l}{/user} &
-    TODO
-    \\
-    /user & \multicolumn{3}{l}{/password} &
-    TODO
-    \\
-    /user & \multicolumn{3}{l}{/login} &
-    TODO
-    \\
-    /user & \multicolumn{3}{l}{/logout} &
-    TODO
-    \\
-    /user & /search & \multicolumn{2}{l}{/\{username\}} &
-    TODO
+    \multirow{-4}{*}{Any} 
+    & /user & \multicolumn{3}{l|}{/login} &
+    X & & & &
+    Logs in
+    \\ \cline{1-9} \rowcolor{Gray}
+    & /user & \multicolumn{3}{l|}{/logout} &
+    X & & & &
+    Logs out
+    \\ \rowcolor{Gray}
+    \multirow{-2}{*}{Regular} 
+    & /user & /search & \multicolumn{2}{l|}{/\{username\}} &
+    X & & & X &
+    Searches/Deletes User by username
   \end{tabular}
+  % }
+  \end{adjustbox}
 \end{table}
 
+\clearpage
 \section{Architecture (application and technical)}
 \label{sec:arch}
 % say hwo to took care of item's id that can have duplicates (even if only being a small chance)
+  \subsection{Diagram}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{ CloudNativeAppArchitecture.png }
+    \caption{TODO}
+    \label{img:arch}
+  \end{figure}
 
 \section{Implementation}
 \label{sec:impl}

@@ -9,6 +9,8 @@ basePath: /
 tags:
 - name: library
   description: A place to see what has been seen
+- name: library_spark
+  description: Special request that user Spark
 - name: user
   description: Operations about user
 schemes:
@@ -68,32 +70,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Item'
-        "405":
-          description: Invalid input
-      # security:
-      # - api_key: []
-  /getTopTen/{type}:
-    get:
-      tags:
-      - library
-      summary: Returns Top 10
-      description: Returns list of the top 10 items
-      operationId: api_lib.getTop10
-      produces:
-      - application/json
-      parameters:
-      - name: type
-        in: path
-        description: type of top 10
-        required: true
-        type: string
-      responses:
-        "200":
-          description: successful operation
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/IdTuple'
         "405":
           description: Invalid input
       # security:
@@ -250,6 +226,32 @@ paths:
           description: Item not found
       # security:
       # - api_key: []
+  /getTopTen/{type}:
+    post:
+      tags:
+      - library
+      summary: Returns Top 10
+      description: Returns list of the top 10 items
+      operationId: api_lib.getTopTen
+      produces:
+      - application/json
+      parameters:
+      - name: type
+        in: path
+        description: type of top 10
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/IdTuple'
+        "405":
+          description: Invalid input
+      # security:
+      # - api_key: []
   /item/{type}/{itemId}/views:
     get:
       tags:
@@ -288,6 +290,68 @@ paths:
       summary: Returns how many likes a specific Item has
       description: Returns the value of views of an Item
       operationId: api_lib.getLikesOf
+      produces:
+      - application/json
+      parameters:
+      - name: itemId
+        in: path
+        description: Id of item to return likes
+        required: true
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: integer
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      # security:
+      # - api_key: []
+  /item/{type}/{itemId}/views/spark:
+    get:
+      tags:
+      - library
+      summary: Returns how many views a specific Item has, makes use of Spark
+      description: Returns the value of views of an Item
+      operationId: api_spark.getViewsOf
+      produces:
+      - application/json
+      parameters:
+      - name: itemId
+        in: path
+        description: Id of item to return
+        required: true
+        type: string
+      - name: type
+        in: path
+        description: type of item to return views
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: integer
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      # security:
+      # - api_key: []
+  /item/{type}/{itemId}/likes/spark:
+    get:
+      tags:
+      - library
+      summary: Returns how many likes a specific Item has, makes use of Spark
+      description: Returns the value of views of an Item
+      operationId: api_spark.getLikesOf
       produces:
       - application/json
       parameters:
@@ -607,5 +671,3 @@ definitions:
         example: Titanic
       type:
         $ref: '#/definitions/Type'
-
-

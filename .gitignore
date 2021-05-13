@@ -1,6 +1,9 @@
 *.tsv
 *.csv
 
+.vscode/
+.vscode/*
+
 app/protobufs/api_gateway/\models.py
 
 *__pycache__/

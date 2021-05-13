@@ -104,7 +104,7 @@ services:
     api-gateway:
         environment:
             # SIGNIN_HOST: signin
-            ACCOUNT_HOST: account
+            ACCOUNTS_HOST: account
             LIBRARY_HOST: library
         build:
             dockerfile: Dockerfile
