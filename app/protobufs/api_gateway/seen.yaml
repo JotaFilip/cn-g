@@ -313,12 +313,12 @@ paths:
           description: Item not found
       # security:
       # - api_key: []
-  /director/{name}:
+  /director:
     get:
       tags:
       - library_spark
-      summary: Return a list of every movie that this director made and its actors
-      description: Returns a list representation of this director's work
+      summary: Returns a list of every movie that the best director made
+      description: Returns a list of every movie that the best director made, using an average of IMDB ratings
       operationId: api_spark.director
       produces:
       - application/json
