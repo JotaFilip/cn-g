@@ -15,18 +15,18 @@ services:
         networks:
             - micro_services
 
-   spark_connector:
-       build:
-           dockerfile: Dockerfile
-           context: ./spark_connector
-       image: spark_connector
-       hostname: spark_connector
-       networks:
-           - micro_services
-       volumes:
-           - /etc/resolv.conf:/etc/resolv.conf:ro
-       ports:
-           - 50058:50058
+    spark_connector:
+        build:
+            dockerfile: Dockerfile
+            context: ./spark_connector
+        image: spark_connector
+        hostname: spark_connector
+        networks:
+            - micro_services
+        volumes:
+            - /etc/resolv.conf:/etc/resolv.conf:ro
+        ports:
+            - 50058:50058
 
     account:
         build:

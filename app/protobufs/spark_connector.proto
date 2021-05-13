@@ -16,12 +16,12 @@ message Actor {
 
 message DirectorWork {
     string name = 1;
-    repeated Movie movies = 1;
+    repeated Movie movies = 2;
 }
 
 message Movie {
     string name = 1;
-    repeated string actors = 1;
+    repeated string actors = 2;
 }
 
 message ActorName {
