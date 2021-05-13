@@ -671,5 +671,3 @@ definitions:
         example: Titanic
       type:
         $ref: '#/definitions/Type'
-
-
