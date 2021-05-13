@@ -384,7 +384,6 @@ paths:
           description: Invalid user supplied
   /user/login:
     get:
-
       tags:
       - user
       summary: Logs user into the system
