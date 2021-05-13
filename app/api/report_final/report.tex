@@ -244,6 +244,22 @@ João Afonso fc51111 \\
     \label{img:arch}
   \end{figure}
 
+  \subsection{Application}
+    \subsubsection{Client}
+    \fpar The Client should be able to access our API on his browser:
+    \begin{center}
+      \url{https://recommendations.sytes.net}
+    \end{center}
+    \par The Swagger provides a user interface to use and test our calls by adding "/ui" to the end of the url above.
+
+    \subsubsection{Server}
+    \fpar In total there are 7 different microservices working at the same time. Every single one runs on the Google Cloud, inside the same cluster but different dockers.
+
+    \subsubsection{Databases}
+    \fpar Every database has a service that has the responsibility to access and manage it. While 3 of them are hosted by \href{https://www.mongodb.com/}{MongoDB} a NoSQL database, the last one is an SQL database hosted by Google Cloud.
+
+    \subsubsection{Google Cloud}
+
 \section{Implementation}
 \label{sec:impl}
 
