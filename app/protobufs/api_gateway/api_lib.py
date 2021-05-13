@@ -120,7 +120,7 @@ def category_to_genres(category):
 
 def getItemById(type,itemId):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 400
 
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemId(id = itemId, type=type)
@@ -183,27 +183,27 @@ def updateItemLike(type,itemId):
     )
     return lib_client.AddLikeItem(request).success
 
-def getViewsOf(type,itemId):
-    type = get_type(type)
-    if not type: return 'false', 400
-
-    request = SeenAndLikeItem(
-        id   = itemId,
-        type = type
-    )
-    r = lib_client.GetSeensItem(request).count
-    return r
-
-def getLikesOf(type,itemId):
-    type = get_type(type)
-    if not type: return 'false', 400
-
-    request = SeenAndLikeItem(
-        id   = itemId,
-        type = type
-    )
-    r = lib_client.GetLikesItem(request).count
-    return r
+# def getViewsOf(type,itemId):
+#     type = get_type(type)
+#     if not type: return 'false', 400
+#
+#     request = SeenAndLikeItem(
+#         id   = itemId,
+#         type = type
+#     )
+#     r = lib_client.GetSeensItem(request).count
+#     return r
+#
+# def getLikesOf(type,itemId):
+#     type = get_type(type)
+#     if not type: return 'false', 400
+#
+#     request = SeenAndLikeItem(
+#         id   = itemId,
+#         type = type
+#     )
+#     r = lib_client.GetLikesItem(request).count
+#     return r
 
 def getTopTen(type):
     type = get_type(type)
