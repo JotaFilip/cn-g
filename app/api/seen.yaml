@@ -227,7 +227,7 @@ paths:
       # security:
       # - api_key: []
   /getTopTen/{type}:
-    post:
+    get:
       tags:
       - library
       summary: Returns Top 10
@@ -388,7 +388,6 @@ paths:
       security:
         - oAuthCheck:
           -  write:username
-
       produces:
       - application/json
       parameters:

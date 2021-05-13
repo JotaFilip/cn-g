@@ -1,9 +1,12 @@
 <mxfile>
     <diagram id="pzcaLb88da6VexAs1_aC" name="Architectural Design">
-        <mxGraphModel dx="299" dy="-732" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="877" dy="-419" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
+                <mxCell id="6" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="1184" width="780" height="386" as="geometry"/>
+                </mxCell>
                 <mxCell id="YoeQHAKXdlg0IQOAOjzS-1" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="172" y="1200" width="453" height="350" as="geometry"/>
                 </mxCell>
