@@ -144,8 +144,8 @@ João Afonso fc51111 \\
       & & Remove Book/Show/Movie from Library \\ \hline
     \multirow{2}{*}{ Spark }
       & \multirow{2}{*}{ Any }
-        & Graph representation of director's work \\
-      & & TODO \\
+        & See best Director and his movies with cast \\
+      & & See which Actor has the most connections \\
   \end{tabular}
 \end{table}
 
@@ -156,7 +156,7 @@ João Afonso fc51111 \\
   \addtolength{\leftskip} {-20cm}
   \addtolength{\rightskip}{-20cm}
   % \resizebox{1.2\textwidth}{!}{% use resizebox with textwidth
-  \begin{adjustbox}{width=1.4\textwidth}
+  \begin{adjustbox}{width=1.6\textwidth}
   \begin{tabular}{ c|l l l l|c|c|c|c|l }
     % TODO - update
     \rowcolor{Gray}
@@ -219,14 +219,14 @@ João Afonso fc51111 \\
     \xmark & & & \xmark &
     Searches/Deletes User by username
     \\ \hhline{-|----|-|-|-|-|~}
-    & /director & \multicolumn{3}{l|}{/\{name\}} &
+    & \multicolumn{4}{l|}{/\{director\}} &
     \xmark & & & &
-    Graph representation of director's work
+    Returns list with the best Director's movies and his cast
     \\ 
     \multirow{-2}{*}{Any}
     & \multicolumn{4}{l|}{/actor} &
     \xmark & & & &
-    Actor with movies with the biggest cast in total
+    Returns the Actor's name with movies with the biggest cast in total
   \end{tabular}
   % }
   \end{adjustbox}
@@ -240,7 +240,7 @@ João Afonso fc51111 \\
   \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{ CloudNativeAppArchitecture.png }
-    \caption{TODO}
+    \caption{Project's architecture.}
     \label{img:arch}
   \end{figure}
 
