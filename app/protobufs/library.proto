@@ -90,10 +90,10 @@ service Library {
 	rpc AddSeenItem (ItemIdAndUser) returns (Success);
 	rpc AddLikeItem (ItemIdAndUser) returns (Success);
 
-	//ObterContagem de likes do item
-	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
-	//ObterContagem de seens do item
-	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
-
-	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
+//	//ObterContagem de likes do item
+//	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
+//	//ObterContagem de seens do item
+//	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
+//
+//	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
 }
