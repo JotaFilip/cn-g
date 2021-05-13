@@ -251,74 +251,12 @@ paths:
           description: Invalid input
       # security:
       # - api_key: []
-  /item/{type}/{itemId}/views:
-    get:
-      tags:
-      - library
-      summary: Returns how many views a specific Item has
-      description: Returns the value of views of an Item
-      operationId: api_lib.getViewsOf
-      produces:
-      - application/json
-      parameters:
-      - name: itemId
-        in: path
-        description: Id of item to return
-        required: true
-        type: string
-      - name: type
-        in: path
-        description: type of item to return views
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Successful operation
-          schema:
-            type: integer
-        "400":
-          description: Invalid ID supplied
-        "404":
-          description: Item not found
-      # security:
-      # - api_key: []
-  /item/{type}/{itemId}/likes:
-    get:
-      tags:
-      - library
-      summary: Returns how many likes a specific Item has
-      description: Returns the value of views of an Item
-      operationId: api_lib.getLikesOf
-      produces:
-      - application/json
-      parameters:
-      - name: itemId
-        in: path
-        description: Id of item to return likes
-        required: true
-        type: string
-      - name: type
-        in: path
-        description: type of item to return
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Successful operation
-          schema:
-            type: integer
-        "400":
-          description: Invalid ID supplied
-        "404":
-          description: Item not found
-      # security:
-      # - api_key: []
-  /director/{name}/spark:
+  /director/{name}:
     get:
       tags:
       - library_spark
-      summary: Return a graph representation of every movie that this director made and its actors
-      description: Returns a graph representation of this director's work
+      summary: Return a list of every movie that this director made and its actors
+      description: Returns a list representation of this director's work
       operationId: api_spark.director
       produces:
       - application/json
@@ -331,48 +269,37 @@ paths:
       responses:
         "200":
           description: Successful operation
-          content:
-            image/png:
-              schema:
-                type: string
-                format: binary
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Movie'
         "400":
           description: Invalid ID supplied
         "404":
           description: Item not found
       # security:
       # - api_key: []
-  # /item/{type}/{itemId}/likes/spark:
-  #   get:
-  #     tags:
-  #     - library_spark
-  #     summary: Returns how many likes a specific Item has, makes use of Spark
-  #     description: Returns the value of views of an Item
-  #     operationId: api_spark.getLikesOf
-  #     produces:
-  #     - application/json
-  #     parameters:
-  #     - name: itemId
-  #       in: path
-  #       description: Id of item to return likes
-  #       required: true
-  #       type: string
-  #     - name: type
-  #       in: path
-  #       description: type of item to return
-  #       required: true
-  #       type: string
-  #     responses:
-  #       "200":
-  #         description: Successful operation
-  #         schema:
-  #           type: integer
-  #       "400":
-  #         description: Invalid ID supplied
-  #       "404":
-  #         description: Item not found
-  #     # security:
-  #     # - api_key: []
+  /actor:
+    get:
+      tags:
+      - library_spark
+      summary: Returns the Actor that stared in movies with the most people in total
+      description: Returns the Actor's name 
+      operationId: api_spark.actor
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: string
+            example: Johnny Depp
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      # security:
+      # - api_key: []
   /user:
     post:
       tags:
@@ -527,17 +454,20 @@ securityDefinitions:
       delete:username: delete username
 
 definitions:
+
   Type:
     type: string
     enum:
     - BOOK
     - ANIME
     - SHOW
+
   Category:
     type: object
     properties:
       name:
         type: string
+
   User:
     type: object
     properties:
@@ -557,6 +487,7 @@ definitions:
         items:
           $ref: '#/definitions/IdTuple'
           description: Like ids
+
   Username:
     type: object
     properties:
@@ -571,6 +502,7 @@ definitions:
         type: string
       nonce:
         type: integer
+
   UserAndPassword:
     type: object
     properties:
@@ -578,6 +510,7 @@ definitions:
         type: string
       password:
         type: string
+
   IdTuple:
     type: object
     required:
@@ -627,6 +560,7 @@ definitions:
         format: double
         example: 4.55
         description: Rating
+
   ItemInsert:
     type: object
     required:
@@ -652,10 +586,12 @@ definitions:
         description: Rating
       description:
         type: string
+
   ItemList:
     type: array
     items:
       $ref: '#/definitions/ItemReturn'
+
   ItemReturn:
     type: object
     properties:
@@ -667,3 +603,16 @@ definitions:
         example: Titanic
       type:
         $ref: '#/definitions/Type'
+
+  Movie:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Titanic
+      cast:
+        type: array
+        items:
+          type: string
+          example: Johnny Depp
+          description: Actor that played on this movie

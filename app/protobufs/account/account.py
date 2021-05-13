@@ -219,24 +219,24 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return ViewsAndLikesCount(tuples = ret)
 
-    # def GetLikesItem(self, request, context):
-    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
-    #
-    #     Base.metadata.bind = engine
-    #     DBSession = sessionmaker(bind=engine)
-    #     session = DBSession()
-    #     counts = session.query(Like).filter_by(item_id=request.id, item_type=request.type).count()
-    #     session.commit()
-    #     return CountInfo(count=counts)
-    # def GetSeensItem(self, request, context):
-    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
-    #
-    #     Base.metadata.bind = engine
-    #     DBSession = sessionmaker(bind=engine)
-    #     session = DBSession()
-    #     counts = session.query(Seen).filter_by(item_id=request.id, item_type=request.type).count()
-    #     session.commit()
-    #     return CountInfo(count=counts)
+    def GetLikesItem(self, request, context):
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        counts = session.query(Like).filter_by(item_id=request.id, item_type=request.type).count()
+        session.commit()
+        return CountInfo(count=counts)
+    def GetSeensItem(self, request, context):
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        counts = session.query(Seen).filter_by(item_id=request.id, item_type=request.type).count()
+        session.commit()
+        return CountInfo(count=counts)
 
     def GetTopTen(self, request, context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
