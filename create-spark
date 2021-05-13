@@ -1,0 +1,21 @@
+gcloud beta dataproc clusters create cluster-spark --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --metadata "additional-cloud-sql-instances=cn-g14-projecto:europe-west4:account-sql=TCP:3306" --scopes sql-admin,storage-ro --project cn-g14-projecto
+
+
+POST /v1/projects/cn-g14-projecto/regions/europe-west4/jobs:submit/
+{
+  "projectId": "cn-g14-projecto",
+  "job": {
+    "placement": {
+      "clusterName": "cluster-bigquery"
+    },
+    "statusHistory": [],
+    "reference": {
+      "jobId": "job-34a0db8e",
+      "projectId": "cn-g14-projecto"
+    },
+    "pysparkJob": {
+      "mainPythonFileUri": "gs://cn-spark-bucket/pyspark.py",
+      "properties": {}
+    }
+  }
+}

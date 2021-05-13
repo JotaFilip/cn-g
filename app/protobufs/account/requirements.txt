@@ -10,3 +10,6 @@ mysql-connector >= 0.0.0
 pyspark >= 0.0.0
 #mariadb >= 0.0.0
 # mysqldb >= 0.0.0
+#sasl
+#thrift_sasl
+#pyhive

@@ -5,8 +5,9 @@ from sqlalchemy import func, distinct
 from models import Base, User, Seen, Like, Contagem
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
-from sqlalchemy import create_engine
-#
+from sqlalchemy import create_engine, func
+
+#@CNfcul1999
 
 SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     drivername="mysql+mysqlconnector",
@@ -226,8 +227,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session = DBSession()
         counts = session.query(Like).filter_by(item_id=request.id, item_type=request.type).count()
         session.commit()
-        return CountInfo(count=counts-1)
-        
+        return CountInfo(count=counts)
     def GetSeensItem(self, request, context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
@@ -236,7 +236,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session = DBSession()
         counts = session.query(Seen).filter_by(item_id=request.id, item_type=request.type).count()
         session.commit()
-        return CountInfo(count=counts-1)
+        return CountInfo(count=counts)
 
     def GetTopTen(self, request, context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
