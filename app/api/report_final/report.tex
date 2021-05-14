@@ -144,8 +144,8 @@ João Afonso fc51111 \\
       & & Remove Book/Show/Movie from Library \\ \hline
     \multirow{2}{*}{ Spark }
       & \multirow{2}{*}{ Any }
-        & Graph representation of director's work \\
-      & & TODO \\
+        & See best Director and his movies with cast \\
+      & & See which Actor has the most connections \\
   \end{tabular}
 \end{table}
 
@@ -156,7 +156,7 @@ João Afonso fc51111 \\
   \addtolength{\leftskip} {-20cm}
   \addtolength{\rightskip}{-20cm}
   % \resizebox{1.2\textwidth}{!}{% use resizebox with textwidth
-  \begin{adjustbox}{width=1.4\textwidth}
+  \begin{adjustbox}{width=1.6\textwidth}
   \begin{tabular}{ c|l l l l|c|c|c|c|l }
     % TODO - update
     \rowcolor{Gray}
@@ -219,14 +219,14 @@ João Afonso fc51111 \\
     \xmark & & & \xmark &
     Searches/Deletes User by username
     \\ \hhline{-|----|-|-|-|-|~}
-    & /director & \multicolumn{3}{l|}{/\{name\}} &
+    & \multicolumn{4}{l|}{/\{director\}} &
     \xmark & & & &
-    Graph representation of director's work
+    Returns list with the best Director's movies and his cast
     \\ 
     \multirow{-2}{*}{Any}
     & \multicolumn{4}{l|}{/actor} &
     \xmark & & & &
-    Actor with movies with the biggest cast in total
+    Returns the Actor's name with movies with the biggest cast in total
   \end{tabular}
   % }
   \end{adjustbox}
@@ -240,9 +240,25 @@ João Afonso fc51111 \\
   \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{ CloudNativeAppArchitecture.png }
-    \caption{TODO}
+    \caption{Project's architecture.}
     \label{img:arch}
   \end{figure}
+
+  \subsection{Application}
+    \subsubsection{Client}
+    \fpar The Client should be able to access our API on his browser:
+    \begin{center}
+      \url{https://recommendations.sytes.net}
+    \end{center}
+    \par The Swagger provides a user interface to use and test our calls by adding "/ui" to the end of the url above.
+
+    \subsubsection{Server}
+    \fpar In total there are 7 different microservices working at the same time. Every single one runs on the Google Cloud, inside the same cluster but different dockers.
+
+    \subsubsection{Databases}
+    \fpar Every database has a service that has the responsibility to access and manage it. While 3 of them are hosted by \href{https://www.mongodb.com/}{MongoDB} a NoSQL database, the last one is an SQL database hosted by Google Cloud.
+
+    \subsubsection{Google Cloud}
 
 \section{Implementation}
 \label{sec:impl}

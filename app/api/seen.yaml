@@ -251,83 +251,15 @@ paths:
           description: Invalid input
       # security:
       # - api_key: []
-  /item/{type}/{itemId}/views:
-    get:
-      tags:
-      - library
-      summary: Returns how many views a specific Item has
-      description: Returns the value of views of an Item
-      operationId: api_lib.getViewsOf
-      produces:
-      - application/json
-      parameters:
-      - name: itemId
-        in: path
-        description: Id of item to return
-        required: true
-        type: string
-      - name: type
-        in: path
-        description: type of item to return views
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Successful operation
-          schema:
-            type: integer
-        "400":
-          description: Invalid ID supplied
-        "404":
-          description: Item not found
-      # security:
-      # - api_key: []
-  /item/{type}/{itemId}/likes:
-    get:
-      tags:
-      - library
-      summary: Returns how many likes a specific Item has
-      description: Returns the value of views of an Item
-      operationId: api_lib.getLikesOf
-      produces:
-      - application/json
-      parameters:
-      - name: itemId
-        in: path
-        description: Id of item to return likes
-        required: true
-        type: string
-      - name: type
-        in: path
-        description: type of item to return
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Successful operation
-          schema:
-            type: integer
-        "400":
-          description: Invalid ID supplied
-        "404":
-          description: Item not found
-      # security:
-      # - api_key: []
-  /director/{name}/spark:
+  /director:
     get:
       tags:
       - library_spark
-      summary: Return a list of every movie that this director made and its actors
-      description: Returns a list representation of this director's work
+      summary: Returns a list of every movie that the best director made
+      description: Returns a list of every movie that the best director made, using an average of IMDB ratings
       operationId: api_spark.director
       produces:
       - application/json
-      parameters:
-      - name: name
-        in: path
-        description: Director's name
-        required: true
-        type: string
       responses:
         "200":
           description: Successful operation
@@ -390,7 +322,6 @@ paths:
           description: Invalid user supplied
   /user/login:
     get:
-
       tags:
       - user
       summary: Logs user into the system
