@@ -14,25 +14,29 @@ message Actor {
 ///////////////BASIC RESPONSE///////////////
 ////////////////////////////////////////////
 
-message DirectorWork {
-    string name = 1;
-    repeated Movie movies = 2;
+message ExecutionResult {
+    string output = 1;
 }
 
-message Movie {
-    string name = 1;
-    repeated string actors = 2;
-}
+//message DirectorWork {
+//    string name = 1;
+//    repeated Movie movies = 2;
+//}
+//
+//message Movie {
+//    string name = 1;
+//    repeated string actors = 2;
+//}
 
-message ActorName {
-    string name = 1;
-}
+//message ActorName {
+//    string name = 1;
+//}
 
 ////////////////////////////////////////////
 ////////////////RPC SERVICES////////////////
 ////////////////////////////////////////////
 
 service Spark_Connector {
-    rpc GetDirectorWork(Director) returns (DirectorWork);
-    rpc GetFamousActor(Actor) returns (ActorName);
+    rpc GetDirectorWork(Director) returns (ExecutionResult);//DirectorWork);
+    rpc GetFamousActor(Actor) returns (ExecutionResult);//ActorName);
 }
