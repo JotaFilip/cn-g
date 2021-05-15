@@ -276,7 +276,7 @@ João Afonso fc51111 \\
     \subsubsection{Client}
     \fpar TODO
 
-    \subsubsection{Server}
+    \subsubsection{Server (Microservices)}
     % falar do istio
     \fpar TODO
 
@@ -288,8 +288,35 @@ João Afonso fc51111 \\
 
 \section{Implementation}
 \label{sec:implementation}
+\fpar We actually made 2 different implementations, because before deploying it to the cloud, where we would pay for using the service, we made a local version, that would work locally, by running a script, it's very similar to the cloud implementation, but still has its quirks that are not crucial for the cloud deployment.
 
-    % microserviços e tal
+    \subsection{Client}
+    % TODO
+
+    \subsection{Server (Microservices)}
+    % falar do dns resolver, usado localmente e não 
+      \subsubsection{Docker Compose}
+      \fpar For the micro-services deployment we use a docker-compose file, which defines each microservice.
+      \par We give them a name, a build stating that we are using a Dockerfile and where the context of this microservice is (its folder, with its required content).
+      \par For the image, hostname and container name we use the same name as the docker-compose microservice name we just gave.
+      \par At last, we pick which ports we want to use for each microservice, they are crucial for the project to behave properly.
+      \par We do the steps stated before for every single microservice inside the docker-compose, but we still have changes to do, since the API Gateway services sends request to the Spark Connector, Account and Library, we add them as environment variables, meaning when running the python file we can fetch the generated IP and then use it to connect with gRPC channels. For the library we add all the services responsible for the databases, which are the Services Book, Imdb, Anime and Account.
+
+      \subsubsection{Dockers}
+      \fpar With the microservices to create a docker image we used dockerfiles, they are really simple, they basically have everything they need in the folder they are in, and just make a new folder called service, and copy the current folder inside the newly created one.
+      \par After copying we run the installation of the requirements, using pip and the "requirements.txt" file.
+      \par Then the same port, used on the docker-compose file before, it's exposed to be accessible from outside this controller ambient/sandbox.
+      \par Finally, we define the entry point as the python file containing all the business of this microservice.
+
+      \subsubsection{Proto Files}
+      \fpar % TODO
+
+    \subsection{Databases}
+    % TODO
+
+    \subsection{Spark}
+    % TODO
+
 
 \section{Evaluation and validation}
 \label{sec:evaluation_and_validation}

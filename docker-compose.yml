@@ -22,8 +22,8 @@ services:
        image: spark_connector
        hostname: spark_connector
        container_name: spark_connector
-       networks:
-           - micro_services
+    #    networks:
+    #        - micro_services
        ports:
            - 50058:50058
 
