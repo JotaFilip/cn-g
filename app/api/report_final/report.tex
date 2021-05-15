@@ -70,7 +70,7 @@ João Afonso fc51111 \\
 \section{Dataset characterization}
 \label{sec:dataset}
   \subsection{Dataset 1 — IMDB}
-  \label{sec:imdb}
+  \label{sec:movies}
   \fpar This data set provides a lot of information about movies and shows that can be seen in \href{https://www.imdb.com}{IMDB}.
   \par We downloaded the dataset from the \href{https://www.kaggle.com/ashirwadsangwan/imdb-dataset}{Kaggle} website, updated one year ago.
   \par From the whole data this where the columns that were important to us:
@@ -84,10 +84,12 @@ João Afonso fc51111 \\
       rating  & 7.4                         \\
       type    & short
     \end{tabular}
+    \caption{Movie example in our database}
+    \label{table:movie}
   \end{table}
 
   \subsection{Dataset 2 — MyAnimeList}
-  \label{sec:anime}
+  \label{sec:animes}
   \fpar For the second data set we got it from \href{https://www.kaggle.com/azathoth42/myanimelist}{Kaggle}, about the \href{https://myanimelist.net/}{MyAnimeList} website.
   \par This data not only has a lot of anime content but also user information, but because we want to connect with the other datasets doesn't make sense to use that data. Meaning we used these columns:
   \begin{table}[H]
@@ -100,10 +102,12 @@ João Afonso fc51111 \\
       rating  & 7.72                          \\
       imageUrl& https://myanimelist.cdn-dena.com/images/anime/10/18669.jpg
     \end{tabular}
+    \caption{Anime example in our database}
+    \label{table:anime}
   \end{table}
 
   \subsection{Dataset 3 — GoodReads}
-  \label{sec:reads}
+  \label{sec:books}
   \fpar At last, this data set represents books from the \href{https://www.goodreads.com/}{GoodReads} website, also downloaded from \href{https://www.kaggle.com/meetnaren/goodreads-best-books}{Kaggle}.
   \par The helpful data from this data set, to be able to use with animes and movies, is its categories and rating:
   \begin{table}[H]
@@ -117,6 +121,8 @@ João Afonso fc51111 \\
       rating  & 7.7                           \\
       imageUrl& https://images.gr-assets.com/books/1511302904l/890.jpg
     \end{tabular}
+    \caption{Book example in our database}
+    \label{table:book}
   \end{table}
 
 \clearpage
@@ -234,14 +240,14 @@ João Afonso fc51111 \\
 
 \clearpage
 \section{Architecture (application and technical)}
-\label{sec:arch}
+\label{sec:architecture}
 % say hwo to took care of item's id that can have duplicates (even if only being a small chance)
   \subsection{Diagram}
   \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{ CloudNativeAppArchitecture.png }
     \caption{Project's architecture.}
-    \label{img:arch}
+    \label{img:architecture}
   \end{figure}
 
   \subsection{Application}
@@ -254,25 +260,48 @@ João Afonso fc51111 \\
 
     \subsubsection{Server}
     \fpar In total there are 7 different microservices working at the same time. Every single one runs on the Google Cloud, inside the same cluster but different dockers.
+    \par Our reasoning was having an entrance microservice, which would redirect the request to the microservice responsible for that type of request, for example when sending a request for a page in our library, the API Gateway receives that request and sends it to the Library Service, where he has the responsibility of ask for Item to the Book, IMDB and Anime Service, and them put them together in just one response, that response then is sent to the API Gateway, to be show to the Client.
+    \par This API Gateway service also has the responsibility of transforming the REST requests from the Client to gRPC request that is used internally, between Services.
+    \par We also have 5 services which are responsible for the database connection, meaning they are responsible to translate the request they receive to inserts, updates, removes or queries to the database.
 
     \subsubsection{Databases}
     \fpar Every database has a service that has the responsibility to access and manage it. While 3 of them are hosted by \href{https://www.mongodb.com/}{MongoDB} a NoSQL database, the last one is an SQL database hosted by Google Cloud.
+    \par For the Items' databases (Books, Movies and Animes) we used a NoSQL database since we might change the format of our documents, meaning if we had an SQL database we would need to always drop the entire database and repopulate again, and it also helps that the MongoDB provides a very easy and python implementation to work with.
+    \par Instead, for the Users' database we used an SQL one, and because we already knew what we wanted from the User, we knew we would use structured data for it.
 
-    \subsubsection{Google Cloud}
+    \subsubsection{Spark}
+    \fpar For a posterior addition like it was with Spark we created a new microservice, this microservice would be responsible for both the Spark request we provide, this service receives the gRPC requests from the API Gateway and then processes them, creating job to send to the Google Cloud where we have a Cluster with the sole purpose of running these types of jobs.
 
 \section{Implementation}
-\label{sec:impl}
+\label{sec:implementation}
 
 \section{Evaluation and validation}
-\label{sec:eval}
+\label{sec:evaluation}
+
+    \subsection{Evaluation}
+    \label{sec:evaluation}
+
+    \subsection{Validation}
+    \label{sec:validation}
 
 \section{Cost analysis}
 \label{sec:cost}
 
 \section{Discussion}
-\label{sec:disc}
+\label{sec:discussion}
+    \subsection{Results}
+    \label{sec:results}
+
+    \subsection{Analysis}
+    \label{sec:analysis}
 
 \section{Conclusions}
-\label{sec:conc}
+\label{sec:conclusion}
+
+    \subsection{Contributions}
+    \label{sec:contributions}
+
+    \subsection{Future alterations}
+    \label{sec:alterations}
 
 \end{document}
