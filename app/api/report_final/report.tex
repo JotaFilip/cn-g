@@ -61,19 +61,19 @@ João Afonso fc51111 \\
 
 \section{Motivation}
 \label{sec:motivation}
-\fpar For our project we were thinking about an API that could help us decide which shows to watch next, by marking shows as viewed and/or liked.
-\par Because we can watch more than just movies, like anime, we wanted to use more than one dataset. Both animes and movies can have a lot in common not only with each other but also with books, so we also decided to use a book dataset.
-\par So we have three datasets, and we can effortlessly search through any of them, mark them as seen or liked, and get suggestions. Having very similar categories in every single one of them.
-\par For the suggestions our idea was making a recommendation list having in mind the item's rating and user's likes and views, which would indicate to us which categories the user prefers.
-\par So it makes sense to call our API “Seen”.
+\fpar The idea for our project emerged when we were wondering how cool it would be to have an API that could help us decide which shows to watch next based on our personal taste. We figured that such a service could be developed with relative ease if users marked shows as viewed and/or liked.
+\par Because users can watch more than just movies, for example animes, we wanted to use more than one dataset. Both animes and movies can have a lot in common not only with each other but also with books, so we also decided to use a book dataset. Using data from multiple datasets would give us a more realistic experience when it comes to cloud-native applications development, since these applications use data from so many sources.
+\par With three datasets, we aimed to be able to effortlessly search through any of them. We wanted users to be able to mark movies, animes or books as seen or liked, and get suggestions of what to see next. Since the datasets have very similar categories among them, suggesting books mixed with movies and animes would be a possibility that we thought would add value to our application.
+\par Our idea to implement the suggestion mechanism was to base these suggestions on the user's likes and views, which would indicate to us which categories the user prefers, and, therefore, allow us to suggest good movies, animes or books to the user.
+\par We called our API “Seen”, since users can see movies, animes and books and then get suggestions based on their profile, on what they have seen.
 
 \section{Dataset characterization}
 \label{sec:dataset}
   \subsection{Dataset 1 — IMDB}
   \label{sec:movies}
-  \fpar This data set provides a lot of information about movies and shows that can be seen in \href{https://www.imdb.com}{IMDB}.
+  \fpar This dataset provides a lot of information about movies and shows that can be seen in \href{https://www.imdb.com}{IMDB}.
   \par We downloaded the dataset from the \href{https://www.kaggle.com/ashirwadsangwan/imdb-dataset}{Kaggle} website, updated one year ago.
-  \par From the whole data this where the columns that were important to us:
+  \par From the whole data these are the columns that were important to us:
   \begin{table}[H]
     \centering
     \begin{tabular}{l|l}
@@ -90,7 +90,7 @@ João Afonso fc51111 \\
 
   \subsection{Dataset 2 — MyAnimeList}
   \label{sec:animes}
-  \fpar For the second data set we got it from \href{https://www.kaggle.com/azathoth42/myanimelist}{Kaggle}, about the \href{https://myanimelist.net/}{MyAnimeList} website.
+  \fpar The second dataset was obtained from \href{https://www.kaggle.com/azathoth42/myanimelist}{Kaggle}, about the \href{https://myanimelist.net/}{MyAnimeList} website.
   \par This data not only has a lot of anime content but also user information, but because we want to connect with the other datasets doesn't make sense to use that data. Meaning we used these columns:
   \begin{table}[H]
     \centering
