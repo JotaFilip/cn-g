@@ -260,17 +260,29 @@ João Afonso fc51111 \\
 
     \subsubsection{Server}
     \fpar In total there are 7 different microservices working at the same time. Every single one runs on the Google Cloud, inside the same cluster but different dockers.
+    \par Our reasoning was having an entrance microservice, which would redirect the request to the microservice responsible for that type of request, for example when sending a request for a page in our library, the API Gateway receives that request and sends it to the Library Service, where he has the responsibility of ask for Item to the Book, IMDB and Anime Service, and them put them together in just one response, that response then is sent to the API Gateway, to be show to the Client.
+    \par This API Gateway service also has the responsibility of transforming the REST requests from the Client to gRPC request that is used internally, between Services.
+    \par We also have 5 services which are responsible for the database connection, meaning they are responsible to translate the request they receive to inserts, updates, removes or queries to the database.
 
     \subsubsection{Databases}
     \fpar Every database has a service that has the responsibility to access and manage it. While 3 of them are hosted by \href{https://www.mongodb.com/}{MongoDB} a NoSQL database, the last one is an SQL database hosted by Google Cloud.
+    \par For the Items' databases (Books, Movies and Animes) we used a NoSQL database since we might change the format of our documents, meaning if we had an SQL database we would need to always drop the entire database and repopulate again, and it also helps that the MongoDB provides a very easy and python implementation to work with.
+    \par Instead, for the Users' database we used an SQL one, and because we already knew what we wanted from the User, we knew we would use structured data for it.
 
-    \subsubsection{Google Cloud}
+    \subsubsection{Spark}
+    \fpar For a posterior addition like it was with Spark we created a new microservice, this microservice would be responsible for both the Spark request we provide, this service receives the gRPC requests from the API Gateway and then processes them, creating job to send to the Google Cloud where we have a Cluster with the sole purpose of running these types of jobs.
 
 \section{Implementation}
 \label{sec:implementation}
 
 \section{Evaluation and validation}
 \label{sec:evaluation}
+
+    \subsection{Evaluation}
+    \label{sec:evaluation}
+
+    \subsection{Validation}
+    \label{sec:validation}
 
 \section{Cost analysis}
 \label{sec:cost}
