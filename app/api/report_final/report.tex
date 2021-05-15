@@ -260,10 +260,10 @@ João Afonso fc51111 \\
     \par The Swagger provides a user interface to use and test our calls by adding "/ui" to the end of the url above.
 
     \subsubsection{Server}
-    \fpar In total there are 7 different microservices working at the same time. Every single one runs on the Google Cloud, inside the same cluster but different dockers.
-    \par Our reasoning was having an entrance microservice, which would redirect the request to the microservice responsible for that type of request, for example when sending a request for a page in our library, the API Gateway receives that request and sends it to the Library Service, where he has the responsibility of ask for Item to the Book, IMDB and Anime Service, and them put them together in just one response, that response then is sent to the API Gateway, to be show to the Client.
-    \par This API Gateway service also has the responsibility of transforming the REST requests from the Client to gRPC request that is used internally, between Services.
-    \par We also have 5 services which are responsible for the database connection, meaning they are responsible to translate the request they receive to inserts, updates, removes or queries to the database.
+    \fpar In total there are 7 different microservices working at the same time. Every single one of them runs on Google Cloud, inside the same cluster but in different dockers.
+    \par Our reasoning was to have an entrance microservice, which would redirect the request to the microservice responsible for that type of request, for example when sending a request for a page in our library, the API Gateway receives that request and sends it to the Library Service, which is responsible for asking for books, movies and animes to the Book, IMDB and Anime Services, respectively, and then put them together in just one response, which is then sent to the API Gateway, to be shown to the Client.
+    \par This API Gateway service also has the responsibility of transforming the REST requests from the Client to gRPC requests that are used internally, between Services.
+    \par From the total of 7 microservices, 5 are responsible for the database connection, meaning that they are responsible for translating the request they receive into inserts, updates, removes or queries to the database. They are also responsible for translating responses from the database into responses that can be understood by the other microservices.
 
     \subsubsection{Databases}
     \fpar Every database has a service that has the responsibility to access and manage it. While 3 of them are hosted by \href{https://www.mongodb.com/}{MongoDB} a NoSQL database, the last one is an SQL database hosted by Google Cloud.
