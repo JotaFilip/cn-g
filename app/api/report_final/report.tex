@@ -289,7 +289,7 @@ João Afonso fc51111 \\
 
 \section{Implementation}
 \label{sec:implementation}
-\fpar We actually made 2 different implementations, because before deploying it to the cloud, where we would pay for using the service, we made a local version, that would work locally, by running a script, it's very similar to the cloud implementation, but still has its quirks that are not crucial for the cloud deployment.
+\fpar We actually made 2 different implementations, one that runs locally and other that runs in the cloud. We created a local version of our application for several reasons: we were more familiar with the development of local-running applications, running the application on the cloud costs money, and we can debug the app better when it is running locally which is important during development. When developing a feature, first we would put everything running locally, by running a script, and once the feature was running without issues on our machines, we would adapt it to run on the cloud.
 
     \subsection{Client}
     % TODO
