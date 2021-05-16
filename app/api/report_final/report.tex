@@ -333,7 +333,7 @@ João Afonso fc51111 \\
       \par To build the protobuf files into importable python files with all the necessary functions for communication we use a bash script, which compiles them and copies each one to the Services that use them.
       
     \subsection{Databases}
-    \fpar Because we are using the free subscription of MongoBD, we can only have up to 512 Mb in each Cluster we create, this means we cannot fit inside one cluster every data we have to store.
+    \fpar Because we are using the free subscription of MongoBD, we can only have up to 512 Mb in each Cluster we create, this means we cannot fit inside one cluster all the data we have to store.
     \par To resolve this problem we created 4 different clusters, one for each Item type, and an extra one for the movie database, since the movie data set takes roughly 1Gb we had to split it in 2 halfs.
 
     \subsection{Spark}
