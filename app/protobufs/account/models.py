@@ -41,8 +41,6 @@ class Contagem(Base):
     def incrementLikes(self):
         self.likes += 1
 
-
-
 SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     drivername="mysql+mysqlconnector",
     username="cngroupfcul",
