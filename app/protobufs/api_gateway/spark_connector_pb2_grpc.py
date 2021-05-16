@@ -6,7 +6,21 @@ import spark_connector_pb2 as spark__connector__pb2
 
 
 class Spark_ConnectorStub(object):
-    """//////////////////////////////////////////
+    """message DirectorWork {
+    string name = 1;
+    repeated Movie movies = 2;
+    }
+    
+    message Movie {
+    string name = 1;
+    repeated string actors = 2;
+    }
+
+    message ActorName {
+    string name = 1;
+    }
+
+    //////////////////////////////////////////
     //////////////RPC SERVICES////////////////
     //////////////////////////////////////////
 
@@ -21,30 +35,46 @@ class Spark_ConnectorStub(object):
         self.GetDirectorWork = channel.unary_unary(
                 '/Spark_Connector/GetDirectorWork',
                 request_serializer=spark__connector__pb2.Director.SerializeToString,
-                response_deserializer=spark__connector__pb2.DirectorWork.FromString,
+                response_deserializer=spark__connector__pb2.ExecutionResult.FromString,
                 )
         self.GetFamousActor = channel.unary_unary(
                 '/Spark_Connector/GetFamousActor',
                 request_serializer=spark__connector__pb2.Actor.SerializeToString,
-                response_deserializer=spark__connector__pb2.ActorName.FromString,
+                response_deserializer=spark__connector__pb2.ExecutionResult.FromString,
                 )
 
 
 class Spark_ConnectorServicer(object):
-    """//////////////////////////////////////////
+    """message DirectorWork {
+    string name = 1;
+    repeated Movie movies = 2;
+    }
+    
+    message Movie {
+    string name = 1;
+    repeated string actors = 2;
+    }
+
+    message ActorName {
+    string name = 1;
+    }
+
+    //////////////////////////////////////////
     //////////////RPC SERVICES////////////////
     //////////////////////////////////////////
 
     """
 
     def GetDirectorWork(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """DirectorWork);
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def GetFamousActor(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """ActorName);
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -55,12 +85,12 @@ def add_Spark_ConnectorServicer_to_server(servicer, server):
             'GetDirectorWork': grpc.unary_unary_rpc_method_handler(
                     servicer.GetDirectorWork,
                     request_deserializer=spark__connector__pb2.Director.FromString,
-                    response_serializer=spark__connector__pb2.DirectorWork.SerializeToString,
+                    response_serializer=spark__connector__pb2.ExecutionResult.SerializeToString,
             ),
             'GetFamousActor': grpc.unary_unary_rpc_method_handler(
                     servicer.GetFamousActor,
                     request_deserializer=spark__connector__pb2.Actor.FromString,
-                    response_serializer=spark__connector__pb2.ActorName.SerializeToString,
+                    response_serializer=spark__connector__pb2.ExecutionResult.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -70,7 +100,21 @@ def add_Spark_ConnectorServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Spark_Connector(object):
-    """//////////////////////////////////////////
+    """message DirectorWork {
+    string name = 1;
+    repeated Movie movies = 2;
+    }
+    
+    message Movie {
+    string name = 1;
+    repeated string actors = 2;
+    }
+
+    message ActorName {
+    string name = 1;
+    }
+
+    //////////////////////////////////////////
     //////////////RPC SERVICES////////////////
     //////////////////////////////////////////
 
@@ -89,7 +133,7 @@ class Spark_Connector(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Spark_Connector/GetDirectorWork',
             spark__connector__pb2.Director.SerializeToString,
-            spark__connector__pb2.DirectorWork.FromString,
+            spark__connector__pb2.ExecutionResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -106,6 +150,6 @@ class Spark_Connector(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Spark_Connector/GetFamousActor',
             spark__connector__pb2.Actor.SerializeToString,
-            spark__connector__pb2.ActorName.FromString,
+            spark__connector__pb2.ExecutionResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

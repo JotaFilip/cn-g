@@ -294,8 +294,6 @@ João Afonso fc51111 \\
     \fpar Later in the course of the project, we added the Spark microservice. This service receives the gRPC requests from the API Gateway service and then processes them, creating a job to send to Google Cloud where we have a Cluster with the sole purpose of running this type of jobs.
 
   \subsection{Technical}
-    \subsubsection{Client}
-    \fpar TODO
 
     \subsubsection{Server (Microservices)}
     % - plug ins
@@ -316,26 +314,22 @@ João Afonso fc51111 \\
 \label{sec:implementation}
 \fpar We actually made 2 different implementations, one that runs locally and other that runs in the cloud. We created a local version of our application for several reasons: we were more familiar with the development of local-running applications, running the application on the cloud costs money, and we can debug the app better when it is running locally which is important during development. When developing a feature, first we would put everything running locally, by running a script, and once the feature was running without issues on our machines, we would adapt it to run on the cloud.
 
-    \subsection{Client}
-    % TODO
-    \fpar TODO
+  \subsection{Server (Microservices)}
+    \subsubsection{Docker Compose}
+    \fpar For the microservices deployment we use a docker-compose file, which defines each microservice. In this file, we define a microservice's name, a build stating that we are using a Dockerfile and where the context of the microservice is (its folder, with its required content). We also define the image, hostname and container for the microservice, for which we use the same name as the microservice's. Finally, we assign a port to the microservice, which is crucial for the application to behave properly.
+    \par We do the steps stated before for every single microservice inside the docker-compose, but that's not all we have to do. Since the API Gateway service sends requests to the Spark Connector, Account and Library services, we add them as environment variables, meaning that when we run the python file defining the business logic of the service we can fetch the generated IP and then use it to connect to the services with gRPC channels. For the library we add all the services responsible for the databases, which are the Book, Imdb, Anime and Account services.
 
-    \subsection{Server (Microservices)}
-      \subsubsection{Docker Compose}
-      \fpar For the microservices deployment we use a docker-compose file, which defines each microservice. In this file, we define a microservice's name, a build stating that we are using a Dockerfile and where the context of the microservice is (its folder, with its required content). We also define the image, hostname and container for the microservice, for which we use the same name as the microservice's. Finally, we assign a port to the microservice, which is crucial for the application to behave properly.
-      \par We do the steps stated before for every single microservice inside the docker-compose, but that's not all we have to do. Since the API Gateway service sends requests to the Spark Connector, Account and Library services, we add them as environment variables, meaning that when we run the python file defining the business logic of the service we can fetch the generated IP and then use it to connect to the services with gRPC channels. For the library we add all the services responsible for the databases, which are the Book, Imdb, Anime and Account services.
+    \subsubsection{Dockers}
+    \fpar To create a docker image for each microservice to be containerized we used dockerfiles. These files are really simple, they basically have everything they need in the folder they are in, and just make a new folder called service, and copy the current folder inside the newly created one. After copying, they run the installation of the requirements, using pip and the "requirements.txt" file. Then, the same port used on the docker-compose file before, is exposed to be accessible from outside this controller ambient/sandbox. Finally, the entry point is defined as the python file containing all the business logic of the microservice.
 
-      \subsubsection{Dockers}
-      \fpar To create a docker image for each microservice to be containerized we used dockerfiles. These files are really simple, they basically have everything they need in the folder they are in, and just make a new folder called service, and copy the current folder inside the newly created one. After copying, they run the installation of the requirements, using pip and the "requirements.txt" file. Then, the same port used on the docker-compose file before, is exposed to be accessible from outside this controller ambient/sandbox. Finally, the entry point is defined as the python file containing all the business logic of the microservice.
-
-      \subsubsection{Protobuf Files}
-      \fpar The protobuf files we created are the basis of our services communication between each other like we stated before.
-      \par This files can be seen like interfaces that the services need to comply, so the recipient of the message processes it.
-      \par We created an “utils” protobuf file, this file stores the interface of two messages, Success and Empty, and since they are repeatedly used we have them here to be ready to be imported. This file also stores an enumerated, with every Item type supported on this API: BOOK, SHOW and ANIME.
-      \par Then the protobuf files are very straight forward, we define a protobuf service with the name of the actual Service that receives requests, and inside that protobuf service the functions that this Service supports.
-      \par Those functions are also very simple, they consist in declaring a function that the Service has inside, with a message input and output, and the Service just has to comply with those restrictions, meaning that he receives a message of some type, and needs to “unpack” it and then “pack” it again to return as a response.
-      \par Because we import the "utils" file, we then can use the Type (BOOK, SHOW or ANIME) that we declared inside other messages declarations. And use the “repeated” as a crucial part of our messages, since we usually want to send lists back and forth with our Item's content.
-      \par To build the protobuf files into importable python files with all the necessary functions for communication we use a bash script, which compiles them and copies each one to the Services that use them.
+    \subsubsection{Protobuf Files}
+    \fpar The protobuf files we created are the basis of our services communication between each other like we stated before.
+    \par This files can be seen like interfaces that the services need to comply, so the recipient of the message processes it.
+    \par We created an “utils” protobuf file, this file stores the interface of two messages, Success and Empty, and since they are repeatedly used we have them here to be ready to be imported. This file also stores an enumerated, with every Item type supported on this API: BOOK, SHOW and ANIME.
+    \par Then the protobuf files are very straight forward, we define a protobuf service with the name of the actual Service that receives requests, and inside that protobuf service the functions that this Service supports.
+    \par Those functions are also very simple, they consist in declaring a function that the Service has inside, with a message input and output, and the Service just has to comply with those restrictions, meaning that he receives a message of some type, and needs to “unpack” it and then “pack” it again to return as a response.
+    \par Because we import the "utils" file, we then can use the Type (BOOK, SHOW or ANIME) that we declared inside other messages declarations. And use the “repeated” as a crucial part of our messages, since we usually want to send lists back and forth with our Item's content.
+    \par To build the protobuf files into importable python files with all the necessary functions for communication we use a bash script, which compiles them and copies each one to the Services that use them.
       
     \subsection{Databases}
     \fpar Because we are using the free subscription of MongoBD, we can only have up to 512 Mb in each Cluster we create, this means we cannot fit inside one cluster all the data we have to store.
@@ -345,7 +339,8 @@ João Afonso fc51111 \\
     \par About key duplicates we could have that problem using different databases, the generated key in one database could be the same as another one in another database, even if not likely it could happen. To resolve that problem we always use the type of the Item, with that type we choose which Service to send the request to, identifying the id and avoiding the “deletion” by omission of Items, because the first id found would be the one returned, omitting other results.
     \par For the movie database we also prepend (insert at the beginning) a database identification (“1” for the first half of items and “2” for the second one).
     \par For the user database we used another strategy and started an SQL database using SQLAlchemy to connect.
-    \par TODO
+    \par To use a secure connection between the Service to handle the users' data we initialize a connection with certificates (SSL server certificate authority, SSL server certificate and an SSL client key).
+    \par To maintain the same structure inside and outside the database we also created a python file named models, which has the correspondent classes to the tables inside the database, this way we can use those classes to fetch results already formatted. 
 
     \subsection{Spark}
     % TODO microserviço e implementação
@@ -353,19 +348,21 @@ João Afonso fc51111 \\
 
 \section{Evaluation and validation}
 \label{sec:evaluation_and_validation}
-% Falar do que estamos a pensar fazer e porque
-\fpar TODO
+\fpar To perform an evaluation on the system by load testing, we used three different technologies: Prometheus, Grafana and Locust. 
+\par Prometheus is a monitoring system that retrieves data directly from the cluster as it is executing, while Grafana displays and amalgamates the data in a way that can be analyzed by the human eye (plots, etc.). 
+\par To perform the load tests on itself, we used Locust, a load testing tool. 
+\par All these tools were configured automatically with scripts to further automate the deployment of the system (see locust.sh and add\_plugins.sh).
 
+  \subsection{Evaluation}
+  \label{sec:evaluation}
+  \fpar We ran Locust, the tool to perform the load testing, in another cluster to avoid affecting the results. It was tested with up to 800 users, which at that point it was getting close to 100\% CPU usage, according to Grafana. 
+  \par At the time, we were using weak machines (12 CPUs) as Google Cloud's free trial did not allow any higher than that. Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). 
+  \par We did load testing with 100 users, 500 users and 800 users which we assume to be a somewhat comfortable limit for the resources we have, it can go higher, but it could probably start running into performance problems after a certain point.
 
-    \subsection{Evaluation}
-    \label{sec:evaluation}
-    % dizer o que fizémos
-    \fpar TODO
-
-    \subsection{Validation}
-    \label{sec:validation}
-    % dizer o que os resultamos que obtivemos querem dizer
-    \fpar TODO
+  \subsection{Validation}
+  \label{sec:validation}
+  % dizer o que os resultamos que obtivemos querem dizer
+  \fpar TODO
 
 \section{Cost analysis}
 \label{sec:cost}
@@ -375,26 +372,30 @@ João Afonso fc51111 \\
 \section{Discussion}
 \label{sec:discussion}
 
-    \subsection{Results}
-    \label{sec:results}
+  \subsection{Results}
+  \label{sec:results}
 
-    \subsection{Analysis}
-    \label{sec:analysis}
+  \subsection{Analysis}
+  \label{sec:analysis}
 
 \section{Conclusions}
 \label{sec:conclusion}
 % Foi possivel fazer o projeto em google cloud e ter uma api util e funcional bla bla bla
 
-    \subsection{Contributions}
-    \label{sec:contributions}
+  \subsection{Contributions}
+  \label{sec:contributions}
 
-      \subsubsection{51034 - Tiago Carvalho}
-      \subsubsection{51058 - Diogo Lopes}
-      \subsubsection{51072 - Miguel Saldanha}
-      \subsubsection{51080 - João Roque}
-      \subsubsection{51111 - João Afonso}
+    \subsubsection{51034 - Tiago Carvalho}
+    \subsubsection{51058 - Diogo Lopes}
+    \subsubsection{51072 - Miguel Saldanha}
+    \subsubsection{51080 - João Roque}
+    \subsubsection{51111 - João Afonso}
 
-    \subsection{Future alterations}
-    \label{sec:alterations}
+  \subsection{Future alterations}
+  \label{sec:alterations}
+
+\section{Appendix}
+\label{appendix}
+% To store big images and reference them
 
 \end{document}
