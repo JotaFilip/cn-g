@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x15spark_connector.proto\"\n\n\x08\x44irector\"\x07\n\x05\x41\x63tor\"4\n\x0c\x44irectorWork\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x16\n\x06movies\x18\x02 \x03(\x0b\x32\x06.Movie\"%\n\x05Movie\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06\x61\x63tors\x18\x02 \x03(\t\"\x19\n\tActorName\x12\x0c\n\x04name\x18\x01 \x01(\t2d\n\x0fSpark_Connector\x12+\n\x0fGetDirectorWork\x12\t.Director\x1a\r.DirectorWork\x12$\n\x0eGetFamousActor\x12\x06.Actor\x1a\n.ActorNameb\x06proto3'
+  serialized_pb=b'\n\x15spark_connector.proto\"\n\n\x08\x44irector\"\x07\n\x05\x41\x63tor\"!\n\x0f\x45xecutionResult\x12\x0e\n\x06output\x18\x01 \x01(\t2m\n\x0fSpark_Connector\x12.\n\x0fGetDirectorWork\x12\t.Director\x1a\x10.ExecutionResult\x12*\n\x0eGetFamousActor\x12\x06.Actor\x1a\x10.ExecutionResultb\x06proto3'
 )
 
 
@@ -75,25 +75,18 @@ _ACTOR = _descriptor.Descriptor(
 )
 
 
-_DIRECTORWORK = _descriptor.Descriptor(
-  name='DirectorWork',
-  full_name='DirectorWork',
+_EXECUTIONRESULT = _descriptor.Descriptor(
+  name='ExecutionResult',
+  full_name='ExecutionResult',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='DirectorWork.name', index=0,
+      name='output', full_name='ExecutionResult.output', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='movies', full_name='DirectorWork.movies', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -110,86 +103,12 @@ _DIRECTORWORK = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=46,
-  serialized_end=98,
+  serialized_end=79,
 )
 
-
-_MOVIE = _descriptor.Descriptor(
-  name='Movie',
-  full_name='Movie',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='Movie.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='actors', full_name='Movie.actors', index=1,
-      number=2, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=100,
-  serialized_end=137,
-)
-
-
-_ACTORNAME = _descriptor.Descriptor(
-  name='ActorName',
-  full_name='ActorName',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='ActorName.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=139,
-  serialized_end=164,
-)
-
-_DIRECTORWORK.fields_by_name['movies'].message_type = _MOVIE
 DESCRIPTOR.message_types_by_name['Director'] = _DIRECTOR
 DESCRIPTOR.message_types_by_name['Actor'] = _ACTOR
-DESCRIPTOR.message_types_by_name['DirectorWork'] = _DIRECTORWORK
-DESCRIPTOR.message_types_by_name['Movie'] = _MOVIE
-DESCRIPTOR.message_types_by_name['ActorName'] = _ACTORNAME
+DESCRIPTOR.message_types_by_name['ExecutionResult'] = _EXECUTIONRESULT
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Director = _reflection.GeneratedProtocolMessageType('Director', (_message.Message,), {
@@ -206,26 +125,12 @@ Actor = _reflection.GeneratedProtocolMessageType('Actor', (_message.Message,), {
   })
 _sym_db.RegisterMessage(Actor)
 
-DirectorWork = _reflection.GeneratedProtocolMessageType('DirectorWork', (_message.Message,), {
-  'DESCRIPTOR' : _DIRECTORWORK,
+ExecutionResult = _reflection.GeneratedProtocolMessageType('ExecutionResult', (_message.Message,), {
+  'DESCRIPTOR' : _EXECUTIONRESULT,
   '__module__' : 'spark_connector_pb2'
-  # @@protoc_insertion_point(class_scope:DirectorWork)
+  # @@protoc_insertion_point(class_scope:ExecutionResult)
   })
-_sym_db.RegisterMessage(DirectorWork)
-
-Movie = _reflection.GeneratedProtocolMessageType('Movie', (_message.Message,), {
-  'DESCRIPTOR' : _MOVIE,
-  '__module__' : 'spark_connector_pb2'
-  # @@protoc_insertion_point(class_scope:Movie)
-  })
-_sym_db.RegisterMessage(Movie)
-
-ActorName = _reflection.GeneratedProtocolMessageType('ActorName', (_message.Message,), {
-  'DESCRIPTOR' : _ACTORNAME,
-  '__module__' : 'spark_connector_pb2'
-  # @@protoc_insertion_point(class_scope:ActorName)
-  })
-_sym_db.RegisterMessage(ActorName)
+_sym_db.RegisterMessage(ExecutionResult)
 
 
 
@@ -236,8 +141,8 @@ _SPARK_CONNECTOR = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=166,
-  serialized_end=266,
+  serialized_start=81,
+  serialized_end=190,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetDirectorWork',
@@ -245,7 +150,7 @@ _SPARK_CONNECTOR = _descriptor.ServiceDescriptor(
     index=0,
     containing_service=None,
     input_type=_DIRECTOR,
-    output_type=_DIRECTORWORK,
+    output_type=_EXECUTIONRESULT,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -255,7 +160,7 @@ _SPARK_CONNECTOR = _descriptor.ServiceDescriptor(
     index=1,
     containing_service=None,
     input_type=_ACTOR,
-    output_type=_ACTORNAME,
+    output_type=_EXECUTIONRESULT,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
