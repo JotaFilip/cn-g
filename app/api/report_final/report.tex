@@ -293,15 +293,13 @@ João Afonso fc51111 \\
 
     \subsection{Client}
     % TODO
+    \fpar TODO
 
     \subsection{Server (Microservices)}
     % falar do dns resolver, usado localmente e não 
       \subsubsection{Docker Compose}
-      \fpar For the micro-services deployment we use a docker-compose file, which defines each microservice.
-      \par We give them a name, a build stating that we are using a Dockerfile and where the context of this microservice is (its folder, with its required content).
-      \par For the image, hostname and container name we use the same name as the docker-compose microservice name we just gave.
-      \par At last, we pick which ports we want to use for each microservice, they are crucial for the project to behave properly.
-      \par We do the steps stated before for every single microservice inside the docker-compose, but we still have changes to do, since the API Gateway services sends request to the Spark Connector, Account and Library, we add them as environment variables, meaning when running the python file we can fetch the generated IP and then use it to connect with gRPC channels. For the library we add all the services responsible for the databases, which are the Services Book, Imdb, Anime and Account.
+      \fpar For the microservices deployment we use a docker-compose file, which defines each microservice. In this file, we define a microservice's name, a build stating that we are using a Dockerfile and where the context of the microservice is (its folder, with its required content). We also define the image, hostname and container for the microservice, for which we use the same name as the microservice's. Finally, we assign a port to the microservice, which is crucial for the application to behave properly.
+      \par We do the steps stated before for every single microservice inside the docker-compose, but that's not all we have to do. Since the API Gateway service sends requests to the Spark Connector, Account and Library services, we add them as environment variables, meaning that when we run the python file we can fetch the generated IP and then use it to connect to the services with gRPC channels. For the library we add all the services responsible for the databases, which are the Book, Imdb, Anime and Account services.
 
       \subsubsection{Dockers}
       \fpar With the microservices to create a docker image we used dockerfiles, they are really simple, they basically have everything they need in the folder they are in, and just make a new folder called service, and copy the current folder inside the newly created one.
