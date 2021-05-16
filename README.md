@@ -14,3 +14,4 @@ Notes:
 3     | DevOps Officer                      | fc51072 | Miguel Saldanha 
 4     | MicroServices Programmer            | fc51058 | Diogo Lopes
 5     | Data Scientist                      | fc51080 | João Roque
+ 
