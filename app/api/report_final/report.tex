@@ -321,14 +321,7 @@ João Afonso fc51111 \\
       \par We do the steps stated before for every single microservice inside the docker-compose, but that's not all we have to do. Since the API Gateway service sends requests to the Spark Connector, Account and Library services, we add them as environment variables, meaning that when we run the python file defining the business logic of the service we can fetch the generated IP and then use it to connect to the services with gRPC channels. For the library we add all the services responsible for the databases, which are the Book, Imdb, Anime and Account services.
 
       \subsubsection{Dockers}
-<<<<<<< HEAD
       \fpar To create a docker image for each microservice to be containerized we used dockerfiles. These files are really simple, they basically have everything they need in the folder they are in, and just make a new folder called service, and copy the current folder inside the newly created one. After copying, they run the installation of the requirements, using pip and the "requirements.txt" file. Then, the same port used on the docker-compose file before, is exposed to be accessible from outside this controller ambient/sandbox. Finally, the entry point is defined as the python file containing all the business logic of the microservice.
-=======
-      \fpar With the microservices to create a docker image we used dockerfiles, they are really simple, they basically have everything they need in the folder they are in, and just make a new folder called service, and copy the current folder inside the newly created one.
-      \par After copying we run the installation of the requirements, using pip and the “requirements.txt” file.
-      \par Then the same port, used on the docker-compose file before, it's exposed to be accessible from outside this controller ambient/sandbox.
-      \par Finally, we define the entry point as the python file containing all the business of this microservice.
->>>>>>> 19e58de1521c188bd811841f0058936c69960c71
 
       \subsubsection{Protobuf Files}
       \fpar The protobuf files we created are the basis of our services communication between each other like we stated before.
