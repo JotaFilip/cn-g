@@ -298,13 +298,18 @@ João Afonso fc51111 \\
     \fpar TODO
 
     \subsubsection{Server (Microservices)}
-    % falar do istio
+    % - plug ins
+    %   - istio
+    %   - auth0
+    % - certificados e comunicações seguras
     \fpar TODO
 
     \subsubsection{Databases}
+    % usar mongo e sql
     \fpar TODO
 
     \subsubsection{Spark}
+    % microserviço para mandar para o goole cloud
     \fpar TODO
 
 \section{Implementation}
@@ -334,26 +339,42 @@ João Afonso fc51111 \\
       
     \subsection{Databases}
     \fpar Because we are using the free subscription of MongoBD, we can only have up to 512 Mb in each Cluster we create, this means we cannot fit inside one cluster all the data we have to store.
-    \par To resolve this problem we created 4 different clusters, one for each Item type, and an extra one for the movie database, since the movie data set takes roughly 1Gb we had to split it in 2 halfs.
+    \par To resolve this problem we created 4 different mongodb clusters, one for each Item type, and an extra one for the movie database, since the movie data set takes roughly 1Gb we had to split it in 2 halves.
+    \par Using a script we uploaded our datasets, that script connects to the database, and then read $100000$ lines from the data set, adapt each one with the relevant data to upload and them sends those $100000$ items to the database. 
+    \par Those adaptations are simple, using the csv package we can read both csv and tsv files row by row already split by columns. Then we transform the categories string into a list of strings, separating each category, facilitating queries. At last, we also strip the string from the white space at the beginning and at the end.
+    \par About key duplicates we could have that problem using different databases, the generated key in one database could be the same as another one in another database, even if not likely it could happen, to resolve that problem we always have the type of the Item, with that type we choose which Service to send the request, identifying the id and avoiding the “deletion” by omission of Items, because the first id found would be the one returned, omitting other results.
+    \par For the movie database we also prepend (insert at the beginning) a database identification (“1” for the first half of items and “2” for the second one).
+    \par For the user database we used another strategy and started an SQL database using SQLAlchemy to connect.
+    \par TODO
 
     \subsection{Spark}
-    % TODO
+    % TODO microserviço e implementação
 
 
 \section{Evaluation and validation}
 \label{sec:evaluation_and_validation}
+% Falar do que estamos a pensar fazer e porque
+\fpar TODO
+
 
     \subsection{Evaluation}
     \label{sec:evaluation}
+    % dizer o que fizémos
+    \fpar TODO
 
     \subsection{Validation}
     \label{sec:validation}
+    % dizer o que os resultamos que obtivemos querem dizer
+    \fpar TODO
 
 \section{Cost analysis}
 \label{sec:cost}
+% Analizar os custos, dizer porque não usámos SQL na goole cloud
+\fpar TODO
 
 \section{Discussion}
 \label{sec:discussion}
+
     \subsection{Results}
     \label{sec:results}
 
@@ -362,6 +383,7 @@ João Afonso fc51111 \\
 
 \section{Conclusions}
 \label{sec:conclusion}
+% Foi possivel fazer o projeto em google cloud e ter uma api util e funcional bla bla bla
 
     \subsection{Contributions}
     \label{sec:contributions}
