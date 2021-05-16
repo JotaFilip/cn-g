@@ -331,32 +331,10 @@ João Afonso fc51111 \\
       \par Those functions are also very simple, they consist in declaring a function that the Service has inside, with a message input and output, and the Service just has to comply with those restrictions, meaning that he receives a message of some type, and needs to “unpack” it and then “pack” it again to return as a response.
       \par Because we import the "utils" file, we then can use the Type (BOOK, SHOW or ANIME) that we declared inside other messages declarations. And use the “repeated” as a crucial part of our messages, since we usually want to send lists back and forth with our Item's content.
       \par To build the protobuf files into importable python files with all the necessary functions for communication we use a bash script, which compiles them and copies each one to the Services that use them.
-      \par Here we can see a protobuf snippet from our code to illustrate our usage of it:
-      \begin{lstlisting}
-
-        message UsernameRequest {
-          string username = 1;
-        }
-
-        message UserData {
-          string username = 1;
-          repeated SeenAndLikeInfoReturn likes = 2;
-          repeated SeenAndLikeInfoReturn seens = 3;
-        }
-
-        message SeenAndLikeInfoReturn{
-          string id= 1;
-          Type type = 2;
-        }
-
-        service Account {
-          rpc GetUserByName (UsernameRequest) returns (UserData);
-        }
       
-      \end{lstlisting}
-
     \subsection{Databases}
-    % TODO
+    \fpar Because we are using the free subscription of MongoBD, we can only have up to 512 Mb in each Cluster we create, this means we cannot fit inside one cluster every data we have to store.
+    \par To resolve this problem we created 4 different clusters, one for each Item type, and an extra one for the movie database, since the movie data set takes roughly 1Gb we had to split it in 2 halfs.
 
     \subsection{Spark}
     % TODO
