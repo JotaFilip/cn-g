@@ -343,38 +343,39 @@ João Afonso fc51111 \\
     \par For the user database we used another strategy and started an SQL database using SQLAlchemy to connect, using a secure channel with TLS.
     \par To maintain the same structure inside and outside the database we also created a python file named “models”, which has the correspondent classes to the tables inside the database, this way we can use those classes to fetch results already formatted. 
 
-    \subsection{Spark}
-    \fpar First, we implemented a job that creates a csv connecting people that participated in the same movie. With this, we have 2 use cases: one that uses said csv to create a graph using Spark GraphX to calculate the degree of each vertex, checking which has the highest degree, with the purpose of checking which person has worked with the biggest quantity of people; and another that sends a direct query to calculate which movie director has the highest average rating in all their works.
+  \clearpage
+  \subsection{Spark}
+  \fpar First, we implemented a job that creates a csv connecting people that participated in the same movie. With this, we have 2 use cases: one that uses said csv to create a graph using Spark GraphX to calculate the degree of each vertex, checking which has the highest degree, with the purpose of checking which person has worked with the biggest quantity of people; and another that sends a direct query to calculate which movie director has the highest average rating in all their works.
 
-    \subsection{Technical}
+  \subsection{Technical}
 
-      \subsubsection{Databases}
-      \fpar Since the MongoDB already provides an API with secure channels we didn't need to make any changes to the connection, the transmitted data is secured, and we tested it by running Wireshark to sniff the packets and observing they are encrypted.
-      \par To use a secure connection between the Service and the users' database, we initialize a connection with certificates (SSL server certificate authority, SSL server certificate and an SSL client key) using the TLS cryptographic protocol designed to provide secure communications.
+    \subsubsection{Databases}
+    \fpar Since the MongoDB already provides an API with secure channels we didn't need to make any changes to the connection, the transmitted data is secured, and we tested it by running Wireshark to sniff the packets and observing they are encrypted.
+    \par To use a secure connection between the Service and the users' database, we initialize a connection with certificates (SSL server certificate authority, SSL server certificate and an SSL client key) using the TLS cryptographic protocol designed to provide secure communications.
 
-      \subsubsection{Spark}
-      \fpar Having our jobs already on the cloud, the Spark Service (Spark Connector) has the responsibility of asking the Dataproc cluster for the result of the job that was requested, that will run it and send back the result.
+    \subsubsection{Spark}
+    \fpar Having our jobs already on the cloud, the Spark Service (Spark Connector) has the responsibility of asking the Dataproc cluster for the result of the job that was requested, that will run it and send back the result.
 
-      \subsubsection{Authentication with Auth0}
-      \fpar At first, we had our own authentication method, which we implemented using basic authentication and JWT tokens. 
-      \par The user could register an account, using their email, which would then be confirmed with an email message. Then, they could choose their username and password, finishing the registration process. 
-      \par The passwords were hashed using SHA512\_Crypt. Later, we changed the authentication to an external service, auth0. To configure it, we defined an API on auth0 and configured an app. 
-      \par We used implicit flow, with client credential flow enabled just for testing. Our auth0 also uses roles, admin and normal user, with a set of permissions for each. The roles are given with a rule we set, making every registration automatically a normal user, with admins being configured manually. 
-      \par The difference between admins and normal users is that admins can add and delete items from the database. On Swagger, the user can use the authorize button to request the token to the auth0 service, using our defined API as audience and supplying the scopes, i.e., the permissions they require. 
-      \par After this, the user is redirected to the auth0 page to conclude with their authentication. With this done, Swagger gets the token needed and adds it to all its request headers. 
-      \par The user can also do this manually, but they would have to add the token manually after logging in. This can also be done using a client app using our API, similarly to what Swagger does: the user logs in on auth0 and the client app gets the token, which it then adds to its own headers. The token is verified using the public key from auth0.
+    \subsubsection{Authentication with Auth0}
+    \fpar At first, we had our own authentication method, which we implemented using basic authentication and JWT tokens. 
+    \par The user could register an account, using their email, which would then be confirmed with an email message. Then, they could choose their username and password, finishing the registration process. 
+    \par The passwords were hashed using SHA512\_Crypt. Later, we changed the authentication to an external service, auth0. To configure it, we defined an API on auth0 and configured an app. 
+    \par We used implicit flow, with client credential flow enabled just for testing. Our auth0 also uses roles, admin and normal user, with a set of permissions for each. The roles are given with a rule we set, making every registration automatically a normal user, with admins being configured manually. 
+    \par The difference between admins and normal users is that admins can add and delete items from the database. On Swagger, the user can use the authorize button to request the token to the auth0 service, using our defined API as audience and supplying the scopes, i.e., the permissions they require. 
+    \par After this, the user is redirected to the auth0 page to conclude with their authentication. With this done, Swagger gets the token needed and adds it to all its request headers. 
+    \par The user can also do this manually, but they would have to add the token manually after logging in. This can also be done using a client app using our API, similarly to what Swagger does: the user logs in on auth0 and the client app gets the token, which it then adds to its own headers. The token is verified using the public key from auth0.
 
-      \subsubsection{Secure channels with istio}
-      \fpar After the cluster is created (using create\_cluster.sh), we then install Istio (using install\_istio.sh). When installing Istio, we supply a valid certificate which is used in its ingress, allowing for secure communications through HTTPS. 
-      \par Istio also encrypts all the connections between the ingress and microservices.
+    \subsubsection{Secure channels with istio}
+    \fpar After the cluster is created (using create\_cluster.sh), we then install Istio (using install\_istio.sh). When installing Istio, we supply a valid certificate which is used in its ingress, allowing for secure communications through HTTPS. 
+    \par Istio also encrypts all the connections between the ingress and microservices.
 
-      \subsubsection{CI/CD pipeline}
-      \fpar To implement the CI/CD pipeline, we created a trigger that when a commit is done on the deploy branch on git, the cloud build starts by running the yaml file. 
-      \par First, it builds all the microservices, pushes them to the container registry, starts the Docker and runs the microservices. 
-      \par After they are running, we start a test network using Docker, which is then tested (integration and unit tests), to assure that everything is alright and can be deployed on Kubernetes. If all the tests pass, the system is then deployed.
+    \subsubsection{CI/CD pipeline}
+    \fpar To implement the CI/CD pipeline, we created a trigger that when a commit is done on the deploy branch on git, the cloud build starts by running the yaml file. 
+    \par First, it builds all the microservices, pushes them to the container registry, starts the Docker and runs the microservices. 
+    \par After they are running, we start a test network using Docker, which is then tested (integration and unit tests), to assure that everything is alright and can be deployed on Kubernetes. If all the tests pass, the system is then deployed.
 
-      \subsubsection{Deployment}
-      \fpar The deployment is done using its yaml file, deployment.yaml, where we have defined all the services of each microservice, the auto-scaling properties and an Istio ingress, which uses the certificate we supplied.
+    \subsubsection{Deployment}
+    \fpar The deployment is done using its yaml file, deployment.yaml, where we have defined all the services of each microservice, the auto-scaling properties and an Istio ingress, which uses the certificate we supplied.
 
 \section{Evaluation and validation}
 \label{sec:evaluation_and_validation}
