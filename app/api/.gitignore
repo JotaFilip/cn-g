@@ -4,4 +4,4 @@
 *.log
 *.gz
 *.out
-*.pdf
+# *.pdf
