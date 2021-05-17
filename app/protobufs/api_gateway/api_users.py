@@ -58,6 +58,8 @@ from account_pb2 import *
 account_host = os.getenv("ACCOUNTS_HOST", "localhost")
 account_channel = grpc.insecure_channel(f"{account_host}:50055")
 account_client = AccountStub(account_channel)
+jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
+jwks = json.loads(jsonurl.read())
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
@@ -95,8 +97,7 @@ def handle_auth_error(ex):
 #@auth.login_required
 
 def verify_token(access_token) -> dict:
-    jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
-    jwks = json.loads(jsonurl.read())
+
     unverified_header = jwt.get_unverified_header(access_token)
     rsa_key = {}
     for key in jwks["keys"]:
