@@ -90,6 +90,7 @@ João Afonso fc51111 \\
 \par Our idea to implement the suggestion mechanism was to base these suggestions on the user's likes and views, which would indicate to us which categories the user prefers, and, therefore, allow us to suggest good movies, animes or books to the user.
 \par We called our API “Seen”, since users can see movies, animes and books and then get suggestions based on their profile, on what they have seen.
 
+\clearpage
 \section{Dataset characterization}
 \label{sec:dataset}
   \subsection{Dataset 1 — IMDB}
@@ -277,71 +278,44 @@ João Afonso fc51111 \\
     \label{img:architecture}
   \end{figure}
 
-  \subsection{Application}
-    \subsubsection{Client}
-    \fpar The Client should be able to access our API on his browser:
-    \begin{center}
-      \url{https://recommendations.sytes.net}
-    \end{center}
-    \par The Swagger provides a user interface to use and test our calls by adding "/ui" to the end of the url above.
+  \subsection{Client}
+  \fpar The Client should be able to access our API on his browser:
+  \begin{center}
+    \url{https://recommendations.sytes.net}
+  \end{center}
+  \par The Swagger provides a user interface to use and test our calls by adding "/ui" to the end of the url above.
 
-    \subsubsection{Server}
-    \fpar In total there are 7 different microservices working at the same time. Every single one of them runs on Google Cloud, inside the same cluster but in different dockers.
-    \par Our reasoning was to have an entrance microservice, which would redirect the request to the microservice responsible for that type of request, for example when sending a request for a page in our library, the API Gateway receives that request and sends it to the Library Service, which is responsible for asking for books, movies and animes to the Book, IMDB and Anime Services, respectively, and then put them together in just one response, which is then sent to the API Gateway, to be shown to the Client.
-    \par This API Gateway service also has the responsibility of transforming the REST requests from the Client to gRPC requests that are used internally, between Services.
-    \par From the total of 7 microservices, 5 are responsible for the database connection, meaning that they are responsible for translating the request they receive into inserts, updates, removes or queries to the database. They are also responsible for translating responses from the database into responses that can be understood by the other microservices.
+  \subsection{Server}
+  \fpar In total there are 7 different microservices working at the same time. Every single one of them runs on Google Cloud, inside the same cluster but in different dockers.
+  \par Our reasoning was to have an entrance microservice, which would redirect the request to the microservice responsible for that type of request, for example when sending a request for a page in our library, the API Gateway receives that request and sends it to the Library Service, which is responsible for asking for books, movies and animes to the Book, IMDB and Anime Services, respectively, and then put them together in just one response, which is then sent to the API Gateway, to be shown to the Client.
+  \par This API Gateway service also has the responsibility of transforming the REST requests from the Client to gRPC requests that are used internally, between Services. This service is also responsible for verifying the User authorization.
+  \par From the total of 7 microservices, 4 are responsible for the database connection, meaning that they are responsible for translating the request they receive into inserts, updates, removes or queries to the database. They are also responsible for translating responses from the database into responses that can be understood by the other microservices.
 
-    \subsubsection{Databases}
-    \fpar Every database has a service that has the responsibility to access and manage it. While 3 of the databases are hosted by \href{https://www.mongodb.com/}{MongoDB}, a NoSQL database, the last one is an SQL database hosted on an external server. This last database was initially hosted on Google Cloud, however we removed it from there, because it was costing us a lot of money.
-    \par For the Books', Movies' and Animes' databases, we used a NoSQL database since we might have had to change the format of our documents, meaning that if we had an SQL database we would need to drop the entire database and repopulate it again every time we decided to change the schema. MongoDB provides a very easy and intuitive python implementation to work with, which was also a factor to consider when selecting the type of databases that we would be using.
-    \par However, for the Users' database we used an SQL one, because we already knew what we wanted from the User, and we knew we would use structured data for it.
+  \subsection{Spark}
+  \fpar Later in the course of the project, we added the Spark microservice. This service receives the gRPC requests from the API Gateway service and then processes them, requesting a job in the Google Cloud storage, where we have a Cluster with the sole purpose of running this type of jobs.
 
-    \subsubsection{Spark}
-    \fpar Later in the course of the project, we added the Spark microservice. This service receives the gRPC requests from the API Gateway service and then processes them, creating a job to send to Google Cloud where we have a Cluster with the sole purpose of running this type of jobs.
-
-  \subsection{Technical}
-
-    \subsubsection{Databases}
-    \fpar Since the MongoDB already provides an API with secure channels we didn't need to make any changes to the connection, the transmitted data is secured, and we tested it by running Wireshark to sniff the packets and observing they are encrypted.
-    \par To use a secure connection between the Service to handle the users' data we initialize a connection with certificates (SSL server certificate authority, SSL server certificate and an SSL client key) using the TLS cryptographic protocol designed to provide secure communications.
-
-    \subsubsection{Spark}
-    \fpar Having our jobs already on the cloud, the Spark Service (Spark Connector) has the responsibility of asking the Dataproc cluster for the result of the job that was requested, that will run it and send back the result.
-
-    \subsubsection{Authentication with Auth0}
-    \fpar At first, we had our own authentication method, which we implemented using basic authentication and JWT tokens. 
-    \par The user could register an account, using their email, which would then be confirmed with an email message. Then, they could choose their username and password, finishing the registration process. 
-    \par The passwords were hashed using SHA512\_Crypt. Later, we changed the authentication to an external service, auth0. To configure it, we defined an API on auth0 and configured an app. 
-    \par We used implicit flow, with client credential flow enabled just for testing. Our auth0 also uses roles, admin and normal user, with a set of permissions for each. The roles are given with a rule we set, making every registration automatically a normal user, with admins being configured manually. 
-    \par The difference between admins and normal users is that admins can add and delete items from the database. On Swagger, the user can use the authorize button to request the token to the auth0 service, using our defined API as audience and supplying the scopes, i.e., the permissions they require. 
-    \par After this, the user is redirected to the auth0 page to conclude with their authentication. With this done, Swagger gets the token needed and adds it to all its request headers. 
-    \par The user can also do this manually but they would have to add the token manually after logging in. This can also be done using a client app using our API, similarly to what Swagger does: the user logs in on auth0 and the client app gets the token, which it then adds to its own headers. The token is verified using the public key from auth0.
-
-    \subsubsection{Secure channels with istio}
-    \fpar After the cluster is created (using create\_cluster.sh), we then install Istio (using install\_istio.sh). When installing Istio, we supply a valid certificate which is used in its ingress, allowing for secure communications through HTTPS. 
-    \par Istio also encrypts all the connections between the ingress and microservices.
-
-    \subsubsection{CI/CD pipeline}
-    \fpar To implement the CI/CD pipeline, we created a trigger that when a commit is done on the deploy branch on git, the cloud build starts by running the yaml file. 
-    \par First, it builds all the microservices, pushes them to the container registry, starts the Docker and runs the microservices. 
-    \par After they are running, we start a test network using Docker, which is then tested (integration and unit tests), to assure that everything is alright and can be deployed on Kubernetes. If all the tests pass, the system is then deployed.
-
-    \subsubsection{Deployment}
-    \fpar The deployment is done using its yaml file, deployment.yaml, where we have defined all the services of each microservice, the auto-scaling properties and an Istio ingress, which uses the certificate we supplied.
+  \subsection{Databases}
+  \fpar Every database has a service that has the responsibility to access and manage it. While 3 of the databases are hosted by \href{https://www.mongodb.com/}{MongoDB}, a NoSQL database, the last one is an SQL database hosted on an external server. This last database was initially hosted on Google Cloud, however we removed it from there, because it was costing us a lot of money.
+  \par For the Books', Movies' and Animes' databases, we used a NoSQL database since we might have had to change the format of our documents, meaning that if we had an SQL database we would need to drop the entire database and repopulate it again every time we decided to change the schema. MongoDB provides a very easy and intuitive python implementation to work with, which was also a factor to consider when selecting the type of databases that we would be using.
+  \par However, for the Users' database we used an SQL one, because we already knew what we wanted from the User, and we knew we would use structured data for it.
 
 \section{Implementation}
 \label{sec:implementation}
-\fpar We actually made 2 different implementations, one that runs locally and other that runs in the cloud.
+\fpar We actually made 2 different deployments, one that runs locally and other that runs in the cloud.
 \par We created a local version of our application for several reasons: we were more familiar with the development of local-running applications, running the application on the cloud costs money, and we can debug the app better when it is running locally which is important during development. When developing a feature, first we would put everything running locally, by running a script, and once the feature was running without issues on our machines, we would adapt it to run on the cloud.
 
-
   \subsection{Server (Microservices)}
+
+    \subsubsection{Library}
+    \fpar The business logic resides inside this microservice, providing a list of existing Items, allowing their management. Furthermore, allows the use of special requests with search algorithms.
+    \par This Service is also responsible for processing the new likes and views from the logged-in User, requesting an addition.
 
     \subsubsection{Suggestion Algorithm}
     \fpar This algorithm lives inside the Library Service.
     \fpar Since we are a recommendation API, we also implemented an algorithm to suggest what the User should see next.
     \par This algorithm uses all the likes and views of a specific user to decide the 3 categories that the user enjoys the most. 
-    \par For this purpose, the algorithm uses a scoring mechanism that attributes each category 1 point for every view and 3 points for every like. Afterwords, the 3 categories with the highest score are chosen. \par The function will then recommend a random sample (every sample has the number of elements that were determined by the user) for each category.
+    \par For this purpose, the algorithm uses a scoring mechanism that attributes each category 1 point for every view and 3 points for every like. Afterwords, the 3 categories with the highest score are chosen. 
+    \par The function will then recommend a random sample (every sample has the number of elements that were determined by the user) for each category.
 
     \subsubsection{Docker Compose}
     \fpar For the microservices deployment we use a docker-compose file, which defines each microservice. In this file, we define a microservice's name, a build stating that we are using a Dockerfile and where the context of the microservice is (its folder, with its required content). We also define the image, hostname and container for the microservice, for which we use the same name as the microservice's. Finally, we assign a port to the microservice, which is crucial for the application to behave properly.
@@ -371,6 +345,36 @@ João Afonso fc51111 \\
 
     \subsection{Spark}
     \fpar First, we implemented a job that creates a csv connecting people that participated in the same movie. With this, we have 2 use cases: one that uses said csv to create a graph using Spark GraphX to calculate the degree of each vertex, checking which has the highest degree, with the purpose of checking which person has worked with the biggest quantity of people; and another that sends a direct query to calculate which movie director has the highest average rating in all their works.
+
+    \subsection{Technical}
+
+      \subsubsection{Databases}
+      \fpar Since the MongoDB already provides an API with secure channels we didn't need to make any changes to the connection, the transmitted data is secured, and we tested it by running Wireshark to sniff the packets and observing they are encrypted.
+      \par To use a secure connection between the Service to handle the users' data we initialize a connection with certificates (SSL server certificate authority, SSL server certificate and an SSL client key) using the TLS cryptographic protocol designed to provide secure communications.
+
+      \subsubsection{Spark}
+      \fpar Having our jobs already on the cloud, the Spark Service (Spark Connector) has the responsibility of asking the Dataproc cluster for the result of the job that was requested, that will run it and send back the result.
+
+      \subsubsection{Authentication with Auth0}
+      \fpar At first, we had our own authentication method, which we implemented using basic authentication and JWT tokens. 
+      \par The user could register an account, using their email, which would then be confirmed with an email message. Then, they could choose their username and password, finishing the registration process. 
+      \par The passwords were hashed using SHA512\_Crypt. Later, we changed the authentication to an external service, auth0. To configure it, we defined an API on auth0 and configured an app. 
+      \par We used implicit flow, with client credential flow enabled just for testing. Our auth0 also uses roles, admin and normal user, with a set of permissions for each. The roles are given with a rule we set, making every registration automatically a normal user, with admins being configured manually. 
+      \par The difference between admins and normal users is that admins can add and delete items from the database. On Swagger, the user can use the authorize button to request the token to the auth0 service, using our defined API as audience and supplying the scopes, i.e., the permissions they require. 
+      \par After this, the user is redirected to the auth0 page to conclude with their authentication. With this done, Swagger gets the token needed and adds it to all its request headers. 
+      \par The user can also do this manually, but they would have to add the token manually after logging in. This can also be done using a client app using our API, similarly to what Swagger does: the user logs in on auth0 and the client app gets the token, which it then adds to its own headers. The token is verified using the public key from auth0.
+
+      \subsubsection{Secure channels with istio}
+      \fpar After the cluster is created (using create\_cluster.sh), we then install Istio (using install\_istio.sh). When installing Istio, we supply a valid certificate which is used in its ingress, allowing for secure communications through HTTPS. 
+      \par Istio also encrypts all the connections between the ingress and microservices.
+
+      \subsubsection{CI/CD pipeline}
+      \fpar To implement the CI/CD pipeline, we created a trigger that when a commit is done on the deploy branch on git, the cloud build starts by running the yaml file. 
+      \par First, it builds all the microservices, pushes them to the container registry, starts the Docker and runs the microservices. 
+      \par After they are running, we start a test network using Docker, which is then tested (integration and unit tests), to assure that everything is alright and can be deployed on Kubernetes. If all the tests pass, the system is then deployed.
+
+      \subsubsection{Deployment}
+      \fpar The deployment is done using its yaml file, deployment.yaml, where we have defined all the services of each microservice, the auto-scaling properties and an Istio ingress, which uses the certificate we supplied.
 
 \section{Evaluation and validation}
 \label{sec:evaluation_and_validation}
