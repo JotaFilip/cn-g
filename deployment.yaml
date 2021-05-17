@@ -12,7 +12,11 @@ data:
   ANIMES_HOST: "anime"
   IMDBS_HOST: "imdb"
   SIGNIN_HOST: "signin"
+  GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-projecto-ee48440401d9.json"
   LIBRARY_HOST: "library"
+  OAUTH_CLIENT_ID: "72wQelC6FubulYS6qlY7ZhSVkyNgoTYF"
+  OAUTH_SCOPES: "openid"
+  OAUTH2_REDIRECT_URL: "https://recommendations.sytes.net/ui"
 ---
 apiVersion: "apps/v1"
 kind: "Deployment"
@@ -335,6 +339,22 @@ spec:
             configMapKeyRef:
               key: "LIBRARY_HOST"
               name: "recommendations-config-tn5f"
+        - name: "OAUTH_CLIENT_ID"
+          valueFrom:
+            configMapKeyRef:
+              key: "OAUTH_CLIENT_ID"
+              name: "recommendations-config-tn5f"
+        - name: "OAUTH_SCOPES"
+          valueFrom:
+            configMapKeyRef:
+              key: "OAUTH_SCOPES"
+              name: "recommendations-config-tn5f"
+        - name: "OAUTH2_REDIRECT_URL"
+          valueFrom:
+            configMapKeyRef:
+              key: "OAUTH2_REDIRECT_URL"
+              name: "recommendations-config-tn5f"
+
 ---
 apiVersion: "v1"
 kind: Service

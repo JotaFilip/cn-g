@@ -149,14 +149,14 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         return ItemInfoResponse(recommendations=r)
 
     def AddItem(self, request, context):
-        id = request.user_id
+        # id = request.user_id
         type = request.type
 
-        user_id_request = UserId(id=id)
-        isAdmin = accounts_client.VerificarAdmin(user_id_request).success
+        # user_id_request = UserId(id=id)
+        # isAdmin = accounts_client.VerificarAdmin(user_id_request).success
 
-        if not isAdmin:
-            return Success(success=False)
+        # if not isAdmin:
+        #     return Success(success=False)
 
         if (type == Type.ANIME):
             return animes_client.AddAnime(request.anime)
@@ -192,14 +192,14 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             return Item()
 
     def RemoveItem(self, request, context):
-        id = request.user_id
+    #     id = request.user_id
         type = request.type
-
-        user_id_request = UserId(id=id)
-        isAdmin = accounts_client.VerificarAdmin(user_id_request).success
-
-        if not isAdmin:
-            return Success(success=False)
+        #
+        # # user_id_request = UserId(id=id)
+        # isAdmin = accounts_client.VerificarAdmin(user_id_request).success
+        #
+        # if not isAdmin:
+        #     return Success(success=False)
 
         if (type == Type.ANIME):
             return animes_client.RemoveAnime(AnimeByIdRequest(anime_id=request.id))
@@ -274,6 +274,10 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             return accounts_client.Like(seen_and_like_request)
 
+
+
+    def GetTopTen(self, request, context):
+        return accounts_client.GetTopTen(request)
 
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]
