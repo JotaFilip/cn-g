@@ -121,11 +121,11 @@ class AccountService(account_pb2_grpc.AccountServicer):
     #     session.commit()
     #
     #     return Success(success = True)
-    def LoginUser(self, request, context):
-        return None
+    # def LoginUser(self, request, context):
+    #     return None
 
-    def LogoutUser(self, request, context):
-        return None
+    # def LogoutUser(self, request, context):
+    #     return None
     #
 
     def Seen(self,request,context):
@@ -253,9 +253,6 @@ class AccountService(account_pb2_grpc.AccountServicer):
 
         session.commit()
         return SeensAndLikesInfo(infos=likes)
-
-
-
 
     #Username
     def GetUserByName(self, request, context):

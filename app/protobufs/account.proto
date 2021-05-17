@@ -39,6 +39,10 @@ message UserRequest {
 	string user_id = 1;
 }
 
+message UsernameRequest {
+	string username = 1;
+}
+
 message UpdateUserRequest {
 	string user_id = 1;
 	string new_username = 2;
@@ -109,16 +113,16 @@ message TopTenRequest {
 
 service Account {
 	// CriarUtilizador
-	/*rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
+	// rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
 	//Actualiza a password do user baseado no nonce enviado para o email
-	rpc UserPassword (PasswordRequest) returns (Success);
-	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);*/
+	// rpc UserPassword (PasswordRequest) returns (Success);
+	// rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
 
 	//rpc VerificarAdmin(UserId) returns (Success);
 	//Dar login //nao usado
-	//rpc LoginUser (UserDataRequest) returns (Success);
+	// rpc LoginUser (UserDataRequest) returns (Success);
 	//Dar logout //nao usado
-	//rpc LogoutUser (Empty) returns (Success);
+	// rpc LogoutUser (Empty) returns (Success);
 
 	//Parte da library
 	//Marcar item como visto
@@ -137,7 +141,7 @@ service Account {
 	rpc GetContagemLikesAndViews(UserId) returns (ViewsAndLikesCount);
 
 	//Username
-	rpc GetUserByName (UserRequest) returns (UserData);
+	rpc GetUserByName (UsernameRequest) returns (UserData);
 	rpc UpdateUser (UpdateUserRequest) returns (Success);
 	rpc DeleteUser (UserRequest) returns (Success);
 
