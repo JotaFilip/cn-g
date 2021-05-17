@@ -3,6 +3,7 @@
 import grpc
 
 import spark_connector_pb2 as spark__connector__pb2
+import utils_pb2 as utils__pb2
 
 
 class Spark_ConnectorStub(object):
@@ -10,7 +11,7 @@ class Spark_ConnectorStub(object):
     string name = 1;
     repeated Movie movies = 2;
     }
-    
+
     message Movie {
     string name = 1;
     repeated string actors = 2;
@@ -32,14 +33,14 @@ class Spark_ConnectorStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetDirectorWork = channel.unary_unary(
-                '/Spark_Connector/GetDirectorWork',
-                request_serializer=spark__connector__pb2.Director.SerializeToString,
+        self.GetPersonWhoWorkedWithMorePeopleToSameMovie = channel.unary_unary(
+                '/Spark_Connector/GetPersonWhoWorkedWithMorePeopleToSameMovie',
+                request_serializer=utils__pb2.Empty.SerializeToString,
                 response_deserializer=spark__connector__pb2.ExecutionResult.FromString,
                 )
-        self.GetFamousActor = channel.unary_unary(
-                '/Spark_Connector/GetFamousActor',
-                request_serializer=spark__connector__pb2.Actor.SerializeToString,
+        self.GetBestDirector = channel.unary_unary(
+                '/Spark_Connector/GetBestDirector',
+                request_serializer=utils__pb2.Empty.SerializeToString,
                 response_deserializer=spark__connector__pb2.ExecutionResult.FromString,
                 )
 
@@ -49,7 +50,7 @@ class Spark_ConnectorServicer(object):
     string name = 1;
     repeated Movie movies = 2;
     }
-    
+
     message Movie {
     string name = 1;
     repeated string actors = 2;
@@ -65,14 +66,14 @@ class Spark_ConnectorServicer(object):
 
     """
 
-    def GetDirectorWork(self, request, context):
+    def GetPersonWhoWorkedWithMorePeopleToSameMovie(self, request, context):
         """DirectorWork);
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetFamousActor(self, request, context):
+    def GetBestDirector(self, request, context):
         """ActorName);
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -82,14 +83,14 @@ class Spark_ConnectorServicer(object):
 
 def add_Spark_ConnectorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetDirectorWork': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetDirectorWork,
-                    request_deserializer=spark__connector__pb2.Director.FromString,
+            'GetPersonWhoWorkedWithMorePeopleToSameMovie': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPersonWhoWorkedWithMorePeopleToSameMovie,
+                    request_deserializer=utils__pb2.Empty.FromString,
                     response_serializer=spark__connector__pb2.ExecutionResult.SerializeToString,
             ),
-            'GetFamousActor': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetFamousActor,
-                    request_deserializer=spark__connector__pb2.Actor.FromString,
+            'GetBestDirector': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetBestDirector,
+                    request_deserializer=utils__pb2.Empty.FromString,
                     response_serializer=spark__connector__pb2.ExecutionResult.SerializeToString,
             ),
     }
@@ -104,7 +105,7 @@ class Spark_Connector(object):
     string name = 1;
     repeated Movie movies = 2;
     }
-    
+
     message Movie {
     string name = 1;
     repeated string actors = 2;
@@ -121,7 +122,7 @@ class Spark_Connector(object):
     """
 
     @staticmethod
-    def GetDirectorWork(request,
+    def GetPersonWhoWorkedWithMorePeopleToSameMovie(request,
             target,
             options=(),
             channel_credentials=None,
@@ -131,14 +132,14 @@ class Spark_Connector(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Spark_Connector/GetDirectorWork',
-            spark__connector__pb2.Director.SerializeToString,
+        return grpc.experimental.unary_unary(request, target, '/Spark_Connector/GetPersonWhoWorkedWithMorePeopleToSameMovie',
+            utils__pb2.Empty.SerializeToString,
             spark__connector__pb2.ExecutionResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetFamousActor(request,
+    def GetBestDirector(request,
             target,
             options=(),
             channel_credentials=None,
@@ -148,8 +149,8 @@ class Spark_Connector(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Spark_Connector/GetFamousActor',
-            spark__connector__pb2.Actor.SerializeToString,
+        return grpc.experimental.unary_unary(request, target, '/Spark_Connector/GetBestDirector',
+            utils__pb2.Empty.SerializeToString,
             spark__connector__pb2.ExecutionResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

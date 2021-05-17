@@ -11,6 +11,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+import utils_pb2 as utils__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -19,60 +20,11 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x15spark_connector.proto\"\n\n\x08\x44irector\"\x07\n\x05\x41\x63tor\"!\n\x0f\x45xecutionResult\x12\x0e\n\x06output\x18\x01 \x01(\t2m\n\x0fSpark_Connector\x12.\n\x0fGetDirectorWork\x12\t.Director\x1a\x10.ExecutionResult\x12*\n\x0eGetFamousActor\x12\x06.Actor\x1a\x10.ExecutionResultb\x06proto3'
-)
+  serialized_pb=b'\n\x15spark_connector.proto\x1a\x0butils.proto\"!\n\x0f\x45xecutionResult\x12\x0e\n\x06output\x18\x01 \x01(\t2\x87\x01\n\x0fSpark_Connector\x12G\n+GetPersonWhoWorkedWithMorePeopleToSameMovie\x12\x06.Empty\x1a\x10.ExecutionResult\x12+\n\x0fGetBestDirector\x12\x06.Empty\x1a\x10.ExecutionResultb\x06proto3'
+  ,
+  dependencies=[utils__pb2.DESCRIPTOR,])
 
 
-
-
-_DIRECTOR = _descriptor.Descriptor(
-  name='Director',
-  full_name='Director',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=25,
-  serialized_end=35,
-)
-
-
-_ACTOR = _descriptor.Descriptor(
-  name='Actor',
-  full_name='Actor',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=37,
-  serialized_end=44,
-)
 
 
 _EXECUTIONRESULT = _descriptor.Descriptor(
@@ -102,28 +54,12 @@ _EXECUTIONRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=46,
-  serialized_end=79,
+  serialized_start=38,
+  serialized_end=71,
 )
 
-DESCRIPTOR.message_types_by_name['Director'] = _DIRECTOR
-DESCRIPTOR.message_types_by_name['Actor'] = _ACTOR
 DESCRIPTOR.message_types_by_name['ExecutionResult'] = _EXECUTIONRESULT
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
-
-Director = _reflection.GeneratedProtocolMessageType('Director', (_message.Message,), {
-  'DESCRIPTOR' : _DIRECTOR,
-  '__module__' : 'spark_connector_pb2'
-  # @@protoc_insertion_point(class_scope:Director)
-  })
-_sym_db.RegisterMessage(Director)
-
-Actor = _reflection.GeneratedProtocolMessageType('Actor', (_message.Message,), {
-  'DESCRIPTOR' : _ACTOR,
-  '__module__' : 'spark_connector_pb2'
-  # @@protoc_insertion_point(class_scope:Actor)
-  })
-_sym_db.RegisterMessage(Actor)
 
 ExecutionResult = _reflection.GeneratedProtocolMessageType('ExecutionResult', (_message.Message,), {
   'DESCRIPTOR' : _EXECUTIONRESULT,
@@ -141,25 +77,25 @@ _SPARK_CONNECTOR = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=81,
-  serialized_end=190,
+  serialized_start=74,
+  serialized_end=209,
   methods=[
   _descriptor.MethodDescriptor(
-    name='GetDirectorWork',
-    full_name='Spark_Connector.GetDirectorWork',
+    name='GetPersonWhoWorkedWithMorePeopleToSameMovie',
+    full_name='Spark_Connector.GetPersonWhoWorkedWithMorePeopleToSameMovie',
     index=0,
     containing_service=None,
-    input_type=_DIRECTOR,
+    input_type=utils__pb2._EMPTY,
     output_type=_EXECUTIONRESULT,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='GetFamousActor',
-    full_name='Spark_Connector.GetFamousActor',
+    name='GetBestDirector',
+    full_name='Spark_Connector.GetBestDirector',
     index=1,
     containing_service=None,
-    input_type=_ACTOR,
+    input_type=utils__pb2._EMPTY,
     output_type=_EXECUTIONRESULT,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,

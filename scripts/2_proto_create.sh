@@ -39,6 +39,7 @@ ln ./app/protobufs/utils/*pb2* ./app/protobufs/account/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/book/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/anime/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/imdb/ &> /dev/null
+ln ./app/protobufs/utils/*pb2* ./app/protobufs/spark_connector/ &> /dev/null
 
 # printf " ."
 ### GERAR FICHEIROS PARA SIGNIN
