@@ -1,14 +1,15 @@
 syntax = "proto3";
+import "utils.proto";
 
 ////////////////////////////////////////////
 ///////////////BASIC REQUESTS///////////////
 ////////////////////////////////////////////
 
-message Director {
-}
-
-message Actor {
-}
+//message Director {
+//}
+//
+//message Actor {
+//}
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSE///////////////
@@ -37,6 +38,6 @@ message ExecutionResult {
 ////////////////////////////////////////////
 
 service Spark_Connector {
-    rpc GetDirectorWork(Director) returns (ExecutionResult);//DirectorWork);
-    rpc GetFamousActor(Actor) returns (ExecutionResult);//ActorName);
+    rpc GetPersonWhoWorkedWithMorePeopleToSameMovie(Empty) returns (ExecutionResult);//DirectorWork);
+    rpc GetBestDirector(Empty) returns (ExecutionResult);//ActorName);
 }
