@@ -274,11 +274,10 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             return accounts_client.Like(seen_and_like_request)
 
-    def GetViews(self, request, context):
-        return accounts_client.GetViews(request)
-    
-    def GetLikes(self, request, context):
-        return accounts_client.GetLikes(request)
+
+
+    def GetTopTen(self, request, context):
+        return accounts_client.GetTopTen(request)
 
 def serve():
     interceptors = [ExceptionToStatusInterceptor()]

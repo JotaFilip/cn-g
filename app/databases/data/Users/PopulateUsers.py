@@ -20,18 +20,18 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     query={"ssl_ca": "server-ca.pem", 'ssl_cert': 'client-cert.pem', 'ssl_key': 'client-key.pem'},
 )
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
+Base.metadata.drop_all(engine)
+Base.metadata.create_all(engine)
 
 print("Creating Users",end=" \t")
-new_users_ids = [ i for i in range(1,2001) ]
+new_users_ids = [ str(i) for i in range(1,200001) ]
 new_users     = []
 for i in new_users_ids:
     username = "User_" +str(i)
-    email    = "email_"+str(i)+"@email.com"
     new_users.append(
         User(
-            id = i,
+            user_id = i,
             username = username, 
-            email = email
         )
     )
 print("done")
@@ -66,17 +66,17 @@ animes = MongoClient(up+"@animes.4nkye.mongodb.net/Animes?retryWrites=true&w=maj
 animes = animes["database"]
 animes = animes["animes"]
 
-databases = [(books,0),(imdb1,1),(imdb2,1),(animes,3)]
+databases = [(books,0),(imdb1,1),(imdb2,1),(animes,2)]
 
 print("Fetching Items",end=" \t")
 likes = []
 views = []
 for (d,t) in databases:
-    ls = list(d.find().limit(10))
+    ls = list(d.find().limit(1000))
     ls = [ (str(l['_id']),t) for l in ls ]
     likes += ls
 
-    vs = list(d.find().limit(10))
+    vs = list(d.find().limit(1000))
     vs = [ (str(v['_id']),t) for v in vs ]
     views += vs
 print("done")
@@ -93,7 +93,14 @@ for (like,tp) in likes:
             item_type = tp,
         )
     )
-    i += 1
+    new_likes.append(
+        Like(
+            user_id = new_users_ids[i+1], 
+            item_id = like,
+            item_type = tp,
+        )
+    )
+    i += 2
     i %= len(new_users_ids)
 print("done")
 
@@ -108,7 +115,14 @@ for (view,tp) in views:
             item_type = tp,
         )
     )
-    i += 1
+    new_views.append(
+        Seen(
+            user_id = new_users_ids[i+1], 
+            item_id = view,
+            item_type = tp,
+        )
+    )
+    i += 2
     i %= len(new_users_ids)
 print("done")
 

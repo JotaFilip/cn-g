@@ -6,17 +6,14 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
-
-
 class User(Base):
     __tablename__ = 'user'
 
     user_id = Column(String(256), primary_key=True)
     username = Column(String(128), index=True)
 
-
     def getId(self):
-        return self.id
+        return self.user_id
 
 class Seen(Base):
     __tablename__ = 'seen'
@@ -43,8 +40,6 @@ class Contagem(Base):
         self.views += 1
     def incrementLikes(self):
         self.likes += 1
-
-
 
 SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     drivername="mysql+mysqlconnector",

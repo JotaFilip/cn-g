@@ -26,6 +26,11 @@ ln ./app/protobufs/account/*pb2* ./app/protobufs/library/ &> /dev/null
 ln ./app/protobufs/account/*pb2* ./app/protobufs/api_gateway/ &> /dev/null
 printf " ."
 
+# ### GERAR FICHEIROS PARA SPARK_CONNECTOR
+python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/spark_connector/ --grpc_python_out=./app/protobufs/spark_connector/ ./app/protobufs/spark_connector.proto --experimental_allow_proto3_optional
+ln ./app/protobufs/spark_connector/*pb2* ./app/protobufs/api_gateway/ &> /dev/null
+printf " ."
+
 ### GERAR FICHEIROS PARA UTILS
 python3 -m grpc_tools.protoc -I ./app/protobufs --python_out=./app/protobufs/utils --grpc_python_out=./app/protobufs/utils/ ./app/protobufs/utils.proto --experimental_allow_proto3_optional
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/api_gateway/ &> /dev/null
@@ -34,6 +39,7 @@ ln ./app/protobufs/utils/*pb2* ./app/protobufs/account/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/book/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/anime/ &> /dev/null
 ln ./app/protobufs/utils/*pb2* ./app/protobufs/imdb/ &> /dev/null
+ln ./app/protobufs/utils/*pb2* ./app/protobufs/spark_connector/ &> /dev/null
 
 # printf " ."
 ### GERAR FICHEIROS PARA SIGNIN

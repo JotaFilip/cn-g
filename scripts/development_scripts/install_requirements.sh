@@ -16,5 +16,5 @@ pip3 install -r ./app/protobufs/api_gateway/requirements.txt
 echo "Installing requirements for account..."
 pip3 install -r ./app/protobufs/account/requirements.txt
 
-echo "Installing requirements for signin..."
-pip3 install -r ./app/protobufs/signin/requirements.txt
+echo "Installing requirements for spark..."
+pip3 install -r ./app/protobufs/spark_connector/requirements.txt
