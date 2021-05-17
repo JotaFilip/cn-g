@@ -13,6 +13,9 @@ def workerWithMoreConnections():
     resp = spark_client.GetPersonWhoWorkedWithMorePeopleToSameMovie(Empty()).output
     return resp
 
-
 def bestDirector():
-    return spark_client.GetBestDirector(Empty()).output
+    result = spark_client.GetBestDirector(Empty()).output
+    result = [ line for line in result.split('\n')       \
+                        if line.startswith("https://") ] \
+           + [None]
+    return result[0]
