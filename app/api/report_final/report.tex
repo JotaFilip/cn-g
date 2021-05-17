@@ -176,7 +176,7 @@ João Afonso fc51111 \\
     \multirow{2}{*}{ Spark }
       & \multirow{2}{*}{ Any }
         & See best Director in terms of rating* \\
-      & & See which Actor has the most connections \\
+      & & See which worker has the most connections \\
   \end{tabular}
   \caption{Seen's Use cases\\
           \**at least with $10$ movies and $10.000$ reviews in each}
@@ -188,7 +188,7 @@ João Afonso fc51111 \\
   \centering
   \addtolength{\leftskip} {-20cm}
   \addtolength{\rightskip}{-20cm}
-  \begin{adjustbox}{width=1.6\textwidth}
+  \begin{adjustbox}{width=1.4\textwidth}
   \begin{tabular}{ c|l l l l|c|c|c|c|l }
     \rowcolor{Gray}
     Role & \multicolumn{4}{c|}{Path} & get & post & put & del & description 
@@ -253,24 +253,23 @@ João Afonso fc51111 \\
     & \multicolumn{4}{l|}{} &
      & & & &
     Returns the Director with best rating with \\
-    & \multicolumn{4}{l|}{\multirow{-2}{*}{/\{director\}}} &
+    & \multicolumn{4}{l|}{\multirow{-2}{*}{/bestDirector}} &
     \multirow{-2}{*}{\xmark}
      & & & &
     at least $10$ movies with $10.000+$ reviews
     \\ 
     & \multicolumn{4}{l|}{} &
      & & & &
-    Returns the Actor's name with \\
+    Returns the worker's imdb link that worked with \\
     \multirow{-4}{*}{Any} 
-    & \multicolumn{4}{l|}{\multirow{-2}{*}{/actor}} &
+    & \multicolumn{4}{l|}{\multirow{-2}{*}{/moreConnected}} &
     \multirow{-2}{*}{\xmark} & & & &
-    movies with the biggest cast in total
+    the most (distinct) people
   \end{tabular}
   \end{adjustbox}
   \caption{Seen's API table}
 \end{table}
 
-\clearpage
 \section{Architecture (application and technical)}
 \label{sec:architecture}
   \subsection{Diagram}

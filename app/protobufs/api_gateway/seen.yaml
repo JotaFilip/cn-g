@@ -251,12 +251,12 @@ paths:
           description: Invalid input
       # security:
       # - api_key: []
-  /moreConnected:
+  /mostConnected:
     get:
       tags:
       - library_spark
-      summary: 
-      description: 
+      summary: Returns the worker's imdb link that worked with the most (distinct) people
+      description: Returns imdb link of the most connected worker
       operationId: api_spark.workerWithMoreConnections
       produces:
       - application/json
@@ -277,8 +277,8 @@ paths:
     get:
       tags:
       - library_spark
-      summary: 
-      description: 
+      summary: Returns the Director with best rating in at least 10 movies with 10.000+ reviews
+      description: Returns the best Director and its average rating in movies
       operationId: api_spark.bestDirector
       produces:
       - application/json
