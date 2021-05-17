@@ -10,7 +10,8 @@ spark_channel = grpc.insecure_channel(f"{spark_host}:50058")
 spark_client = Spark_ConnectorStub(spark_channel)
 
 def workerWithMoreConnections():
-    return spark_client.GetPersonWhoWorkedWithMorePeopleToSameMovie(Empty())
+    resp = spark_client.GetPersonWhoWorkedWithMorePeopleToSameMovie(Empty()).output
+    return resp
 
 
 def bestDirector():
