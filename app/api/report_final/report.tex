@@ -379,17 +379,17 @@ João Afonso fc51111 \\
 
 \section{Evaluation and validation}
 \label{sec:evaluation_and_validation}
-\fpar To perform an evaluation on the system by load testing, we used three different technologies: Prometheus, Grafana and Locust. 
+\fpar To perform an evaluation on the system by stress testing, we used three different technologies: Prometheus, Grafana and Locust. 
 \par Prometheus is a monitoring system that retrieves data directly from the cluster as it is executing, while Grafana displays and amalgamates the data in a way that can be analyzed by the human eye (plots, etc.). 
-\par To perform the load tests on itself, we used Locust, a load testing tool. 
+\par To perform the stress tests on itself, we used Locust, a stress testing tool. 
 \par All these tools were configured automatically with scripts to further automate the deployment of the system (see locust.sh and add\_plugins.sh).
 \par To test our Spark implementation we used the interface inside the Google Cloud named Dataproc.
 
   \subsection{Evaluation}
   \label{sec:evaluation}
-  \fpar We ran Locust, the tool to perform the load testing, in another cluster to avoid affecting the results. 
+  \fpar We ran Locust, the tool to perform the stress testing, in another cluster to avoid affecting the results. 
   \par It was tested with up to 800 users, which at that point it was getting close to 100\% CPU usage, according to Grafana. At the time, we were using weak machines (12 CPUs) as Google Cloud's free trial did not allow any higher than that. 
-  \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did load testing with 100 users, 500 users and 800 users.
+  \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did stress testing with 100 users, 500 users and 800 users.
   \par For the Spark job we went to Google Cloud > Dataproc > Jobs, and observe the time taken running, and got 2 minutes and 5 seconds for the first one and 7 minutes and 37 seconds for the second.
 
   \subsection{Validation}
@@ -464,25 +464,32 @@ João Afonso fc51111 \\
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{ tests/img1.png }
+  \caption{Stress testing with 800 users. CPU usage and system load plots}
 \end{figure}
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{ tests/img2.png }
+  \caption{Stress testing with 800 users. CPU usage and system load plots}
 \end{figure}
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{ tests/img3.png }
+  \caption{Stress testing with 800 users. CPU usage and system load plots}
 \end{figure}
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{ tests/img4.png }
+  \caption{Stress testing with 800 users. CPU usage and system load plots}
 \end{figure}
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{ tests/img5.png }
+  \caption{Stress testing with 800 users. DNS latency}
+  
 \end{figure}
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{ tests/locust.png }
+  \caption{Stress testing with 800 users, requests and count of each}
 \end{figure}
 \end{document}
