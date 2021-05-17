@@ -1,6 +1,5 @@
 from pyspark.sql import SparkSession
 import os
-from graphframes import *
 
 spark = SparkSession \
     .builder \
@@ -17,7 +16,7 @@ df = spark.read.option("header", "true").option("sep", "\t").option("inferSchema
 #     requireSSL="true",
 #     password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj").load()
 logs_df = df.select("tconst", "nconst").registerTempTable("movie_people")
-edges = spark.sql("SELECT t1.nconst as src, t2.nconst as dst FROM movie_people t1, movie_people t2 WHERE t1.tconst == t2.tconst AND t1.nconst != t2.nconst")
+edges = spark.sql("SELECT DISTINCT t1.nconst as src, t2.nconst as dst FROM movie_people t1, movie_people t2 WHERE t1.tconst == t2.tconst AND t1.nconst != t2.nconst")
 verts = spark.sql("SELECT t1.nconst as id FROM movie_people t1")
 edges.write.option("header","true").csv("gs://cn-spark-bucket/edges.csv")
 verts.write.option("header","true").csv("gs://cn-spark-bucket/verts.csv")

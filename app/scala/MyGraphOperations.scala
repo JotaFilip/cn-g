@@ -26,10 +26,9 @@ object MyGraphOperations {
       // Adjust separator if needed
       .options(Map("header" -> "true"))
       .csv("gs://cn-spark-bucket/verts.csv")
-
-    val users: RDD[(VertexId, String)] =
+    val users: RDD[(VertexId, (String))] =
       v.rdd.distinct().map(p =>
-        (MurmurHash.stringHash(p.toString), p.toString))
+        (MurmurHash.stringHash(p.toString), (p.toString)))
     val edgesRDD: RDD[Edge[String]] =
       e.rdd.map(r => {
         val p = Edge(MurmurHash.stringHash(r.getString(0)), MurmurHash.stringHash(r.getString(1)), "colega")
@@ -39,8 +38,17 @@ object MyGraphOperations {
     val defaultUser = ("Missing")
     // Build the initial Graph
     val graph = Graph(users, edgesRDD, defaultUser)
+    val output = graph.degrees.reduce( (a,b) => if (a._2 > b._2) a else b)
+//    val ranks = graph.staticPageRank(3).vertices
+//    ranks
+//      .join(users)
+//      .sortBy(_._2._1, ascending=false) // sort by the rank
+//      .take(10) // get the top 10
+//      .foreach(x => println(x._2._2))
 
-    println("Result: " + graph.numVertices)
-    spark.stop
+    val o = v.filter(x => MurmurHash.stringHash(x.getString(0)) == output._1)
+    //val o = v.filter(x => MurmurHash.stringHash(x.getString(0)) == 1234796439L)
+    println("https://www.imdb.com/name/" + o.first.getString(0))
+    spark.stop()
   }
 }
