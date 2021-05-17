@@ -255,8 +255,8 @@ paths:
     get:
       tags:
       - library_spark
-      summary: Returns a list of every movie that the best director made
-      description: Returns a list of every movie that the best director made, using an average of IMDB ratings
+      summary: 
+      description: 
       operationId: api_spark.workerWithMoreConnections
       produces:
       - application/json
@@ -277,8 +277,8 @@ paths:
     get:
       tags:
       - library_spark
-      summary: Returns the Actor that stared in movies with the most people in total
-      description: Returns the Actor's name 
+      summary: 
+      description: 
       operationId: api_spark.bestDirector
       produces:
       - application/json
