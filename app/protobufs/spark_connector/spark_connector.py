@@ -51,25 +51,27 @@ class Spark_Connector(spark_connector_pb2_grpc.Spark_ConnectorServicer):
             'placement': {
                 'cluster_name': cluster_name
             },
-            "sparkJob": {
-                "mainJarFileUri": "gs://cn-spark-bucket/mygraphoperations_2.12-0.1.0.jar",
-                "properties": {}
+            "spark_job": {
+                'main_class': 'com.example.MyGraphOperations',
+                "jar_file_uris": ["gs://cn-spark-bucket/mygraphoperations_2.12-0.1.0.jar"]
             }
         }
+        print("Before submiting")
         output = submit_job(project_id, region, job)
+        print(output)
         return ExecutionResult(output=output)
     def GetBestDirector(self, request, context):
         job = {
             'placement': {
                 'cluster_name': cluster_name
             },
-            "pysparkJob": {
-                "mainPythonFileUri": "gs://cn-spark-bucket/query2.py",
-                "properties": {}
+            "pyspark_job": {
+                "main_python_file_uri": "gs://cn-spark-bucket/query2.py"
             }
         }
         output = submit_job(project_id, region, job)
 
+        print(output)
         return ExecutionResult(output=output)
 
     # def GetDirectorWork(self,request,context):
