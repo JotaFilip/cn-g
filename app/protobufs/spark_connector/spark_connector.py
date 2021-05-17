@@ -9,37 +9,22 @@ from grpc_interceptor.exceptions import NotFound
 
 from spark_connector_pb2 import *
 import spark_connector_pb2_grpc
+from utils_pb2 import *
 
-from google.cloud import dataproc_v1
-from google.cloud import storage
-from google.cloud.dataproc_v1.gapic.transports import cluster_controller_grpc_transport
-from google.cloud.dataproc_v1.gapic.transports import job_controller_grpc_transport
-
-
-class Spark_Connector(spark_connector_pb2_grpc.Spark_ConnectorServicer):
-    import re
+import re
 
 from google.cloud import dataproc_v1 as dataproc
 from google.cloud import storage
 
-def submit_job(project_id, region, cluster_name):
+project_id = "cn-g14-projecto"
+region = "europe-west4"
+cluster_name = "cluster-spark"
+
+def submit_job(project_id, region, job):
     # Create the job client.
     job_client = dataproc.JobControllerClient(client_options={
         'api_endpoint': '{}-dataproc.googleapis.com:443'.format(region)
     })
-
-    # Create the job config. 'main_jar_file_uri' can also be a
-    # Google Cloud Storage URL.
-    job = {
-        'placement': {
-            'cluster_name': cluster_name
-        },
-        'spark_job': {
-            'main_class': 'org.apache.spark.examples.SparkPi',
-            'jar_file_uris': ['file:///usr/lib/spark/examples/jars/spark-examples.jar'],
-            'args': ['1000']
-        }
-    }
 
     operation = job_client.submit_job_as_operation(
         request={"project_id": project_id, "region": region, "job": job}
@@ -57,7 +42,35 @@ def submit_job(project_id, region, cluster_name):
             .download_as_string()
     )
 
-    print(f"Job finished successfully: {output}")
+    return output
+
+class Spark_Connector(spark_connector_pb2_grpc.Spark_ConnectorServicer):
+
+    def GetPersonWhoWorkedWithMorePeopleToSameMovie(self, request, context):
+        job = {
+            'placement': {
+                'cluster_name': cluster_name
+            },
+            "sparkJob": {
+                "mainJarFileUri": "gs://cn-spark-bucket/mygraphoperations_2.12-0.1.0.jar",
+                "properties": {}
+            }
+        }
+        output = submit_job(project_id, region, job)
+        return ExecutionResult(output=output)
+    def GetBestDirector(self, request, context):
+        job = {
+            'placement': {
+                'cluster_name': cluster_name
+            },
+            "pysparkJob": {
+                "mainPythonFileUri": "gs://cn-spark-bucket/query2.py",
+                "properties": {}
+            }
+        }
+        output = submit_job(project_id, region, job)
+
+        return ExecutionResult(output=output)
 
     # def GetDirectorWork(self,request,context):
     #     # TODO

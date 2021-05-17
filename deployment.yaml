@@ -12,6 +12,7 @@ data:
   ANIMES_HOST: "anime"
   IMDBS_HOST: "imdb"
   SIGNIN_HOST: "signin"
+  GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-projecto-ee48440401d9.json"
   LIBRARY_HOST: "library"
   OAUTH_CLIENT_ID: "72wQelC6FubulYS6qlY7ZhSVkyNgoTYF"
   OAUTH_SCOPES: "openid"

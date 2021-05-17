@@ -251,13 +251,13 @@ paths:
           description: Invalid input
       # security:
       # - api_key: []
-  /director:
+  /moreConnected:
     get:
       tags:
       - library_spark
       summary: Returns a list of every movie that the best director made
       description: Returns a list of every movie that the best director made, using an average of IMDB ratings
-      operationId: api_spark.director
+      operationId: api_spark.workerWithMoreConnections
       produces:
       - application/json
       responses:
@@ -273,13 +273,13 @@ paths:
           description: Item not found
       # security:
       # - api_key: []
-  /actor:
+  /bestDirector:
     get:
       tags:
       - library_spark
       summary: Returns the Actor that stared in movies with the most people in total
       description: Returns the Actor's name 
-      operationId: api_spark.actor
+      operationId: api_spark.bestDirector
       produces:
       - application/json
       responses:
