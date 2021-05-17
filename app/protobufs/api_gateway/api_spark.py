@@ -10,8 +10,21 @@ spark_channel = grpc.insecure_channel(f"{spark_host}:50058")
 spark_client = Spark_ConnectorStub(spark_channel)
 
 def workerWithMoreConnections():
-    resp = spark_client.GetPersonWhoWorkedWithMorePeopleToSameMovie(Empty()).output
-    return resp
+    result = spark_client.GetPersonWhoWorkedWithMorePeopleToSameMovie(Empty()).output
+    result = [ line for line in result.split('\n') ]
+
+    index = -1    
+    str = "+---------+----------------+"
+    try :   index = len(result) - result[-1::-1].index(str) - 2
+    except: pass
+    if index < 0: return None
+        
+    result = [ i.replace('|','').strip()  for i in result[index].split('|') ]
+    id, rating = [ i for i in result if i != ""]
+    return {
+        'link': "https://www.imdb.com/name/"+id,
+        'rating': round(float(rating),2)
+    }
 
 def bestDirector():
     result = spark_client.GetBestDirector(Empty()).output
