@@ -400,19 +400,24 @@ João Afonso fc51111 \\
 \begin{table}
   \centering
   \begin{tabular}{l|r}
-    Services            & Total Cost \\
-    Anthos              & 0,92€      \\
-    Cloud Build         & 0€         \\
-    CLoud SQL           & 108,48€    \\
-    Compute Engine      & 7,55€      \\
-    Kubernetes Engine   & 155,00€    \\
-    Source Repository   & 0€         \\
-    Source Repository   & 0€         \\
-    Stackdrive Logging  & 0€         \\
-    All                 & 271,66€    \\
+    Services            & Cost    \\
+    Anthos              & 0,92€   \\
+    Cloud Build         & 0€      \\
+    Cloud SQL           & 108,48€ \\
+    Compute Storage     & 7,55€   \\
+    Compute Engine      & 155,00€ \\
+    Kubernetes Engine   & 0€      \\
+    Source Repository   & 0€      \\
+    Stackdrive Logging  & 0€      \\
+    All                 & 271,66€ \\
   \end{tabular}
+  \caption{Total cost table}
+  \label{table:cost}
 \end{table}
-\fpar TODO escrever qualquer coisa.
+\fpar In total, until this moment, we spent around 272€ on this project, all covered by coupons and discounts.
+\par Most of our expenditure was on Cloud SQL (40\%) and Compute Engine (57\%). For the Cloud SQL we weren't expecting being this expensive, but since we were using a CPU with 8 cores our expense is 8 times bigger than it could've been. 
+\par After discovering the amount of money used on the Cloud SQL, we shut it down and repopulated an independent SQL database, hosted by a Raspberry Pi (with all the security measures previous implemented).
+\par The Compute Engine can be easily explain since it's the expenses of running our microservices, because they were between 6 and 7, since the beginning of the development, and used 2 or 4 vCPUs, that were switched back and forth because the free trial billing wouldn't let the use of more than 12 vCPUs, and since we also needed them elsewhere we couldn't use more than 2 here.
 
 \section{Discussion}
 \label{sec:discussion}
