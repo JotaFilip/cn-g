@@ -28,9 +28,9 @@ import csv
 # genre,              27
 
 insert_list = []
-with open("cn-g/app/databases/data/MyAnimeList/AnimeList.csv","r",encoding="utf8") as f:
+with open("app/databases/data/MyAnimeList/AnimeList.csv","r",encoding="utf8") as f:
     reader = csv.reader(f)
-
+    
     first_elem = True
     for row in reader:
         genres = row[28].split(",")
@@ -40,11 +40,15 @@ with open("cn-g/app/databases/data/MyAnimeList/AnimeList.csv","r",encoding="utf8
             first_elem = False
             continue
 
+        anime_name = row[2].strip()
+        if not anime_name:
+            anime_name = row[1].strip() # TODO
+
         anime = {
-            'name' : row[2],
+            'name' : anime_name,
             'category': genres,
             'rating' : float(row[15]),
-            'imageURL' : row[5]
+            'imageURL' : row[5].strip()
         }
 
         insert_list.append(anime)

@@ -1,4 +1,15 @@
 grpc-interceptor >= 0.11.0
-grpcio-tools >= 1.30
+grpcio-tools >= 1.30.0
 pymongo >= 3.11.2
 dnspython >= 2.1.0
+passlib >= 0.0.0
+sqlalchemy >= 0.0.0
+pymysql >= 0.0.0
+mysql-connector >= 0.0.0
+#mysqlclient
+# pyspark >= 0.0.0
+#mariadb >= 0.0.0
+#mysqldb >= 0.0.0
+#sasl
+#thrift_sasl
+#pyhive

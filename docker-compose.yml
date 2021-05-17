@@ -1,0 +1,103 @@
+version: "3.8"
+services:
+
+#    dns-resolver:
+#        image: defreitas/dns-proxy-server:2.5.1
+#        restart: always
+#        ports:
+#            - 5380
+#        hostname: dns.mageddo.intranet
+#        container_name: dns-resolver
+#        volumes:
+#            - /opt/dns-proxy-server/conf:/app/conf
+#            - /var/run/docker.sock:/var/run/docker.sock
+#            - /etc/resolv.conf:/etc/resolv.conf
+#        networks:
+#            - micro_services
+
+    spark_connector:
+       build:
+           dockerfile: Dockerfile
+           context: ./app/protobufs/spark_connector
+       image: spark_connector
+       hostname: spark_connector
+       container_name: spark_connector
+    #    networks:
+    #        - micro_services
+       ports:
+           - 50058:50058
+
+    account:
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/account
+        image: account
+        hostname: account
+        container_name: account
+        ports:
+            - 50055:50055
+
+    anime:
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/anime
+        image: anime
+        hostname: anime
+        container_name: anime
+        ports:
+            - 50053:50053
+
+    book:
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/book
+        image: book
+        hostname: book
+        container_name: book
+        ports:
+            - 50051:50051
+
+    imdb:
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/imdb
+        image: imdb
+        hostname: imdb
+        container_name: imdb
+        ports:
+            - 50052:50052
+
+    library:
+        environment:
+            BOOKS_HOST: book
+            IMDBS_HOST: imdb
+            ANIMES_HOST: anime
+            ACCOUNTS_HOST: account
+
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/library
+        image: library
+        container_name: library
+        hostname: library
+        ports:
+            - 50050:50050
+
+    api-gateway:
+        environment:
+            SPARK_CONNECTOR_HOST: spark_connector
+            ACCOUNTS_HOST: account
+            LIBRARY_HOST: library
+        build:
+            dockerfile: Dockerfile
+            context: ./app/protobufs/api_gateway
+        image: api-gateway
+        container_name: api-gateway
+        hostname: api-gateway
+        ports:
+            - 8443:8443
+
+networks:
+    default:
+        external:
+            name: cloudbuild

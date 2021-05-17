@@ -3,6 +3,7 @@
 import grpc
 
 import anime_pb2 as anime__pb2
+import utils_pb2 as utils__pb2
 
 
 class AnimeStub(object):
@@ -38,6 +39,16 @@ class AnimeStub(object):
                 request_serializer=anime__pb2.AnimeByCategoryRequest.SerializeToString,
                 response_deserializer=anime__pb2.AnimeDataList.FromString,
                 )
+        self.AddAnime = channel.unary_unary(
+                '/Anime/AddAnime',
+                request_serializer=anime__pb2.AnimeData.SerializeToString,
+                response_deserializer=anime__pb2.AddAnimeResponse.FromString,
+                )
+        self.RemoveAnime = channel.unary_unary(
+                '/Anime/RemoveAnime',
+                request_serializer=anime__pb2.AnimeByIdRequest.SerializeToString,
+                response_deserializer=utils__pb2.Success.FromString,
+                )
 
 
 class AnimeServicer(object):
@@ -71,6 +82,18 @@ class AnimeServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def AddAnime(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RemoveAnime(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AnimeServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -93,6 +116,16 @@ def add_AnimeServicer_to_server(servicer, server):
                     servicer.SearchByCategory,
                     request_deserializer=anime__pb2.AnimeByCategoryRequest.FromString,
                     response_serializer=anime__pb2.AnimeDataList.SerializeToString,
+            ),
+            'AddAnime': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddAnime,
+                    request_deserializer=anime__pb2.AnimeData.FromString,
+                    response_serializer=anime__pb2.AddAnimeResponse.SerializeToString,
+            ),
+            'RemoveAnime': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveAnime,
+                    request_deserializer=anime__pb2.AnimeByIdRequest.FromString,
+                    response_serializer=utils__pb2.Success.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -173,5 +206,39 @@ class Anime(object):
         return grpc.experimental.unary_unary(request, target, '/Anime/SearchByCategory',
             anime__pb2.AnimeByCategoryRequest.SerializeToString,
             anime__pb2.AnimeDataList.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def AddAnime(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Anime/AddAnime',
+            anime__pb2.AnimeData.SerializeToString,
+            anime__pb2.AddAnimeResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RemoveAnime(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Anime/RemoveAnime',
+            anime__pb2.AnimeByIdRequest.SerializeToString,
+            utils__pb2.Success.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

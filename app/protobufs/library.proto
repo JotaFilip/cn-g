@@ -3,15 +3,9 @@ syntax = "proto3";
 import "book.proto";
 import "imdb.proto";
 import "anime.proto";
+// import "account.proto";
 
 import "utils.proto";
-
-enum Type {
-    BOOK = 0;
-    SHOW = 1;
-    ANIME = 2;
-	ALL = 3;
-}
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
@@ -22,7 +16,7 @@ message ItemInfoResponse {
 }
 
 message ItemInfo {
-    string id = 1;
+	string id = 1;
 	string name = 2;
 	Type type = 3;
 }
@@ -31,6 +25,8 @@ message Item {
 	optional BookData book = 1;
 	optional IMDBData imdb = 2;
 	optional AnimeData anime = 3;
+	int64 likes = 4;
+	int64 seens = 5;
 }
 
 ////////////////////////////////////////////
@@ -65,6 +61,7 @@ message SearchByCategoryRequest {
 }
 
 message AddItemRequest {
+    int64 user_id = 5;
 	optional BookData book = 1;
 	optional IMDBData imdb = 2;
 	optional AnimeData anime = 3;
@@ -73,7 +70,12 @@ message AddItemRequest {
 
 message ItemId {
 	string id = 1;
-	string type = 2;
+	Type type = 2;
+}
+message ItemIdAndUser {
+	string user_id = 1;
+	string id = 2;
+	Type type = 3;
 }
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -84,9 +86,14 @@ service Library {
     rpc Recommend (RecommendationRequest) returns (ItemInfoResponse);
 	rpc AddItem (AddItemRequest) returns (Success);
 	rpc GetItem (ItemId) returns (Item);
-	rpc RemoveItem (ItemId) returns (Success);
-	rpc UpdateSeenItem (ItemId) returns (Success);
-	rpc UpdateLikeItem (ItemId) returns (Success);
-	rpc SearchByName (SearchByNameRequest) returns (ItemInfoResponse);
-	rpc SearchByCategory (SearchByCategoryRequest) returns (ItemInfoResponse);
+	rpc RemoveItem (ItemIdAndUser) returns (Success);
+	rpc AddSeenItem (ItemIdAndUser) returns (Success);
+	rpc AddLikeItem (ItemIdAndUser) returns (Success);
+
+//	//ObterContagem de likes do item
+//	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
+//	//ObterContagem de seens do item
+//	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
+//
+//	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
 }

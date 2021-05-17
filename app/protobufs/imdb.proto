@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "utils.proto";
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
@@ -30,6 +31,11 @@ message IMDBByIdRequest {
     string imdb_id = 1;
 }
 
+//Message used to search for IMDB by ID
+message AddIMDBResponse {
+    string imdb_id = 1;
+}
+
 //Message used to search for IMDB content by name
 message IMDBByNameRequest {
     string name = 1;
@@ -57,4 +63,6 @@ service IMDB {
     rpc SearchById (IMDBByIdRequest) returns (IMDBData);
 	rpc SearchByName (IMDBByNameRequest) returns (IMDBDataList);
 	rpc SearchByCategory (IMDBByCategoryRequest) returns (IMDBDataList);
+	rpc AddIMDB (IMDBData) returns (AddIMDBResponse);
+	rpc RemoveIMDB (IMDBByIdRequest) returns (Success);
 }

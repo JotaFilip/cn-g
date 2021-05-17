@@ -6,10 +6,9 @@ user = "seen"
 password = "ifFvApoasv9lLvqR"
 up = user + ":" + password
 
-db = MongoClient("mongodb+srv://"+up+"@books.lnpq3.mongodb.net/Books?retryWrites=true&w=majority")
-db = db["database"]
-db = db["books"]
+client = MongoClient("mongodb+srv://"+up+"@movies.oysuj.mongodb.net/Movies?retryWrites=true&w=majority")
+db = client["database"]
+db = db["movies"]
 
-results = db.find({ "category": "Fiction" }).limit(1)
-for r in results:
-    print(r)
+result = int(db.estimated_document_count())
+print(result)

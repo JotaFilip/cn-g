@@ -1,16 +1,14 @@
+# GROUP NUMBER 14
+
 # Running
-Using: `./scripts/run.sh` \ 
-We build everything and start running:
-1. Install Proto dependencies
-2. Create Protobuf files
-3. Populate Databases
-4. Build Dockers
-5. Run Dockers
-6. Run Test
+## Delivery3
+Install docker and run the script:
+`./scripts/run.sh`
+##Delivery4
+Follow instructions on DeployOnGoogleCloudReadme.md
 
 Notes: 
 - Our databases are already populated, with something like 7 million rows of data
-- With this test we only start up 4 microservices, so it doesn't take much time running
 
 # Roles
 #Role | Role                                | Número  | Nome            

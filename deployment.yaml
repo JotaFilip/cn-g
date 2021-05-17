@@ -1,0 +1,630 @@
+---
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "recommendations-config-tn5f"
+  namespace: "default"
+  labels:
+    app: "recommendations"
+data:
+  ACCOUNTS_HOST: "account"
+  BOOKS_HOST: "book"
+  ANIMES_HOST: "anime"
+  IMDBS_HOST: "imdb"
+  SIGNIN_HOST: "signin"
+  LIBRARY_HOST: "library"
+  OAUTH_CLIENT_ID: "72wQelC6FubulYS6qlY7ZhSVkyNgoTYF"
+  OAUTH_SCOPES: "openid"
+  OAUTH2_REDIRECT_URL: "https://recommendations.sytes.net/ui"
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "imdb"
+  namespace: "default"
+  labels:
+    app: "imdb"
+spec:
+  strategy:
+    type: Recreate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "imdb"
+  template:
+    metadata:
+      labels:
+        app: "imdb"
+    spec:
+      serviceAccountName: default
+#      terminationGracePeriodSeconds: 5
+      containers:
+      - name: "imdb"
+        image: "gcr.io/cn-g14-projecto/imdb"
+        ports:
+        - containerPort: 50052
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50052"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50052"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: imdb
+spec:
+  #  type: ClusterIP
+  selector:
+    app: imdb
+  ports:
+  - name: grpc
+    port: 50052
+    targetPort: 50052
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "account"
+  namespace: "default"
+  labels:
+    app: "account"
+spec:
+  strategy:
+    type: Recreate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "account"
+  template:
+    metadata:
+      labels:
+        app: "account"
+    spec:
+      serviceAccountName: default
+#      terminationGracePeriodSeconds: 5
+      containers:
+      - name: "account"
+        image: "gcr.io/cn-g14-projecto/account"
+        ports:
+        - containerPort: 50055
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50055"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50055"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account
+spec:
+  #  type: ClusterIP
+  selector:
+    app: account
+  ports:
+  - name: grpc
+    port: 50055
+    targetPort: 50055
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "book"
+  namespace: "default"
+  labels:
+    app: "book"
+spec:
+  strategy:
+    type: Recreate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "book"
+  template:
+    metadata:
+      labels:
+        app: "book"
+    spec:
+      serviceAccountName: default
+#      terminationGracePeriodSeconds: 5
+      containers:
+      - name: "book"
+        image: "gcr.io/cn-g14-projecto/book"
+        ports:
+        - containerPort: 50051
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#           command: ["/bin/grpc_health_probe", "-addr=:50051"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50051"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: book
+spec:
+  #  type: ClusterIP
+  selector:
+    app: book
+  ports:
+  - name: grpc
+    port: 50051
+    targetPort: 50051
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "signin"
+  namespace: "default"
+  labels:
+    app: "signin"
+spec:
+  strategy:
+    type: Recreate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "signin"
+  template:
+    metadata:
+      labels:
+        app: "signin"
+    spec:
+      serviceAccountName: default
+#      terminationGracePeriodSeconds: 5
+      containers:
+      - name: "signin"
+        image: "gcr.io/cn-g14-projecto/signin"
+        ports:
+        - containerPort: 50054
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
+        env:
+        - name: "ACCOUNTS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "ACCOUNTS_HOST"
+              name: "recommendations-config-tn5f"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: signin
+spec:
+  #  type: ClusterIP
+  selector:
+    app: signin
+  ports:
+  - name: grpc
+    port: 50054
+    targetPort: 50054
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "library"
+  namespace: "default"
+  labels:
+    app: "library"
+spec:
+  strategy:
+    type: Recreate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "library"
+  template:
+    metadata:
+      labels:
+        app: "library"
+    spec:
+      serviceAccountName: default
+#      terminationGracePeriodSeconds: 5
+      containers:
+      - name: "library"
+        image: "gcr.io/cn-g14-projecto/library"
+        ports:
+        - containerPort: 50050
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50050"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50050"]
+        env:
+        - name: "BOOKS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "BOOKS_HOST"
+              name: "recommendations-config-tn5f"
+        - name: "ANIMES_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "ANIMES_HOST"
+              name: "recommendations-config-tn5f"
+        - name: "IMDBS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "IMDBS_HOST"
+              name: "recommendations-config-tn5f"
+        - name: "ACCOUNTS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "ACCOUNTS_HOST"
+              name: "recommendations-config-tn5f"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: library
+spec:
+  #  type: ClusterIP
+  selector:
+    app: library
+  ports:
+  - name: grpc
+    port: 50050
+    targetPort: 50050
+---
+apiVersion: "apps/v1"
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  strategy:
+    type: Recreate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      serviceAccountName: default
+#      terminationGracePeriodSeconds: 5
+      containers:
+      - name: api-gateway
+        image: "gcr.io/cn-g14-projecto/api-gateway"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8443
+        readinessProbe:
+          initialDelaySeconds: 10
+          httpGet:
+            path: "/lib/1"
+#            scheme: HTTPS
+            port: 8443
+#            httpHeaders:
+#            - name: "Cookie"
+#              value: "shop_session-id=x-readiness-probe"
+        livenessProbe:
+          initialDelaySeconds: 10
+
+          httpGet:
+            path: "/lib/1"
+#            scheme: HTTPS
+            port: 8443
+#            httpHeaders:
+#            - name: "Cookie"
+#              value: "shop_session-id=x-liveness-probe"
+        env:
+        - name: "SIGNIN_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "SIGNIN_HOST"
+              name: "recommendations-config-tn5f"
+        - name: "LIBRARY_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "LIBRARY_HOST"
+              name: "recommendations-config-tn5f"
+        - name: "OAUTH_CLIENT_ID"
+          valueFrom:
+            configMapKeyRef:
+              key: "OAUTH_CLIENT_ID"
+              name: "recommendations-config-tn5f"
+        - name: "OAUTH_SCOPES"
+          valueFrom:
+            configMapKeyRef:
+              key: "OAUTH_SCOPES"
+              name: "recommendations-config-tn5f"
+        - name: "OAUTH2_REDIRECT_URL"
+          valueFrom:
+            configMapKeyRef:
+              key: "OAUTH2_REDIRECT_URL"
+              name: "recommendations-config-tn5f"
+
+---
+apiVersion: "v1"
+kind: Service
+metadata:
+  name: api-gateway
+#  annotations:
+#    cloud.google.com/app-protocols: '{"https":"HTTPS"}'
+spec:
+#  type: ClusterIP
+  selector:
+    app: api-gateway
+  ports:
+  - name: http
+    port: 8443
+    targetPort: 8443
+---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: frontend-external
+#spec:
+#  type: LoadBalancer
+#  selector:
+#    app: api-gateway
+#  ports:
+#  - name: http
+#    port: 80
+#    targetPort: 80
+#---
+#apiVersion: networking.k8s.io/v1beta1
+#kind: Ingress
+#metadata:
+#  name: api-gateway-ingress
+#  annotations:
+##    ingress.kubernetes.io/backend-protocol: "HTTPS"
+#    kubernetes.io/ingress.allow-http: "false"
+#spec:
+#  tls:
+#    - secretName: recommendations
+#  rules:
+#  - http:
+#      paths:
+#      - path: /*
+#        backend:
+#          serviceName: api-gateway
+#          servicePort: 8443
+#---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "anime"
+  namespace: "default"
+  labels:
+    app: "anime"
+spec:
+  strategy:
+    type: Recreate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "anime"
+  template:
+    metadata:
+      labels:
+        app: "anime"
+    spec:
+      serviceAccountName: default
+#      terminationGracePeriodSeconds: 5
+      containers:
+      - name: "anime"
+        image: "gcr.io/cn-g14-projecto/anime"
+        ports:
+        - containerPort: 50053
+#        readinessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50053"]
+#        livenessProbe:
+#          periodSeconds: 5
+#          exec:
+#            command: ["/bin/grpc_health_probe", "-addr=:50053"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: anime
+spec:
+  #  type: ClusterIP
+  selector:
+    app: anime
+  ports:
+  - name: grpc
+    port: 50053
+    targetPort: 50053
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "imdb-hpa-cs66"
+  namespace: "default"
+  labels:
+    app: "imdb"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "imdb"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "api-gateway-hpa-cs66"
+  namespace: "default"
+  labels:
+    app: "api-gateway"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "api-gateway"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "library-hpa-cs66"
+  namespace: "default"
+  labels:
+    app: "library"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "library"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "signin-hpa-cs66"
+  namespace: "default"
+  labels:
+    app: "signin"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "signin"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "anime-hpa-cs66"
+  namespace: "default"
+  labels:
+    app: "anime"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "anime"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "book-hpa-cs66"
+  namespace: "default"
+  labels:
+    app: "book"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "book"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "account-hpa-cs66"
+  namespace: "default"
+  labels:
+    app: "account"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "account"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ingress-gateway-recommendations
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key # must be the same as secret
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: recommendations-service-istio
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - ingress-gateway-recommendations
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        port:
+          number: 8443
+        host: api-gateway
+---

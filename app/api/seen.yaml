@@ -2,13 +2,14 @@ swagger: "2.0"
 info:
   description: |
     Seen is a place where you can discover new Movies, Shows and Books
-  version: 1.0.0
+  version: 1.0.2
   title: Seen. Movies, Shows and Books
-host: virtserver.swaggerhub.com
 basePath: /
 tags:
 - name: library
   description: A place to see what has been seen
+- name: library_spark
+  description: Special request that user Spark
 - name: user
   description: Operations about user
 schemes:
@@ -35,21 +36,32 @@ paths:
         "200":
           description: successful operation
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Item'
+            $ref: '#/definitions/ItemList'
       # security:
       # - api_key: []
   /suggest:
-    get:
+    post:
       tags:
       - library
       summary: Returns suggestions
+      security:
+        - oAuthCheck:
+          - read:suggest
       description: Returns a map of item codes
       operationId: api_lib.getSuggestions
       produces:
       - application/json
-      parameters: []
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            properties:
+              tipos:
+                type: array
+                items:
+                  $ref: '#/definitions/Type'
       responses:
         "200":
           description: successful operation
@@ -72,26 +84,25 @@ paths:
       - application/json
       produces:
       - application/json
+      security:
+        - oAuthCheck:
+            - write:item
       parameters:
       - in: body
         name: body
         description: Seen object that needs to be added to the library
         required: true
         schema:
-          $ref: '#/definitions/Item'
+          $ref: '#/definitions/ItemInsert'
       responses:
         "200":
-          description: successful operation
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Item'
+          description: Successful operation
         "405":
           description: Invalid input
       # security:
       # - seen_auth:
       #   - write:items
-  /item/{itemId}:
+  /item/{type}/{itemId}:
     get:
       tags:
       - library
@@ -105,8 +116,12 @@ paths:
         in: path
         description: Id of item to return
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -124,6 +139,9 @@ paths:
       summary: Deletes an item
       description: Deletes a item
       operationId: api_lib.deleteItem
+      security:
+        - oAuthCheck:
+            - delete:item
       produces:
       - application/json
       parameters:
@@ -131,8 +149,12 @@ paths:
         in: path
         description: Id of the item to delete
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -143,20 +165,27 @@ paths:
       # security:
       # - seen_auth:
       #   - write:items
-  /item/{itemId}/seen:
+  /item/{type}/{itemId}/seen:
     put:
       tags:
       - library
       summary: Mark item as seen
       description: Mark a item as seen
       operationId: api_lib.updateItemSeen
+      security:
+        - oAuthCheck:
+            - write:seen
       parameters:
       - name: itemId
         in: path
         description: Id of item to update
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
@@ -166,23 +195,99 @@ paths:
           description: Item not found
       # security:
       # - api_key: []
-  /item/{itemId}/like:
+  /item/{type}/{itemId}/like:
     put:
       tags:
       - library
       summary: Mark item with like
       description: Mark a item with like
+      security:
+        - oAuthCheck:
+            - write:like
       operationId: api_lib.updateItemLike
       parameters:
       - name: itemId
         in: path
         description: Id of item to update
         required: true
-        type: integer
-        format: int64
+        type: string
+      - name: type
+        in: path
+        description: type of item to return
+        required: true
+        type: string
       responses:
         "200":
           description: Successful operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      # security:
+      # - api_key: []
+  /getTopTen/{type}:
+    get:
+      tags:
+      - library
+      summary: Returns Top 10
+      description: Returns list of the top 10 items
+      operationId: api_lib.getTopTen
+      produces:
+      - application/json
+      parameters:
+      - name: type
+        in: path
+        description: type of top 10
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/IdTuple'
+        "405":
+          description: Invalid input
+      # security:
+      # - api_key: []
+  /director:
+    get:
+      tags:
+      - library_spark
+      summary: Returns a list of every movie that the best director made
+      description: Returns a list of every movie that the best director made, using an average of IMDB ratings
+      operationId: api_spark.director
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Movie'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      # security:
+      # - api_key: []
+  /actor:
+    get:
+      tags:
+      - library_spark
+      summary: Returns the Actor that stared in movies with the most people in total
+      description: Returns the Actor's name 
+      operationId: api_spark.actor
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: string
+            example: Johnny Depp
         "400":
           description: Invalid ID supplied
         "404":
@@ -193,11 +298,14 @@ paths:
     post:
       tags:
       - user
-      summary: Create user
-      description: Create user
-      operationId: api_users.createUser
+      summary: Create/Update user
+      description: Updates user, if it doesn't exist, creates a new one
+      operationId: api_users.updateUser
       consumes:
       - application/json
+      security:
+        - oAuthCheck:
+          -  write:username
       produces:
       - application/json
       parameters:
@@ -206,31 +314,24 @@ paths:
         description: Created user object
         required: true
         schema:
-          $ref: '#/definitions/User'
+          $ref: '#/definitions/Username'
       responses:
         "200":
           description: Successful operation
         "400":
-          description: Dados incorretos
+          description: Invalid user supplied
   /user/login:
     get:
       tags:
       - user
       summary: Logs user into the system
       operationId: api_users.loginUser
+#      security:
+#        - oAuthCheck:
+#            - openid
+##            - read_login
       produces:
       - application/json
-      parameters:
-      - name: username
-        in: query
-        description: The user name for login
-        required: true
-        type: string
-      - name: password
-        in: query
-        description: Hash password for login
-        required: true
-        type: string
       responses:
         "200":
           description: successful operation
@@ -252,14 +353,18 @@ paths:
       tags:
       - user
       summary: Logs out current logged in user session
+#      security:
+#        - oAuthCheck:
+#            - write_logout
+#            - read_logout
       operationId: api_users.logoutUser
       produces:
       - application/json
       parameters: []
       responses:
-        default:
+        "200":
           description: successful operation
-  /user/{username}:
+  /user/search/{username}:
     get:
       tags:
       - user
@@ -282,37 +387,13 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
-    put:
-      tags:
-      - user
-      summary: Updated user
-      description: This can only be done by the logged in user.
-      operationId: api_users.updateUser
-      produces:
-      - application/json
-      parameters:
-      - name: username
-        in: path
-        description: name that need to be updated
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: Updated user object
-        required: true
-        schema:
-          $ref: '#/definitions/User'
-      responses:
-        "200":
-          description: Successful operation
-        "400":
-          description: Invalid user supplied
-        "404":
-          description: User not found
     delete:
       tags:
       - user
       summary: Delete user
+      security:
+        - oAuthCheck:
+            - delete:username
       description: This can only be done by the logged in user.
       operationId: api_users.deleteUser
       produces:
@@ -328,41 +409,63 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
-# securityDefinitions:
-#   BasicAuth:
-#     type: basic
+
+securityDefinitions:
+#basicAuth:
+  #type: basic
+  #x-tokenInfoFunc: api_users.verify_password
 #   api_key:
 #     type: apiKey
 #     name: api_key
 #     in: header
-  # seen_auth:
-  #   type: oauth2
-  #   authorizationUrl: http://seen.swagger.io/oauth/dialog
-  #   flow: implicit
-  #   scopes:
-  #     write:items: modify items in your account
-  #     read:items: read your items
+  oAuthCheck:
+    type: oauth2
+    x-tokenInfoFunc: api_users.verify_token
+    #x-tokenInfoUrl: https://saldanha.eu.auth0.com/userinfo
+    authorizationUrl: https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api
+    #?response_type=token&state=my-custom-state&sso=false&redirect_uri=http%3A%2F%2Flocalhost%2Fui&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF
+    #client_id: 72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&
+    #?response_type=token&state=my-custom-state&sso=false&redirect_uri=http%3A%2F%2Flocalhost%2Fui&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF
+    #authorizationUrl: https://saldanha.eu.auth0.com/u/login
+    #authorizationUrl: https://saldanha.eu.auth0.com/oauth2/authorize?audience=api_users
+#https://saldanha.eu.auth0.com/authorize?scope=openid%20name%20email%20nickname&response_type=token&state=my-custom-state&sso=false&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=https%3A%2F%2Fsaldanha.eu12.webtask.io%2Fauth0-authentication-api-debugger&auth0Client=eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiNi44LjQifQ
+    #audience: https://recommendations.sytes.net/api
+#    String url = String url = "https://saldanha.eu.auth0.com/oauth2/authorize"+ "?response_type=id_token" + "&response_mode=form_post" +"&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF" + "&redirect_uri=https://recommendations.sytes.net/callback" + CALLBACK_URL + "&scope=" + SCOPE;
+
+    flow: implicit
+    scopes:
+      openid: Obtain id
+      name: name
+      email: email
+      nickname: nickname
+      read:suggest: read a suggestion
+      write:item: write item
+      delete:item: delete item
+      write:seen: write seen
+      write:like: write like
+      write:username: write username
+      delete:username: delete username
+
 definitions:
+
   Type:
     type: string
     enum:
-    - book
-    - film
-    - show
+    - BOOK
+    - ANIME
+    - SHOW
+
   Category:
     type: object
     properties:
-      id:
-        type: integer
-        format: int64
       name:
         type: string
+
   User:
     type: object
     properties:
       id:
-        type: integer
-        format: int64
+        type: string
       username:
         type: string
       password:
@@ -370,22 +473,59 @@ definitions:
       seens:
         type: array
         items:
-          type: integer
+          $ref: '#/definitions/IdTuple'
           description: Seen ids
       likes:
         type: array
         items:
-          type: integer
-          description: Seen ids
+          $ref: '#/definitions/IdTuple'
+          description: Like ids
+
+  Username:
+    type: object
+    properties:
+      username:
+        type: string
+  Password:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      nonce:
+        type: integer
+
+  UserAndPassword:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+
+  IdTuple:
+    type: object
+    required:
+      - id
+      - type
+    properties:
+      id:
+        type: string
+        example: "605128692d0accf2d480f2cf"
+      type:
+        $ref: '#/definitions/Type'
+
   Item:
     type: object
     required:
-    - category
+    - id
+    - type
     - name
     properties:
       id:
-        type: integer
-        format: int64
+        type: string
+        example: "605128692d0accf2d480f2cf"
       name:
         type: string
         example: Titanic
@@ -402,9 +542,70 @@ definitions:
         type: integer
         format: int32
         example: 21005
-        description: How manny people has seen this
+        description: How many people has seen this
       likes:
         type: integer
         format: int32
         example: 2399
-        description: How manny people liked this
+        description: How many people liked this
+      rating:
+        type: number
+        format: double
+        example: 4.55
+        description: Rating
+
+  ItemInsert:
+    type: object
+    required:
+      - type
+      - name
+    properties:
+      name:
+        type: string
+        example: Titanic
+      photoUrl:
+        type: string
+        description: Image from the Item
+      category:
+        type: array
+        items:
+          $ref: '#/definitions/Category'
+      type:
+        $ref: '#/definitions/Type'
+      rating:
+        type: number
+        format: double
+        example: 4.55
+        description: Rating
+      description:
+        type: string
+
+  ItemList:
+    type: array
+    items:
+      $ref: '#/definitions/ItemReturn'
+
+  ItemReturn:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "605128692d0accf2d480f2cf"
+      name:
+        type: string
+        example: Titanic
+      type:
+        $ref: '#/definitions/Type'
+
+  Movie:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Titanic
+      cast:
+        type: array
+        items:
+          type: string
+          example: Johnny Depp
+          description: Actor that played on this movie
