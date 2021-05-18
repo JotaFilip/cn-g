@@ -97,28 +97,29 @@ steps:
   name: python
   entrypoint: pip
   args: [ "install", "-r", "./app/protobufs/tests/requirements.txt", "--user" ]
+  waitFor: ['compose up']
 
 # Run unit tests
 - id: 'test anime'
   name: python
   entrypoint: python
   args: ["./app/protobufs/library/anime_test.py"]
-  waitFor: ['compose up']
+  waitFor: ['requirements']
 - id: 'test book'
   name: python
   entrypoint: python
   args: ["./app/protobufs/library/book_test.py"]
-  waitFor: ['compose up']
+  waitFor: ['requirements']
 - id: 'test imdb'
   name: python
   entrypoint: python
   args: ["./app/protobufs/library/imdb_test.py"]
-  waitFor: ['compose up']
+  waitFor: ['requirements']
 - id: 'test library'
   name: python
   entrypoint: python
   args: ["./app/protobufs/library/library_test.py"]
-  waitFor: ['compose up']
+  waitFor: ['requirements']
 
 - id: 'integration tests'
   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
