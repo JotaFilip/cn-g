@@ -18,7 +18,7 @@ steps:
     '--tag=spark-connector', # use local registry for compatibility with local builds
     '--tag=gcr.io/$PROJECT_ID/spark-connector',
     '--cache-from=gcr.io/$PROJECT_ID/spark-connector:latest',
-    'app/protobufs/spark-connector/.',
+    'app/protobufs/spark_connector/.',
   ]
   waitFor: ['-'] # start immediately
 
