@@ -75,7 +75,7 @@ echo "Login"
 for i in $(seq 0 $retries); do
   res=$res_login || res=""
 
-  if echo "$res" | grep -q "token"
+  if echo "$res" | grep -q "html"
     then
         break
     else
@@ -89,7 +89,7 @@ echo "Logout"
 for i in $(seq 0 $retries); do
   res=$res_logout || res=""
 
-  if echo "$res" | grep -q "Logged Out"
+  if echo "$res" | grep -q "OK"
     then
         break
     else
@@ -221,7 +221,7 @@ for i in $(seq 0 $retries); do
 
     res=$res_comandocriarlivro || res=""
 
-    if echo "$res" | grep -q "false"
+    if echo "$res" | grep -q "Unauthorized"
     then
         break
     else
