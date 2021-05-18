@@ -390,7 +390,7 @@ João Afonso fc51111 \\
   \fpar We ran Locust, the tool to perform the stress testing, in another cluster to avoid affecting the results. 
   \par It was tested with up to 800 users, which at that point it was getting close to 100\% CPU usage, according to Grafana. At the time, we were using weak machines (12 CPUs) as Google Cloud's free trial did not allow any higher than that. 
   \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did stress testing with 100 users, 500 users and 800 users.
-  \par For the Spark job we went to Google Cloud > Dataproc > Jobs, and observe the time taken running, and got 2 minutes and 5 seconds for the first one and 7 minutes and 37 seconds for the second.
+  \par For the Spark job we went to Google Cloud > Dataproc > Jobs, and observe the time taken running, and got an average of around 2 minutes and 10 seconds for the first one and 7 minutes and 40 seconds for the second.
 
   \subsection{Validation}
   \label{sec:validation}
@@ -424,6 +424,13 @@ João Afonso fc51111 \\
 
 \section{Discussion}
 \label{sec:discussion}
+\fpar With the project up and running it can endure a lot of traffic, both in user capabilities and data transfers.
+\par It has shown how dynamic it can be being able to support either 800 or 2000 or even more users at the same time.
+\par With in this mind we can see how well our architecture supports our API, even though its costs have been higher than expected.
+\par About the costs it's expected of us to minimize them with a few alterations, like we stated before, at section\ref{sec:cost}, running the Cloud SQL with fewer cores, as the extra one weren't needed, or like we did, ditching it all together and store the data on a private server. Of course that our dataset is not the biggest, but at this scale it seems appropriate.
+\par But thinking more broadly, if we were trying to make an actual API to use on an application of some sort, these expenses would be really hard to justify, because it would be really hard to get that money back by monetizing that application, and even if we decreased our cost, like we would intend, our application wouldn't be profitable at all, or at least that's what we would expect with our little experience on this project.
+\par Overall about security we did the basis to protect the users' data, and also the databases' data, by encrypting communication channels with TLS (provided by istio) and storing login data with Auth0. 
+\par Other thing we could do to improve the Security of our API would be encrypting User's and Item's data stored inside the databases, preventing attacks on those Services.
 
 \section{Conclusions}
 \label{sec:conclusion}
@@ -477,6 +484,8 @@ João Afonso fc51111 \\
   \begin{itemize}
     \item Clean up dead code, and relocate files and folders to improve readability.
     \item Stash Spark results and use it when “fresh”, and when it needs to be updated then update, giving faster results.
+    \item Expand our dataset to more types of Items.
+    \item Dynamic creation of database Services (like Book, Anime and IMDB Service), all using the same communication protocol (protobuf), meaning we would only need to create different “Adapters” and then import them to the Library Service, making easier future integration with new Services.
     \item TODO ...
   \end{itemize}
 
