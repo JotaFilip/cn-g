@@ -298,7 +298,7 @@ João Afonso fc51111 \\
 
   \subsection{Databases}
   \fpar Every database has a service that has the responsibility to access and manage it. While 3 of the databases are hosted by \href{https://www.mongodb.com/}{MongoDB}, a NoSQL database, the last one is an SQL database hosted on an external server. This last database was initially hosted on Google Cloud, however we removed it from there, because it was costing us a lot of money.
-  \par For the Books', Movies' and Animes' databases, we used a NoSQL database since we might have had to change the format of our documents, meaning that if we had an SQL database we would need to drop the entire database and repopulate it again every time we decided to change the schema. MongoDB provides a very easy and intuitive python implementation to work with, which was also a factor to consider when selecting the type of databases that we would be using.
+  \par For the Books', Movies' and Animes' databases, we used a NoSQL database since we might have had to change the format of our documents, meaning that if we had an SQL database we would need to drop the entire database and repopulate it again every time we decided to change the schema. MongoDB provides a very easy and intuitive python implementation to work with, which was also a factor to consider when selecting the type of databases that we would be using. Furthermore, when we started developing the project, we researched multiple databases so as to find the option that would be the most beneficial in the long term. We found that MongoDB was very suitable for cloud-based services due to its natural compatibility with the horizontal scaling and agility offered by cloud computing. Taking all this into account, it was clear to us that MongoDB would be a good choice.
   \par However, for the Users' database we used an SQL one, because we already knew what we wanted from the User, and we knew we would use structured data for it.
 
 \section{Implementation}
@@ -313,9 +313,15 @@ João Afonso fc51111 \\
     \par This Service is also responsible for processing the new likes and views from the logged-in User, requesting an addition/change.
     \par Other functions like Top 10 and the suggestion algorithm is responsibility of this service, making the necessary queries and results adaptation.
     \par \textbf{Suggestion Algorithm} - Since we are a recommendation API, we also implemented an algorithm to suggest what the User should see next.
-    \par This algorithm uses all the likes and views of a specific user to decide the 3 categories that the user enjoys the most. 
-    \par For this purpose, the algorithm uses a scoring mechanism that attributes each category 1 point for every view and 3 points for every like. Afterwords, the 3 categories with the highest score are chosen. 
-    \par The function will then recommend a random sample (every sample has the number of elements that were determined by the user) for each category.
+    \par This function receives as input:
+    \begin{itemize}
+    	\item The id of the User that wants to receive suggestions
+    	\item The types of content for which the User wants to receive suggestions
+    	\item The number of suggestions for each content of each type
+    \end{itemize}
+    \par This algorithm takes into account all the likes and views of the specific User to decide the 3 categories that the User might enjoy the most. It should be noted that the categories that are being used for this algorithm are not dependent in the type of content that was specified because, for example, a User might have only read books so far and now wants to find movies that have categories similar to the books he enjoys. 
+    \par For this purpose the algorithm uses a scoring mechanism that attributes each category 1 point for every view and 3 points for every like. Afterwords, the 3 categories with the highest score are chosen. If the User has not viewed or liked any content so far, then the function will return a completely random sample for each type. 
+    \par After getting the 3 categories, the function will then recommend a random sample (every sample has the number of elements that were determined by the User) for each category and for each specified type.
 
     \subsubsection{Docker Compose}
     \fpar For the microservices deployment we use a docker-compose file, which defines each microservice container details. In this file, we define a microservice's name, a build stating that we are using a Dockerfile and where the context of the microservice is (its folder, with its required content). We also define the image, hostname and container for the microservice, for which we use the same name as the microservice's. Finally, we assign a port to the microservice, which is crucial for it to behave properly.
@@ -384,6 +390,7 @@ João Afonso fc51111 \\
 \par To perform the stress tests on itself, we used Locust, a stress testing tool. 
 \par All these tools were configured automatically with scripts to further automate the deployment of the system (see locust.sh and add\_plugins.sh).
 \par To test our Spark implementation we used the interface inside the Google Cloud named Dataproc.
+\par We also tested individual components of the system so as to find possible bugs in the implemention.
 
   \subsection{Evaluation}
   \label{sec:evaluation}
@@ -391,6 +398,9 @@ João Afonso fc51111 \\
   \par It was tested with up to 800 users, which at that point it was getting close to 100\% CPU usage, according to Grafana. At the time, we were using weak machines (12 CPUs) as Google Cloud's free trial did not allow any higher than that. 
   \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did stress testing with 100 users, 500 users and 800 users.
   \par For the Spark job we went to Google Cloud > Dataproc > Jobs, and observe the time taken running, and got an average of around 2 minutes and 10 seconds for the first one and 7 minutes and 40 seconds for the second.
+  \par We developed unit tests to verify if the behavior of the microservices: “anime”, “book” and “imdb”, were in accordance with the system specifications and to ensure that access to the respective databases were returning the desired values.
+  \par We tested each functions and covered situations in which the objects in use did/didn't exist. It was also verified functions' behavior when receiving invalid input (for example, searching for an object with an id that doesn't  exist).
+  \par Most of the tested operations present the expected behavior, but there were some cases in which the functions didn't properly deal with exceptions (these bugs were fixed).
 
   \subsection{Validation}
   \label{sec:validation}
