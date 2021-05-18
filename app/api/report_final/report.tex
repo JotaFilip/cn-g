@@ -57,6 +57,8 @@
 \setlength{\parskip}{0.5ex}
 % for first paragraphs
 \newcommand*\fpar{\hspace{1ex}}
+\newcommand*\ccell [1]{\multicolumn{1}{c|}{\textbf{#1}}}
+\newcommand*\ccelll[1]{\multicolumn{1}{c }{\textbf{#1}}}
 
 \title{Project - Phase 8 Report}
 \author{Group 14 \\
@@ -174,7 +176,7 @@ João Afonso fc51111 \\
     \multirow{2}{*}{ Spark }
       & \multirow{2}{*}{ Any }
         & See best Director in terms of rating* \\
-      & & See which Actor has the most connections \\
+      & & See which worker has the most connections \\
   \end{tabular}
   \caption{Seen's Use cases\\
           \**at least with $10$ movies and $10.000$ reviews in each}
@@ -186,7 +188,7 @@ João Afonso fc51111 \\
   \centering
   \addtolength{\leftskip} {-20cm}
   \addtolength{\rightskip}{-20cm}
-  \begin{adjustbox}{width=1.6\textwidth}
+  \begin{adjustbox}{width=1.4\textwidth}
   \begin{tabular}{ c|l l l l|c|c|c|c|l }
     \rowcolor{Gray}
     Role & \multicolumn{4}{c|}{Path} & get & post & put & del & description 
@@ -251,18 +253,18 @@ João Afonso fc51111 \\
     & \multicolumn{4}{l|}{} &
      & & & &
     Returns the Director with best rating with \\
-    & \multicolumn{4}{l|}{\multirow{-2}{*}{/\{director\}}} &
+    & \multicolumn{4}{l|}{\multirow{-2}{*}{/bestDirector}} &
     \multirow{-2}{*}{\xmark}
      & & & &
     at least $10$ movies with $10.000+$ reviews
     \\ 
     & \multicolumn{4}{l|}{} &
      & & & &
-    Returns the Actor's name with \\
+    Returns the worker's imdb link that worked with \\
     \multirow{-4}{*}{Any} 
-    & \multicolumn{4}{l|}{\multirow{-2}{*}{/actor}} &
+    & \multicolumn{4}{l|}{\multirow{-2}{*}{/moreConnected}} &
     \multirow{-2}{*}{\xmark} & & & &
-    movies with the biggest cast in total
+    the most (distinct) people
   \end{tabular}
   \end{adjustbox}
   \caption{Seen's API table}
@@ -341,52 +343,53 @@ João Afonso fc51111 \\
     \par For the user database we used another strategy and started an SQL database using SQLAlchemy to connect, using a secure channel with TLS.
     \par To maintain the same structure inside and outside the database we also created a python file named “models”, which has the correspondent classes to the tables inside the database, this way we can use those classes to fetch results already formatted. 
 
-    \subsection{Spark}
-    \fpar First, we implemented a job that creates a csv connecting people that participated in the same movie. With this, we have 2 use cases: one that uses said csv to create a graph using Spark GraphX to calculate the degree of each vertex, checking which has the highest degree, with the purpose of checking which person has worked with the biggest quantity of people; and another that sends a direct query to calculate which movie director has the highest average rating in all their works.
+  \clearpage
+  \subsection{Spark}
+  \fpar First, we implemented a job that creates a csv connecting people that participated in the same movie. With this, we have 2 use cases: one that uses said csv to create a graph using Spark GraphX to calculate the degree of each vertex, checking which has the highest degree, with the purpose of checking which person has worked with the biggest quantity of people; and another that sends a direct query to calculate which movie director has the highest average rating in all their works.
 
-    \subsection{Technical}
+  \subsection{Technical}
 
-      \subsubsection{Databases}
-      \fpar Since the MongoDB already provides an API with secure channels we didn't need to make any changes to the connection, the transmitted data is secured, and we tested it by running Wireshark to sniff the packets and observing they are encrypted.
-      \par To use a secure connection between the Service and the users' database, we initialize a connection with certificates (SSL server certificate authority, SSL server certificate and an SSL client key) using the TLS cryptographic protocol designed to provide secure communications.
+    \subsubsection{Databases}
+    \fpar Since the MongoDB already provides an API with secure channels we didn't need to make any changes to the connection, the transmitted data is secured, and we tested it by running Wireshark to sniff the packets and observing they are encrypted.
+    \par To use a secure connection between the Service and the users' database, we initialize a connection with certificates (SSL server certificate authority, SSL server certificate and an SSL client key) using the TLS cryptographic protocol designed to provide secure communications.
 
-      \subsubsection{Spark}
-      \fpar Having our jobs already on the cloud, the Spark Service (Spark Connector) has the responsibility of asking the Dataproc cluster for the result of the job that was requested, that will run it and send back the result.
+    \subsubsection{Spark}
+    \fpar Having our jobs already on the cloud, the Spark Service (Spark Connector) has the responsibility of asking the Dataproc cluster for the result of the job that was requested, that will run it and send back the result.
 
-      \subsubsection{Authentication with Auth0}
-      \fpar At first, we had our own authentication method, which we implemented using basic authentication and JWT tokens. 
-      \par The user could register an account, using their email, which would then be confirmed with an email message. Then, they could choose their username and password, finishing the registration process. 
-      \par The passwords were hashed using SHA512\_Crypt. Later, we changed the authentication to an external service, auth0. To configure it, we defined an API on auth0 and configured an app. 
-      \par We used implicit flow, with client credential flow enabled just for testing. Our auth0 also uses roles, admin and normal user, with a set of permissions for each. The roles are given with a rule we set, making every registration automatically a normal user, with admins being configured manually. 
-      \par The difference between admins and normal users is that admins can add and delete items from the database. On Swagger, the user can use the authorize button to request the token to the auth0 service, using our defined API as audience and supplying the scopes, i.e., the permissions they require. 
-      \par After this, the user is redirected to the auth0 page to conclude with their authentication. With this done, Swagger gets the token needed and adds it to all its request headers. 
-      \par The user can also do this manually, but they would have to add the token manually after logging in. This can also be done using a client app using our API, similarly to what Swagger does: the user logs in on auth0 and the client app gets the token, which it then adds to its own headers. The token is verified using the public key from auth0.
+    \subsubsection{Authentication with Auth0}
+    \fpar At first, we had our own authentication method, which we implemented using basic authentication and JWT tokens. 
+    \par The user could register an account, using their email, which would then be confirmed with an email message. Then, they could choose their username and password, finishing the registration process. 
+    \par The passwords were hashed using SHA512\_Crypt. Later, we changed the authentication to an external service, auth0. To configure it, we defined an API on auth0 and configured an app. 
+    \par We used implicit flow, with client credential flow enabled just for testing. Our auth0 also uses roles, admin and normal user, with a set of permissions for each. The roles are given with a rule we set, making every registration automatically a normal user, with admins being configured manually. 
+    \par The difference between admins and normal users is that admins can add and delete items from the database. On Swagger, the user can use the authorize button to request the token to the auth0 service, using our defined API as audience and supplying the scopes, i.e., the permissions they require. 
+    \par After this, the user is redirected to the auth0 page to conclude with their authentication. With this done, Swagger gets the token needed and adds it to all its request headers. 
+    \par The user can also do this manually, but they would have to add the token manually after logging in. This can also be done using a client app using our API, similarly to what Swagger does: the user logs in on auth0 and the client app gets the token, which it then adds to its own headers. The token is verified using the public key from auth0.
 
-      \subsubsection{Secure channels with istio}
-      \fpar After the cluster is created (using create\_cluster.sh), we then install Istio (using install\_istio.sh). When installing Istio, we supply a valid certificate which is used in its ingress, allowing for secure communications through HTTPS. 
-      \par Istio also encrypts all the connections between the ingress and microservices.
+    \subsubsection{Secure channels with istio}
+    \fpar After the cluster is created (using create\_cluster.sh), we then install Istio (using install\_istio.sh). When installing Istio, we supply a valid certificate which is used in its ingress, allowing for secure communications through HTTPS. 
+    \par Istio also encrypts all the connections between the ingress and microservices.
 
-      \subsubsection{CI/CD pipeline}
-      \fpar To implement the CI/CD pipeline, we created a trigger that when a commit is done on the deploy branch on git, the cloud build starts by running the yaml file. 
-      \par First, it builds all the microservices, pushes them to the container registry, starts the Docker and runs the microservices. 
-      \par After they are running, we start a test network using Docker, which is then tested (integration and unit tests), to assure that everything is alright and can be deployed on Kubernetes. If all the tests pass, the system is then deployed.
+    \subsubsection{CI/CD pipeline}
+    \fpar To implement the CI/CD pipeline, we created a trigger that when a commit is done on the deploy branch on git, the cloud build starts by running the yaml file. 
+    \par First, it builds all the microservices, pushes them to the container registry, starts the Docker and runs the microservices. 
+    \par After they are running, we start a test network using Docker, which is then tested (integration and unit tests), to assure that everything is alright and can be deployed on Kubernetes. If all the tests pass, the system is then deployed.
 
-      \subsubsection{Deployment}
-      \fpar The deployment is done using its yaml file, deployment.yaml, where we have defined all the services of each microservice, the auto-scaling properties and an Istio ingress, which uses the certificate we supplied.
+    \subsubsection{Deployment}
+    \fpar The deployment is done using its yaml file, deployment.yaml, where we have defined all the services of each microservice, the auto-scaling properties and an Istio ingress, which uses the certificate we supplied.
 
 \section{Evaluation and validation}
 \label{sec:evaluation_and_validation}
-\fpar To perform an evaluation on the system by load testing, we used three different technologies: Prometheus, Grafana and Locust. 
+\fpar To perform an evaluation on the system by stress testing, we used three different technologies: Prometheus, Grafana and Locust. 
 \par Prometheus is a monitoring system that retrieves data directly from the cluster as it is executing, while Grafana displays and amalgamates the data in a way that can be analyzed by the human eye (plots, etc.). 
-\par To perform the load tests on itself, we used Locust, a load testing tool. 
+\par To perform the stress tests on itself, we used Locust, a stress testing tool. 
 \par All these tools were configured automatically with scripts to further automate the deployment of the system (see locust.sh and add\_plugins.sh).
 \par To test our Spark implementation we used the interface inside the Google Cloud named Dataproc.
 
   \subsection{Evaluation}
   \label{sec:evaluation}
-  \fpar We ran Locust, the tool to perform the load testing, in another cluster to avoid affecting the results. 
+  \fpar We ran Locust, the tool to perform the stress testing, in another cluster to avoid affecting the results. 
   \par It was tested with up to 800 users, which at that point it was getting close to 100\% CPU usage, according to Grafana. At the time, we were using weak machines (12 CPUs) as Google Cloud's free trial did not allow any higher than that. 
-  \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did load testing with 100 users, 500 users and 800 users.
+  \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did stress testing with 100 users, 500 users and 800 users.
   \par For the Spark job we went to Google Cloud > Dataproc > Jobs, and observe the time taken running, and got 2 minutes and 5 seconds for the first one and 7 minutes and 37 seconds for the second.
 
   \subsection{Validation}
@@ -397,19 +400,19 @@ João Afonso fc51111 \\
 \section{Cost analysis}
 \label{sec:cost}
 % Analizar os custos, dizer porque não usámos SQL na goole cloud
-\begin{table}
+\begin{table}[H]
   \centering
   \begin{tabular}{l|r}
-    Services            & Cost    \\
-    Anthos              & 0,92€   \\
-    Cloud Build         & 0€      \\
-    Cloud SQL           & 108,48€ \\
-    Compute Storage     & 7,55€   \\
-    Compute Engine      & 155,00€ \\
-    Kubernetes Engine   & 0€      \\
-    Source Repository   & 0€      \\
-    Stackdrive Logging  & 0€      \\
-    All                 & 271,66€ \\
+    \ccell{Services}    & \ccelll{Cost} \\ \hline
+    Anthos              & 0,92€         \\
+    Cloud Build         & 0€            \\
+    Cloud SQL           & 108,48€       \\
+    Compute Storage     & 7,55€         \\
+    Compute Engine      & 155,00€       \\
+    Kubernetes Engine   & 0€            \\
+    Source Repository   & 0€            \\
+    Stackdrive Logging  & 0€            \\
+    All                 & 271,66€       \\
   \end{tabular}
   \caption{Total cost table}
   \label{table:cost}
@@ -422,12 +425,6 @@ João Afonso fc51111 \\
 \section{Discussion}
 \label{sec:discussion}
 
-  \subsection{Results}
-  \label{sec:results}
-
-  \subsection{Analysis}
-  \label{sec:analysis}
-
 \section{Conclusions}
 \label{sec:conclusion}
 % Foi possivel fazer o projeto em google cloud e ter uma api util e funcional bla bla bla
@@ -436,6 +433,14 @@ João Afonso fc51111 \\
   \label{sec:contributions}
 
     \subsubsection{51034 - Tiago Carvalho}
+    	\begin{itemize}
+    		\item Implemented API functions
+    		\item Error correction and debugging of the implementation
+    		\item Configured Grafana, Prometheus and Locust, along with the scripts for its automation (along with Istio as well)
+    		\item Helped implement the software tests
+    		\item Helped reconfigure the system for auth0 integration
+    		\item Did part of the implementation of Spark's microservice
+    	\end{itemize}
     \subsubsection{51058 - Diogo Lopes}
       \begin{itemize}
         \item Designed the architecture of the system, focusing on the protobufs creation.
@@ -444,91 +449,74 @@ João Afonso fc51111 \\
         \item Report.
       \end{itemize}
     \subsubsection{51072 - Miguel Saldanha}
+      \begin{itemize}
+        \item TODO
+      \end{itemize}
     \subsubsection{51080 - João Roque}
+      \begin{itemize}
+        \item Updated System Architecture.
+        \item MongoDB database creation, population and implementation of their Services
+        \item Helped with Yaml API
+        \item Microservices body and debugging
+        \item Docker files and docker testing
+        \item General debugging with local deployment
+        \item Report.
+      \end{itemize}
     \subsubsection{51111 - João Afonso}
+        \begin{itemize}
+        	\item Design Systems Architecture.
+        	\item Create protobufs.
+        	\item Microservices: "library", "anime", "book" and "imdb".
+        	\item Helped with Docker \& Kubernetes.
+       		\item Software testing \& bug fixes.
+        	\item Helped with auth0.
+      	\end{itemize}
 
   \subsection{Future alterations}
   \label{sec:alterations}
+  \begin{itemize}
+    \item Clean up dead code, and relocate files and folders to improve readability.
+    \item Stash Spark results and use it when “fresh”, and when it needs to be updated then update, giving faster results.
+    \item TODO ...
+  \end{itemize}
 
 \section{Appendix}
 \label{appendix}
 % To store big images and reference them
 
 \fpar Results from testing our cloud deployment:
+
+
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{ tests/graf1.png }
+  \includegraphics[width=\textwidth]{ tests/img1.png }
+  \caption{Stress testing with 800 users. CPU usage and system load plots}
 \end{figure}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{ tests/graf2.png }
+  \includegraphics[width=\textwidth]{ tests/img2.png }
+  \caption{Stress testing with 800 users. CPU usage and system load plots}
 \end{figure}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{ tests/graf3.png }
+  \includegraphics[width=\textwidth]{ tests/img3.png }
+  \caption{Stress testing with 800 users. CPU usage and system load plots}
 \end{figure}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{ tests/graf4.png }
+  \includegraphics[width=\textwidth]{ tests/img4.png }
+  \caption{Stress testing with 800 users. CPU usage and system load plots}
 \end{figure}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{ tests/graf5.png }
+  \includegraphics[width=\textwidth]{ tests/img5.png }
+  \caption{Stress testing with 800 users. DNS latency}
+  
 \end{figure}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{ tests/graff1.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/graff2.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/graff3.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/graff4.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/graff5.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/grafff1.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/grafff2.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/grafff3.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/grafff4.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/grafff5.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/locust1.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/locust2.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/locust3.png }
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{ tests/locust4.png }
+  \includegraphics[width=\textwidth]{ tests/locust.png }
+  \caption{Stress testing with 800 users, requests and count of each}
 \end{figure}
 \end{document}
