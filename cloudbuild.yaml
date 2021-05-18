@@ -93,6 +93,11 @@ steps:
   - 'PROJECT_ID=$PROJECT_ID'
   waitFor: ['build account','build spark-connector','build api-gateway','build book','build anime','build imdb','build library']
 
+- id: 'requirements'
+  name: python
+  entrypoint: pip
+  args: [ "install", "-r", "./app/protobufs/tests/requirements.txt", "--user" ]
+
 # Run unit tests
 - id: 'test anime'
   name: python
