@@ -95,6 +95,9 @@ João Afonso fc51111 \\
 \clearpage
 \section{Dataset characterization}
 \label{sec:dataset}
+\fpar We searched for various datasets and the following one were what we ended up with. We then filtered what we felt it was important from the datasets
+\par NOTE: We didn't include image's links because of the limited space per free MongoDB database, that would mean having a third database for movies, instead of two, and wouldn't be that useful for this API since it has no graphic user interface. Nevertheless, the posterior implementation wouldn't be hard at all taking in account the project architecture and implementation.
+
   \subsection{Dataset 1 — IMDB}
   \label{sec:movies}
   \fpar This dataset provides a lot of information about movies and shows that can be seen in \href{https://www.imdb.com}{IMDB}.
@@ -445,6 +448,11 @@ João Afonso fc51111 \\
 \section{Conclusions}
 \label{sec:conclusion}
 % Foi possivel fazer o projeto em google cloud e ter uma api util e funcional bla bla bla
+\fpar At the end, we can see that we made a functional API using, mainly, Google Cloud, integrated with MongoDB and an external SQL database.
+\par Not only that but also a useful API that anyone could use, either a User or even an application as an intermediary.
+\par But the costs that we experienced are really high for what we are doing, if we didn't have our coupons and discounts it wouldn't be justified the amount of money spent.
+\par So we can say that the intelligent thing would be, firstly, implement the API on a Linux machine, for example, and after knowing how to monetize it start the integration with Google Cloud, or other cloud Service, to endure more users and data without compromises.
+\par Concluding, this API is fully implemented with all capabilities committed on the Use Cases, on section \ref{sec:cases}.
 
   \subsection{Contributions}
   \label{sec:contributions}
@@ -463,6 +471,8 @@ João Afonso fc51111 \\
         \item Designed the architecture of the system, focusing on the protobufs creation.
         \item Implemented some microservices (before the integration with mongo).
         \item Developed useful scripts for running the system locally during development.
+        \item Reviewed microservices implementation.
+        \item Created and implemented the use case for getting the top ten items with more likes.
         \item Report.
       \end{itemize}
     \subsubsection{51072 - Miguel Saldanha}
@@ -496,17 +506,15 @@ João Afonso fc51111 \\
     \item Stash Spark results and use it when “fresh”, and when it needs to be updated then update, giving faster results.
     \item Expand our dataset to more types of Items.
     \item Dynamic creation of database Services (like Book, Anime and IMDB Service), all using the same communication protocol (protobuf), meaning we would only need to create different “Adapters” and then import them to the Library Service, making easier future integration with new Services.
-    \item TODO ...
+    \item At last, a mobile application or website could be implemented having this API as its backbone.
+    \item Adding images to every Item on our database, a link that could be loaded in any application or website.
+    % \item TODO ...
   \end{itemize}
 
 \section{Appendix}
 \label{appendix}
 % To store big images and reference them
-
 \fpar Results from testing our cloud deployment:
-
-
-
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{ tests/img1.png }
