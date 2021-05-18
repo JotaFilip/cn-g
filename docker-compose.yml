@@ -22,6 +22,8 @@ services:
        image: spark_connector
        hostname: spark_connector
        container_name: spark_connector
+       environment:
+           GOOGLE_APPLICATION_CREDENTIALS: cn-g14-projecto-ee48440401d9.json
     #    networks:
     #        - micro_services
        ports:
