@@ -1,7 +1,11 @@
 # GROUP NUMBER 14
 
 # Running
-Using: `./scripts/run.sh`
+## Delivery3
+Install docker and run the script:
+`./scripts/run.sh`
+##Delivery4
+Follow instructions on DeployOnGoogleCloudReadme.md
 
 Notes:
 - Our databases are already populated, with something like 7 million rows of data

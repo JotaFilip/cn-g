@@ -22,7 +22,8 @@ from book_pb2 import (
     BookDataList,
     BookByIdRequest,
     BooksByNameRequest,
-    BooksByCategoryRequest
+    BooksByCategoryRequest,
+    AddBookResponse
 )
 import book_pb2_grpc
 
@@ -35,11 +36,14 @@ class BookService(book_pb2_grpc.BookServicer):
         return BookDataList( books = results )
 
     def SearchById(self, request, context):
-        results = list(db.find({ "_id": ObjectId(request.book_id) }).limit(1))
+        try:
+            results = list(db.find({ "_id": ObjectId(request.book_id) }).limit(1))
 
-        if len(results) <= 0:
+            if len(results) <= 0:
+                return BookData()
+            return book_to_proto(results[0])
+        except:
             return BookData()
-        return book_to_proto(results[0])
         
 
     def SearchByName(self, request, context):
@@ -53,12 +57,15 @@ class BookService(book_pb2_grpc.BookServicer):
         return BookDataList( books = results )
 
     def AddBook(self, request, context):
-        db.insert_one(proto_to_book(request))
-        return Success(success=True)
+        id = db.insert_one(proto_to_book(request)).inserted_id
+        return AddBookResponse(book_id=str(id))
 
     def RemoveBook(self, request, context):
-        db.remove(ObjectId(request.book_id))
-        return Success(success=True)
+        try:
+            db.delete_one({"_id": ObjectId(request.book_id)})
+            return Success(success=True)
+        except:
+            return Success(success=False)
 
 def book_to_proto(result):
     book = BookData (
@@ -91,20 +98,21 @@ def serve():
         BookService(), server
     )
     
-    with open("book.key", "rb") as fp:
-        book_key = fp.read()
-    with open("book.pem", "rb") as fp:
-        book_cert = fp.read()
-    with open("ca.pem", "rb") as fp:
-        ca_cert = fp.read()
+    # with open("book.key", "rb") as fp:
+        # book_key = fp.read()
+    # with open("book.pem", "rb") as fp:
+        # book_cert = fp.read()
+    # with open("ca.pem", "rb") as fp:
+        # ca_cert = fp.read()
     
-    creds = grpc.ssl_server_credentials(
-        [(book_key, book_cert)],
-        root_certificates=ca_cert,
-        require_client_auth=True,
-    )
+    # creds = grpc.ssl_server_credentials(
+        # [(book_key, book_cert)],
+        # root_certificates=ca_cert,
+        # require_client_auth=True,
+    # )
     
-    server.add_secure_port("[::]:50051", creds)
+    # server.add_secure_port("[::]:50051", creds)
+    server.add_insecure_port("[::]:50051")
     server.start()
     server.wait_for_termination()
 

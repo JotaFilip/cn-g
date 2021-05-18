@@ -26,8 +26,14 @@ message AnimeDataList {
 ////////////////BASIC REQUESTS//////////////
 ////////////////////////////////////////////
 
-//Message used to search an anime by ID 
+
+//Message used to search an anime by ID
 message AnimeByIdRequest {
+    string anime_id = 1;
+}
+
+//Message used to search an anime by ID
+message AddAnimeResponse {
     string anime_id = 1;
 }
 
@@ -57,6 +63,6 @@ service Anime {
     rpc SearchById (AnimeByIdRequest) returns (AnimeData);
 	rpc SearchByName (AnimeByNameRequest) returns (AnimeDataList);
 	rpc SearchByCategory (AnimeByCategoryRequest) returns (AnimeDataList);
-	rpc AddAnime (AnimeData) returns (Success);
+	rpc AddAnime (AnimeData) returns (AddAnimeResponse);
 	rpc RemoveAnime (AnimeByIdRequest) returns (Success);
 }

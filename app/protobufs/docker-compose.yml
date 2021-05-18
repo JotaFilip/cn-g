@@ -14,6 +14,22 @@ services:
             - /etc/resolv.conf:/etc/resolv.conf
         networks:
             - micro_services
+
+    spark_connector:
+        build:
+            dockerfile: Dockerfile
+            context: ./spark_connector
+        image: spark_connector
+        hostname: spark_connector
+        networks:
+            - micro_services
+        volumes:
+            - /etc/resolv.conf:/etc/resolv.conf:ro
+        environment:
+            GOOGLE_APPLICATION_CREDENTIALS: cn-g14-projecto-ee48440401d9.json
+        ports:
+            - 50058:50058
+
     account:
         build:
             dockerfile: Dockerfile
@@ -26,21 +42,6 @@ services:
             - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
             - 50055:50055
-
-    signin:
-        environment:
-            ACCOUNTS_HOST: account
-        build:
-            dockerfile: Dockerfile
-            context: ./signin
-        image: signin
-        hostname: signin
-        networks:
-            - micro_services
-        volumes:
-            - /etc/resolv.conf:/etc/resolv.conf:ro
-        ports:
-            - 50054:50054
 
     anime:
         build:
@@ -102,7 +103,8 @@ services:
 
     api-gateway:
         environment:
-            SIGNIN_HOST: signin
+            SPARK_CONNECTOR_HOST: spark_connector
+            ACCOUNTS_HOST: account
             LIBRARY_HOST: library
         build:
             dockerfile: Dockerfile
@@ -114,7 +116,7 @@ services:
         volumes:
             - /etc/resolv.conf:/etc/resolv.conf:ro
         ports:
-            - 80:80
+            - 8443:8443
 
 networks:
     micro_services:

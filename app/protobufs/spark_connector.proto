@@ -1,0 +1,43 @@
+syntax = "proto3";
+import "utils.proto";
+
+////////////////////////////////////////////
+///////////////BASIC REQUESTS///////////////
+////////////////////////////////////////////
+
+//message Director {
+//}
+//
+//message Actor {
+//}
+
+////////////////////////////////////////////
+///////////////BASIC RESPONSE///////////////
+////////////////////////////////////////////
+
+message ExecutionResult {
+    string output = 1;
+}
+
+//message DirectorWork {
+//    string name = 1;
+//    repeated Movie movies = 2;
+//}
+//
+//message Movie {
+//    string name = 1;
+//    repeated string actors = 2;
+//}
+
+//message ActorName {
+//    string name = 1;
+//}
+
+////////////////////////////////////////////
+////////////////RPC SERVICES////////////////
+////////////////////////////////////////////
+
+service Spark_Connector {
+    rpc GetPersonWhoWorkedWithMorePeopleToSameMovie(Empty) returns (ExecutionResult);//DirectorWork);
+    rpc GetBestDirector(Empty) returns (ExecutionResult);//ActorName);
+}

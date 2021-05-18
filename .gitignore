@@ -1,11 +1,12 @@
 *.tsv
 *.csv
 
-*.aux
-*.fdb*
-*.fls
-*.log
-*.gz
+.vscode/
+.vscode/*
 
-*pb*
 app/protobufs/api_gateway/\models.py
+
+*__pycache__/
+*__pycache__*
+
+# app/*.pdf

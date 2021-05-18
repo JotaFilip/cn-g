@@ -13,12 +13,12 @@ user = "seen"
 password = "ifFvApoasv9lLvqR"
 up = user + ":" + password
 
-client1 = MongoClient("mongodb+srv://"+up+"@movies.oysuj.mongodb.net/Movies?retryWrites=true&w=majority")
-db1 = client1["database"]
+db1 = MongoClient("mongodb+srv://"+up+"@movies.oysuj.mongodb.net/Movies?retryWrites=true&w=majority")
+db1 = db1["database"]
 db1 = db1["movies"]
 
-client2 = MongoClient("mongodb+srv://"+up+"@movies-2.nlmxu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-db2 = client2["database"]
+db2 = MongoClient("mongodb+srv://"+up+"@movies-2.nlmxu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+db2 = db2["database"]
 db2 = db2["movies"]
 
 from imdb_pb2 import (
@@ -26,8 +26,9 @@ from imdb_pb2 import (
     IMDBDataList,
     IMDBByIdRequest,
     IMDBByNameRequest,
-    IMDBByCategoryRequest, 
-    IMDBData
+    IMDBByCategoryRequest,
+    IMDBData,
+    AddIMDBResponse
 )
 
 import imdb_pb2_grpc
@@ -57,15 +58,17 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         return IMDBDataList( imdbs = results )
         
     def SearchById(self, request, context):
-        
-        results = list(db1.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
-        if len(results) <= 0:
-            results = list(db2.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
+        try:
+            results = list(db1.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
+            if len(results) <= 0:
+                results = list(db2.find({ "_id": ObjectId(request.imdb_id) }).limit(1))
 
-        if len(results) <= 0:
-            raise NotFound("Id not found")
+            if len(results) <= 0:
+                raise NotFound("Id not found")
 
-        return imdb_to_proto(results[0])
+            return imdb_to_proto(results[0])
+        except:
+            return IMDBData()
 
     def SearchByName(self, request, context):
         req = { "name": { "$regex" : ".*"+request.name+".*" } }
@@ -83,31 +86,26 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
         return IMDBDataList( imdbs = results )
 
     def AddIMDB(self, request, context):
-
-        req = { "name": request.name } 
-        result = search_by_name(req,1)
-        if result != []:
-            # Cannot add IMDB
-            return Success(sucess=False)
-
-        imdb = proto_to_imdb(result)
+        imdb = proto_to_imdb(request)
         try:
-            db1.insert_one(imdb)
+            imdb['_id'] = "1"+str(ObjectId())
+            id = db1.insert_one(imdb).inserted_id
         except Exception:
             try:
-                db2.insert_one(imdb)
+                imdb['_id'] = "2"+str(ObjectId())
+                id = db2.insert_one(imdb).inserted_id
             except Exception: 
-                return Sucess(success=False) 
-        return Success(success=True)
+                return AddIMDBResponse(imdb_id=None)
+        return AddIMDBResponse(imdb_id=str(id))
 
     def RemoveIMDB(self, request, context):
         try:
-            db1.remove_one(ObjectId(request.imdb_id))
+            db1.delete_one({"_id": ObjectId(request.imdb_id)})
         except Exception:
             try:
-                db2.insert_one(ObjectId(request.imdb_id))
-            except Exception: 
-                return Sucess(success=False) 
+                db2.delete_one({"_id": ObjectId(request.imdb_id)})
+            except Exception:
+                return Success(success=False)
         return Success(success=True)
 
 def search_by_name(request,n_results):
@@ -134,9 +132,9 @@ def imdb_to_proto(result):
 def proto_to_imdb(proto):
     movie = {
         'name': proto.imdb_title,
-        'category': proto.genres,
+        'category': [c for c in proto.genres],
         'rating': proto.imdb_rating,
-        'imageURL' : proto.imdb_url,
+        'imageURL' : proto.img_url,
         'type': proto.type
     }
     return movie
@@ -150,20 +148,21 @@ def serve():
         IMDBService(), server
     )
     
-    with open("imdb.key", "rb") as fp:
-        imdb_key = fp.read()
-    with open("imdb.pem", "rb") as fp:
-        imdb_cert = fp.read()
-    with open("ca.pem", "rb") as fp:
-        ca_cert = fp.read()
+    # with open("imdb.key", "rb") as fp:
+        # imdb_key = fp.read()
+    # with open("imdb.pem", "rb") as fp:
+        # imdb_cert = fp.read()
+    # with open("ca.pem", "rb") as fp:
+        # ca_cert = fp.read()
     
-    creds = grpc.ssl_server_credentials(
-        [(imdb_key, imdb_cert)],
-        root_certificates=ca_cert,
-        require_client_auth=True,
-    )
+    # creds = grpc.ssl_server_credentials(
+        # [(imdb_key, imdb_cert)],
+        # root_certificates=ca_cert,
+        # require_client_auth=True,
+    # )
     
-    server.add_secure_port("[::]:50052", creds)
+    # server.add_secure_port("[::]:50052", creds)
+    server.add_insecure_port("[::]:50052")
     server.start()
     server.wait_for_termination()
 

@@ -24,32 +24,58 @@ echo "retries: "$retries
 echo "interval: "$interval
 echo "url: "$url
 
+token_info_admin = $(curl --request POST \
+  --url 'https://saldanha.eu.auth0.com/oauth/token' \
+  --header 'content-type: application/x-www-form-urlencoded' \
+  --data grant_type=password \
+  --data username=miguelsaldanhafernandes@protonmail.com \
+  --data 'password=!sedeusquiser1999' \
+  --data audience=https://recommendations.sytes.net/api \
+  --data 'scope=openid name email nickname read:suggest write:item delete:item write:seen write:like write:username delete:username' \
+  --data 'client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF'\
+  --data client_secret=UHqFceMIWf0pzpA3CRWggxpGDxByyn_vQuw_90OdhaoascI-t5RBha4z5sRPbNJK | jq -r '.access_token'
+)
+token_info_user = $(curl --request POST \
+  --url 'https://saldanha.eu.auth0.com/oauth/token' \
+  --header 'content-type: application/x-www-form-urlencoded' \
+  --data grant_type=password \
+  --data username=miguelsaldanhafernandes@pm.me \
+  --data 'password=leitaomaster00.' \
+  --data audience=https://recommendations.sytes.net/api \
+  --data 'scope=openid name email nickname read:suggest write:item delete:item write:seen write:like write:username delete:username' \
+  --data 'client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF'\
+  --data client_secret=UHqFceMIWf0pzpA3CRWggxpGDxByyn_vQuw_90OdhaoascI-t5RBha4z5sRPbNJK | jq -r '.access_token'
+)
+
+
+
+
 #A fazer:
-#res_delete=$(curl -k -X -u admin:admin DELETE --header 'Accept: text/html' "$url/item/BOOK/12345")
+#res_delete=$(curl -k -X --header "authorization: Bearer $token_info_admin" DELETE --header 'Accept: text/html' "$url/item/BOOK/12345")
 
 
 #Pronto:
-res_get=$(curl -k  -u admin:admin -X  GET --header 'Accept: text/html' "$url"'/item/BOOK/607615b3aeb60e0f26f7c1df')
+res_get=$(curl -k  --header "authorization: Bearer $token_info_admin" -X  GET --header 'Accept: text/html' "$url"'/item/BOOK/607615b3aeb60e0f26f7c1df')
 
-res_like_existe=$(curl -k  -u admin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK//607615b3aeb60e0f26f7c1dflike')
-res_like_nao_existe=$(curl -k  -u admin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/12345/like')
+res_like_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/607615b3aeb60e0f26f7c1df/like')
+res_like_nao_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/12345/like')
 
-res_seen_existe=$(curl -k  -u admin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/607615b3aeb60e0f26f7c1df/seen")
-res_seen_nao_existe=$(curl -k  -u admin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/12345/seen")
+res_seen_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/607615b3aeb60e0f26f7c1df/seen")
+res_seen_nao_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/12345/seen")
 
-res_page=$(curl -k  -u admin:admin -X GET --header 'Accept: text/html' "$url/lib/1")
+res_page=$(curl -k  --header "authorization: Bearer $token_info_admin" -X GET --header 'Accept: text/html' "$url/lib/1")
 
-res_sugest=$(curl -k  -u admin:admin -X POST --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{ "tipos": [ "BOOK"] }' "$url/suggest")
+res_sugest=$(curl -k  --header "authorization: Bearer $token_info_admin" -X POST --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{ "tipos": [ "BOOK"] }' "$url/suggest")
 #TODO
-res_change_password=$(curl -u saldanha:saldanha -k -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{ "password": "saldanha", "username": "saldanha"}' "$url/user/search/saldanha")
-res_login=$(curl -k  -u admin:admin -X GET --header 'Accept: text/html' "$url/user/login")
-res_logout=$(curl -k  -u admin:admin -X GET --header 'Accept: text/html' "$url/user/logout")
+res_change_password=$(curl --header "authorization: Bearer $token_info_user" -k -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{ "password": "saldanha", "username": "saldanha"}' "$url/user/search/saldanha")
+res_login=$(curl -k  --header "authorization: Bearer $token_info_admin" -X GET --header 'Accept: text/html' "$url/user/login")
+res_logout=$(curl -k  --header "authorization: Bearer $token_info_admin" -X GET --header 'Accept: text/html' "$url/user/logout")
 
 echo "Login"
 for i in $(seq 0 $retries); do
   res=$res_login || res=""
 
-  if echo "$res" | grep -q "token"
+  if echo "$res" | grep -q "html"
     then
         break
     else
@@ -63,7 +89,7 @@ echo "Logout"
 for i in $(seq 0 $retries); do
   res=$res_logout || res=""
 
-  if echo "$res" | grep -q "Logged Out"
+  if echo "$res" | grep -q "OK"
     then
         break
     else
@@ -174,7 +200,7 @@ done
 echo "Admin adicionar livro"
 for i in $(seq 0 $retries); do
 
-    res_comandocriarlivro=$(curl -k -X POST -u admin:admin --header  'Content-Type: application/json' -d '{"category": [ { "name": "Test"  } ], "description": "string", "name": "Test", "photoUrl": "test", "rating": 4.55,"type": "BOOK"  }' "$url/item")
+    res_comandocriarlivro=$(curl -k -X POST --header "authorization: Bearer $token_info_admin" --header  'Content-Type: application/json' -d '{"category": [ { "name": "Test"  } ], "description": "string", "name": "Test", "photoUrl": "test", "rating": 4.55,"type": "BOOK"  }' "$url/item")
 
     res=$res_comandocriarlivro || res=""
 
@@ -191,11 +217,11 @@ done
 echo "Utilizador normal tenta adicionaar um livro e nao consegue"
 for i in $(seq 0 $retries); do
 
-    res_comandocriarlivro=$(curl -k -X POST -u saldanha:saldanha --header  'Content-Type: application/json' -d '{"category": [ { "name": "Test"  } ], "description": "string", "name": "Test", "photoUrl": "test", "rating": 4.55,"type": "BOOK"  }' "$url/item")
+    res_comandocriarlivro=$(curl -k -X POST --header "authorization: Bearer $token_info_user" --header  'Content-Type: application/json' -d '{"category": [ { "name": "Test"  } ], "description": "string", "name": "Test", "photoUrl": "test", "rating": 4.55,"type": "BOOK"  }' "$url/item")
 
     res=$res_comandocriarlivro || res=""
 
-    if echo "$res" | grep -q "false"
+    if echo "$res" | grep -q "Unauthorized"
     then
         break
     else

@@ -6,25 +6,51 @@ from anime_pb2 import *
 from imdb_pb2 import *
 from library_pb2 import *
 from library_pb2_grpc import LibraryStub
+from account_pb2 import *
 import grpc
 from grpc_interceptor import ExceptionToStatusInterceptor
-from flask import Flask, jsonify, request, url_for, abort, g
+import connexion
 
-with open("api_gateway.key", "rb") as fp:
-    api_gateway_key = fp.read()
-with open("api_gateway.pem", "rb") as fp:
-    api_gateway_cert = fp.read()
-with open("ca.pem", "rb") as fp:
-    ca_cert = fp.read()
-creds = grpc.ssl_channel_credentials(ca_cert, api_gateway_key, api_gateway_cert)
+# with open("api_gateway.key", "rb") as fp:
+    # api_gateway_key = fp.read()
+# with open("api_gateway.pem", "rb") as fp:
+    # api_gateway_cert = fp.read()
+# with open("ca.pem", "rb") as fp:
+    # ca_cert = fp.read()
+# creds = grpc.ssl_channel_credentials(ca_cert, api_gateway_key, api_gateway_cert)
 
+# lib_host = os.getenv("LIBRARY_HOST", "localhost")
+# lib_channel = grpc.secure_channel(f"{lib_host}:50050", creds)
+# lib_client = LibraryStub(lib_channel)
+from functools import wraps
 lib_host = os.getenv("LIBRARY_HOST", "localhost")
-lib_channel = grpc.secure_channel(f"{lib_host}:50050", creds)
+lib_channel = grpc.insecure_channel(f"{lib_host}:50050")
 lib_client = LibraryStub(lib_channel)
 
-
+from flask import redirect
 # TODO
 # how to handle the user_id situation
+
+types = {
+    "BOOK":  0,
+    "SHOW":  1,
+    "ANIME": 2,
+}
+ids = {
+    0: "BOOK",
+    1: "SHOW",
+    2: "ANIME",
+}
+
+def get_type(type):
+    if type not in types:
+        return None
+    return types[type]
+
+def get_id(id):
+    if id not in ids:
+        return None
+    return ids[id]
 
 def getLibrary(page):
 
@@ -35,58 +61,55 @@ def getLibrary(page):
     print(request)
     ret = []
     for r in lib_client.Library(request).recommendations:
-        type= "All"
-        if (r.type == 0):
-            type = "BOOK"
-        if (r.type == 1):
-            type = "SHOW"
-        if (r.type == 2):
-            type = "ANIME"
+        tp = get_id(r.type)
+        type = "All" if not tp else tp
 
         object = {"id" : r.id, "name" : r.name, "type" : type}
         ret.append(object)
     return ret
 
-def getSuggestions(body):
+def getSuggestions(user,body):
+   # print(user)
+#    print(request.context['user'])
+#    print(request.context['user'])
 
-    request = RecommendationRequest (
-        user_id = g.user_id,
+    r = RecommendationRequest (
+        user_id = user,
         max_results = 30,
         types = body["tipos"]
     )
     ret = []
-    for r in lib_client.Recommend(request).recommendations:
-        type = "All"
-        if (r.type == 0):
-            type = "BOOK"
-        if (r.type == 1):
-            type = "SHOW"
-        if (r.type == 2):
-            type = "ANIME"
+    for r in lib_client.Recommend(r).recommendations:
+        tp = get_id(r.type)
+        type = "All" if not tp else tp
 
         object = {"id": r.id, "name": r.name, "type": type}
         ret.append(object)
     return ret
 
 def addItem(body):
+
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     type= body["type"]
     if (type == "BOOK"):
 
         type = 0
         data = BookData(book_title = body["name"], img_url= body["photoUrl"], book_rating= body["rating"], description= body["description"], genres = category_to_genres(body["category"]) )
-        request = AddItemRequest(user_id=g.user_id, type=type, book=data)
-    if (type == "SHOW"):
+        request = AddItemRequest(type=type, book=data)
+    elif (type == "SHOW"):
+        type = 1
         data = IMDBData(imdb_title=body["name"], img_url=body["photoUrl"], imdb_rating=body["rating"],
                         description=body["description"], genres= category_to_genres(body["category"]), type=body["type"])
-        request = AddItemRequest(user_id=g.user_id, type=type, imdb=data)
-        type = 1
-    if (type == "ANIME"):
+        request = AddItemRequest(type=type, imdb=data)
+
+    elif (type == "ANIME"):
+        type = 2
         data = AnimeData(anime_title=body["name"], img_url=body["photoUrl"], anime_rating=body["rating"],
                         description=body["description"], genres= category_to_genres(body["category"]))
-        request = AddItemRequest(user_id=g.user_id, type=type, anime=data)
-        type = 2
+        request = AddItemRequest( type=type, anime=data)
 
+    else:
+        return 'false',405
     return lib_client.AddItem(request).success
 
 def category_to_genres(category):
@@ -96,6 +119,9 @@ def category_to_genres(category):
     return lista
 
 def getItemById(type,itemId):
+    type = get_type(type)
+    if type is None: return 'false', 400
+
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemId(id = itemId, type=type)
     response= lib_client.GetItem(request)
@@ -127,49 +153,65 @@ def getItemById(type,itemId):
     return 'Id Not Found', 400
 
 def deleteItem(type,itemId):
+    type = get_type(type)
+    if not type: return 'false', 400
 
-    if (type == "BOOK"):
-        type = 0
-    if (type == "SHOW"):
-        type = 1
-    if (type == "ANIME"):
-        type = 2
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemIdAndUser(
-        user_id=g.user_id,
         id = itemId,
         type = type
     )
     return lib_client.RemoveItem(request).success
 
 def updateItemSeen(type,itemId):
-
-    if (type == "BOOK"):
-        type = 0
-    if (type == "SHOW"):
-        type = 1
-    if (type == "ANIME"):
-        type = 2
+    type = get_type(type)
+    if not type: return 'false', 400
 
     request =  ItemIdAndUser (
-        user_id = g.user_id,
         id = itemId,
         type = type
     )
     return lib_client.AddSeenItem(request).success
 
 def updateItemLike(type,itemId):
-
-    if (type == "BOOK"):
-        type = 0
-    if (type == "SHOW"):
-        type = 1
-    if (type == "ANIME"):
-        type = 2
+    type = get_type(type)
+    if not type: return 'false', 400
 
     request =  ItemIdAndUser(
-        user_id=g.user_id,
         id = itemId,
         type = type
     )
     return lib_client.AddLikeItem(request).success
+
+# def getViewsOf(type,itemId):
+#     type = get_type(type)
+#     if not type: return 'false', 400
+#
+#     request = SeenAndLikeItem(
+#         id   = itemId,
+#         type = type
+#     )
+#     r = lib_client.GetSeensItem(request).count
+#     return r
+#
+# def getLikesOf(type,itemId):
+#     type = get_type(type)
+#     if not type: return 'false', 400
+#
+#     request = SeenAndLikeItem(
+#         id   = itemId,
+#         type = type
+#     )
+#     r = lib_client.GetLikesItem(request).count
+#     return r
+
+def getTopTen(type):
+    type = get_type(type)
+    if not type: return 'false', 400
+
+    request = TopTenRequest(
+        type = type
+    )
+    rs = lib_client.GetTopTen(request).infos
+    t = lambda x : { 'id': x.id, 'type': x.type }
+    return [ t(r) for r in rs ]

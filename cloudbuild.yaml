@@ -102,7 +102,13 @@ steps:
     - |
       docker container ls -a
       sleep 10
-      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u https://api-gateway:80
+      sudo apt install jq
+
+      python ./app/protobufs/library/anime_test.py
+      python ./app/protobufs/library/book_test.py
+      python ./app/protobufs/library/imdb_test.py
+      python ./app/protobufs/library/library_test.py
+      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u http://api-gateway:8443
   env:
     - 'PROJECT_ID=$PROJECT_ID'
   waitFor: ['compose up']

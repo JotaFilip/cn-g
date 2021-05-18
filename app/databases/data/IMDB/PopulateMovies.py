@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 # pprint library is used to make the output look more pretty
 from pprint import pprint
 
@@ -63,8 +64,9 @@ with open("app/databases/data/IMDB/title.basics.tsv","r",encoding="utf8") as f:
         if row[0] in ratings:
             rating = ratings[row[0]]
 
+        id = "1"+str(ObjectId())
         movie = {
-            # 'id': row[0],
+            '_id': id,
             'name' : row[2].strip(),
             'category': genres,
             'rating' : rating,

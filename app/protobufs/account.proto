@@ -5,29 +5,24 @@ import "utils.proto";
 ///////////////BASIC RESPONSES//////////////
 ////////////////////////////////////////////
 //Verificar password
-message VerificarRequest{
-    string username = 1;
-    string password = 2;
-}
-message VerificarResponse{
-    int64 id = 1;
-    bool success = 2;
-}
+//message VerificarRequest{
+//    string username = 1;
+//    string password = 2;
+//}
+//message VerificarResponse{
+//    int64 id = 1;
+//    bool success = 2;
+//}
 
 ////////////////////////////////////////////
 ////////////////BASIC REQUESTS//////////////
 ////////////////////////////////////////////
-message EmailAndNonceRequest{
-	string email = 1;
-	string username = 2;
-	int64 nonce = 3;
-}
+//message EmailAndNonceRequest{
+//	string email = 1;
+//	string username = 2;
+//	int64 nonce = 3;
+//}
 
-message PasswordRequest {
-	string username = 1;
-	string password = 2;
-	int64 nonce = 3;
-}
 
 message UserData {
     string username = 1;
@@ -35,19 +30,22 @@ message UserData {
     repeated SeenAndLikeInfoReturn seens = 3;
 }
 
-message UserDataRequest {
-	string username = 1;
-	string password = 2;
-}
+//message UserDataRequest {
+//	string username = 1;
+//	string password = 2;
+//}
 
 message UserRequest {
+	string user_id = 1;
+}
+
+message UsernameRequest {
 	string username = 1;
 }
 
 message UpdateUserRequest {
-	string username = 1;
+	string user_id = 1;
 	string new_username = 2;
-	string new_password = 3;
 }
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -62,7 +60,7 @@ message LikesAndViewsRequest {
 }
 
 message SeenAndLikeInfo{
-    int64 user_id = 1;
+    string user_id = 1;
     string id= 2;
     Type type = 3;
     repeated string categories = 4;
@@ -90,7 +88,7 @@ message SeensAndLikesInfo{
     repeated SeenAndLikeInfoReturn infos = 1;
 }
 message UserId{
-    int64 id = 1;
+    string id = 1;
 }
 message CountInfo{
     int64 count = 1;
@@ -99,18 +97,32 @@ message CountInfo{
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
+
+
+message Count {
+	int64 count = 1;
+}
+
+message TopTenRequest {
+	Type type = 1;
+}
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
 service Account {
 	// CriarUtilizador
-	rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
+	// rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
 	//Actualiza a password do user baseado no nonce enviado para o email
-	rpc UserPassword (PasswordRequest) returns (Success);
-	rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
+	// rpc UserPassword (PasswordRequest) returns (Success);
+	// rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
 
-	rpc VerificarAdmin(UserId) returns (Success);
+	//rpc VerificarAdmin(UserId) returns (Success);
 	//Dar login //nao usado
-	rpc LoginUser (UserDataRequest) returns (Success);
+	// rpc LoginUser (UserDataRequest) returns (Success);
 	//Dar logout //nao usado
-	rpc LogoutUser (Empty) returns (Success);
+	// rpc LogoutUser (Empty) returns (Success);
 
 	//Parte da library
 	//Marcar item como visto
@@ -118,19 +130,25 @@ service Account {
 	//Marcar item como gostado
 	rpc Like(SeenAndLikeInfo) returns (Success);
 	//Obter likes do utilizador
-	rpc GetLikes(UserId) returns (SeensAndLikesInfo);
-	//Obter Visualizações do utilizador
-	rpc GetSeens(UserId) returns (SeensAndLikesInfo);
-	//ObterContagem de likes do item
-	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
-	//ObterContagem de seens do item
-	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
+	// rpc GetLikes(UserId) returns (SeensAndLikesInfo);
+	// //Obter Visualizações do utilizador
+	// rpc GetSeens(UserId) returns (SeensAndLikesInfo);
 	//Obter contagem de likes e views por categoria deste utilizador
 	rpc GetContagemLikesAndViews(UserId) returns (ViewsAndLikesCount);
 
 	//Username
-	rpc GetUserByName (UserRequest) returns (UserData);
+	rpc GetUserByName (UsernameRequest) returns (UserData);
 	rpc UpdateUser (UpdateUserRequest) returns (Success);
 	rpc DeleteUser (UserRequest) returns (Success);
 
+	// GetLikes and GetViews to Account
+	// rpc GetViews(SeenAndLikeItem) returns(Count);
+	// rpc GetLikes(SeenAndLikeItem) returns(Count);
+
+	//ObterContagem de likes do item
+	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
+	//ObterContagem de seens do item
+	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
+	//Get Top Ten Animes, Books or Movies
+	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
 }

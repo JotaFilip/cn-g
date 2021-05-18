@@ -3,9 +3,9 @@ syntax = "proto3";
 import "book.proto";
 import "imdb.proto";
 import "anime.proto";
+// import "account.proto";
 
 import "utils.proto";
-
 
 ////////////////////////////////////////////
 ///////////////BASIC RESPONSES//////////////
@@ -16,7 +16,7 @@ message ItemInfoResponse {
 }
 
 message ItemInfo {
-    string id = 1;
+	string id = 1;
 	string name = 2;
 	Type type = 3;
 }
@@ -43,7 +43,7 @@ message LibPageRequest {
 }
 
 message RecommendationRequest {
-    int64 user_id = 1;
+    string user_id = 1;
     int32 max_results = 2;
 	repeated Type types = 3;
 }
@@ -73,7 +73,7 @@ message ItemId {
 	Type type = 2;
 }
 message ItemIdAndUser {
-    int64 user_id = 1;
+	string user_id = 1;
 	string id = 2;
 	Type type = 3;
 }
@@ -89,4 +89,11 @@ service Library {
 	rpc RemoveItem (ItemIdAndUser) returns (Success);
 	rpc AddSeenItem (ItemIdAndUser) returns (Success);
 	rpc AddLikeItem (ItemIdAndUser) returns (Success);
+
+//	//ObterContagem de likes do item
+//	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
+//	//ObterContagem de seens do item
+//	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
+//
+//	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
 }

@@ -1,0 +1,509 @@
+    1  cat scripts/run.sh 
+    2  scripts/run.sh 
+    3  ls
+    4  ls app/protobufs/account
+    5  history
+    6  echo $PROJECT_ID
+    7  echo
+    8  echo $PROJECT_ID
+    9  echo "aaa"
+   10  echo $PROJECT_ID
+   11  export PROJECT_ID=cn-g14-projecto
+   12  echo $PROJECT_ID
+   13  ls
+   14  cd cn-g/
+   15  gcloud container images delete gcr.io/${PROJECT_ID}/*:v1  --force-delete-tags --quiet
+   16  gcloud container images delete gcr.io/${PROJECT_ID}/account:v1  --force-delete-tags --quiet
+   17  gcloud container images delete gcr.io/${PROJECT_ID}/signin:v1  --force-delete-tags --quiet
+   18  gcloud container images delete gcr.io/${PROJECT_ID}/api_gateway:v1  --force-delete-tags --quiet
+   19  gcloud container images delete gcr.io/${PROJECT_ID}/library:v1  --force-delete-tags --quiet
+   20  gcloud container images delete gcr.io/${PROJECT_ID}/book:v1  --force-delete-tags --quiet
+   21  gcloud container images delete gcr.io/${PROJECT_ID}/anime:v1  --force-delete-tags --quiet
+   22  gcloud container images delete gcr.io/${PROJECT_ID}/imdb:v1  --force-delete-tags --quiet
+   23  ls
+   24  cd app/
+   25  ls
+   26  cd protobufs/
+   27  ls
+   28  cd account/
+   29  docker build -t gcr.io/${PROJECT_ID}/hello-app:v1 .
+   30  docker build -t gcr.io/${PROJECT_ID}/account:v1 .
+   31  cd ..
+   32  cd signin/
+   33  docker build -t gcr.io/${PROJECT_ID}/signin:v1 .
+   34  cd ..
+   35  ls
+   36  cd api_gateway/
+   37  docker build -t gcr.io/${PROJECT_ID}/api_gateway:v1 .
+   38  cd ../book/
+   39  docker build -t gcr.io/${PROJECT_ID}/book:v1 .
+   40  cd ../anime/
+   41  docker build -t gcr.io/${PROJECT_ID}/anime:v1 .
+   42  cd ../book
+   43  cd ../imdb/
+   44  docker build -t gcr.io/${PROJECT_ID}/imdb:v1 .
+   45  cd ../library/
+   46  docker build -t gcr.io/${PROJECT_ID}/library:v1 .
+   47  docker images
+   48  gcloud services enable containerregistry.googleapis.com
+   49  gcloud auth configure-docker
+   50  docker push gcr.io/${PROJECT_ID}/imdb:v1
+   51  docker images
+   52  histoy
+   53  history
+   54  docker push gcr.io/${PROJECT_ID}/library:v1
+   55  docker push gcr.io/${PROJECT_ID}/anime:v1
+   56  docker push gcr.io/${PROJECT_ID}/book:v1
+   57  docker push gcr.io/${PROJECT_ID}/account:v1
+   58  docker push gcr.io/${PROJECT_ID}/signin:v1
+   59  docker push gcr.io/${PROJECT_ID}/api_gateway:v1
+   60  docker images
+   61  history
+   62  gcloud container images list gcr.io/${PROJECT_ID}/
+   63  gcloud container images llist --repository=gcr.io/${PROJECT_ID}/
+   64  gcloud container images list --repository=gcr.io/${PROJECT_ID}/
+   65  gcloud container images list
+   66  cd ..
+   67  kubectl apply -f deployment.yaml 
+   68  ls app/protobufs/api_gateway/
+   69  kubectl apply -f deployment.yaml 
+   70  ls
+   71  man docker
+   72  export PROJECT_ID=cn-g14-projecto
+   73  echo $PROJECT_ID
+   74  gcloud container images list
+   75  ls
+   76  cd cn-g/
+   77  cd app/protobufs/
+   78  cd api_gateway/
+   79  ls
+   80  ls -liah
+   81  cd ..
+   82  kubectl apply -f deployment.yaml 
+   83  kubectl exec --stdin --tty account -- /bin/bash
+   84  kubectl get pod account
+   85  kubectl get pods account
+   86  kubectl get pods -l app=api-gateway -o wide 
+   87  kubectl exec --stdin --tty api-gateway-65f478f85-g5dsw -- /bin/bash
+   88  kubectl exec -it <POD NAME> -c <CONTAINER NAME> bash
+   89  kubectl exec -it api-gateway-65f478f85-g5dsw -c account bash
+   90  kubectl exec -it api-gateway-65f478f85-g5dsw -c account -- /bin/bash
+   91  kubectl exec -it api-gateway-65f478f85-g5dsw -c account:v1 -- /bin/bash
+   92  kubectl exec -it api-gateway-65f478f85-g5dsw -- /bin/bash
+   93  kubectl exec -it api-gateway-65f478f85-g5dsw -c account:v1 -- /bin/bash
+   94  kubectl get pods --all-namespaces -o jsonpath="{..image}" |tr -s '[[:space:]]' '\n' |sort |uniq -c
+   95  kubectl exec -it api-gateway-65f478f85-g5dsw -c gcr.io/cn-g14-projecto/library:v1 -- /bin/bash
+   96  kubectl exec -it api-gateway-65f478f85-g5dsw -c gcr.io/cn-g14-projecto/api_gateway:v1 -- /bin/bash
+   97  kubectl exec -it api-gateway-65f478f85-g5dsw -c api_gateway:v1 -- /bin/bash
+   98  kubectl get pods --all-namespaces
+   99  kubectl exec -it api-gateway-65f478f85-g5dsw -c api_gateway:v1 -- /bin/bash
+  100  kubectl exec -it api-gateway-65f478f85-g5dsw -c api_gateway -- /bin/bash
+  101  kubectl exec -it api-gateway-65f478f85-g5dsw -c gcr.io/cn-g14-projecto/api_gateway:v1 -- /bin/bash
+  102  gcloud compute instances list
+  103  kubectl get pods -o=custom-columns=POD:.metadata.name,CONTAINERS:.spec.containers[*].name
+  104  kubectl exec -it api-gateway-65f478f85-g5dsw -c api-gateway -- /bin/bash
+  105  kubectl exec -it library-5df565f499-vb249 -c library -- /bin/bash
+  106  kubectl exec -it pod-2 -c service-2 /bin/sh
+  107  kubectl exec  library-5df565f499-vb249 -c library -- /bin/bash
+  108  kubectl get pods -o=custom-columns=POD:.metadata.name,CONTAINERS:.spec.containers[*].name
+  109  kubectl exec -it library-5df565f499-vb249  -- /bin/bash
+  110  kubectl exec -c library-it library-5df565f499-vb249  -- /bin/bash
+  111  kubectl exec -c library -it library-5df565f499-vb249  -- /bin/bash
+  112  gcloud compute instances list
+  113  gcloud compute ssh gke-cluster-recommendati-default-pool-a858db09-dt2s --zone=europe-west4-a
+  114  history
+  115  export PROJECT_ID=cn-g14-projecto
+  116  gcloud config set project $PROJECT_ID
+  117  gcloud services enable \   cloudapis.googleapis.com \   container.googleapis.com \   containerregistry.googleapis.com 
+  118  gcloud services enable cloudapis.googleapis.com container.googleapis.com   containerregistry.googleapis.com 
+  119  history
+  120  gcloud container clusters create cluster-recommendations  --zone=europe-west4-a --cluster-version=latest --num-nodes=3 --machine-type=n1-standard-4  --enable-autoscaling --min-nodes=1 --max-nodes=5   --enable-autorepair   --scopes=service-control,service-management,compute-rw,storage-ro,cloud-platform,logging-write,monitoring-write,pubsub,datastore
+  121  cd cn-g
+  122  history > history.txt
+  123  git add history.txt
+  124  git commit -m "History para fazer script"
+  125  git config --global user.email "miguelsaldanhafernandes@protonmail.com"
+  126  git config --global user.name "Saldanha"
+  127  git commit -m "History para fazer script"
+  128  git pull
+  129  git push
+  130  gcloud container clusters get-credentials cluster-recommendations --zone europe-west4-a
+  131  kubectl apply -f deployment.yaml 
+  132  cd cn-g/
+  133  git pull
+  134  kubectl apply -f deployment.yaml 
+  135  kubectl get pods -o=custom-columns=POD:.metadata.name,CONTAINERS:.spec.containers[*].name
+  136  kubectl exec -it api-gateway-65f478f85-wh9jv -c api-gateway -- /bin/bash
+  137  ls
+  138  gcloud config set project myProject
+  139  gcloud config set project cn-g14-projecto
+  140  ls
+  141  cd cn-g/
+  142  ls
+  143  git pull
+  144  ls
+  145  cd app
+  146  cd protobufs/
+  147  ls
+  148  cd api_gateway/
+  149  ls
+  150  vim seen.yaml 
+  151  cat seen.yaml 
+  152  cd ..
+  153  ls
+  154  ./deploy.sh
+  155  chmod +x ./deploy.sh
+  156  ./deploy.sh
+  157  export PROJECT_ID=cn-g14-projecto
+  158  ./deploy.sh
+  159  kubectl apply -f deployment.yaml 
+  160  git add app/protobufs/api_gateway/seen.yaml 
+  161  git commit -m "update seen"
+  162  git pull
+  163  git push
+  164  kubectl apply -f deployment.yaml 
+  165  cat deployment.yaml 
+  166  git pull
+  167  ls
+  168  gcloud config set project cn-g14-projecto
+  169  cd cn-g/
+  170  git pull 
+  171  git add deploy.sh 
+  172  git commit -m "Execution permission"
+  173  git pull 
+  174  kubectl apply -f deployment.yaml 
+  175  git pull
+  176  kubectl apply -f deployment.yaml 
+  177  git pull
+  178  kubectl apply -f deployment.yaml 
+  179  git pull
+  180  kubectl apply -f deployment.yaml 
+  181  gcloud info --format='value(config.project)'
+  182  cd cloud-builders-community/docker-compose
+  183  git clone https://github.com/GoogleCloudPlatform/cloud-builders-community.git
+  184  cd cloud-builders-community/docker-compose
+  185  gcloud builds submit --config=cloudbuild.yaml .
+  186  docker run --hostname dns.mageddo --restart=unless-stopped -p 5380:5380 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/resolv.conf:/etc/resolv.conf defreitas/dns-proxy-server
+  187  $?
+  188  docker pull defreitas/dns-proxy-server
+  189  gcr.io/cloud-builders/docker run --hostname dns.mageddo --restart=unless-stopped -p 5380:5380 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/resolv.conf:/etc/resolv.conf defreitas/dns-proxy-server --pull missing
+  190  docker run --hostname dns.mageddo --restart=unless-stopped -p 5380:5380 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/resolv.conf:/etc/resolv.conf defreitas/dns-proxy-server --pull missing
+  191  docker run --pull --hostname dns.mageddo --restart=unless-stopped -p 5380:5380 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/resolv.conf:/etc/resolv.conf defreitas/dns-proxy-server
+  192  docker run --pull missing --hostname dns.mageddo --restart=unless-stopped -p 5380:5380 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/resolv.conf:/etc/resolv.conf defreitas/dns-proxy-server
+  193  docker run --rm --pull missing --hostname dns.mageddo --restart=unless-stopped -p 5380:5380 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/resolv.conf:/etc/resolv.conf defreitas/dns-proxy-server
+  194  docker run --hostname dns.mageddo --restart=unless-stopped -p 5380:5380 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/resolv.conf:/etc/resolv.conf defreitas/dns-proxy-server
+  195  chmod +x cn-g/create_cluster.sh
+  196  chomd +x cn-g/deploy.sh
+  197  chmod +x cn-g/deploy.sh
+  198  cn-g/create_cluster.sh
+  199  cn-g/deploy.sh
+  200  cd cn-g/
+  201  git pull
+  202  git commit -m "+x"
+  203  git add create_cluster.sh 
+  204  git commit -m "+x"
+  205  git pull
+  206  git push
+  207  cn-g/deploy.sh
+  208  ./deploy.sh
+  209  cd cn-g/
+  210  git pull
+  211  kubectl apply -f deployment.yaml 
+  212  git pull
+  213  history
+  214  cd cloud-builders-community/docker-compose
+  215  gcloud builds submit --config=cloudbuild.yaml .
+  216  cd cn-g/
+  217  git pull
+  218  ./create_cluster.sh 
+  219  cd cn-g/
+  220  ./deploy.sh 
+  221  BUCKET=my-bucket
+  222  gsutil mb -p $PROJECT gs://$BUCKET
+  223  gsutil mb -p cn-g14-projecto gs://$BUCKET
+  224  BUCKET=my-bucketmmmmmmmmmmmmmmmmmkll
+  225  gsutil mb -p cn-g14-projecto gs://$BUCKET
+  226  cd cn-g/
+  227  git pull
+  228  kubectl create secret tls first-secret-name \
+  229  kubectl create secret tls recommendations  --cert scripts/recommendations.pem --key scripts/recommendations.key
+  230  ls
+  231  ls scripts/
+  232  git pull
+  233  kubectl create secret tls recommendations  --cert scripts/recommendations.pem --key scripts/recommendations.key
+  234  cd cn-g/
+  235  git pull
+  236  kubectl create secret tls recommendations  --cert scripts/recommendations.pem --key scripts/recommendations.key
+  237  kubectl create secret tls recommendations  --cert scripts/recommendations.pem --key scripts/recommendations.key --replace
+  238  kubectl create secret tls --help
+  239  kubectl create secret tls recommendations  --cert scripts/recommendations.pem --key scripts/recommendations.key --dry-run -o yaml | kubectl apply -f -
+  240  kubectl create secret tls recommendations  --cert scripts/recommendations.pem --key scripts/recommendations.key --dry-run 
+  241  kubectl create secret tls recommendations  --cert scripts/recommendations.pem --key scripts/recommendations.key --dry-run=client
+  242  cd cn-g/
+  243  git pull
+  244  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/recommendations.key --dry-run=client
+  245  git pull
+  246  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem --dry-run=client
+  247  cd cn-g/
+  248  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem --dry-run=client
+  249  ls scripts/
+  250  kubectl label namespace default istio-injection=enabled
+  251  kubectl edit -n istio-system HorizontalPodAutoscalers/istio-telemetry
+  252  kubectl edit -n istio-system Deployments/istio-telemetry
+  253  kubectl get svc istio-ingressgateway -n istio-system
+  254  export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  255  export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+  256  export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+  257  export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
+  258  echo $SECURE_INGRESS_PORT 
+  259  kubectl apply -f deployment.yaml
+  260  cd cn-g/
+  261  ls
+  262  kubectl apply -f deployment.yaml
+  263  git pull
+  264  kubectl apply -f deployment.yaml
+  265  cd cn-g/
+  266  git pull
+  267  ./create_cluster.sh 
+  268  cd cn-g/
+  269  ./create_cluster.sh 
+  270  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem --dry-run=client
+  271  cd cn-g/
+  272  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem --dry-run=client
+  273  kubectl apply -f deployment.yaml 
+  274  kubectl apply -f deployment.yaml
+  275  cd cn-g/
+  276  kubectl apply -f deployment.yaml
+  277  gcloud container clusters get-credentials cluster-recommendations --zone europe-west4-a
+  278  kubectl apply -f deployment.yaml
+  279  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem --dry-run=client
+  280  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey
+  281  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem
+  282  kubectl apply -f deployment.yaml
+  283  gcloud beta container clusters update cluster-recommendations --update-addons=Istio=ENABLED --istio-config=auth=MTLS_STRICT --zone=europe-west4-a
+  284  cd cn-g/
+  285  ./create_cluster.sh 
+  286  gcloud beta container clusters update cluster-recommendations --update-addons=Istio=ENABLED --istio-config=auth=MTLS_PERMISSIVE --zone=europe-west4-a
+  287  kubectl label namespace default istio-injection=enabled
+  288  cd cn-g/
+  289  git pull
+  290  kubectl apply -f deployment.yaml
+  291  istioctl version
+  292  kubectl get svc istio-ingressgateway -n istio-system
+  293  kubectl edit -n istio-system HorizontalPodAutoscalers/istio-telemetry
+  294  kubectl edit -n istio-system Deployments/istio-telemetry
+  295  git pull
+  296  kubectl apply -f app/gateway_istio_definition.yaml 
+  297  kubectl get svc -n istio-system | grep istio-ingress
+  298  git pull
+  299  kubectl get svc -n istio-system | grep istio-ingress
+  300  kubectl apply -f app/gateway_istio_definition.yaml 
+  301  git pull
+  302  kubectl apply -f app/gateway_istio_definition.yaml 
+  303  kubectl apply -f deployment.yaml
+  304  git pull
+  305  kubectl apply -f app/gateway_istio_definition.yaml 
+  306  kubectl apply -f deployment.yaml
+  307  kubectl apply -f app/gateway_istio_definition.yaml 
+  308  cd cn-g/
+  309  ./create_cluster.sh 
+  310  gcloud config set compute/zone europe-west4-a
+  311  curl -sL https://github.com/GoogleCloudPlatform/anthos-sample-deployment/releases/latest/download/asd-prereq-checker.sh | sh -
+  312  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem
+  313  cd cn-g/
+  314  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem
+  315  gcloud container clusters create cluster-recommendations  --zone=europe-west4-a --cluster-version=latest --num-nodes=3 --machine-type=n1-standard-4  --enable-autoscaling --min-nodes=1 --max-nodes=5   --enable-autorepair   --scopes=service-control,service-management,compute-rw,storage-ro,cloud-platform,logging-write,monitoring-write
+  316  gcloud container clusters get-credentials cluster-recommendations --zone europe-west4-a
+  317  gcloud container clusters create cluster-recommendations  --zone=europe-west4-a --cluster-version=latest --num-nodes=3 --machine-type=n1-standard-4  --enable-autoscaling --min-nodes=1 --max-nodes=5   --enable-autorepair   --scopes=service-control,service-management,compute-rw,storage-ro,cloud-platform,logging-write,monitoring-write
+  318  gcloud compute firewall-rules list --filter="name~gke-CLUSTER_NAME-[0-9a-z]*-master"
+  319  gcloud compute firewall-rules list --filter="name~gke-recommendations-cluster-[0-9a-z]*-master"
+  320  gcloud compute firewall-rules list --filter="name~gke-recommendations-cluster-[0-9a-z]*-master" --format=json
+  321  gcloud compute firewall-rules list 
+  322  gcloud components update
+  323  sudo apt-get update && sudo apt-get --only-upgrade install google-cloud-sdk-datalab google-cloud-sdk-cloud-build-local google-cloud-sdk-skaffold google-cloud-sdk-spanner-emulator google-cloud-sdk-config-connector google-cloud-sdk-app-engine-python kubectl google-cloud-sdk google-cloud-sdk-anthos-auth google-cloud-sdk-datastore-emulator google-cloud-sdk-firestore-emulator google-cloud-sdk-minikube google-cloud-sdk-kubectl-oidc google-cloud-sdk-kpt google-cloud-sdk-app-engine-go google-cloud-sdk-cbt google-cloud-sdk-bigtable-emulator google-cloud-sdk-app-engine-grpc google-cloud-sdk-app-engine-java google-cloud-sdk-local-extract google-cloud-sdk-pubsub-emulator google-cloud-sdk-app-engine-python-extras
+  324  curl https://storage.googleapis.com/csm-artifacts/asm/install_asm_1.9 > install_asm
+  325  curl https://storage.googleapis.com/csm-artifacts/asm/install_asm_1.9.sha256 > install_asm.sha256
+  326  sha256sum -c --ignore-missing install_asm.sha256
+  327  chmod +x install_asm
+  328  ls
+  329  mkdir /output_asm
+  330  mkdir ./output_asm
+  331  ./install_asm   --project_id PROJECT_ID   --cluster_name CLUSTER_NAME   --cluster_location CLUSTER_LOCATION   --mode install   --output_dir DIR_PATH \
+  332  ./install_asm   --project_id cn-g14-projecto   --cluster_name recommendations-cluster   --cluster_location europe-west4-a   --mode install   --output_dir ./install_asm
+  333  ls
+  334  ./install_asm   --project_id cn-g14-projecto   --cluster_name recommendations-cluster   --cluster_location europe-west4-a   --mode install   --output_dir ./output_asm
+  335  ./install_asm   --project_id cn-g14-projecto   --cluster_name cluster-recommendations   --cluster_location europe-west4-a   --mode install   --output_dir ./output_asm
+  336  ./install_asm   --project_id cn-g14-projecto   --cluster_name cluster-recommendations   --cluster_location europe-west4-a   --mode install  --enable_all
+  337  gcloud container clusters get-credentials CLUSTER_NAME     --project=PROJECT_IDgcloud container clusters get-credentials CLUSTER_NAME \
+  338  gcloud container clusters get-credentials cluster-recommendations --zone europe-west4-a
+  339  kubectl -n istio-system get pods -l app=istiod --show-labels
+  340  kubectl label namespace default istio-injection- istio.io/rev=asm-192-1 --overwrite
+  341  cd cn-g/
+  342  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem
+  343  cd cn-g/
+  344  git pull
+  345  ./deploy.sh 
+  346  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.45.0/deploy/static/provider/cloud/deploy.yaml
+  347  export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  348  export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+  349  export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+  350  export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
+  351  cd cn-g/
+  352  ./deploy.sh 
+  353  git pull
+  354  kubectl apply -f deployment.yaml 
+  355  git pull
+  356  kubectl apply -f deployment.yaml 
+  357  git pull
+  358  kubectl apply -f deployment.yaml 
+  359  git pull
+  360  ./deploy.sh 
+  361  gcloud services enable container.googleapis.com
+  362  gcloud container clusters create hello-istio     --cluster-version=latest     --machine-type=e2-standard-2 \
+  363  gcloud config set compute/zone europe-west4-a
+  364  gcloud services enable container.googleapis.com
+  365  gcloud container clusters create hello-istio     --cluster-version=latest     --machine-type=e2-standard-2     --num-nodes=4
+  366  curl -L https://istio.io/downloadIstio | sh -
+  367  ls
+  368  cd istio-1.9.3/
+  369  pwd
+  370  export PATH="$PATH:/tmp/istio-1.9.3/bin"
+  371  istioctl x precheck
+  372  istioctl install
+  373  kubectl get svc -n istio-system
+  374  kubectl get pods -n istio-system
+  375  kubectl label namespace default istio-injection=enabled
+  376  less samples/bookinfo/platform/kube/bookinfo.yaml
+  377  kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+  378  kubectl get pod
+  379  kubectl describe pod details-v1-66b69559955-gc626
+  380  kubectl get pod
+  381  kubectl describe pod details-v1-66b69559955-gc626
+  382  kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+  383  kubectl get services
+  384  kubectl get pods
+  385  kubectl get svc istio-ingressgateway -n istio-system
+  386  export GATEWAY_URL=34.90.150.65
+  387  curl -o /dev/null -s -w "%{http_code}\n" http://${GATEWAY_URL}/productpage
+  388  cd ..
+  389  cd cn-g/
+  390  git pull
+  391  kubectl apply -f deployment.yaml 
+  392  git pull
+  393  kubectl apply -f deployment.yaml 
+  394  kubectl create secret tls recommendations  --cert scripts/fullchain1.pem --key scripts/privkey1.pem
+  395  git pull
+  396  kubectl apply -f deployment.yaml 
+  397  kubectl create -n istio-system secret tls istio-ingressgateway-certs --key scripts/privkey1.pem --cert scripts/fullchain1.pem 
+  398  git pull
+  399  kubectl apply -f deployment.yaml 
+  400  history
+  401  kubectl get svc istio-ingressgateway -n istio-system
+  402  cd cn-g/
+  403  ls
+  404  cd ..
+  405  ls
+  406  cd ..
+  407  ls
+  408  cd migueljosefernandes/
+  409  ls
+  410  cd cn-g/
+  411  git pull
+  412  cd ..
+  413  cn-g/create_cluster.sh 
+  414  ls
+  415  cd cn-g/
+  416  ls
+  417  git pull
+  418  git checkout tag "Week4"
+  419  git checkout tags/Week4 -b Week4-branch
+  420  ls
+  421  ./create_cluster.sh 
+  422  gcloud config set project cn-g14-projecto
+  423  ./create_cluster.sh 
+  424  ./deploy.sh 
+  425  cd cn-g/
+  426  kubectl apply -f deployment.yaml 
+  427  cat deploy
+  428  cat deploy.sh
+  429  cat deployment.yaml
+  430  cat ./create_cluster.sh 
+  431  cat deployment.yaml
+  432  cat ./create_cluster.sh 
+  433  git status
+  434  tig
+  435  apt install tig
+  436  sudo apt install tig
+  437  tig
+  438  cd ..
+  439  rm -r cn-g/
+  440  rm -r -f cn-g/
+  441  git clone https://github.com/JotaFilip/cn-g.git
+  442  git fetch --all --tags --prune
+  443  cd cn-g/
+  444  git fetch --all --tags --prune
+  445  git checkout tags/Week4 -b Week4-branch
+  446  git list tags
+  447  git tag
+  448  cd ..
+  449  ls
+  450  cd cn-g/
+  451  git tag
+  452  git checkout tags/Week4 -b Week4-branch
+  453  cat ./create_cluster.sh 
+  454  ./create_cluster.sh 
+  455  ./deploy.sh 
+  456  cat ./create_cluster.sh 
+  457  nano deployment.yaml 
+  458  cd ../../..
+  459  cd ~/cn-g/ && kubectl apply -f deployment.yaml 
+  460  nano deployment.yaml 
+  461  kubectl apply -f deployment.yaml 
+  462  ls
+  463  cd cn-g
+  464  ls
+  465  gcloud beta dataproc clusters create cluster-bigquery --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-4 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://goog-dataproc-initialization-actions-europe-west4/connectors/connectors.sh' --metadata spark-bigquery-connector-version=0.20.0 --project cn-g14-projecto
+  466  gcloud beta dataproc clusters create cluster-bigquery --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-2 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://goog-dataproc-initialization-actions-europe-west4/connectors/connectors.sh' --metadata spark-bigquery-connector-version=0.20.0 --project cn-g14-projecto
+  467  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-4 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://goog-dataproc-initialization-actions-europe-west4/connectors/connectors.sh' --metadata spark-bigquery-connector-version=0.20.0 --project cn-g14-projecto
+  468  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-2 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://goog-dataproc-initialization-actions-europe-west4/connectors/connectors.sh' --metadata spark-bigquery-connector-version=0.20.0 --project cn-g14-projecto
+  469  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-4 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --scopes sql-admin --project cn-g14-projecto
+  470  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --scopes sql-admin --project cn-g14-projecto
+  471  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-4 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions-europe-west4/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --scopes sql-admin --project cn-g14-projecto
+  472  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions-europe-west4/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --scopes sql-admin --project cn-g14-projecto
+  473  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --scopes sql-admin,storage-ro --project cn-g14-projecto
+  474  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false"
+  475  --metadata "additional-cloud-sql-instances=cn-g14-projecto:europe-west4:account-sql=TCP:3306
+  476  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --metadata "additional-cloud-sql-instances=cn-g14-projecto:europe-west4:account-sql=TCP:3306
+  477  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --metadata "additional-cloud-sql-instances=cn-g14-projecto:europe-west4:account-sql=TCP:3306 --scopes sql-admin,storage-ro --project cn-g14-projecto
+  478  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --metadata "additional-cloud-sql-instances=cn-g14-projecto:europe-west4:account-sql=TCP:3306" --scopes sql-admin,storage-ro --project cn-g14-projecto
+  479  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --metadata "additional-cloud-sql-instances=cn-g14-projecto:europe-west4:account-sql" --scopes sql-admin,storage-ro --project cn-g14-projecto
+  480  gcloud beta dataproc clusters create cluster-bigquery --enable-component-gateway --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --metadata "additional-cloud-sql-instances=cn-g14-projecto:europe-west4:sql-cn" --scopes sql-admin,storage-ro --project cn-g14-projecto
+  481  gcloud beta dataproc clusters create cluster-bigquery --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh' --metadata "enable-cloud-sql-hive-metastore=false" --metadata "additional-cloud-sql-instances=cn-g14-projecto:europe-west4:account-sql=TCP:3306" --scopes sql-admin,storage-ro --project cn-g14-projecto
+  482  gcloud beta dataproc clusters create cluster-spark --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh'  --metadata='PIP_PACKAGES=pandas==0.23.0 scipy==1.1.0 graphframes' --initialization-actions=gs://goog-dataproc-initialization-actions-europe-west4/python/pip-install.sh --project cn-g14-projecto
+  483  gcloud beta dataproc clusters create cluster-spark --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --initialization-actions 'gs://dataproc-initialization-actions/cloud-sql-proxy/cloud-sql-proxy.sh'  --metadata='PIP_PACKAGES=graphframes' --initialization-actions=gs://goog-dataproc-initialization-actions-europe-west4/python/pip-install.sh --project cn-g14-projecto
+  484  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --packages graphframes:graphframes:0.6.0-spark2.3-s_2.11
+  485  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --packages graphframes:graphframes:0.8.1-spark2.4-s_2.11
+  486  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --jars graphframes:graphframes:0.8.1-spark2.4-s_2.11
+  487  gcloud config set dataproc/region europe-west4
+  488  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --jars graphframes:graphframes:0.8.1-spark2.4-s_2.11
+  489  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --repositoriesgs://cn-spark-bucket --jars graphframes:graphframes:0.8.1-spark2.4-s_2.11
+  490  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --repositories gs://cn-spark-bucket --jars graphframes:graphframes:0.8.1-spark2.4-s_2.11
+  491  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --jars graphframes:graphframes:0.8.1-spark2.4-s_2.11
+  492  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --jars graphframes:graphframes:0.8.1-spark2.4-s_2.11 --region europe-west4
+  493  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --packages 
+  494  gcloud dataproc jobs submit pyspark --cluster=cluster-spark  gs://cn-spark-bucket/job.py --  --jars graphframes:graphframes:0.8.1-spark2.4-s_2.11
+  495  gcloud dataproc jobs submit pyspark --cluster=cluster-spark --region europe-west4  gs://cn-spark-bucket/job.py --  --repositories http://repos.spark-packages.org --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11
+  496  gcloud dataproc jobs submit pyspark --cluster=cluster-spark --region europe-west4  gs://cn-spark-bucket/job.py --  --repositories http://repos.spark-packages.org --packages graphframes:graphframes:0.8.1-spark2.4-s_2.11 --jars=graphframes-0.8.1-spark2.4-s_2.11.jar
+  497  gcloud dataproc jobs submit pyspark --cluster=cluster-spark --region europe-west4  gs://cn-spark-bucket/job.py --  --repositories http://repos.spark-packages.org --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11 --jars=graphframes_graphframes-0.7.0-spark2.4-s_2.11.jar
+  498  gcloud dataproc jobs submit pyspark --cluster=cluster-spark --region europe-west4  gs://cn-spark-bucket/job.py --  --repositories http://repos.spark-packages.org --packages graphframes:graphframes:0.8.1-spark3.0-s_2.11 --jars=graphframes-0.8.1-spark3.0-s_2.12.jar
+  499  gcloud dataproc jobs submit pyspark --cluster=cluster-spark --region europe-west4  gs://cn-spark-bucket/job.py --  --repositories http://repos.spark-packages.org --packages graphframes:graphframes:0.8.1-spark3.0-s_2.12 --jars=graphframes-0.8.1-spark3.0-s_2.12.jar
+  500  gcloud beta dataproc clusters create cluster-spark --region europe-west4 --zone europe-west4-a --master-machine-type n1-standard-4 --master-boot-disk-size 100 --num-workers 2 --worker-machine-type n1-standard-2 --worker-boot-disk-size 50 --image-version 2.0-debian10 --project cn-g14-projecto
+  501  ls
+  502  cd cn-g
+  503  ls
+  504  git pull
+  505  cd ..
+  506  rm -r cn-g
+  507  git clone https://github.com/JotaFilip/cn-g.git
+  508  cd cn-g/
+  509  history > h.txt
