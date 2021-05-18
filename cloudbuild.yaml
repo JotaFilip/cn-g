@@ -91,7 +91,7 @@ steps:
     docker-compose up -d --force-recreate --build
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['build account','build signin','build api-gateway','build book','build anime','build imdb','build library']
+  waitFor: ['build account','build spark-connector','build api-gateway','build book','build anime','build imdb','build library']
 
 
 - id: 'integration tests'
