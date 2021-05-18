@@ -11,14 +11,14 @@ steps:
     '--cache-from=gcr.io/$PROJECT_ID/account:latest',
     'app/protobufs/account/.',
   ]
-- id: 'build signin'
+- id: 'build spark-connector'
   name: 'gcr.io/cloud-builders/docker'
   args: [
     'build',
-    '--tag=signin', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/signin',
-    '--cache-from=gcr.io/$PROJECT_ID/signin:latest',
-    'app/protobufs/signin/.',
+    '--tag=spark-connector', # use local registry for compatibility with local builds
+    '--tag=gcr.io/$PROJECT_ID/spark-connector',
+    '--cache-from=gcr.io/$PROJECT_ID/spark-connector:latest',
+    'app/protobufs/spark_connector/.',
   ]
   waitFor: ['-'] # start immediately
 
@@ -91,7 +91,7 @@ steps:
     docker-compose up -d --force-recreate --build
   env:
   - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['build account','build signin','build api-gateway','build book','build anime','build imdb','build library']
+  waitFor: ['build account','build spark-connector','build api-gateway','build book','build anime','build imdb','build library']
 
 
 - id: 'integration tests'

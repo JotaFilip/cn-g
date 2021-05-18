@@ -254,7 +254,7 @@ def serve():
         Spark_Connector(), server
     )
     
-    server.add_insecure_port("[::]:50058")
+    server.add_insecure_port("[::]:50054")
     server.start()
     server.wait_for_termination()
 

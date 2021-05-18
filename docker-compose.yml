@@ -27,7 +27,7 @@ services:
     #    networks:
     #        - micro_services
        ports:
-           - 50058:50058
+           - 50054:50054
 
     account:
         build:

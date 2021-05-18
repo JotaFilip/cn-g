@@ -28,7 +28,7 @@ services:
         environment:
             GOOGLE_APPLICATION_CREDENTIALS: cn-g14-projecto-ee48440401d9.json
         ports:
-            - 50058:50058
+            - 50054:50054
 
     account:
         build:

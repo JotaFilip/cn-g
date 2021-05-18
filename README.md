@@ -7,7 +7,7 @@ Install docker and run the script:
 ##Delivery4
 Follow instructions on DeployOnGoogleCloudReadme.md
 
-Notes: 
+Notes:
 - Our databases are already populated, with something like 7 million rows of data
 
 # Roles
@@ -18,3 +18,4 @@ Notes:
 3     | DevOps Officer                      | fc51072 | Miguel Saldanha 
 4     | MicroServices Programmer            | fc51058 | Diogo Lopes
 5     | Data Scientist                      | fc51080 | João Roque
+ 

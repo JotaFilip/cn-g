@@ -162,27 +162,27 @@ spec:
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "signin"
+  name: "spark-connector"
   namespace: "default"
   labels:
-    app: "signin"
+    app: "spark-connector"
 spec:
   strategy:
     type: Recreate
   replicas: 3
   selector:
     matchLabels:
-      app: "signin"
+      app: "spark-connector"
   template:
     metadata:
       labels:
-        app: "signin"
+        app: "spark-connector"
     spec:
       serviceAccountName: default
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "signin"
-        image: "gcr.io/cn-g14-projecto/signin"
+        image: "gcr.io/cn-g14-projecto/spark-connector"
         ports:
         - containerPort: 50054
 #        readinessProbe:
@@ -193,21 +193,16 @@ spec:
 #          periodSeconds: 5
 #          exec:
 #            command: ["/bin/grpc_health_probe", "-addr=:50054"]
-        env:
-        - name: "ACCOUNTS_HOST"
-          valueFrom:
-            configMapKeyRef:
-              key: "ACCOUNTS_HOST"
-              name: "recommendations-config-tn5f"
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: signin
+  name: spark-connector
 spec:
   #  type: ClusterIP
   selector:
-    app: signin
+    app: spark-connector
   ports:
   - name: grpc
     port: 50054
