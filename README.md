@@ -3,7 +3,7 @@
 # Running
 Using: `./scripts/run.sh`
 
-Notes: 
+Notes:
 - Our databases are already populated, with something like 7 million rows of data
 
 # Roles
