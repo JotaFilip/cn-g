@@ -96,7 +96,7 @@ for i in $(seq 0 $retries); do
   exit 1
 done
 
-res_change_username=$(curl --header "authorization: Bearer $token_info_user" -k -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{"username": "unico"}' "$url/user")
+res_change_username=$(curl --header "authorization: Bearer $token_info_user" -k -X POST --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{"username": "unico"}' "$url/user")
 echo "Change username"
 for i in $(seq 0 $retries); do
   res=$res_change_username || res=""
