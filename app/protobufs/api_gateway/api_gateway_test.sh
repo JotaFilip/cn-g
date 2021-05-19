@@ -71,7 +71,7 @@ echo "Login"
 for i in $(seq 0 $retries); do
   res=$res_login || res=""
 
-  if echo "$res" | grep -q "html"
+  if echo "$res" | grep -q "login"
     then
         break
     else
