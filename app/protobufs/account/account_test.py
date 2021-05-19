@@ -14,18 +14,28 @@ class MyTestCase(unittest.TestCase):
     def test_seen(self):
         seen_and_like_info = SeenAndLikeInfo(user_id="608f3ba995657a00692583ae", id="606e252aebddc73ebfb15542",
                                              type="ANIME", categories="Action")
-        self.assertTrue(accounts_client.Seen(seen_and_like_info))
+
+        accounts_client.Remove_Seen(seen_and_like_info)
+
+        self.assertTrue(accounts_client.Seen(seen_and_like_info).success)
 
         seen_and_like_item = SeenAndLikeItem(id="606e252aebddc73ebfb15542", type="ANIME")
         self.assertNotEqual(accounts_client.GetSeensItem(seen_and_like_item), 0)
 
+        self.assertTrue(accounts_client.Remove_Seen(seen_and_like_info).success)
+
     def test_like(self):
         seen_and_like_info = SeenAndLikeInfo(user_id="608f3ba995657a00692583ae", id="606e252aebddc73ebfb15542",
                                              type="ANIME", categories="Action")
-        self.assertTrue(accounts_client.Like(seen_and_like_info))
+
+        accounts_client.Remove_Like(seen_and_like_info)
+
+        self.assertTrue(accounts_client.Like(seen_and_like_info).success)
 
         seen_and_like_item = SeenAndLikeItem(id="606e252aebddc73ebfb15542", type="ANIME")
         self.assertNotEqual(accounts_client.GetLikesItem(seen_and_like_item), 0)
+
+        self.assertTrue(accounts_client.Remove_Like(seen_and_like_info).success)
 
     def test_seen_not_exists_id(self):
         seen_and_like_info = SeenAndLikeInfo(user_id="608f3ba995657a00692583ae", id="000000000000000000000000",
@@ -50,16 +60,6 @@ class MyTestCase(unittest.TestCase):
 
         user_request = UserRequest(user_id="608f8ptn95657a0069258000")
         self.assertTrue(accounts_client.DeleteUser(user_request).success)
-
-    # def test_get_user_by_name(self):
-    #     username_request = UpdateUserRequest(user_id="608f8ptn95657a0069258000", new_username="Leitao")
-    #     accounts_client.UpdateUser(username_request)
-    #     username_request = UsernameRequest(username="Leitao")
-    #     self.assertEqual("Leitao", accounts_client.GetUserByName(username_request).username)
-    #
-    # def test_delete_user(self):
-    #     user_request = UserRequest(user_id="608f8ptn95657a0069258000")
-    #     self.assertTrue(accounts_client.DeleteUser(user_request).success)
 
 if __name__ == '__main__':
     unittest.main()
