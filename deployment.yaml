@@ -11,7 +11,7 @@ data:
   BOOKS_HOST: "book"
   ANIMES_HOST: "anime"
   IMDBS_HOST: "imdb"
-  SIGNIN_HOST: "signin"
+  SPARK_CONNECTOR_HOST: "spark_connector"
   GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-projecto-ee48440401d9.json"
   LIBRARY_HOST: "library"
 ---
@@ -510,14 +510,14 @@ spec:
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
 metadata:
-  name: "signin-hpa-cs66"
+  name: "spark_connector-hpa-cs66"
   namespace: "default"
   labels:
-    app: "signin"
+    app: "spark_connector"
 spec:
   scaleTargetRef:
     kind: "Deployment"
-    name: "signin"
+    name: "spark_connector"
     apiVersion: "apps/v1"
   minReplicas: 1
   maxReplicas: 20
