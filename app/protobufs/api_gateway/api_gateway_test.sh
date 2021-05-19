@@ -243,7 +243,7 @@ for i in $(seq 0 $retries); do
 
     res=$res_comandocriarlivro || res=""
 
-    if echo "$res" | grep -q "Unauthorized"
+    if echo "$res" | grep -q "Forbidden"
     then
         break
     else
