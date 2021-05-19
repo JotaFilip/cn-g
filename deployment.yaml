@@ -181,7 +181,7 @@ spec:
       serviceAccountName: default
 #      terminationGracePeriodSeconds: 5
       containers:
-      - name: "signin"
+      - name: "spark_connector"
         image: "gcr.io/cn-g14-projecto/spark-connector"
         ports:
         - containerPort: 50054
@@ -326,7 +326,7 @@ spec:
 #            - name: "Cookie"
 #              value: "shop_session-id=x-liveness-probe"
         env:
-        - name: "SIGNIN_HOST"
+        - name: "SPARK_CONNECTOR_HOST"
           valueFrom:
             configMapKeyRef:
               key: "SIGNIN_HOST"
@@ -335,21 +335,6 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: "LIBRARY_HOST"
-              name: "recommendations-config-tn5f"
-        - name: "OAUTH_CLIENT_ID"
-          valueFrom:
-            configMapKeyRef:
-              key: "OAUTH_CLIENT_ID"
-              name: "recommendations-config-tn5f"
-        - name: "OAUTH_SCOPES"
-          valueFrom:
-            configMapKeyRef:
-              key: "OAUTH_SCOPES"
-              name: "recommendations-config-tn5f"
-        - name: "OAUTH2_REDIRECT_URL"
-          valueFrom:
-            configMapKeyRef:
-              key: "OAUTH2_REDIRECT_URL"
               name: "recommendations-config-tn5f"
 
 ---
