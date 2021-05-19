@@ -27,6 +27,16 @@ class MyTestCase(unittest.TestCase):
         seen_and_like_item = SeenAndLikeItem(id="606e252aebddc73ebfb15542", type="ANIME")
         self.assertNotEqual(accounts_client.GetLikesItem(seen_and_like_item), 0)
 
+    def test_seen_not_exists_id(self):
+        seen_and_like_info = SeenAndLikeInfo(user_id="608f3ba995657a00692583ae", id="000000000000000000000000",
+                                             type="ANIME", categories="Action")
+        self.assertFalse(accounts_client.Seen(seen_and_like_info).success)
+
+    def test_seen_not_exists_user(self):
+        seen_and_like_info = SeenAndLikeInfo(user_id="111111a995657a0069111111", id="606e252aebddc73ebfb15542",
+                                             type="ANIME", categories="Action")
+        self.assertFalse(accounts_client.Seen(seen_and_like_info).success)
+
     def test_views_and_likes_count(self):
         user_id = UserId(id="606e252aebddc73ebfb15542")
         self.assertIsNotNone(accounts_client.GetContagemLikesAndViews(user_id).tuples)
@@ -35,15 +45,21 @@ class MyTestCase(unittest.TestCase):
         username_request = UpdateUserRequest(user_id="608f8ptn95657a0069258000", new_username="Leitao")
         self.assertTrue(accounts_client.UpdateUser(username_request).success)
 
-    def test_get_user_by_name(self):
-        username_request = UpdateUserRequest(user_id="608f8ptn95657a0069258000", new_username="Leitao")
-        accounts_client.UpdateUser(username_request)
         username_request = UsernameRequest(username="Leitao")
         self.assertEqual("Leitao", accounts_client.GetUserByName(username_request).username)
 
-    def test_delete_user(self):
         user_request = UserRequest(user_id="608f8ptn95657a0069258000")
         self.assertTrue(accounts_client.DeleteUser(user_request).success)
+
+    # def test_get_user_by_name(self):
+    #     username_request = UpdateUserRequest(user_id="608f8ptn95657a0069258000", new_username="Leitao")
+    #     accounts_client.UpdateUser(username_request)
+    #     username_request = UsernameRequest(username="Leitao")
+    #     self.assertEqual("Leitao", accounts_client.GetUserByName(username_request).username)
+    #
+    # def test_delete_user(self):
+    #     user_request = UserRequest(user_id="608f8ptn95657a0069258000")
+    #     self.assertTrue(accounts_client.DeleteUser(user_request).success)
 
 if __name__ == '__main__':
     unittest.main()

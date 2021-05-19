@@ -136,15 +136,15 @@ class AccountService(account_pb2_grpc.AccountServicer):
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
         #user = session.query().filter_by(username=request.username).first()
-        #TODO verificar se já existe antes
         seen = Seen(user_id=request.user_id, item_id=request.id, item_type=request.type)
         try:
             session.add(seen)
             session.commit()
         except IntegrityError:
             session.rollback()
+            return Success(success=False)
         for cat in request.categories:
-            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat).first()
+            count = session.query(Contagem).with_for_update().filter_by(user_id=request.user_id, category=cat).first()
             if count is None:
                 count = Contagem(user_id = request.user_id, category = cat, likes = 0, views = 1)
                 session.add(count)
@@ -154,13 +154,34 @@ class AccountService(account_pb2_grpc.AccountServicer):
 
         session.commit()
         return Success(success=True)
+
+    def Remove_Seen(self, request, context):
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        seen = session.query(Seen).with_for_update().filter_by(user_id=request.user_id, item_id=request.id,
+                                                               item_type=request.type).first()
+        if seen is not None:
+            session.delete(seen)
+        else:
+            session.rollback()
+            return Success(success=False)
+
+        for cat in request.categories:
+            count = session.query(Contagem).with_for_update().filter_by(user_id=request.user_id, category=cat).first()
+            if count is not None:
+                count.decrementSeens()
+
+        session.commit()
+        return Success(success=True)
+
     def Like(self,request,context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
-        #TODO verificar se já existe antes
         like = Like(user_id=request.user_id, item_id=request.id, item_type=request.type)
         try:
             session.add(like)
@@ -170,12 +191,33 @@ class AccountService(account_pb2_grpc.AccountServicer):
             return Success(success=False)
 
         for cat in request.categories:
-            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat).first()
+            count = session.query(Contagem).with_for_update().filter_by(user_id=request.user_id, category=cat).first()
             if count is None:
                 count = Contagem(user_id = request.user_id, category = cat, likes = 1, views = 0)
                 session.add(count)
             else:
                 count.incrementLikes()
+        session.commit()
+        return Success(success=True)
+
+    def Remove_Like(self, request, context):
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+        #user = Student.query.with_for_update(of=Student, nowait=True).filter(Student.id == 122).first()
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        like = session.query(Like).with_for_update().filter_by(user_id=request.user_id, item_id=request.id, item_type=request.type).first()
+        if like is not None:
+            session.delete(like)
+        else:
+            session.rollback()
+            return Success(success=False)
+
+        for cat in request.categories:
+            count = session.query(Contagem).with_for_update().filter_by(user_id=request.user_id, category=cat).first()
+            if count is not None:
+                count.decrementLikes()
+
         session.commit()
         return Success(success=True)
         

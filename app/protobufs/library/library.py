@@ -241,6 +241,37 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             return accounts_client.Seen(seen_and_like_request)
 
+    def RemoveSeenItem(self, request, context):
+        id = request.id
+        type = request.type
+
+        if (type == Type.ANIME):
+
+            animes_request = AnimeByIdRequest(anime_id=id)
+            anime = animes_client.SearchById(animes_request)
+            genres = anime.genres
+            seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
+
+            return accounts_client.Remove_Seen(seen_and_like_request)
+
+        elif (type == Type.BOOK):
+
+            books_request = BookByIdRequest(book_id=id)
+            book = books_client.SearchById(books_request)
+            genres = book.genres
+            seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
+
+            return accounts_client.Remove_Seen(seen_and_like_request)
+
+        elif (type == Type.SHOW):
+
+            imdbs_request = IMDBByIdRequest(imdb_id=id)
+            imdb = imdbs_client.SearchById(imdbs_request)
+            genres = imdb.genres
+            seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
+
+            return accounts_client.Remove_Seen(seen_and_like_request)
+
     def AddLikeItem(self, request, context):
         id = request.id
         type = request.type
@@ -274,7 +305,38 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             return accounts_client.Like(seen_and_like_request)
 
+    def RemoveLikeItem(self, request, context):
+        id = request.id
+        type = request.type
 
+        if (type == Type.ANIME):
+
+            animes_request = AnimeByIdRequest(anime_id=id)
+            anime = animes_client.SearchById(animes_request)
+            genres = anime.genres
+
+            seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
+
+            ret = accounts_client.Remove_Like(seen_and_like_request)
+            return ret
+
+        elif (type == Type.BOOK):
+
+            books_request = BookByIdRequest(book_id=id)
+            book = books_client.SearchById(books_request)
+            genres = book.genres
+            seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
+
+            return accounts_client.Remove_Like(seen_and_like_request)
+
+        elif (type == Type.SHOW):
+
+            imdbs_request = IMDBByIdRequest(imdb_id=id)
+            imdb = imdbs_client.SearchById(imdbs_request)
+            genres = imdb.genres
+            seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
+
+            return accounts_client.Remove_Like(seen_and_like_request)
 
     def GetTopTen(self, request, context):
         return accounts_client.GetTopTen(request)

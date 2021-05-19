@@ -97,12 +97,6 @@ message CountInfo{
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
-
-
-message Count {
-	int64 count = 1;
-}
-
 message TopTenRequest {
 	Type type = 1;
 }
@@ -112,23 +106,18 @@ message TopTenRequest {
 ////////////////////////////////////////////
 
 service Account {
-	// CriarUtilizador
-	// rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
-	//Actualiza a password do user baseado no nonce enviado para o email
-	// rpc UserPassword (PasswordRequest) returns (Success);
-	// rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
-
-	//rpc VerificarAdmin(UserId) returns (Success);
-	//Dar login //nao usado
-	// rpc LoginUser (UserDataRequest) returns (Success);
-	//Dar logout //nao usado
-	// rpc LogoutUser (Empty) returns (Success);
 
 	//Parte da library
 	//Marcar item como visto
 	rpc Seen(SeenAndLikeInfo) returns (Success);
+    //Remover visto do item
+    rpc Remove_Seen(SeenAndLikeInfo) returns (Success);
+
 	//Marcar item como gostado
 	rpc Like(SeenAndLikeInfo) returns (Success);
+    //Remover like do item
+    rpc Remove_Like(SeenAndLikeInfo) returns (Success);
+
 	//Obter likes do utilizador
 	// rpc GetLikes(UserId) returns (SeensAndLikesInfo);
 	// //Obter Visualizações do utilizador
@@ -140,10 +129,6 @@ service Account {
 	rpc GetUserByName (UsernameRequest) returns (UserData);
 	rpc UpdateUser (UpdateUserRequest) returns (Success);
 	rpc DeleteUser (UserRequest) returns (Success);
-
-	// GetLikes and GetViews to Account
-	// rpc GetViews(SeenAndLikeItem) returns(Count);
-	// rpc GetLikes(SeenAndLikeItem) returns(Count);
 
 	//ObterContagem de likes do item
 	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);

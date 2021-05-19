@@ -87,8 +87,12 @@ service Library {
 	rpc AddItem (AddItemRequest) returns (Success);
 	rpc GetItem (ItemId) returns (Item);
 	rpc RemoveItem (ItemId) returns (Success);
+
 	rpc AddSeenItem (ItemIdAndUser) returns (Success);
+	rpc RemoveSeenItem (ItemIdAndUser) returns (Success);
+
 	rpc AddLikeItem (ItemIdAndUser) returns (Success);
+	rpc RemoveLikeItem (ItemIdAndUser) returns (Success);
 
 //	//ObterContagem de likes do item
 //	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
