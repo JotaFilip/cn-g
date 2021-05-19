@@ -11,7 +11,7 @@ data:
   BOOKS_HOST: "book"
   ANIMES_HOST: "anime"
   IMDBS_HOST: "imdb"
-  SIGNIN_HOST: "signin"
+  SPARK_CONNECTOR_HOST: "spark_connector"
   GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-projecto-ee48440401d9.json"
   LIBRARY_HOST: "library"
 ---
@@ -181,7 +181,7 @@ spec:
       serviceAccountName: default
 #      terminationGracePeriodSeconds: 5
       containers:
-      - name: "signin"
+      - name: "spark_connector"
         image: "gcr.io/cn-g14-projecto/spark-connector"
         ports:
         - containerPort: 50054
@@ -326,30 +326,15 @@ spec:
 #            - name: "Cookie"
 #              value: "shop_session-id=x-liveness-probe"
         env:
-        - name: "SIGNIN_HOST"
+        - name: "SPARK_CONNECTOR_HOST"
           valueFrom:
             configMapKeyRef:
-              key: "SIGNIN_HOST"
+              key: "SPARK_CONNECTOR_HOST"
               name: "recommendations-config-tn5f"
         - name: "LIBRARY_HOST"
           valueFrom:
             configMapKeyRef:
               key: "LIBRARY_HOST"
-              name: "recommendations-config-tn5f"
-        - name: "OAUTH_CLIENT_ID"
-          valueFrom:
-            configMapKeyRef:
-              key: "OAUTH_CLIENT_ID"
-              name: "recommendations-config-tn5f"
-        - name: "OAUTH_SCOPES"
-          valueFrom:
-            configMapKeyRef:
-              key: "OAUTH_SCOPES"
-              name: "recommendations-config-tn5f"
-        - name: "OAUTH2_REDIRECT_URL"
-          valueFrom:
-            configMapKeyRef:
-              key: "OAUTH2_REDIRECT_URL"
               name: "recommendations-config-tn5f"
 
 ---
@@ -510,14 +495,14 @@ spec:
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
 metadata:
-  name: "signin-hpa-cs66"
+  name: "spark_connector-hpa-cs66"
   namespace: "default"
   labels:
-    app: "signin"
+    app: "spark_connector"
 spec:
   scaleTargetRef:
     kind: "Deployment"
-    name: "signin"
+    name: "spark_connector"
     apiVersion: "apps/v1"
   minReplicas: 1
   maxReplicas: 20
