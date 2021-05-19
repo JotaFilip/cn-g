@@ -329,7 +329,7 @@ spec:
         - name: "SPARK_CONNECTOR_HOST"
           valueFrom:
             configMapKeyRef:
-              key: "SIGNIN_HOST"
+              key: "SPARK_CONNECTOR_HOST"
               name: "recommendations-config-tn5f"
         - name: "LIBRARY_HOST"
           valueFrom:
