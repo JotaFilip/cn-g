@@ -127,6 +127,21 @@ for i in $(seq 0 $retries); do
   exit 1
 done
 
+echo "Remover visto de livro que existe"
+res_seen_remove_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X DELETE --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/606e25ad5e927a606f534263/seen")
+for i in $(seq 0 $retries); do
+  res=res_seen_remove_existe|| res=""
+
+  if echo "$res" | grep -q "true"
+    then
+        break
+    else
+        sleep "$interval"
+  fi
+  echo "$res"
+  exit 1
+done
+
 echo "Falhar a adicionar visto a livro que nao existe"
 res_seen_nao_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/12345/seen")
 for i in $(seq 0 $retries); do
@@ -146,6 +161,21 @@ echo "Adicionar like a livro que existe"
 res_like_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/606e25ad5e927a606f534263/like')
 for i in $(seq 0 $retries); do
   res=$res_like_existe|| res=""
+
+  if echo "$res" | grep -q "true"
+    then
+        break
+    else
+        sleep "$interval"
+  fi
+  echo "$res"
+  exit 1
+done
+
+echo "Remover like de livro que existe"
+res_like_remove_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X DELETE --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/606e25ad5e927a606f534263/like')
+for i in $(seq 0 $retries); do
+  res=res_like_remove_existe|| res=""
 
   if echo "$res" | grep -q "true"
     then
