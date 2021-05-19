@@ -6,15 +6,14 @@ from library_pb2 import *
 from library_pb2_grpc import LibraryStub
 
 from book_pb2 import *
-from book_pb2_grpc import BookStub
 
 lib_host = os.getenv("LIBRARY_HOST", "localhost")
 lib_channel = grpc.insecure_channel(f"{lib_host}:50050")
 lib_client = LibraryStub(lib_channel)
 
-books_host = os.getenv("BOOKS_HOST", "localhost")
-books_channel = grpc.insecure_channel(f"{books_host}:50051")
-books_client = BookStub(books_channel)
+# books_host = os.getenv("BOOKS_HOST", "localhost")
+# books_channel = grpc.insecure_channel(f"{books_host}:50051")
+# books_client = BookStub(books_channel)
 
 class AnimeTestCase(unittest.TestCase):
 
@@ -41,18 +40,17 @@ class AnimeTestCase(unittest.TestCase):
         books_request.book_rating = 4.55
         books_request.img_url = "https://images.gr-assets.com/books/1511302904l/890.jpg"
 
-        specific_book = books_client.AddBook(books_request)
 
-        recommend_request = RecommendationRequest(user_id=1, book=specific_book, type="BOOK")
 
-        add_success = lib_client.AddItem(recommend_request).success
-        self.assertTrue(add_success)
+        recommend_request = AddItemRequest( book=books_request)
 
-        item_id = ItemId(id=specific_book.book_id, type="BOOK")
+        book_id = lib_client.AddItem(recommend_request).book_id
+        self.assertTrue(book_id)
+
+        item_id = ItemId(id=book_id, type="BOOK")
         self.assertTrue(lib_client.GetItem(item_id))
 
-        ite_and_user = ItemId(id=item_id, type="BOOK")
-        self.assertTrue(lib_client.RemoveItem(ite_and_user))
+        self.assertTrue(lib_client.RemoveItem(book_id))
 
 if __name__ == '__main__':
     unittest.main()

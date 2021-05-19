@@ -109,7 +109,7 @@ def addItem(body):
 
     else:
         return 'false',405
-    return lib_client.AddItem(request).success
+    return lib_client.AddItem(request).id, body["type"]
 
 def category_to_genres(category):
     lista = []

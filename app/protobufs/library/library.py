@@ -159,14 +159,17 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
         #     return Success(success=False)
 
         if (type == Type.ANIME):
-            return animes_client.AddAnime(request.anime)
+            id = animes_client.AddAnime(request.anime).anime_id
+            return ItemId(id = id, type = ANIME)
         elif (type == Type.BOOK):
-            return books_client.AddBook(request.book)
+            id = books_client.AddBook(request.book)
+            return ItemId(id = id, type = BOOK)
         elif (type == Type.SHOW):
-            return imdbs_client.AddIMDB(request.imdb)
+            id = imdbs_client.AddIMDB(request.imdb)
+            return ItemId(id = id, type = SHOW)
 
         else:
-            return Success(success=False)
+            return ItemId()
 
     def GetItem(self, request, context):
         id = request.id
