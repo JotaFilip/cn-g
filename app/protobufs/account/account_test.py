@@ -13,7 +13,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_seen(self):
         seen_and_like_info = SeenAndLikeInfo(user_id="608f3ba995657a00692583ae", id="606e252aebddc73ebfb15542",
-                                             type="ANIME", categories="Action")
+                                             type="ANIME", categories=["Action"])
 
         accounts_client.Remove_Seen(seen_and_like_info)
 
@@ -26,7 +26,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_like(self):
         seen_and_like_info = SeenAndLikeInfo(user_id="608f3ba995657a00692583ae", id="606e252aebddc73ebfb15542",
-                                             type="ANIME", categories="Action")
+                                             type="ANIME", categories=["Action"])
 
         accounts_client.Remove_Like(seen_and_like_info)
 

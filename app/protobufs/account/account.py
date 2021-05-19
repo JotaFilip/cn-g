@@ -342,7 +342,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         if user is not None:
             session.delete(user)
         session.commit()
-        return  Success(success=user is not None)
+        return  Success(success=(user is not None))
 
 #def GetUser(self, username):
 #    # TODO
