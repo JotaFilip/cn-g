@@ -12,7 +12,7 @@ data:
   ANIMES_HOST: "anime"
   IMDBS_HOST: "imdb"
   SPARK_CONNECTOR_HOST: "spark-connector"
-  GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-projecto-ee48440401d9.json"
+  GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-side-project-ee48440401d9.json"
   LIBRARY_HOST: "library"
 ---
 apiVersion: "apps/v1"
@@ -38,7 +38,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "imdb"
-        image: "gcr.io/cn-g14-projecto/imdb"
+        image: "gcr.io/cn-g14-side-project/imdb"
         ports:
         - containerPort: 50052
 #        readinessProbe:
@@ -86,7 +86,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "account"
-        image: "gcr.io/cn-g14-projecto/account"
+        image: "gcr.io/cn-g14-side-project/account"
         ports:
         - containerPort: 50055
 #        readinessProbe:
@@ -134,7 +134,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "book"
-        image: "gcr.io/cn-g14-projecto/book"
+        image: "gcr.io/cn-g14-side-project/book"
         ports:
         - containerPort: 50051
 #        readinessProbe:
@@ -182,7 +182,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "spark-connector"
-        image: "gcr.io/cn-g14-projecto/spark-connector"
+        image: "gcr.io/cn-g14-side-project/spark-connector"
         ports:
         - containerPort: 50054
 #        readinessProbe:
@@ -231,7 +231,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "library"
-        image: "gcr.io/cn-g14-projecto/library"
+        image: "gcr.io/cn-g14-side-project/library"
         ports:
         - containerPort: 50050
 #        readinessProbe:
@@ -302,7 +302,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: api-gateway
-        image: "gcr.io/cn-g14-projecto/api-gateway"
+        image: "gcr.io/cn-g14-side-project/api-gateway"
         imagePullPolicy: Always
         ports:
         - containerPort: 8443
@@ -407,7 +407,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "anime"
-        image: "gcr.io/cn-g14-projecto/anime"
+        image: "gcr.io/cn-g14-side-project/anime"
         ports:
         - containerPort: 50053
 #        readinessProbe:
