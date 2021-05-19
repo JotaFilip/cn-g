@@ -167,8 +167,8 @@ João Afonso fc51111 \\
       & & See Book, Show and Movie Library \\ \cline{2-3}
       & \multirow{7}{*}{ User } 
         & User Log in \\
-      & & Set Book/Show/Movie as seen \\
-      & & Set Book/Show/Movie as liked \\ 
+      & & Set Book/Show/Movie as seen/unseen \\
+      & & Set Book/Show/Movie as liked/disliked \\ 
       & & Ask for suggestions to read and/or watch \\ 
       & & Count how many views a specific Item has \\
       & & Count how many likes a specific Item has \\
@@ -205,23 +205,36 @@ João Afonso fc51111 \\
      & \xmark & & &
     List of suggestions to watch
     \\ \hhline{-|----|-|-|-|-|~} \rowcolor{Gray}
-    Admin & /item & & & &
+    & /item & & & &
     & \xmark & & &
     Creates an item to add to the database
+    \\ \rowcolor{Gray}
+    \multirow{-2}{*}{Admin} &
+    /item & /\{type\} & /\{id\} & &
+     & & & \xmark &
+    Deletes item with specific $id$ and $type$ 
     \\ \hhline{-|----|-|-|-|-|~}
     Any &
     /item & /\{type\} & /\{id\} & &
-    \xmark & & & \xmark &
-    Gets/Deletes item with specific $id$ and $type$ 
+    \xmark & & & &
+    Gets item with specific $id$ and $type$ 
     \\ \hhline{-|----|-|-|-|-|~} \rowcolor{Gray}
     & /item & /\{type\} & /\{id\} & /seen &
     & & \xmark & &
     Marks item as seen
     \\ \rowcolor{Gray}
-    \multirow{-2}{*}{User}
     & /item & /\{type\} & /\{id\} & /like &
     & & \xmark & &
     Marks item as liked
+    \\ \rowcolor{Gray}
+    & /item & /\{type\} & /\{id\} & /unseen &
+    & & \xmark & &
+    Marks item as unseen
+    \\ \rowcolor{Gray}
+    \multirow{-4}{*}{User}
+    & /item & /\{type\} & /\{id\} & /dislike &
+    & & \xmark & &
+    Marks item as disliked
     \\ \hhline{-|----|-|-|-|-|~}
     & /item & /\{type\} & /\{id\} & /views &
     \xmark & & & &
@@ -244,15 +257,19 @@ João Afonso fc51111 \\
     \xmark & & & &
     Logs in
     \\ \hhline{-|----|-|-|-|-|~} \rowcolor{Gray}
+    & \multicolumn{4}{l|}{/user} &
+     & & & \xmark &
+    Deletes logged-in User
+    \\ \rowcolor{Gray}
+    \multirow{-2}{*}{User} 
     & /user & \multicolumn{3}{l|}{/logout} &
     \xmark & & & &
     Logs out
-    \\ \rowcolor{Gray}
-    \multirow{-2}{*}{User} 
+    \\ \hhline{-|----|-|-|-|-|~}
     & /user & /search & \multicolumn{2}{l|}{/\{username\}} &
     \xmark & & & \xmark &
-    Searches/Deletes User by username
-    \\ \hhline{-|----|-|-|-|-|~}
+    Searches User by username
+    \\ 
     & \multicolumn{4}{l|}{} &
      & & & &
     Returns the Director with best rating with \\
@@ -264,7 +281,7 @@ João Afonso fc51111 \\
     & \multicolumn{4}{l|}{} &
      & & & &
     Returns the worker's imdb link that worked with \\
-    \multirow{-4}{*}{Any} 
+    \multirow{-5}{*}{Any} 
     & \multicolumn{4}{l|}{\multirow{-2}{*}{/moreConnected}} &
     \multirow{-2}{*}{\xmark} & & & &
     the most (distinct) people
