@@ -153,7 +153,7 @@ def getItemById(type,itemId):
 
 def deleteItem(type,itemId):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 400
 
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemIdAndUser(
@@ -164,7 +164,7 @@ def deleteItem(type,itemId):
 
 def updateItemSeen(user,type,itemId):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 400
 
     request =  ItemIdAndUser (
         user_id=user,
@@ -175,7 +175,7 @@ def updateItemSeen(user,type,itemId):
 
 def removeItemSeen(user,type,itemId):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 400
 
     request =  ItemIdAndUser (
         user_id=user,
@@ -186,7 +186,7 @@ def removeItemSeen(user,type,itemId):
 
 def updateItemLike(user,type,itemId):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 400
 
     request =  ItemIdAndUser(
         user_id=user,
@@ -197,7 +197,7 @@ def updateItemLike(user,type,itemId):
 
 def removeItemLike(user,type,itemId):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 400
 
     request =  ItemIdAndUser(
         user_id=user,
