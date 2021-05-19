@@ -104,23 +104,37 @@ steps:
   name: python
   entrypoint: python
   args: ["./app/protobufs/library/anime_test.py"]
+  env:
+    - 'ANIMES_HOST=anime'
   waitFor: ['requirements']
 - id: 'test book'
   name: python
   entrypoint: python
   args: ["./app/protobufs/library/book_test.py"]
+  env:
+    - 'BOOKS_HOST=book'
   waitFor: ['requirements']
 - id: 'test imdb'
   name: python
   entrypoint: python
   args: ["./app/protobufs/library/imdb_test.py"]
+  env:
+    - 'IMDBS_HOST=imdb'
   waitFor: ['requirements']
 - id: 'test library'
   name: python
   entrypoint: python
   args: ["./app/protobufs/library/library_test.py"]
+  env:
+    - 'LIBRARY_HOST=library'
   waitFor: ['requirements']
-
+- id: 'test account'
+  name: python
+  entrypoint: python
+  args: ["./app/protobufs/library/account_test.py"]
+  env:
+    - 'ACCOUNTS_HOST=account'
+  waitFor: ['requirements']
 - id: 'integration tests'
   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
   entrypoint: '/bin/bash'
@@ -133,7 +147,7 @@ steps:
       ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u http://api-gateway:8443
   env:
     - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['test anime', 'test book', 'test imdb', 'test library']
+  waitFor: ['test anime', 'test book', 'test imdb', 'test library','test account']
 
 - id: 'pushing imdb'
   name: "gcr.io/cloud-builders/docker"

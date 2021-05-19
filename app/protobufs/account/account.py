@@ -35,8 +35,6 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@127.0.0.1:3306/account'
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@192.168.1.250:3306/account'
 
-import sys
-import secrets
 from concurrent import futures
 
 import grpc

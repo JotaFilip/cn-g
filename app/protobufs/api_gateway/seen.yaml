@@ -320,6 +320,20 @@ paths:
           description: Successful operation
         "400":
           description: Invalid user supplied
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      security:
+        - oAuthCheck:
+            - delete:username
+      description: This can only be done by the logged in user.
+      operationId: api_users.deleteUser
+      produces:
+        - application/json
+      responses:
+        "404":
+          description: User not found
   /user/login:
     get:
       tags:
@@ -387,28 +401,7 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
-    delete:
-      tags:
-      - user
-      summary: Delete user
-      security:
-        - oAuthCheck:
-            - delete:username
-      description: This can only be done by the logged in user.
-      operationId: api_users.deleteUser
-      produces:
-      - application/json
-      parameters:
-      - name: username
-        in: path
-        description: The name that needs to be deleted
-        required: true
-        type: string
-      responses:
-        "400":
-          description: Invalid username supplied
-        "404":
-          description: User not found
+
 
 securityDefinitions:
 #basicAuth:
