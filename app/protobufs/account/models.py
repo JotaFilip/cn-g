@@ -36,10 +36,16 @@ class Contagem(Base):
     category = Column(String(128), primary_key=True)
     likes = Column(Integer, default=0)
     views = Column(Integer, default=0)
+
     def incrementSeens(self):
         self.views += 1
     def incrementLikes(self):
         self.likes += 1
+
+    def decrementSeens(self):
+        self.views -= 1
+    def decrementLikes(self):
+        self.likes -= 1
 
 SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     drivername="mysql+mysqlconnector",

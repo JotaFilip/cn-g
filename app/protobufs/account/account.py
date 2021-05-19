@@ -35,8 +35,6 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@127.0.0.1:3306/account'
 #SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@192.168.1.250:3306/account'
 
-import sys
-import secrets
 from concurrent import futures
 
 import grpc
@@ -136,15 +134,15 @@ class AccountService(account_pb2_grpc.AccountServicer):
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
         #user = session.query().filter_by(username=request.username).first()
-        #TODO verificar se já existe antes
         seen = Seen(user_id=request.user_id, item_id=request.id, item_type=request.type)
         try:
             session.add(seen)
             session.commit()
         except IntegrityError:
             session.rollback()
+            return Success(success=False)
         for cat in request.categories:
-            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat).first()
+            count = session.query(Contagem).with_for_update().filter_by(user_id=request.user_id, category=cat).first()
             if count is None:
                 count = Contagem(user_id = request.user_id, category = cat, likes = 0, views = 1)
                 session.add(count)
@@ -154,13 +152,34 @@ class AccountService(account_pb2_grpc.AccountServicer):
 
         session.commit()
         return Success(success=True)
+
+    def Remove_Seen(self, request, context):
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        seen = session.query(Seen).with_for_update().filter_by(user_id=request.user_id, item_id=request.id,
+                                                               item_type=request.type).first()
+        if seen is not None:
+            session.delete(seen)
+        else:
+            session.rollback()
+            return Success(success=False)
+
+        for cat in request.categories:
+            count = session.query(Contagem).with_for_update().filter_by(user_id=request.user_id, category=cat).first()
+            if count is not None:
+                count.decrementSeens()
+
+        session.commit()
+        return Success(success=True)
+
     def Like(self,request,context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
         Base.metadata.bind = engine
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
-        #TODO verificar se já existe antes
         like = Like(user_id=request.user_id, item_id=request.id, item_type=request.type)
         try:
             session.add(like)
@@ -170,7 +189,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
             return Success(success=False)
 
         for cat in request.categories:
-            count = session.query(Contagem).filter_by(user_id=request.user_id, category=cat).first()
+            count = session.query(Contagem).with_for_update().filter_by(user_id=request.user_id, category=cat).first()
             if count is None:
                 count = Contagem(user_id = request.user_id, category = cat, likes = 1, views = 0)
                 session.add(count)
@@ -178,32 +197,53 @@ class AccountService(account_pb2_grpc.AccountServicer):
                 count.incrementLikes()
         session.commit()
         return Success(success=True)
+
+    def Remove_Like(self, request, context):
+        engine = create_engine(SQLALCHEMY_DATABASE_URI)
+        #user = Student.query.with_for_update(of=Student, nowait=True).filter(Student.id == 122).first()
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        like = session.query(Like).with_for_update().filter_by(user_id=request.user_id, item_id=request.id, item_type=request.type).first()
+        if like is not None:
+            session.delete(like)
+        else:
+            session.rollback()
+            return Success(success=False)
+
+        for cat in request.categories:
+            count = session.query(Contagem).with_for_update().filter_by(user_id=request.user_id, category=cat).first()
+            if count is not None:
+                count.decrementLikes()
+
+        session.commit()
+        return Success(success=True)
         
-    def GetLikes(self,request,context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
-
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
-        likes = session.query(Like).filter_by(user_id=request.id).all()
-        ret = []
-        for like in likes:
-            ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
-        session.commit()
-        return SeensAndLikesInfo(infos=ret)
-
-    def GetViews(self,request,context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
-
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
-        seens = session.query(Seen).filter_by(user_id=request.id).all()
-        ret = []
-        for seen in seens:
-            ret.append(SeenAndLikeInfoReturn(id=seen.item_id, type=seen.type))
-        session.commit()
-        return SeensAndLikesInfo(infos=ret)
+    # def GetLikes(self,request,context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #     likes = session.query(Like).filter_by(user_id=request.id).all()
+    #     ret = []
+    #     for like in likes:
+    #         ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
+    #     session.commit()
+    #     return SeensAndLikesInfo(infos=ret)
+    #
+    # def GetViews(self,request,context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #     seens = session.query(Seen).filter_by(user_id=request.id).all()
+    #     ret = []
+    #     for seen in seens:
+    #         ret.append(SeenAndLikeInfoReturn(id=seen.item_id, type=seen.type))
+    #     session.commit()
+    #     return SeensAndLikesInfo(infos=ret)
 
     def GetContagemLikesAndViews(self,request,context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
@@ -281,10 +321,14 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session = DBSession()
         user = session.query(User).filter_by(user_id=request.user_id).first()
         userb = session.query(User).filter_by(username=request.new_username).first()
-        if user is None or userb is not None:
+        if userb is not None:
             session.rollback()
             return Success(success=False)
-        user.username = request.new_username
+        if user is None:
+            user = User(username=request.new_username, user_id=request.user_id)
+            session.add(user)
+        else:
+            user.username = request.new_username
         session.commit()
         return Success(success=True)
 

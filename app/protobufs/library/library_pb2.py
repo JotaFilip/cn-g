@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rlibrary.proto\x1a\nbook.proto\x1a\nimdb.proto\x1a\x0b\x61nime.proto\x1a\x0butils.proto\"6\n\x10ItemInfoResponse\x12\"\n\x0frecommendations\x18\x01 \x03(\x0b\x32\t.ItemInfo\"9\n\x08ItemInfo\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x04type\x18\x03 \x01(\x0e\x32\x05.Type\"\x9c\x01\n\x04Item\x12\x1c\n\x04\x62ook\x18\x01 \x01(\x0b\x32\t.BookDataH\x00\x88\x01\x01\x12\x1c\n\x04imdb\x18\x02 \x01(\x0b\x32\t.IMDBDataH\x01\x88\x01\x01\x12\x1e\n\x05\x61nime\x18\x03 \x01(\x0b\x32\n.AnimeDataH\x02\x88\x01\x01\x12\r\n\x05likes\x18\x04 \x01(\x03\x12\r\n\x05seens\x18\x05 \x01(\x03\x42\x07\n\x05_bookB\x07\n\x05_imdbB\x08\n\x06_anime\"3\n\x0eLibPageRequest\x12\x0c\n\x04page\x18\x01 \x01(\x05\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"S\n\x15RecommendationRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x03(\x0e\x32\x05.Type\"N\n\x13SearchByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type\"V\n\x17SearchByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type\"\xae\x01\n\x0e\x41\x64\x64ItemRequest\x12\x0f\n\x07user_id\x18\x05 \x01(\x03\x12\x1c\n\x04\x62ook\x18\x01 \x01(\x0b\x32\t.BookDataH\x00\x88\x01\x01\x12\x1c\n\x04imdb\x18\x02 \x01(\x0b\x32\t.IMDBDataH\x01\x88\x01\x01\x12\x1e\n\x05\x61nime\x18\x03 \x01(\x0b\x32\n.AnimeDataH\x02\x88\x01\x01\x12\x13\n\x04type\x18\x04 \x01(\x0e\x32\x05.TypeB\x07\n\x05_bookB\x07\n\x05_imdbB\x08\n\x06_anime\")\n\x06ItemId\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\"A\n\rItemIdAndUser\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x13\n\x04type\x18\x03 \x01(\x0e\x32\x05.Type2\xab\x02\n\x07Library\x12-\n\x07Library\x12\x0f.LibPageRequest\x1a\x11.ItemInfoResponse\x12\x36\n\tRecommend\x12\x16.RecommendationRequest\x1a\x11.ItemInfoResponse\x12$\n\x07\x41\x64\x64Item\x12\x0f.AddItemRequest\x1a\x08.Success\x12\x19\n\x07GetItem\x12\x07.ItemId\x1a\x05.Item\x12&\n\nRemoveItem\x12\x0e.ItemIdAndUser\x1a\x08.Success\x12\'\n\x0b\x41\x64\x64SeenItem\x12\x0e.ItemIdAndUser\x1a\x08.Success\x12\'\n\x0b\x41\x64\x64LikeItem\x12\x0e.ItemIdAndUser\x1a\x08.Successb\x06proto3'
+  serialized_pb=b'\n\rlibrary.proto\x1a\nbook.proto\x1a\nimdb.proto\x1a\x0b\x61nime.proto\x1a\x0butils.proto\"6\n\x10ItemInfoResponse\x12\"\n\x0frecommendations\x18\x01 \x03(\x0b\x32\t.ItemInfo\"9\n\x08ItemInfo\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x04type\x18\x03 \x01(\x0e\x32\x05.Type\"\x9c\x01\n\x04Item\x12\x1c\n\x04\x62ook\x18\x01 \x01(\x0b\x32\t.BookDataH\x00\x88\x01\x01\x12\x1c\n\x04imdb\x18\x02 \x01(\x0b\x32\t.IMDBDataH\x01\x88\x01\x01\x12\x1e\n\x05\x61nime\x18\x03 \x01(\x0b\x32\n.AnimeDataH\x02\x88\x01\x01\x12\r\n\x05likes\x18\x04 \x01(\x03\x12\r\n\x05seens\x18\x05 \x01(\x03\x42\x07\n\x05_bookB\x07\n\x05_imdbB\x08\n\x06_anime\"3\n\x0eLibPageRequest\x12\x0c\n\x04page\x18\x01 \x01(\x05\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\"S\n\x15RecommendationRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x03(\x0e\x32\x05.Type\"N\n\x13SearchByNameRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type\"V\n\x17SearchByCategoryRequest\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\x13\n\x0bmax_results\x18\x02 \x01(\x05\x12\x14\n\x05types\x18\x03 \x01(\x0e\x32\x05.Type\"\x9d\x01\n\x0e\x41\x64\x64ItemRequest\x12\x1c\n\x04\x62ook\x18\x01 \x01(\x0b\x32\t.BookDataH\x00\x88\x01\x01\x12\x1c\n\x04imdb\x18\x02 \x01(\x0b\x32\t.IMDBDataH\x01\x88\x01\x01\x12\x1e\n\x05\x61nime\x18\x03 \x01(\x0b\x32\n.AnimeDataH\x02\x88\x01\x01\x12\x13\n\x04type\x18\x04 \x01(\x0e\x32\x05.TypeB\x07\n\x05_bookB\x07\n\x05_imdbB\x08\n\x06_anime\")\n\x06ItemId\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\"A\n\rItemIdAndUser\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x13\n\x04type\x18\x03 \x01(\x0e\x32\x05.Type2\xfb\x02\n\x07Library\x12-\n\x07Library\x12\x0f.LibPageRequest\x1a\x11.ItemInfoResponse\x12\x36\n\tRecommend\x12\x16.RecommendationRequest\x1a\x11.ItemInfoResponse\x12#\n\x07\x41\x64\x64Item\x12\x0f.AddItemRequest\x1a\x07.ItemId\x12\x19\n\x07GetItem\x12\x07.ItemId\x1a\x05.Item\x12\x1f\n\nRemoveItem\x12\x07.ItemId\x1a\x08.Success\x12\'\n\x0b\x41\x64\x64SeenItem\x12\x0e.ItemIdAndUser\x1a\x08.Success\x12*\n\x0eRemoveSeenItem\x12\x0e.ItemIdAndUser\x1a\x08.Success\x12\'\n\x0b\x41\x64\x64LikeItem\x12\x0e.ItemIdAndUser\x1a\x08.Success\x12*\n\x0eRemoveLikeItem\x12\x0e.ItemIdAndUser\x1a\x08.Successb\x06proto3'
   ,
   dependencies=[book__pb2.DESCRIPTOR,imdb__pb2.DESCRIPTOR,anime__pb2.DESCRIPTOR,utils__pb2.DESCRIPTOR,])
 
@@ -369,35 +369,28 @@ _ADDITEMREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_id', full_name='AddItemRequest.user_id', index=0,
-      number=5, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='book', full_name='AddItemRequest.book', index=1,
+      name='book', full_name='AddItemRequest.book', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='imdb', full_name='AddItemRequest.imdb', index=2,
+      name='imdb', full_name='AddItemRequest.imdb', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='anime', full_name='AddItemRequest.anime', index=3,
+      name='anime', full_name='AddItemRequest.anime', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='type', full_name='AddItemRequest.type', index=4,
+      name='type', full_name='AddItemRequest.type', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -431,7 +424,7 @@ _ADDITEMREQUEST = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=648,
-  serialized_end=822,
+  serialized_end=805,
 )
 
 
@@ -469,8 +462,8 @@ _ITEMID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=824,
-  serialized_end=865,
+  serialized_start=807,
+  serialized_end=848,
 )
 
 
@@ -515,8 +508,8 @@ _ITEMIDANDUSER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=867,
-  serialized_end=932,
+  serialized_start=850,
+  serialized_end=915,
 )
 
 _ITEMINFORESPONSE.fields_by_name['recommendations'].message_type = _ITEMINFO
@@ -642,8 +635,8 @@ _LIBRARY = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=935,
-  serialized_end=1234,
+  serialized_start=918,
+  serialized_end=1297,
   methods=[
   _descriptor.MethodDescriptor(
     name='Library',
@@ -671,7 +664,7 @@ _LIBRARY = _descriptor.ServiceDescriptor(
     index=2,
     containing_service=None,
     input_type=_ADDITEMREQUEST,
-    output_type=utils__pb2._SUCCESS,
+    output_type=_ITEMID,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
@@ -690,7 +683,7 @@ _LIBRARY = _descriptor.ServiceDescriptor(
     full_name='Library.RemoveItem',
     index=4,
     containing_service=None,
-    input_type=_ITEMIDANDUSER,
+    input_type=_ITEMID,
     output_type=utils__pb2._SUCCESS,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
@@ -706,9 +699,29 @@ _LIBRARY = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
+    name='RemoveSeenItem',
+    full_name='Library.RemoveSeenItem',
+    index=6,
+    containing_service=None,
+    input_type=_ITEMIDANDUSER,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
     name='AddLikeItem',
     full_name='Library.AddLikeItem',
-    index=6,
+    index=7,
+    containing_service=None,
+    input_type=_ITEMIDANDUSER,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='RemoveLikeItem',
+    full_name='Library.RemoveLikeItem',
+    index=8,
     containing_service=None,
     input_type=_ITEMIDANDUSER,
     output_type=utils__pb2._SUCCESS,
