@@ -453,4 +453,4 @@ images:
   - gcr.io/$PROJECT_ID/api-gateway
   - gcr.io/$PROJECT_ID/book
   - gcr.io/$PROJECT_ID/anime
- - gcr.io/$PROJECT_ID/library
+  - gcr.io/$PROJECT_ID/library
