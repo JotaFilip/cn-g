@@ -155,8 +155,11 @@ def logoutUser():
     return redirect('https://saldanha.eu.auth0.com/v2/logout')
 def loginUser():
 
-    #return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=token&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=http%3A%2F%2Flocalhost%3A8443%2Fui%2Foauth2-redirect.html&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
-    return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=token&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=https%3A%2F%2Frecommendations.sytes.net%3A443%2Fui%2Foauth2-redirect.html&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
+    s = request.url_root + "login"
+    return redirect(s)
+    #return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=code&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=http%3A%2F%2Flocalhost%3A8443%2Fcallback&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
+
+    #return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=token&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=https%3A%2F%2Frecommendations.sytes.net%3A443%2Fcallback%2F&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
 
 def getUserByName(username):
     request = UsernameRequest (

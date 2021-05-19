@@ -1,6 +1,23 @@
+from os import environ as env
+from werkzeug.exceptions import HTTPException
+
+from dotenv import load_dotenv, find_dotenv
+from flask import Flask
+from flask import jsonify
+from flask import redirect
+from flask import render_template
+from flask import session
+from flask import url_for
+from authlib.integrations.flask_client import OAuth
+from six.moves.urllib.parse import urlencode
+
+
+
+
 # 3rd party moudles
 import connexion
 from flask_cors import CORS
+from flask import request
 from flask_cors import cross_origin
 from functools import wraps
 import json
@@ -57,7 +74,21 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 
 app.app.register_blueprint(swaggerui_blueprint)
 CORS(app.app)
-
+app.app.config['SESSION_TYPE'] = 'memcached'
+app.app.config['SECRET_KEY'] = 'super secret key'
+oauth = OAuth(app.app)
+auth0 = oauth.register(
+    'auth0',
+    client_id='72wQelC6FubulYS6qlY7ZhSVkyNgoTYF',
+    client_secret='UHqFceMIWf0pzpA3CRWggxpGDxByyn_vQuw_90OdhaoascI-t5RBha4z5sRPbNJK',
+    api_base_url='https://saldanha.eu.auth0.com',
+    access_token_url='https://saldanha.eu.auth0.com/oauth/token',
+    authorize_url='https://saldanha.eu.auth0.com/authorize',
+    client_kwargs={
+        #'scope': 'openid profile email',
+        'scope': 'openid profile email read:suggest write:item delete:item write:seen write:like write:username delete:username',
+    },
+)
 # app = Flask(__name__)
 
 
@@ -119,6 +150,17 @@ app.add_api("seen.yaml")
 
 #context = ('api_gateway.pem', 'api_gateway.key')
 #app.run(host='0.0.0.0', port=80, ssl_context=context, threaded=True, debug=True)
+@app.app.route('/login')
+def call():
+
+    return auth0.authorize_redirect(redirect_uri=request.url_root + 'callback',  audience='https://recommendations.sytes.net/api')
+
+#app.register_blueprint(swaggerui_blueprint)
+@app.app.route('/callback')
+def callback_handling():
+
+    return jsonify(auth0.authorize_access_token())
+
 
 
 
