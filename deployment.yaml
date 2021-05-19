@@ -264,10 +264,10 @@ spec:
               key: "ACCOUNTS_HOST"
               name: "recommendations-config-tn5f"
         - name: "GOOGLE_APPLICATION_CREDENTIALS"
-            valueFrom:
-              configMapKeyRef:
-                key: "GOOGLE_APPLICATION_CREDENTIALS"
-                name: "recommendations-config-tn5f"
+          valueFrom:
+            configMapKeyRef:
+              key: "GOOGLE_APPLICATION_CREDENTIALS"
+              name: "recommendations-config-tn5f"
 ---
 apiVersion: v1
 kind: Service
