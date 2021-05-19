@@ -9,12 +9,7 @@ import os
 # from signin_pb2_grpc import SignInStub
 
 import grpc
-import json
-from six.moves.urllib.request import urlopen
-from functools import wraps
-from flask import Flask, request, jsonify, _request_ctx_stack
-from flask_cors import cross_origin
-from jose import jwt
+
 import json
 from six.moves.urllib.request import urlopen
 
@@ -26,11 +21,11 @@ ALGORITHMS = ["RS256"]
 from grpc_interceptor import ExceptionToStatusInterceptor
 #
 
-from verifier import Verifier
+
 from flask import Flask, jsonify, request, url_for, abort, g
 #from flask_httpauth import HTTPBasicAuth
 
-from flask import session
+
 
 from flask import redirect
 
