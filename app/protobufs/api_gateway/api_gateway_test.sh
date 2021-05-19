@@ -86,7 +86,7 @@ echo "Logout"
 for i in $(seq 0 $retries); do
   res=$res_logout || res=""
 
-  if echo "$res" | grep -q "OK"
+  if echo "$res" | grep -q "logout"
     then
         break
     else
