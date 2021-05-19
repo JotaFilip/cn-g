@@ -179,31 +179,31 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session.commit()
         return Success(success=True)
         
-    def GetLikes(self,request,context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
-
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
-        likes = session.query(Like).filter_by(user_id=request.id).all()
-        ret = []
-        for like in likes:
-            ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
-        session.commit()
-        return SeensAndLikesInfo(infos=ret)
-
-    def GetViews(self,request,context):
-        engine = create_engine(SQLALCHEMY_DATABASE_URI)
-
-        Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession()
-        seens = session.query(Seen).filter_by(user_id=request.id).all()
-        ret = []
-        for seen in seens:
-            ret.append(SeenAndLikeInfoReturn(id=seen.item_id, type=seen.type))
-        session.commit()
-        return SeensAndLikesInfo(infos=ret)
+    # def GetLikes(self,request,context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #     likes = session.query(Like).filter_by(user_id=request.id).all()
+    #     ret = []
+    #     for like in likes:
+    #         ret.append(SeenAndLikeInfoReturn(id = like.item_id, type=like.type))
+    #     session.commit()
+    #     return SeensAndLikesInfo(infos=ret)
+    #
+    # def GetViews(self,request,context):
+    #     engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    #
+    #     Base.metadata.bind = engine
+    #     DBSession = sessionmaker(bind=engine)
+    #     session = DBSession()
+    #     seens = session.query(Seen).filter_by(user_id=request.id).all()
+    #     ret = []
+    #     for seen in seens:
+    #         ret.append(SeenAndLikeInfoReturn(id=seen.item_id, type=seen.type))
+    #     session.commit()
+    #     return SeensAndLikesInfo(infos=ret)
 
     def GetContagemLikesAndViews(self,request,context):
         engine = create_engine(SQLALCHEMY_DATABASE_URI)
@@ -281,10 +281,14 @@ class AccountService(account_pb2_grpc.AccountServicer):
         session = DBSession()
         user = session.query(User).filter_by(user_id=request.user_id).first()
         userb = session.query(User).filter_by(username=request.new_username).first()
-        if user is None or userb is not None:
+        if userb is not None:
             session.rollback()
             return Success(success=False)
-        user.username = request.new_username
+        if user is None:
+            user = User(username=request.new_username, user_id=request.user_id)
+            session.add(user)
+        else:
+            user.username = request.new_username
         session.commit()
         return Success(success=True)
 
