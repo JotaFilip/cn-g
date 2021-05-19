@@ -95,6 +95,9 @@ João Afonso fc51111 \\
 \clearpage
 \section{Dataset characterization}
 \label{sec:dataset}
+\fpar We searched for various datasets and the following one were what we ended up with. We then filtered what we felt it was important from the datasets
+\par NOTE: We didn't include image's links because of the limited space per free MongoDB database, that would mean having a third database for movies, instead of two, and wouldn't be that useful for this API since it has no graphic user interface. Nevertheless, the posterior implementation wouldn't be hard at all taking in account the project architecture and implementation.
+
   \subsection{Dataset 1 — IMDB}
   \label{sec:movies}
   \fpar This dataset provides a lot of information about movies and shows that can be seen in \href{https://www.imdb.com}{IMDB}.
@@ -164,8 +167,8 @@ João Afonso fc51111 \\
       & & See Book, Show and Movie Library \\ \cline{2-3}
       & \multirow{7}{*}{ User } 
         & User Log in \\
-      & & Set Book/Show/Movie as seen \\
-      & & Set Book/Show/Movie as liked \\ 
+      & & Set Book/Show/Movie as seen/unseen \\
+      & & Set Book/Show/Movie as liked/disliked \\ 
       & & Ask for suggestions to read and/or watch \\ 
       & & Count how many views a specific Item has \\
       & & Count how many likes a specific Item has \\
@@ -188,7 +191,7 @@ João Afonso fc51111 \\
   \centering
   \addtolength{\leftskip} {-20cm}
   \addtolength{\rightskip}{-20cm}
-  \begin{adjustbox}{width=1.4\textwidth}
+  \begin{adjustbox}{width=1.3\textwidth}
   \begin{tabular}{ c|l l l l|c|c|c|c|l }
     \rowcolor{Gray}
     Role & \multicolumn{4}{c|}{Path} & get & post & put & del & description 
@@ -202,23 +205,28 @@ João Afonso fc51111 \\
      & \xmark & & &
     List of suggestions to watch
     \\ \hhline{-|----|-|-|-|-|~} \rowcolor{Gray}
-    Admin & /item & & & &
+    & /item & & & &
     & \xmark & & &
     Creates an item to add to the database
+    \\ \rowcolor{Gray}
+    \multirow{-2}{*}{Admin} &
+    /item & /\{type\} & /\{id\} & &
+     & & & \xmark &
+    Deletes item with specific $id$ and $type$ 
     \\ \hhline{-|----|-|-|-|-|~}
     Any &
     /item & /\{type\} & /\{id\} & &
-    \xmark & & & \xmark &
-    Gets/Deletes item with specific $id$ and $type$ 
+    \xmark & & & &
+    Gets item with specific $id$ and $type$ 
     \\ \hhline{-|----|-|-|-|-|~} \rowcolor{Gray}
     & /item & /\{type\} & /\{id\} & /seen &
-    & & \xmark & &
-    Marks item as seen
+    & & \xmark & \xmark &
+    Marks/Unmark item as seen
     \\ \rowcolor{Gray}
     \multirow{-2}{*}{User}
     & /item & /\{type\} & /\{id\} & /like &
-    & & \xmark & &
-    Marks item as liked
+    & & \xmark & \xmark &
+    Marks/Unmark item as liked
     \\ \hhline{-|----|-|-|-|-|~}
     & /item & /\{type\} & /\{id\} & /views &
     \xmark & & & &
@@ -241,15 +249,19 @@ João Afonso fc51111 \\
     \xmark & & & &
     Logs in
     \\ \hhline{-|----|-|-|-|-|~} \rowcolor{Gray}
+    & \multicolumn{4}{l|}{/user} &
+     & & & \xmark &
+    Deletes logged-in User
+    \\ \rowcolor{Gray}
+    \multirow{-2}{*}{User} 
     & /user & \multicolumn{3}{l|}{/logout} &
     \xmark & & & &
     Logs out
-    \\ \rowcolor{Gray}
-    \multirow{-2}{*}{User} 
-    & /user & /search & \multicolumn{2}{l|}{/\{username\}} &
-    \xmark & & & \xmark &
-    Searches/Deletes User by username
     \\ \hhline{-|----|-|-|-|-|~}
+    & /user & /search & \multicolumn{2}{l|}{/\{username\}} &
+    \xmark & & & &
+    Searches User by username
+    \\ 
     & \multicolumn{4}{l|}{} &
      & & & &
     Returns the Director with best rating with \\
@@ -261,7 +273,7 @@ João Afonso fc51111 \\
     & \multicolumn{4}{l|}{} &
      & & & &
     Returns the worker's imdb link that worked with \\
-    \multirow{-4}{*}{Any} 
+    \multirow{-5}{*}{Any} 
     & \multicolumn{4}{l|}{\multirow{-2}{*}{/moreConnected}} &
     \multirow{-2}{*}{\xmark} & & & &
     the most (distinct) people
@@ -298,7 +310,7 @@ João Afonso fc51111 \\
 
   \subsection{Databases}
   \fpar Every database has a service that has the responsibility to access and manage it. While 3 of the databases are hosted by \href{https://www.mongodb.com/}{MongoDB}, a NoSQL database, the last one is an SQL database hosted on an external server. This last database was initially hosted on Google Cloud, however we removed it from there, because it was costing us a lot of money.
-  \par For the Books', Movies' and Animes' databases, we used a NoSQL database since we might have had to change the format of our documents, meaning that if we had an SQL database we would need to drop the entire database and repopulate it again every time we decided to change the schema. MongoDB provides a very easy and intuitive python implementation to work with, which was also a factor to consider when selecting the type of databases that we would be using.
+  \par For the Books', Movies' and Animes' databases, we used a NoSQL database since we might have had to change the format of our documents, meaning that if we had an SQL database we would need to drop the entire database and repopulate it again every time we decided to change the schema. MongoDB provides a very easy and intuitive python implementation to work with, which was also a factor to consider when selecting the type of databases that we would be using. Furthermore, when we started developing the project, we researched multiple databases so as to find the option that would be the most beneficial in the long term. We found that MongoDB was very suitable for cloud-based services due to its natural compatibility with the horizontal scaling and agility offered by cloud computing. Taking all this into account, it was clear to us that MongoDB would be a good choice.
   \par However, for the Users' database we used an SQL one, because we already knew what we wanted from the User, and we knew we would use structured data for it.
 
 \section{Implementation}
@@ -313,9 +325,15 @@ João Afonso fc51111 \\
     \par This Service is also responsible for processing the new likes and views from the logged-in User, requesting an addition/change.
     \par Other functions like Top 10 and the suggestion algorithm is responsibility of this service, making the necessary queries and results adaptation.
     \par \textbf{Suggestion Algorithm} - Since we are a recommendation API, we also implemented an algorithm to suggest what the User should see next.
-    \par This algorithm uses all the likes and views of a specific user to decide the 3 categories that the user enjoys the most. 
-    \par For this purpose, the algorithm uses a scoring mechanism that attributes each category 1 point for every view and 3 points for every like. Afterwords, the 3 categories with the highest score are chosen. 
-    \par The function will then recommend a random sample (every sample has the number of elements that were determined by the user) for each category.
+    \par This function receives as input:
+    \begin{itemize}
+    	\item The id of the User that wants to receive suggestions
+    	\item The types of content for which the User wants to receive suggestions
+    	\item The number of suggestions for each content of each type
+    \end{itemize}
+    \par This algorithm takes into account all the likes and views of the specific User to decide the 3 categories that the User might enjoy the most. It should be noted that the categories that are being used for this algorithm are not dependent in the type of content that was specified because, for example, a User might have only read books so far and now wants to find movies that have categories similar to the books he enjoys. 
+    \par For this purpose the algorithm uses a scoring mechanism that attributes each category 1 point for every view and 3 points for every like. Afterwords, the 3 categories with the highest score are chosen. If the User has not viewed or liked any content so far, then the function will return a completely random sample for each type. 
+    \par After getting the 3 categories, the function will then recommend a random sample (every sample has the number of elements that were determined by the User) for each category and for each specified type.
 
     \subsubsection{Docker Compose}
     \fpar For the microservices deployment we use a docker-compose file, which defines each microservice container details. In this file, we define a microservice's name, a build stating that we are using a Dockerfile and where the context of the microservice is (its folder, with its required content). We also define the image, hostname and container for the microservice, for which we use the same name as the microservice's. Finally, we assign a port to the microservice, which is crucial for it to behave properly.
@@ -345,7 +363,7 @@ João Afonso fc51111 \\
 
   \clearpage
   \subsection{Spark}
-  \fpar First, we implemented a job that creates a csv connecting people that participated in the same movie. With this, we have 2 use cases: one that uses said csv to create a graph using Spark GraphX to calculate the degree of each vertex, checking which has the highest degree, with the purpose of checking which person has worked with the biggest quantity of people; and another that sends a direct query to calculate which movie director has the highest average rating in all their works.
+  \fpar We have 2 use cases: one that uses a csv (generated with a job beforehand) to create a graph using Spark GraphX to calculate the degree of each vertex, checking which has the highest degree to  check which person has worked with the biggest quantity of people; and another one that sends a direct query to calculate which movie director has the highest average rating in all their works.
 
   \subsection{Technical}
 
@@ -384,13 +402,17 @@ João Afonso fc51111 \\
 \par To perform the stress tests on itself, we used Locust, a stress testing tool. 
 \par All these tools were configured automatically with scripts to further automate the deployment of the system (see locust.sh and add\_plugins.sh).
 \par To test our Spark implementation we used the interface inside the Google Cloud named Dataproc.
+\par We also tested individual components of the system so as to find possible bugs in the implemention.
 
   \subsection{Evaluation}
   \label{sec:evaluation}
   \fpar We ran Locust, the tool to perform the stress testing, in another cluster to avoid affecting the results. 
   \par It was tested with up to 800 users, which at that point it was getting close to 100\% CPU usage, according to Grafana. At the time, we were using weak machines (12 CPUs) as Google Cloud's free trial did not allow any higher than that. 
   \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did stress testing with 100 users, 500 users and 800 users.
-  \par For the Spark job we went to Google Cloud > Dataproc > Jobs, and observe the time taken running, and got 2 minutes and 5 seconds for the first one and 7 minutes and 37 seconds for the second.
+  \par For the Spark job we went to Google Cloud > Dataproc > Jobs, and observe the time taken running, and got an average of around 2 minutes and 10 seconds for the first one and 7 minutes and 40 seconds for the second.
+  \par We developed unit tests to verify if the behavior of the microservices: “anime”, “book” and “imdb”, were in accordance with the system specifications and to ensure that access to the respective databases were returning the desired values.
+  \par We tested each functions and covered situations in which the objects in use did/didn't exist. It was also verified functions' behavior when receiving invalid input (for example, searching for an object with an id that doesn't  exist).
+  \par Most of the tested operations present the expected behavior, but there were some cases in which the functions didn't properly deal with exceptions (these bugs were fixed).
 
   \subsection{Validation}
   \label{sec:validation}
@@ -424,10 +446,22 @@ João Afonso fc51111 \\
 
 \section{Discussion}
 \label{sec:discussion}
+\fpar With the project up and running it can endure a lot of traffic, both in user capabilities and data transfers.
+\par It has shown how dynamic it can be being able to support either 800 or 2000 or even more users at the same time.
+\par With in this mind we can see how well our architecture supports our API, even though its costs have been higher than expected.
+\par About the costs it's expected of us to minimize them with a few alterations, like we stated before, at section\ref{sec:cost}, running the Cloud SQL with fewer cores, as the extra one weren't needed, or like we did, ditching it all together and store the data on a private server. Of course that our dataset is not the biggest, but at this scale it seems appropriate.
+\par But thinking more broadly, if we were trying to make an actual API to use on an application of some sort, these expenses would be really hard to justify, because it would be really hard to get that money back by monetizing that application, and even if we decreased our cost, like we would intend, our application wouldn't be profitable at all, or at least that's what we would expect with our little experience on this project.
+\par Overall about security we did the basis to protect the users' data, and also the databases' data, by encrypting communication channels with TLS (provided by istio) and storing login data with Auth0. 
+\par Other thing we could do to improve the Security of our API would be encrypting User's and Item's data stored inside the databases, preventing attacks on those Services.
 
 \section{Conclusions}
 \label{sec:conclusion}
 % Foi possivel fazer o projeto em google cloud e ter uma api util e funcional bla bla bla
+\fpar At the end, we can see that we made a functional API using, mainly, Google Cloud, integrated with MongoDB and an external SQL database.
+\par Not only that but also a useful API that anyone could use, either a User or even an application as an intermediary.
+\par But the costs that we experienced are really high for what we are doing, if we didn't have our coupons and discounts it wouldn't be justified the amount of money spent.
+\par So we can say that the intelligent thing would be, firstly, implement the API on a Linux machine, for example, and after knowing how to monetize it start the integration with Google Cloud, or other cloud Service, to endure more users and data without compromises.
+\par Concluding, this API is fully implemented with all capabilities committed on the Use Cases, on section \ref{sec:cases}.
 
   \subsection{Contributions}
   \label{sec:contributions}
@@ -446,6 +480,8 @@ João Afonso fc51111 \\
         \item Designed the architecture of the system, focusing on the protobufs creation.
         \item Implemented some microservices (before the integration with mongo).
         \item Developed useful scripts for running the system locally during development.
+        \item Reviewed microservices implementation.
+        \item Created and implemented the use case for getting the top ten items with more likes.
         \item Report.
       \end{itemize}
     \subsubsection{51072 - Miguel Saldanha}
@@ -477,17 +513,17 @@ João Afonso fc51111 \\
   \begin{itemize}
     \item Clean up dead code, and relocate files and folders to improve readability.
     \item Stash Spark results and use it when “fresh”, and when it needs to be updated then update, giving faster results.
-    \item TODO ...
+    \item Expand our dataset to more types of Items.
+    \item Dynamic creation of database Services (like Book, Anime and IMDB Service), all using the same communication protocol (protobuf), meaning we would only need to create different “Adapters” and then import them to the Library Service, making easier future integration with new Services.
+    \item At last, a mobile application or website could be implemented having this API as its backbone.
+    \item Adding images to every Item on our database, a link that could be loaded in any application or website. It would mean a database re-population, and changing some return statements, nothing too laborious.
+    % \item TODO ...
   \end{itemize}
 
 \section{Appendix}
 \label{appendix}
 % To store big images and reference them
-
 \fpar Results from testing our cloud deployment:
-
-
-
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{ tests/img1.png }
@@ -512,7 +548,6 @@ João Afonso fc51111 \\
   \centering
   \includegraphics[width=\textwidth]{ tests/img5.png }
   \caption{Stress testing with 800 users. DNS latency}
-  
 \end{figure}
 \begin{figure}[H]
   \centering

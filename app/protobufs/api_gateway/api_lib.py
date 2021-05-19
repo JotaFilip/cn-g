@@ -28,7 +28,6 @@ lib_channel = grpc.insecure_channel(f"{lib_host}:50050")
 lib_client = LibraryStub(lib_channel)
 
 from flask import redirect
-# TODO
 # how to handle the user_id situation
 
 types = {
@@ -110,7 +109,7 @@ def addItem(body):
 
     else:
         return 'false',405
-    return lib_client.AddItem(request).success
+    return lib_client.AddItem(request).id, body["type"]
 
 def category_to_genres(category):
     lista = []
@@ -154,7 +153,7 @@ def getItemById(type,itemId):
 
 def deleteItem(type,itemId):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 400
 
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     request = ItemIdAndUser(
@@ -163,25 +162,49 @@ def deleteItem(type,itemId):
     )
     return lib_client.RemoveItem(request).success
 
-def updateItemSeen(type,itemId):
+def updateItemSeen(user,type,itemId):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 400
 
     request =  ItemIdAndUser (
+        user_id=user,
         id = itemId,
         type = type
     )
     return lib_client.AddSeenItem(request).success
 
-def updateItemLike(type,itemId):
+def removeItemSeen(user,type,itemId):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 400
+
+    request =  ItemIdAndUser (
+        user_id=user,
+        id = itemId,
+        type = type
+    )
+    return lib_client.RemoveSeenItem(request).success
+
+def updateItemLike(user,type,itemId):
+    type = get_type(type)
+    if type is None: return 'false', 400
 
     request =  ItemIdAndUser(
+        user_id=user,
         id = itemId,
         type = type
     )
     return lib_client.AddLikeItem(request).success
+
+def removeItemLike(user,type,itemId):
+    type = get_type(type)
+    if type is None: return 'false', 400
+
+    request =  ItemIdAndUser(
+        user_id=user,
+        id = itemId,
+        type = type
+    )
+    return lib_client.RemoveLikeItem(request).success
 
 # def getViewsOf(type,itemId):
 #     type = get_type(type)

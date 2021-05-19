@@ -56,9 +56,7 @@ class Spark_Connector(spark_connector_pb2_grpc.Spark_ConnectorServicer):
                 "jar_file_uris": ["gs://cn-spark-bucket/mygraphoperations_2.12-0.1.0.jar"]
             }
         }
-        print("Before submiting")
         output = submit_job(project_id, region, job)
-        print(output)
         return ExecutionResult(output=output)
     def GetBestDirector(self, request, context):
         job = {
@@ -71,7 +69,6 @@ class Spark_Connector(spark_connector_pb2_grpc.Spark_ConnectorServicer):
         }
         output = submit_job(project_id, region, job)
 
-        print(output)
         return ExecutionResult(output=output)
 
     # def GetDirectorWork(self,request,context):
@@ -257,7 +254,7 @@ def serve():
         Spark_Connector(), server
     )
     
-    server.add_insecure_port("[::]:50058")
+    server.add_insecure_port("[::]:50054")
     server.start()
     server.wait_for_termination()
 

@@ -183,9 +183,36 @@ paths:
         type: string
       - name: type
         in: path
-        description: type of item to return
+        description: type of item
         required: true
         type: string
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+    delete:
+      tags:
+        - library
+      summary: Mark item as not seen
+      description: Mark a item as not seen
+      operationId: api_lib.removeItemSeen
+      security:
+        - oAuthCheck:
+            - write:seen
+      parameters:
+        - name: itemId
+          in: path
+          description: Id of item to update
+          required: true
+          type: string
+        - name: type
+          in: path
+          description: type of item
+          required: true
+          type: string
       responses:
         "200":
           description: Successful operation
@@ -200,7 +227,7 @@ paths:
       tags:
       - library
       summary: Mark item with like
-      description: Mark a item with like
+      description: Mark item with like
       security:
         - oAuthCheck:
             - write:like
@@ -216,6 +243,35 @@ paths:
         description: type of item to return
         required: true
         type: string
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Item not found
+      # security:
+      # - api_key: []
+    delete:
+      tags:
+        - library
+      summary: Mark a item as not liked
+      description: Mark a item as not liked
+      security:
+        - oAuthCheck:
+            - write:like
+      operationId: api_lib.removeItemLike
+      parameters:
+        - name: itemId
+          in: path
+          description: Id of item to update
+          required: true
+          type: string
+        - name: type
+          in: path
+          description: type of item to return
+          required: true
+          type: string
       responses:
         "200":
           description: Successful operation
@@ -320,6 +376,20 @@ paths:
           description: Successful operation
         "400":
           description: Invalid user supplied
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      security:
+        - oAuthCheck:
+            - delete:username
+      description: This can only be done by the logged in user.
+      operationId: api_users.deleteUser
+      produces:
+        - application/json
+      responses:
+        "404":
+          description: User not found
   /user/login:
     get:
       tags:
@@ -387,28 +457,7 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
-    delete:
-      tags:
-      - user
-      summary: Delete user
-      security:
-        - oAuthCheck:
-            - delete:username
-      description: This can only be done by the logged in user.
-      operationId: api_users.deleteUser
-      produces:
-      - application/json
-      parameters:
-      - name: username
-        in: path
-        description: The name that needs to be deleted
-        required: true
-        type: string
-      responses:
-        "400":
-          description: Invalid username supplied
-        "404":
-          description: User not found
+
 
 securityDefinitions:
 #basicAuth:

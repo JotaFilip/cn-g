@@ -9,12 +9,7 @@ import os
 # from signin_pb2_grpc import SignInStub
 
 import grpc
-import json
-from six.moves.urllib.request import urlopen
-from functools import wraps
-from flask import Flask, request, jsonify, _request_ctx_stack
-from flask_cors import cross_origin
-from jose import jwt
+
 import json
 from six.moves.urllib.request import urlopen
 
@@ -26,11 +21,11 @@ ALGORITHMS = ["RS256"]
 from grpc_interceptor import ExceptionToStatusInterceptor
 #
 
-from verifier import Verifier
+
 from flask import Flask, jsonify, request, url_for, abort, g
 #from flask_httpauth import HTTPBasicAuth
 
-from flask import session
+
 
 from flask import redirect
 
@@ -58,6 +53,8 @@ from account_pb2 import *
 account_host = os.getenv("ACCOUNTS_HOST", "localhost")
 account_channel = grpc.insecure_channel(f"{account_host}:50055")
 account_client = AccountStub(account_channel)
+jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
+jwks = json.loads(jsonurl.read())
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
@@ -95,8 +92,7 @@ def handle_auth_error(ex):
 #@auth.login_required
 
 def verify_token(access_token) -> dict:
-    jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
-    jwks = json.loads(jsonurl.read())
+
     unverified_header = jwt.get_unverified_header(access_token)
     rsa_key = {}
     for key in jwks["keys"]:
@@ -159,8 +155,11 @@ def logoutUser():
     return redirect('https://saldanha.eu.auth0.com/v2/logout')
 def loginUser():
 
-    #return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=token&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=http%3A%2F%2Flocalhost%3A8443%2Fui%2Foauth2-redirect.html&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
-    return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=token&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=https%3A%2F%2Frecommendations.sytes.net%3A443%2Fui%2Foauth2-redirect.html&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
+    s = request.url_root + "login"
+    return redirect(s)
+    #return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=code&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=http%3A%2F%2Flocalhost%3A8443%2Fcallback&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
+
+    #return redirect('https://saldanha.eu.auth0.com/authorize?audience=https://recommendations.sytes.net/api&response_type=token&client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF&redirect_uri=https%3A%2F%2Frecommendations.sytes.net%3A443%2Fcallback%2F&scope=openid%20name%20email%20nickname%20read%3Asuggest%20write%3Aitem%20delete%3Aitem%20write%3Aseen%20write%3Alike%20write%3Ausername%20delete%3Ausername&state=U3VuIE1heSAwOSAyMDIxIDE0OjAwOjQ3IEdNVCswMTAwIChIb3JhIGRlIHZlcsOjbyBCcml0w6JuaWNhKQ%3D%3D')
 
 def getUserByName(username):
     request = UsernameRequest (

@@ -40,12 +40,12 @@ class imdbTestCase(unittest.TestCase):
         self.assertEqual(imdbs_client.RemoveIMDB(imdbs_request).success, True)
 
     def test_get_imdb(self):
-        imdbs_request = IMDBByIdRequest(imdb_id="606e2683b3fff1da8a207ade")
-        self.assertEqual(imdbs_client.SearchById(imdbs_request).imdb_title, "Carmencita")
-
-    def test_imdb_search_by_name(self):
         imdbs_request = IMDBByNameRequest(name="Buffalo Bill and Escort", max_results=32)
-        self.assertEqual(imdbs_client.SearchByName(imdbs_request).imdbs[0].imdb_id, "606e2683b3fff1da8a207b6a")
+        self.assertTrue(imdbs_client.SearchByName(imdbs_request).imdbs[0].imdb_id)
+        imdbs_request = IMDBByIdRequest(imdb_id=imdbs_client.SearchByName(imdbs_request).imdbs[0].imdb_id)
+        self.assertEqual(imdbs_client.SearchById(imdbs_request).imdb_title, "Buffalo Bill and Escort")
+
+
 
     def test_imdb_search_by_category(self):
         imdbs_request = IMDBByCategoryRequest(category="Documentary", max_results=32)

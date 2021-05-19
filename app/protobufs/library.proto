@@ -61,7 +61,6 @@ message SearchByCategoryRequest {
 }
 
 message AddItemRequest {
-    int64 user_id = 5;
 	optional BookData book = 1;
 	optional IMDBData imdb = 2;
 	optional AnimeData anime = 3;
@@ -83,12 +82,16 @@ message ItemIdAndUser {
 
 service Library {
 	rpc Library (LibPageRequest) returns (ItemInfoResponse);
-    rpc Recommend (RecommendationRequest) returns (ItemInfoResponse);
-	rpc AddItem (AddItemRequest) returns (Success);
+	rpc Recommend (RecommendationRequest) returns (ItemInfoResponse);
+	rpc AddItem (AddItemRequest) returns (ItemId);
 	rpc GetItem (ItemId) returns (Item);
-	rpc RemoveItem (ItemIdAndUser) returns (Success);
+	rpc RemoveItem (ItemId) returns (Success);
+
 	rpc AddSeenItem (ItemIdAndUser) returns (Success);
+	rpc RemoveSeenItem (ItemIdAndUser) returns (Success);
+
 	rpc AddLikeItem (ItemIdAndUser) returns (Success);
+	rpc RemoveLikeItem (ItemIdAndUser) returns (Success);
 
 //	//ObterContagem de likes do item
 //	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);

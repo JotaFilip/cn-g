@@ -36,19 +36,25 @@ class Contagem(Base):
     category = Column(String(128), primary_key=True)
     likes = Column(Integer, default=0)
     views = Column(Integer, default=0)
+
     def incrementSeens(self):
         self.views += 1
     def incrementLikes(self):
         self.likes += 1
 
+    def decrementSeens(self):
+        self.views -= 1
+    def decrementLikes(self):
+        self.likes -= 1
+
 SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     drivername="mysql+mysqlconnector",
     username="cngroupfcul",
     password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
-    host="34.90.227.81",
+    host="saldanha.sytes.net",
     port=3306,
     database="account",
-    query={"ssl_ca": "./server-ca.pem", 'ssl_cert': './client-cert.pem', 'ssl_key': './client-key.pem'},
+    query={"ssl_ca": "chain1.pem"},
 )
 
 #engine = create_engine('mysql+pymysql://cngroupfcul:178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj@127.0.0.1/account')

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\raccount.proto\x1a\x0butils.proto\"j\n\x08UserData\x12\x10\n\x08username\x18\x01 \x01(\t\x12%\n\x05likes\x18\x02 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\x12%\n\x05seens\x18\x03 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\"\x1e\n\x0bUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"#\n\x0fUsernameRequest\x12\x10\n\x08username\x18\x01 \x01(\t\":\n\x11UpdateUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x14\n\x0cnew_username\x18\x02 \x01(\t\"(\n\x14LikesAndViewsRequest\x12\x10\n\x08username\x18\x01 \x01(\t\"W\n\x0fSeenAndLikeInfo\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x13\n\x04type\x18\x03 \x01(\x0e\x32\x05.Type\x12\x12\n\ncategories\x18\x04 \x03(\t\"7\n\x12ViewsAndLikesCount\x12!\n\x06tuples\x18\x01 \x03(\x0b\x32\x11.TupleForCategory\"B\n\x10TupleForCategory\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\r\n\x05views\x18\x02 \x01(\x03\x12\r\n\x05likes\x18\x03 \x01(\x03\"8\n\x15SeenAndLikeInfoReturn\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\"2\n\x0fSeenAndLikeItem\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\":\n\x11SeensAndLikesInfo\x12%\n\x05infos\x18\x01 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\"\x14\n\x06UserId\x12\n\n\x02id\x18\x01 \x01(\t\"\x1a\n\tCountInfo\x12\r\n\x05\x63ount\x18\x01 \x01(\x03\"\x16\n\x05\x43ount\x12\r\n\x05\x63ount\x18\x01 \x01(\x03\"$\n\rTopTenRequest\x12\x13\n\x04type\x18\x01 \x01(\x0e\x32\x05.Type2\x98\x03\n\x07\x41\x63\x63ount\x12\"\n\x04Seen\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12\"\n\x04Like\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12\x38\n\x18GetContagemLikesAndViews\x12\x07.UserId\x1a\x13.ViewsAndLikesCount\x12,\n\rGetUserByName\x12\x10.UsernameRequest\x1a\t.UserData\x12*\n\nUpdateUser\x12\x12.UpdateUserRequest\x1a\x08.Success\x12$\n\nDeleteUser\x12\x0c.UserRequest\x1a\x08.Success\x12,\n\x0cGetLikesItem\x12\x10.SeenAndLikeItem\x1a\n.CountInfo\x12,\n\x0cGetSeensItem\x12\x10.SeenAndLikeItem\x1a\n.CountInfo\x12/\n\tGetTopTen\x12\x0e.TopTenRequest\x1a\x12.SeensAndLikesInfob\x06proto3'
+  serialized_pb=b'\n\raccount.proto\x1a\x0butils.proto\"j\n\x08UserData\x12\x10\n\x08username\x18\x01 \x01(\t\x12%\n\x05likes\x18\x02 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\x12%\n\x05seens\x18\x03 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\"\x1e\n\x0bUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"#\n\x0fUsernameRequest\x12\x10\n\x08username\x18\x01 \x01(\t\":\n\x11UpdateUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x14\n\x0cnew_username\x18\x02 \x01(\t\"(\n\x14LikesAndViewsRequest\x12\x10\n\x08username\x18\x01 \x01(\t\"W\n\x0fSeenAndLikeInfo\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x13\n\x04type\x18\x03 \x01(\x0e\x32\x05.Type\x12\x12\n\ncategories\x18\x04 \x03(\t\"7\n\x12ViewsAndLikesCount\x12!\n\x06tuples\x18\x01 \x03(\x0b\x32\x11.TupleForCategory\"B\n\x10TupleForCategory\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\t\x12\r\n\x05views\x18\x02 \x01(\x03\x12\r\n\x05likes\x18\x03 \x01(\x03\"8\n\x15SeenAndLikeInfoReturn\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\"2\n\x0fSeenAndLikeItem\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x04type\x18\x02 \x01(\x0e\x32\x05.Type\":\n\x11SeensAndLikesInfo\x12%\n\x05infos\x18\x01 \x03(\x0b\x32\x16.SeenAndLikeInfoReturn\"\x14\n\x06UserId\x12\n\n\x02id\x18\x01 \x01(\t\"\x1a\n\tCountInfo\x12\r\n\x05\x63ount\x18\x01 \x01(\x03\"$\n\rTopTenRequest\x12\x13\n\x04type\x18\x01 \x01(\x0e\x32\x05.Type2\xee\x03\n\x07\x41\x63\x63ount\x12\"\n\x04Seen\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12)\n\x0bRemove_Seen\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12\"\n\x04Like\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12)\n\x0bRemove_Like\x12\x10.SeenAndLikeInfo\x1a\x08.Success\x12\x38\n\x18GetContagemLikesAndViews\x12\x07.UserId\x1a\x13.ViewsAndLikesCount\x12,\n\rGetUserByName\x12\x10.UsernameRequest\x1a\t.UserData\x12*\n\nUpdateUser\x12\x12.UpdateUserRequest\x1a\x08.Success\x12$\n\nDeleteUser\x12\x0c.UserRequest\x1a\x08.Success\x12,\n\x0cGetLikesItem\x12\x10.SeenAndLikeItem\x1a\n.CountInfo\x12,\n\x0cGetSeensItem\x12\x10.SeenAndLikeItem\x1a\n.CountInfo\x12/\n\tGetTopTen\x12\x0e.TopTenRequest\x1a\x12.SeensAndLikesInfob\x06proto3'
   ,
   dependencies=[utils__pb2.DESCRIPTOR,])
 
@@ -513,38 +513,6 @@ _COUNTINFO = _descriptor.Descriptor(
 )
 
 
-_COUNT = _descriptor.Descriptor(
-  name='Count',
-  full_name='Count',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='count', full_name='Count.count', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=743,
-  serialized_end=765,
-)
-
-
 _TOPTENREQUEST = _descriptor.Descriptor(
   name='TopTenRequest',
   full_name='TopTenRequest',
@@ -572,8 +540,8 @@ _TOPTENREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=767,
-  serialized_end=803,
+  serialized_start=743,
+  serialized_end=779,
 )
 
 _USERDATA.fields_by_name['likes'].message_type = _SEENANDLIKEINFORETURN
@@ -597,7 +565,6 @@ DESCRIPTOR.message_types_by_name['SeenAndLikeItem'] = _SEENANDLIKEITEM
 DESCRIPTOR.message_types_by_name['SeensAndLikesInfo'] = _SEENSANDLIKESINFO
 DESCRIPTOR.message_types_by_name['UserId'] = _USERID
 DESCRIPTOR.message_types_by_name['CountInfo'] = _COUNTINFO
-DESCRIPTOR.message_types_by_name['Count'] = _COUNT
 DESCRIPTOR.message_types_by_name['TopTenRequest'] = _TOPTENREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -692,13 +659,6 @@ CountInfo = _reflection.GeneratedProtocolMessageType('CountInfo', (_message.Mess
   })
 _sym_db.RegisterMessage(CountInfo)
 
-Count = _reflection.GeneratedProtocolMessageType('Count', (_message.Message,), {
-  'DESCRIPTOR' : _COUNT,
-  '__module__' : 'account_pb2'
-  # @@protoc_insertion_point(class_scope:Count)
-  })
-_sym_db.RegisterMessage(Count)
-
 TopTenRequest = _reflection.GeneratedProtocolMessageType('TopTenRequest', (_message.Message,), {
   'DESCRIPTOR' : _TOPTENREQUEST,
   '__module__' : 'account_pb2'
@@ -715,8 +675,8 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=806,
-  serialized_end=1214,
+  serialized_start=782,
+  serialized_end=1276,
   methods=[
   _descriptor.MethodDescriptor(
     name='Seen',
@@ -729,9 +689,29 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
+    name='Remove_Seen',
+    full_name='Account.Remove_Seen',
+    index=1,
+    containing_service=None,
+    input_type=_SEENANDLIKEINFO,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
     name='Like',
     full_name='Account.Like',
-    index=1,
+    index=2,
+    containing_service=None,
+    input_type=_SEENANDLIKEINFO,
+    output_type=utils__pb2._SUCCESS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='Remove_Like',
+    full_name='Account.Remove_Like',
+    index=3,
     containing_service=None,
     input_type=_SEENANDLIKEINFO,
     output_type=utils__pb2._SUCCESS,
@@ -741,7 +721,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetContagemLikesAndViews',
     full_name='Account.GetContagemLikesAndViews',
-    index=2,
+    index=4,
     containing_service=None,
     input_type=_USERID,
     output_type=_VIEWSANDLIKESCOUNT,
@@ -751,7 +731,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetUserByName',
     full_name='Account.GetUserByName',
-    index=3,
+    index=5,
     containing_service=None,
     input_type=_USERNAMEREQUEST,
     output_type=_USERDATA,
@@ -761,7 +741,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='UpdateUser',
     full_name='Account.UpdateUser',
-    index=4,
+    index=6,
     containing_service=None,
     input_type=_UPDATEUSERREQUEST,
     output_type=utils__pb2._SUCCESS,
@@ -771,7 +751,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='DeleteUser',
     full_name='Account.DeleteUser',
-    index=5,
+    index=7,
     containing_service=None,
     input_type=_USERREQUEST,
     output_type=utils__pb2._SUCCESS,
@@ -781,7 +761,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetLikesItem',
     full_name='Account.GetLikesItem',
-    index=6,
+    index=8,
     containing_service=None,
     input_type=_SEENANDLIKEITEM,
     output_type=_COUNTINFO,
@@ -791,7 +771,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetSeensItem',
     full_name='Account.GetSeensItem',
-    index=7,
+    index=9,
     containing_service=None,
     input_type=_SEENANDLIKEITEM,
     output_type=_COUNTINFO,
@@ -801,7 +781,7 @@ _ACCOUNT = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetTopTen',
     full_name='Account.GetTopTen',
-    index=8,
+    index=10,
     containing_service=None,
     input_type=_TOPTENREQUEST,
     output_type=_SEENSANDLIKESINFO,

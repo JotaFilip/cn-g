@@ -11,11 +11,6 @@ class AccountStub(object):
     //////////////////////////////////////////
     //////////////////////////////////////////
 
-    CriarUtilizador
-    rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
-    Actualiza a password do user baseado no nonce enviado para o email
-    rpc UserPassword (PasswordRequest) returns (Success);
-    rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
     """
 
     def __init__(self, channel):
@@ -29,8 +24,18 @@ class AccountStub(object):
                 request_serializer=account__pb2.SeenAndLikeInfo.SerializeToString,
                 response_deserializer=utils__pb2.Success.FromString,
                 )
+        self.Remove_Seen = channel.unary_unary(
+                '/Account/Remove_Seen',
+                request_serializer=account__pb2.SeenAndLikeInfo.SerializeToString,
+                response_deserializer=utils__pb2.Success.FromString,
+                )
         self.Like = channel.unary_unary(
                 '/Account/Like',
+                request_serializer=account__pb2.SeenAndLikeInfo.SerializeToString,
+                response_deserializer=utils__pb2.Success.FromString,
+                )
+        self.Remove_Like = channel.unary_unary(
+                '/Account/Remove_Like',
                 request_serializer=account__pb2.SeenAndLikeInfo.SerializeToString,
                 response_deserializer=utils__pb2.Success.FromString,
                 )
@@ -76,22 +81,18 @@ class AccountServicer(object):
     //////////////////////////////////////////
     //////////////////////////////////////////
 
-    CriarUtilizador
-    rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
-    Actualiza a password do user baseado no nonce enviado para o email
-    rpc UserPassword (PasswordRequest) returns (Success);
-    rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
     """
 
     def Seen(self, request, context):
-        """rpc VerificarAdmin(UserId) returns (Success);
-        Dar login //nao usado
-        rpc LoginUser (UserDataRequest) returns (Success);
-        Dar logout //nao usado
-        rpc LogoutUser (Empty) returns (Success);
-
-        Parte da library
+        """Parte da library
         Marcar item como visto
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Remove_Seen(self, request, context):
+        """Remover visto do item
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -99,6 +100,13 @@ class AccountServicer(object):
 
     def Like(self, request, context):
         """Marcar item como gostado
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Remove_Like(self, request, context):
+        """Remover like do item
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -135,11 +143,7 @@ class AccountServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetLikesItem(self, request, context):
-        """GetLikes and GetViews to Account
-        rpc GetViews(SeenAndLikeItem) returns(Count);
-        rpc GetLikes(SeenAndLikeItem) returns(Count);
-
-        ObterContagem de likes do item
+        """ObterContagem de likes do item
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -167,8 +171,18 @@ def add_AccountServicer_to_server(servicer, server):
                     request_deserializer=account__pb2.SeenAndLikeInfo.FromString,
                     response_serializer=utils__pb2.Success.SerializeToString,
             ),
+            'Remove_Seen': grpc.unary_unary_rpc_method_handler(
+                    servicer.Remove_Seen,
+                    request_deserializer=account__pb2.SeenAndLikeInfo.FromString,
+                    response_serializer=utils__pb2.Success.SerializeToString,
+            ),
             'Like': grpc.unary_unary_rpc_method_handler(
                     servicer.Like,
+                    request_deserializer=account__pb2.SeenAndLikeInfo.FromString,
+                    response_serializer=utils__pb2.Success.SerializeToString,
+            ),
+            'Remove_Like': grpc.unary_unary_rpc_method_handler(
+                    servicer.Remove_Like,
                     request_deserializer=account__pb2.SeenAndLikeInfo.FromString,
                     response_serializer=utils__pb2.Success.SerializeToString,
             ),
@@ -219,11 +233,6 @@ class Account(object):
     //////////////////////////////////////////
     //////////////////////////////////////////
 
-    CriarUtilizador
-    rpc VerificaSeEhNovoECria (EmailAndNonceRequest) returns (Success);
-    Actualiza a password do user baseado no nonce enviado para o email
-    rpc UserPassword (PasswordRequest) returns (Success);
-    rpc VerificarPassword(VerificarRequest) returns (VerificarResponse);
     """
 
     @staticmethod
@@ -244,6 +253,23 @@ class Account(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def Remove_Seen(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Account/Remove_Seen',
+            account__pb2.SeenAndLikeInfo.SerializeToString,
+            utils__pb2.Success.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def Like(request,
             target,
             options=(),
@@ -255,6 +281,23 @@ class Account(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Account/Like',
+            account__pb2.SeenAndLikeInfo.SerializeToString,
+            utils__pb2.Success.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Remove_Like(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Account/Remove_Like',
             account__pb2.SeenAndLikeInfo.SerializeToString,
             utils__pb2.Success.FromString,
             options, channel_credentials,

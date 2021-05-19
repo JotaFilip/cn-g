@@ -14,9 +14,6 @@ data:
   SIGNIN_HOST: "signin"
   GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-projecto-ee48440401d9.json"
   LIBRARY_HOST: "library"
-  OAUTH_CLIENT_ID: "72wQelC6FubulYS6qlY7ZhSVkyNgoTYF"
-  OAUTH_SCOPES: "openid"
-  OAUTH2_REDIRECT_URL: "https://recommendations.sytes.net/ui"
 ---
 apiVersion: "apps/v1"
 kind: "Deployment"
@@ -165,27 +162,27 @@ spec:
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "signin"
+  name: "spark-connector"
   namespace: "default"
   labels:
-    app: "signin"
+    app: "spark-connector"
 spec:
   strategy:
     type: Recreate
   replicas: 3
   selector:
     matchLabels:
-      app: "signin"
+      app: "spark-connector"
   template:
     metadata:
       labels:
-        app: "signin"
+        app: "spark-connector"
     spec:
       serviceAccountName: default
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "signin"
-        image: "gcr.io/cn-g14-projecto/signin"
+        image: "gcr.io/cn-g14-projecto/spark-connector"
         ports:
         - containerPort: 50054
 #        readinessProbe:
@@ -196,21 +193,16 @@ spec:
 #          periodSeconds: 5
 #          exec:
 #            command: ["/bin/grpc_health_probe", "-addr=:50054"]
-        env:
-        - name: "ACCOUNTS_HOST"
-          valueFrom:
-            configMapKeyRef:
-              key: "ACCOUNTS_HOST"
-              name: "recommendations-config-tn5f"
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: signin
+  name: spark-connector
 spec:
   #  type: ClusterIP
   selector:
-    app: signin
+    app: spark-connector
   ports:
   - name: grpc
     port: 50054
@@ -271,6 +263,11 @@ spec:
             configMapKeyRef:
               key: "ACCOUNTS_HOST"
               name: "recommendations-config-tn5f"
+        - name: "GOOGLE_APPLICATION_CREDENTIALS"
+            valueFrom:
+              configMapKeyRef:
+                key: "GOOGLE_APPLICATION_CREDENTIALS"
+                name: "recommendations-config-tn5f"
 ---
 apiVersion: v1
 kind: Service
