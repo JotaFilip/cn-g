@@ -44,13 +44,13 @@ class AnimeTestCase(unittest.TestCase):
 
         recommend_request = AddItemRequest( book=books_request)
 
-        book_id = lib_client.AddItem(recommend_request).book_id
+        book_id = lib_client.AddItem(recommend_request).id
         self.assertTrue(book_id)
 
         item_id = ItemId(id=book_id, type="BOOK")
         self.assertTrue(lib_client.GetItem(item_id))
 
-        self.assertTrue(lib_client.RemoveItem(book_id))
+        self.assertTrue(lib_client.RemoveItem(item_id))
 
 if __name__ == '__main__':
     unittest.main()

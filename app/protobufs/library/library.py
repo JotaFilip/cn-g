@@ -162,10 +162,10 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
             id = animes_client.AddAnime(request.anime).anime_id
             return ItemId(id = id, type = ANIME)
         elif (type == Type.BOOK):
-            id = books_client.AddBook(request.book)
+            id = books_client.AddBook(request.book).book_id
             return ItemId(id = id, type = BOOK)
         elif (type == Type.SHOW):
-            id = imdbs_client.AddIMDB(request.imdb)
+            id = imdbs_client.AddIMDB(request.imdb).imdb_id
             return ItemId(id = id, type = SHOW)
 
         else:
