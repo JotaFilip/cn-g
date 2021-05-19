@@ -103,21 +103,21 @@ steps:
 - id: 'test anime'
   name: python
   entrypoint: python
-  args: ["./app/protobufs/library/anime_test.py"]
+  args: ["./app/protobufs/anime/anime_test.py"]
   env:
     - 'ANIMES_HOST=anime'
   waitFor: ['requirements']
 - id: 'test book'
   name: python
   entrypoint: python
-  args: ["./app/protobufs/library/book_test.py"]
+  args: ["./app/protobufs/book/book_test.py"]
   env:
     - 'BOOKS_HOST=book'
   waitFor: ['requirements']
 - id: 'test imdb'
   name: python
   entrypoint: python
-  args: ["./app/protobufs/library/imdb_test.py"]
+  args: ["./app/protobufs/imdb/imdb_test.py"]
   env:
     - 'IMDBS_HOST=imdb'
   waitFor: ['requirements']
@@ -131,7 +131,7 @@ steps:
 - id: 'test account'
   name: python
   entrypoint: python
-  args: ["./app/protobufs/library/account_test.py"]
+  args: ["./app/protobufs/account/account_test.py"]
   env:
     - 'ACCOUNTS_HOST=account'
   waitFor: ['requirements']
