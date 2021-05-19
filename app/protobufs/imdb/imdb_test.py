@@ -47,7 +47,7 @@ class imdbTestCase(unittest.TestCase):
         self.assertEqual(imdbs_client.RemoveIMDB(imdbs_request).success, False)
 
     def test_get_imdb(self):
-        imdbs_request = IMDBByIdRequest(imdb_id="606e2683b3fff1da8a207ade")
+        imdbs_request = IMDBByIdRequest(imdb_id="10a30525464d7c6e0ac9331d")
         self.assertEqual(imdbs_client.SearchById(imdbs_request).imdb_title, "Carmencita")
 
     def test_get_imdb_not_exists(self):
@@ -59,8 +59,8 @@ class imdbTestCase(unittest.TestCase):
         self.assertEqual(imdbs_client.SearchById(imdbs_request), IMDBData())
 
     def test_imdb_search_by_name(self):
-        imdbs_request = IMDBByNameRequest(name="Buffalo Bill and Escort", max_results=32)
-        self.assertEqual(imdbs_client.SearchByName(imdbs_request).imdbs[0].imdb_id, "606e2683b3fff1da8a207b6a")
+        imdbs_request = IMDBByNameRequest(name="Le clown et ses chiens", max_results=32)
+        self.assertEqual(imdbs_client.SearchByName(imdbs_request).imdbs[0].imdb_id, "10a30525464d7c6e0ac9331e")
 
     def test_imdb_search_by_name_not_exists(self):
         imdbs_request = IMDBByNameRequest(name="teste123 name not exists 123 $$$", max_results=32)
