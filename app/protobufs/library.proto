@@ -83,10 +83,10 @@ message ItemIdAndUser {
 
 service Library {
 	rpc Library (LibPageRequest) returns (ItemInfoResponse);
-    rpc Recommend (RecommendationRequest) returns (ItemInfoResponse);
+	rpc Recommend (RecommendationRequest) returns (ItemInfoResponse);
 	rpc AddItem (AddItemRequest) returns (Success);
 	rpc GetItem (ItemId) returns (Item);
-	rpc RemoveItem (ItemIdAndUser) returns (Success);
+	rpc RemoveItem (ItemId) returns (Success);
 	rpc AddSeenItem (ItemIdAndUser) returns (Success);
 	rpc AddLikeItem (ItemIdAndUser) returns (Success);
 

@@ -93,6 +93,33 @@ steps:
   - 'PROJECT_ID=$PROJECT_ID'
   waitFor: ['build account','build spark-connector','build api-gateway','build book','build anime','build imdb','build library']
 
+- id: 'requirements'
+  name: python
+  entrypoint: pip
+  args: [ "install", "-r", "./app/protobufs/tests/requirements.txt", "--user" ]
+  waitFor: ['compose up']
+
+# Run unit tests
+- id: 'test anime'
+  name: python
+  entrypoint: python
+  args: ["./app/protobufs/library/anime_test.py"]
+  waitFor: ['requirements']
+- id: 'test book'
+  name: python
+  entrypoint: python
+  args: ["./app/protobufs/library/book_test.py"]
+  waitFor: ['requirements']
+- id: 'test imdb'
+  name: python
+  entrypoint: python
+  args: ["./app/protobufs/library/imdb_test.py"]
+  waitFor: ['requirements']
+- id: 'test library'
+  name: python
+  entrypoint: python
+  args: ["./app/protobufs/library/library_test.py"]
+  waitFor: ['requirements']
 
 - id: 'integration tests'
   name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
@@ -102,16 +129,11 @@ steps:
     - |
       docker container ls -a
       sleep 10
-      sudo apt install jq
-
-      python ./app/protobufs/library/anime_test.py
-      python ./app/protobufs/library/book_test.py
-      python ./app/protobufs/library/imdb_test.py
-      python ./app/protobufs/library/library_test.py
+      apt install jq
       ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u http://api-gateway:8443
   env:
     - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['compose up']
+  waitFor: ['test anime', 'test book', 'test imdb', 'test library']
 
 - id: 'pushing imdb'
   name: "gcr.io/cloud-builders/docker"
@@ -130,9 +152,9 @@ steps:
 
 
 
-- id: 'pushing signin'
-  name: "gcr.io/cloud-builders/docker"
-  args: ["push", "gcr.io/$PROJECT_ID/signin"]
+- id: 'pushing spark-connector'
+  name: "gcr.io/cloud-builders/spark-connector"
+  args: ["push", "gcr.io/$PROJECT_ID/spark-connector"]
   waitFor: [ 'integration tests' ]
 
 
@@ -175,12 +197,12 @@ steps:
   - --filename=deployment.yaml
   - --location=europe-west4-a
   - --cluster=cluster-recommendations
-  waitFor: ['pushing account','pushing signin','pushing api-gateway','pushing book','pushing anime','pushing imdb','pushing library']
+  waitFor: ['pushing account','pushing spark-connector','pushing api-gateway','pushing book','pushing anime','pushing imdb','pushing library']
 
 images:
 - gcr.io/$PROJECT_ID/imdb
 - gcr.io/$PROJECT_ID/account
-- gcr.io/$PROJECT_ID/signin
+- gcr.io/$PROJECT_ID/spark-connector
 - gcr.io/$PROJECT_ID/api-gateway
 - gcr.io/$PROJECT_ID/book
 - gcr.io/$PROJECT_ID/anime

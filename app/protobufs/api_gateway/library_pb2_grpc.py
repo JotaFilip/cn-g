@@ -37,7 +37,7 @@ class LibraryStub(object):
                 )
         self.RemoveItem = channel.unary_unary(
                 '/Library/RemoveItem',
-                request_serializer=library__pb2.ItemIdAndUser.SerializeToString,
+                request_serializer=library__pb2.ItemId.SerializeToString,
                 response_deserializer=utils__pb2.Success.FromString,
                 )
         self.AddSeenItem = channel.unary_unary(
@@ -122,7 +122,7 @@ def add_LibraryServicer_to_server(servicer, server):
             ),
             'RemoveItem': grpc.unary_unary_rpc_method_handler(
                     servicer.RemoveItem,
-                    request_deserializer=library__pb2.ItemIdAndUser.FromString,
+                    request_deserializer=library__pb2.ItemId.FromString,
                     response_serializer=utils__pb2.Success.SerializeToString,
             ),
             'AddSeenItem': grpc.unary_unary_rpc_method_handler(
@@ -225,7 +225,7 @@ class Library(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Library/RemoveItem',
-            library__pb2.ItemIdAndUser.SerializeToString,
+            library__pb2.ItemId.SerializeToString,
             utils__pb2.Success.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

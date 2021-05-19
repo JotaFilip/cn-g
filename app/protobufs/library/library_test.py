@@ -51,7 +51,7 @@ class AnimeTestCase(unittest.TestCase):
         item_id = ItemId(id=specific_book.book_id, type="BOOK")
         self.assertTrue(lib_client.GetItem(item_id))
 
-        ite_and_user = ItemIdAndUser(user_id="", id=item_id, type="BOOK")
+        ite_and_user = ItemId(id=item_id, type="BOOK")
         self.assertTrue(lib_client.RemoveItem(ite_and_user))
 
 if __name__ == '__main__':
