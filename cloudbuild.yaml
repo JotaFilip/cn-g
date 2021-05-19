@@ -145,7 +145,7 @@ steps:
       sleep 10
       jq --version
       apt update
-      apt install jq
+      apt install jq -y
       jq --version
       ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u http://api-gateway:8443
   env:
