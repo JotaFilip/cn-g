@@ -7,8 +7,8 @@ cd protobufs/
 cd account/
 docker build -t gcr.io/${PROJECT_ID}/account .
 cd ..
-cd signin/
-docker build -t gcr.io/${PROJECT_ID}/signin .
+cd spark_connector/
+docker build -t gcr.io/${PROJECT_ID}/spark-connector .
 cd ..
 cd api_gateway/
 docker build -t gcr.io/${PROJECT_ID}/api-gateway .
@@ -28,7 +28,7 @@ docker push gcr.io/${PROJECT_ID}/library
 docker push gcr.io/${PROJECT_ID}/anime
 docker push gcr.io/${PROJECT_ID}/book
 docker push gcr.io/${PROJECT_ID}/account
-docker push gcr.io/${PROJECT_ID}/signin
+docker push gcr.io/${PROJECT_ID}/spark-connector
 docker push gcr.io/${PROJECT_ID}/api-gateway
 docker images
 gcloud container images list
