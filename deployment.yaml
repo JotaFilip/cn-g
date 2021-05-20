@@ -187,18 +187,10 @@ spec:
         - containerPort: 50054
         env:
         - name: "GOOGLE_APPLICATION_CREDENTIALS"
-            valueFrom:
-              configMapKeyRef:
-                key: "GOOGLE_APPLICATION_CREDENTIALS"
-                name: "recommendations-config-tn5f"
-#        readinessProbe:
-#          periodSeconds: 5
-#          exec:
-#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
-#        livenessProbe:
-#          periodSeconds: 5
-#          exec:
-#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
+          valueFrom:
+            configMapKeyRef:
+              key: "GOOGLE_APPLICATION_CREDENTIALS"
+              name: "recommendations-config-tn5f"
 
 ---
 apiVersion: v1
