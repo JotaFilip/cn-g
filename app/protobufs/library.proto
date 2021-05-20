@@ -98,5 +98,5 @@ service Library {
 //	//ObterContagem de seens do item
 //	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
 //
-//	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
+rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
 }
