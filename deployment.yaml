@@ -185,6 +185,12 @@ spec:
         image: "gcr.io/cn-g14-side-project/spark-connector"
         ports:
         - containerPort: 50054
+        env:
+        - name: "GOOGLE_APPLICATION_CREDENTIALS"
+            valueFrom:
+              configMapKeyRef:
+                key: "GOOGLE_APPLICATION_CREDENTIALS"
+                name: "recommendations-config-tn5f"
 #        readinessProbe:
 #          periodSeconds: 5
 #          exec:
@@ -263,11 +269,7 @@ spec:
             configMapKeyRef:
               key: "ACCOUNTS_HOST"
               name: "recommendations-config-tn5f"
-        - name: "GOOGLE_APPLICATION_CREDENTIALS"
-          valueFrom:
-            configMapKeyRef:
-              key: "GOOGLE_APPLICATION_CREDENTIALS"
-              name: "recommendations-config-tn5f"
+
 ---
 apiVersion: v1
 kind: Service
