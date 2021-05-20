@@ -595,8 +595,8 @@ spec:
       number: 80
       name: http
       protocol: HTTP
-      hosts:
-        - "*"
+    hosts:
+    - "*"
 
 ---
 apiVersion: networking.istio.io/v1alpha3
