@@ -3,7 +3,7 @@ syntax = "proto3";
 import "book.proto";
 import "imdb.proto";
 import "anime.proto";
-// import "account.proto";
+import "account.proto";
 
 import "utils.proto";
 
@@ -98,5 +98,5 @@ service Library {
 //	//ObterContagem de seens do item
 //	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
 //
-rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
+	rpc GetTopTen(TopTenRequest) returns(SeensAndLikesInfo);
 }
