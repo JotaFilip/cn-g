@@ -400,7 +400,7 @@ steps:
 
 
   - id: 'pushing spark-connector'
-    name: "gcr.io/cloud-builders/spark-connector"
+    name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/spark-connector"]
     waitFor: [ 'integration tests' ]
 
@@ -447,10 +447,10 @@ steps:
     waitFor: ['pushing account','pushing spark-connector','pushing api-gateway','pushing book','pushing anime','pushing imdb','pushing library']
 
 images:
-  - gcr.io/$PROJECT_ID/imdb
-  - gcr.io/$PROJECT_ID/account
-  - gcr.io/$PROJECT_ID/spark-connector
-  - gcr.io/$PROJECT_ID/api-gateway
-  - gcr.io/$PROJECT_ID/book
-  - gcr.io/$PROJECT_ID/anime
-  - gcr.io/$PROJECT_ID/library
+- gcr.io/$PROJECT_ID/imdb
+- gcr.io/$PROJECT_ID/account
+- gcr.io/$PROJECT_ID/spark-connector
+- gcr.io/$PROJECT_ID/api-gateway
+- gcr.io/$PROJECT_ID/book
+- gcr.io/$PROJECT_ID/anime
+- gcr.io/$PROJECT_ID/library
