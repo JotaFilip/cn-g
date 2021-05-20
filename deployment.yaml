@@ -12,7 +12,7 @@ data:
   ANIMES_HOST: "anime"
   IMDBS_HOST: "imdb"
   SPARK_CONNECTOR_HOST: "spark-connector"
-  GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-side-project-ee48440401d9.json"
+  GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-projecto-ee48440401d9.json"
   LIBRARY_HOST: "library"
 ---
 apiVersion: "apps/v1"
