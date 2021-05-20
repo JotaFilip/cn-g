@@ -230,7 +230,7 @@ def removeItemLike(user,type,itemId):
 
 def getTopTen(type):
     type = get_type(type)
-    if not type: return 'false', 400
+    if type is None: return 'false', 405
 
     request = TopTenRequest(
         type = type

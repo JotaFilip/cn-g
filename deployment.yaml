@@ -330,6 +330,11 @@ spec:
             configMapKeyRef:
               key: "LIBRARY_HOST"
               name: "recommendations-config-tn5f"
+        - name: "ACCOUNTS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "ACCOUNTS_HOST"
+              name: "recommendations-config-tn5f"
 
 ---
 apiVersion: "v1"
