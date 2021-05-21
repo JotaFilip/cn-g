@@ -33,7 +33,7 @@ from flask import url_for
 from authlib.integrations.flask_client import OAuth
 from six.moves.urllib.parse import urlencode
 from flask_swagger_ui import get_swaggerui_blueprint
-from OpenSSL import SSL
+#from OpenSSL import SSL
 #Create the application instance
 # options = {
 #     "swagger_ui_config" : {
@@ -152,7 +152,7 @@ app.add_api("seen.yaml")
 @app.app.route('/login')
 def call():
 
-    return auth0.authorize_redirect(redirect_uri=request.url_root + 'callback',  audience='https://recommendations.sytes.net/api')
+    return auth0.authorize_redirect(redirect_uri="https://recommendations.sytes.net/callback",  audience='https://recommendations.sytes.net/api')
 
 #app.register_blueprint(swaggerui_blueprint)
 @app.app.route('/callback')
