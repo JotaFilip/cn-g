@@ -57,7 +57,7 @@ def getLibrary(page):
         page = page,
         max_results = 30
     )
-    print(request)
+    #print(request)
     ret = []
     for r in lib_client.Library(request).recommendations:
         tp = get_id(r.type)
