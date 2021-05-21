@@ -458,6 +458,13 @@ spec:
         target:
           type: AverageValue
           averageValue: 182Mi
+    - type: Pods
+      pods:
+        metric:
+          name: packets-per-second
+        target:
+          type: AverageValue
+          averageValue: 200
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -486,6 +493,13 @@ spec:
         target:
           type: AverageValue
           averageValue: 182Mi
+    - type: Pods
+      pods:
+        metric:
+          name: packets-per-second
+        target:
+          type: AverageValue
+          averageValue: 200
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -514,6 +528,13 @@ spec:
         target:
           type: AverageValue
           averageValue: 182Mi
+    - type: Pods
+      pods:
+        metric:
+          name: packets-per-second
+        target:
+          type: AverageValue
+          averageValue: 200
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -542,6 +563,13 @@ spec:
         target:
           type: AverageValue
           averageValue: 182Mi
+    - type: Pods
+      pods:
+        metric:
+          name: packets-per-second
+        target:
+          type: AverageValue
+          averageValue: 200
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -570,6 +598,13 @@ spec:
         target:
           type: AverageValue
           averageValue: 182Mi
+    - type: Pods
+      pods:
+        metric:
+          name: packets-per-second
+        target:
+          type: AverageValue
+          averageValue: 200
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -598,6 +633,13 @@ spec:
         target:
           type: AverageValue
           averageValue: 182Mi
+    - type: Pods
+      pods:
+        metric:
+          name: packets-per-second
+        target:
+          type: AverageValue
+          averageValue: 200
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -626,6 +668,13 @@ spec:
       target:
         type: AverageValue
         averageValue: 182Mi
+  - type: Pods
+    pods:
+      metric:
+        name: packets-per-second
+      target:
+        type: AverageValue
+        averageValue: 200
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
