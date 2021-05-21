@@ -161,7 +161,7 @@ def callback_handling():
     return jsonify(auth0.authorize_access_token())
 @app.app.route('/health')
 def health():
-    return True, 200
+    return "OK", 200
 
 
 
