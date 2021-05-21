@@ -434,7 +434,7 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: account-hpa-cs66
+  name: imdb-hpa-cs66
   namespace: default
   labels:
     app: imdb
@@ -462,7 +462,7 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: account-hpa-cs66
+  name: api-gateway-hpa-cs66
   namespace: default
   labels:
     app: api-gateway
@@ -490,7 +490,7 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: account-hpa-cs66
+  name: library-hpa-cs66
   namespace: default
   labels:
     app: library
@@ -518,7 +518,7 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: account-hpa-cs66
+  name: spark-connector-hpa-cs66
   namespace: default
   labels:
     app: spark-connector
@@ -546,7 +546,7 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: account-hpa-cs66
+  name: anime-hpa-cs66
   namespace: default
   labels:
     app: anime
@@ -574,7 +574,7 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: account-hpa-cs66
+  name: book-hpa-cs66
   namespace: default
   labels:
     app: book
