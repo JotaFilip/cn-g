@@ -256,7 +256,7 @@ for i in $(seq 0 $retries); do
 
     res=$res_comandocriarlivro || res=""
 
-    if echo "$res" | grep -q "true"
+    if echo "$res" | grep -q "id"
     then
         break
     else
