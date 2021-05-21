@@ -441,7 +441,7 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: v1
-    kind: ReplicationController
+    kind: Deployment
     name: imdb
   minReplicas: 1
   maxReplicas: 40
@@ -469,7 +469,7 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: v1
-    kind: ReplicationController
+    kind: Deployment
     name: api-gateway
   minReplicas: 1
   maxReplicas: 40
@@ -497,7 +497,7 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: v1
-    kind: ReplicationController
+    kind: Deployment
     name: library
   minReplicas: 1
   maxReplicas: 40
@@ -525,7 +525,7 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: v1
-    kind: ReplicationController
+    kind: Deployment
     name: spark-connector
   minReplicas: 1
   maxReplicas: 40
@@ -553,7 +553,7 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: v1
-    kind: ReplicationController
+    kind: Deployment
     name: anime
   minReplicas: 1
   maxReplicas: 40
@@ -581,7 +581,7 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: v1
-    kind: ReplicationController
+    kind: Deployment
     name: book
   minReplicas: 1
   maxReplicas: 40
@@ -609,7 +609,7 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: v1
-    kind: ReplicationController
+    kind: Deployment
     name: account
   minReplicas: 1
   maxReplicas: 40
