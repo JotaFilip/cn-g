@@ -159,7 +159,7 @@ def deleteItem(type,itemId):
     if type is None: return 'false', 400
 
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
-    request = ItemIdAndUser(
+    request = ItemId(
         id = itemId,
         type = type
     )
