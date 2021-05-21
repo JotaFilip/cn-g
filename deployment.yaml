@@ -431,184 +431,198 @@ spec:
     port: 50053
     targetPort: 50053
 ---
-apiVersion: "autoscaling/v2beta1"
-kind: "HorizontalPodAutoscaler"
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
 metadata:
-  name: "imdb-hpa-cs66"
-  namespace: "default"
+  name: account-hpa-cs66
+  namespace: default
   labels:
-    app: "imdb"
+    app: imdb
 spec:
   scaleTargetRef:
-    kind: "Deployment"
-    name: "imdb"
-    apiVersion: "apps/v1"
+    apiVersion: v1
+    kind: ReplicationController
+    name: imdb
   minReplicas: 1
-  maxReplicas: 20
+  maxReplicas: 40
   metrics:
-  - type: "Resource"
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: AverageValue
+          averageValue: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: AverageValue
+          averageValue: 500Mi
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: account-hpa-cs66
+  namespace: default
+  labels:
+    app: api-gateway
+spec:
+  scaleTargetRef:
+    apiVersion: v1
+    kind: ReplicationController
+    name: api-gateway
+  minReplicas: 1
+  maxReplicas: 40
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: AverageValue
+          averageValue: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: AverageValue
+          averageValue: 500Mi
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: account-hpa-cs66
+  namespace: default
+  labels:
+    app: library
+spec:
+  scaleTargetRef:
+    apiVersion: v1
+    kind: ReplicationController
+    name: library
+  minReplicas: 1
+  maxReplicas: 40
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: AverageValue
+          averageValue: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: AverageValue
+          averageValue: 500Mi
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: account-hpa-cs66
+  namespace: default
+  labels:
+    app: spark-connector
+spec:
+  scaleTargetRef:
+    apiVersion: v1
+    kind: ReplicationController
+    name: spark-connector
+  minReplicas: 1
+  maxReplicas: 40
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: AverageValue
+          averageValue: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: AverageValue
+          averageValue: 500Mi
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: account-hpa-cs66
+  namespace: default
+  labels:
+    app: anime
+spec:
+  scaleTargetRef:
+    apiVersion: v1
+    kind: ReplicationController
+    name: anime
+  minReplicas: 1
+  maxReplicas: 40
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: AverageValue
+          averageValue: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: AverageValue
+          averageValue: 500Mi
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: account-hpa-cs66
+  namespace: default
+  labels:
+    app: book
+spec:
+  scaleTargetRef:
+    apiVersion: v1
+    kind: ReplicationController
+    name: book
+  minReplicas: 1
+  maxReplicas: 40
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: AverageValue
+          averageValue: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: AverageValue
+          averageValue: 500Mi
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: account-hpa-cs66
+  namespace: default
+  labels:
+    app: account
+spec:
+  scaleTargetRef:
+    apiVersion: v1
+    kind: ReplicationController
+    name: account
+  minReplicas: 1
+  maxReplicas: 40
+  metrics:
+  - type: Resource
     resource:
-      name: "cpu"
-      targetAverageUtilization: 80
-  - type: "Resource"
-    resource:
-      name: "memory"
+      name: cpu
       target:
         type: AverageValue
-        averageValue: 500Mi
----
-apiVersion: "autoscaling/v2beta1"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "api-gateway-hpa-cs66"
-  namespace: "default"
-  labels:
-    app: "api-gateway"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "api-gateway"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 20
-  metrics:
-  - type: "Resource"
+        averageValue: 80
+  - type: Resource
     resource:
-      name: "cpu"
-      targetAverageUtilization: 80
-  - type: "Resource"
-    resource:
-      name: "memory"
-      target:
-        type: AverageValue
-        averageValue: 500Mi
----
-apiVersion: "autoscaling/v2beta1"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "library-hpa-cs66"
-  namespace: "default"
-  labels:
-    app: "library"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "library"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 20
-  metrics:
-  - type: "Resource"
-    resource:
-      name: "cpu"
-      targetAverageUtilization: 80
-  - type: "Resource"
-    resource:
-      name: "memory"
-      target:
-        type: AverageValue
-        averageValue: 500Mi
----
-apiVersion: "autoscaling/v2beta1"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "spark-connector-hpa-cs66"
-  namespace: "default"
-  labels:
-    app: "spark-connector"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "spark-connector"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 20
-  metrics:
-  - type: "Resource"
-    resource:
-      name: "cpu"
-      targetAverageUtilization: 80
-  - type: "Resource"
-    resource:
-      name: "memory"
-      target:
-        type: AverageValue
-        averageValue: 500Mi
----
-apiVersion: "autoscaling/v2beta1"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "anime-hpa-cs66"
-  namespace: "default"
-  labels:
-    app: "anime"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "anime"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 20
-  metrics:
-  - type: "Resource"
-    resource:
-      name: "cpu"
-      targetAverageUtilization: 80
-  - type: "Resource"
-    resource:
-      name: "memory"
-      target:
-        type: AverageValue
-        averageValue: 500Mi
----
-apiVersion: "autoscaling/v2beta1"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "book-hpa-cs66"
-  namespace: "default"
-  labels:
-    app: "book"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "book"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 20
-  metrics:
-  - type: "Resource"
-    resource:
-      name: "cpu"
-      targetAverageUtilization: 80
-  - type: "Resource"
-    resource:
-      name: "memory"
-      target:
-        type: AverageValue
-        averageValue: 500Mi
----
-apiVersion: "autoscaling/v2beta1"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "account-hpa-cs66"
-  namespace: "default"
-  labels:
-    app: "account"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "account"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 20
-  metrics:
-  - type: "Resource"
-    resource:
-      name: "cpu"
-      targetAverageUtilization: 80
-  - type: "Resource"
-    resource:
-      name: "memory"
+      name: memory
       target:
         type: AverageValue
         averageValue: 500Mi
