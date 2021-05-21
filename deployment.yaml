@@ -457,7 +457,7 @@ spec:
         name: memory
         target:
           type: AverageValue
-          averageValue: 500Mi
+          averageValue: 182Mi
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -485,7 +485,7 @@ spec:
         name: memory
         target:
           type: AverageValue
-          averageValue: 500Mi
+          averageValue: 182Mi
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -513,7 +513,7 @@ spec:
         name: memory
         target:
           type: AverageValue
-          averageValue: 500Mi
+          averageValue: 182Mi
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -541,7 +541,7 @@ spec:
         name: memory
         target:
           type: AverageValue
-          averageValue: 500Mi
+          averageValue: 182Mi
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -569,7 +569,7 @@ spec:
         name: memory
         target:
           type: AverageValue
-          averageValue: 500Mi
+          averageValue: 182Mi
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -597,7 +597,7 @@ spec:
         name: memory
         target:
           type: AverageValue
-          averageValue: 500Mi
+          averageValue: 182Mi
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
@@ -625,7 +625,7 @@ spec:
       name: memory
       target:
         type: AverageValue
-        averageValue: 500Mi
+        averageValue: 182Mi
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -688,7 +688,7 @@ metadata:
 spec:
   limits:
     - default:
-        memory: 4096Mi
+        memory: 512Mi
       defaultRequest:
-        memory: 256Mi
+        memory: 128Mi
       type: Container
