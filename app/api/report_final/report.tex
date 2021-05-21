@@ -191,7 +191,7 @@ João Afonso fc51111 \\
   \centering
   \addtolength{\leftskip} {-20cm}
   \addtolength{\rightskip}{-20cm}
-  \begin{adjustbox}{width=1.3\textwidth}
+  \begin{adjustbox}{width=1.4\textwidth}
   \begin{tabular}{ c|l l l l|c|c|c|c|l }
     \rowcolor{Gray}
     Role & \multicolumn{4}{c|}{Path} & get & post & put & del & description 
@@ -228,14 +228,6 @@ João Afonso fc51111 \\
     & & \xmark & \xmark &
     Marks/Unmark item as liked
     \\ \hhline{-|----|-|-|-|-|~}
-    & /item & /\{type\} & /\{id\} & /views &
-    \xmark & & & &
-    Returns Item's number of views
-    \\
-    & /item & /\{type\} & /\{id\} & /likes &
-    \xmark & & & &
-    Returns Item's number of likes
-    \\ 
     & /getTopTen & /\{type\} &  &  &
     \xmark & & & &
     Returns top ten most liked Items with $type$
@@ -244,7 +236,7 @@ João Afonso fc51111 \\
     & \xmark & & &
     Creates User
     \\
-    \multirow{-5}{*}{Any} 
+    \multirow{-3}{*}{Any} 
     & /user & \multicolumn{3}{l|}{/login} &
     \xmark & & & &
     Logs in
