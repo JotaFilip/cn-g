@@ -444,7 +444,7 @@ spec:
     kind: Deployment
     name: imdb
   minReplicas: 1
-  maxReplicas: 40
+  maxReplicas: 399
   metrics:
     - type: Resource
       resource:
@@ -479,7 +479,7 @@ spec:
     kind: Deployment
     name: api-gateway
   minReplicas: 1
-  maxReplicas: 40
+  maxReplicas: 399
   metrics:
     - type: Resource
       resource:
@@ -514,7 +514,7 @@ spec:
     kind: Deployment
     name: library
   minReplicas: 1
-  maxReplicas: 40
+  maxReplicas: 399
   metrics:
     - type: Resource
       resource:
@@ -549,7 +549,7 @@ spec:
     kind: Deployment
     name: spark-connector
   minReplicas: 1
-  maxReplicas: 40
+  maxReplicas: 399
   metrics:
     - type: Resource
       resource:
@@ -584,7 +584,7 @@ spec:
     kind: Deployment
     name: anime
   minReplicas: 1
-  maxReplicas: 40
+  maxReplicas: 399
   metrics:
     - type: Resource
       resource:
@@ -619,7 +619,7 @@ spec:
     kind: Deployment
     name: book
   minReplicas: 1
-  maxReplicas: 40
+  maxReplicas: 399
   metrics:
     - type: Resource
       resource:
@@ -654,7 +654,7 @@ spec:
     kind: Deployment
     name: account
   minReplicas: 1
-  maxReplicas: 40
+  maxReplicas: 399
   metrics:
   - type: Resource
     resource:
