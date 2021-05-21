@@ -13,7 +13,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_seen(self):
         seen_and_like_info = SeenAndLikeInfo(user_id="608f3ba995657a00692583ae", id="606e252aebddc73ebfb15542",
-                                             type="ANIME", categories="Action")
+                                             type="ANIME", categories=["Action"])
 
         accounts_client.Remove_Seen(seen_and_like_info)
 
@@ -26,7 +26,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_like(self):
         seen_and_like_info = SeenAndLikeInfo(user_id="608f3ba995657a00692583ae", id="606e252aebddc73ebfb15542",
-                                             type="ANIME", categories="Action")
+                                             type="ANIME", categories=["Action"])
 
         accounts_client.Remove_Like(seen_and_like_info)
 
@@ -37,15 +37,7 @@ class MyTestCase(unittest.TestCase):
 
         self.assertTrue(accounts_client.Remove_Like(seen_and_like_info).success)
 
-    def test_seen_not_exists_id(self):
-        seen_and_like_info = SeenAndLikeInfo(user_id="608f3ba995657a00692583ae", id="000000000000000000000000",
-                                             type="ANIME", categories="Action")
-        self.assertFalse(accounts_client.Seen(seen_and_like_info).success)
 
-    def test_seen_not_exists_user(self):
-        seen_and_like_info = SeenAndLikeInfo(user_id="111111a995657a0069111111", id="606e252aebddc73ebfb15542",
-                                             type="ANIME", categories="Action")
-        self.assertFalse(accounts_client.Seen(seen_and_like_info).success)
 
     def test_views_and_likes_count(self):
         user_id = UserId(id="606e252aebddc73ebfb15542")

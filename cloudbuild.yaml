@@ -1,217 +1,450 @@
+#steps:
+#
+#
+#
+##- id: 'build account'
+##  name: 'gcr.io/cloud-builders/docker'
+##  args: [
+##    'build',
+##    '--tag=account', # use local registry for compatibility with local builds
+##    '--tag=gcr.io/$PROJECT_ID/account',
+##    '--cache-from=gcr.io/$PROJECT_ID/account:latest',
+##    'app/protobufs/account/.',
+##  ]
+##- id: 'build spark-connector'
+##  name: 'gcr.io/cloud-builders/docker'
+##  args: [
+##    'build',
+##    '--tag=spark-connector', # use local registry for compatibility with local builds
+##    '--tag=gcr.io/$PROJECT_ID/spark-connector',
+##    '--cache-from=gcr.io/$PROJECT_ID/spark-connector:latest',
+##    'app/protobufs/spark_connector/.',
+##  ]
+##  waitFor: ['-'] # start immediately
+##
+##- id: 'build api-gateway'
+##  name: 'gcr.io/cloud-builders/docker'
+##  args: [
+##    'build',
+##    '--tag=api_gateway', # use local registry for compatibility with local builds
+##    '--tag=gcr.io/$PROJECT_ID/api-gateway',
+##    '--cache-from=gcr.io/$PROJECT_ID/api-gateway:latest',
+##    'app/protobufs/api_gateway/.',
+##  ]
+##  waitFor: ['-'] # start immediately
+##- id: 'build book'
+##  name: 'gcr.io/cloud-builders/docker'
+##  args: [
+##    'build',
+##    '--tag=book', # use local registry for compatibility with local builds
+##    '--tag=gcr.io/$PROJECT_ID/book',
+##    '--cache-from=gcr.io/$PROJECT_ID/book:latest',
+##    'app/protobufs/book/.',
+##  ]
+##  waitFor: ['-'] # start immediately
+##- id: 'build anime'
+##  name: 'gcr.io/cloud-builders/docker'
+##  args: [
+##    'build',
+##    '--tag=anime', # use local registry for compatibility with local builds
+##    '--tag=gcr.io/$PROJECT_ID/anime',
+##    '--cache-from=gcr.io/$PROJECT_ID/anime:latest',
+##    'app/protobufs/anime/.',
+##  ]
+##  waitFor: ['-'] # start immediately
+##- id: 'build imdb'
+##  name: 'gcr.io/cloud-builders/docker'
+##  args: [
+##    'build',
+##    '--tag=imdb', # use local registry for compatibility with local builds
+##    '--tag=gcr.io/$PROJECT_ID/imdb',
+##    '--cache-from=gcr.io/$PROJECT_ID/imdb:latest',
+##    'app/protobufs/imdb/.',
+##  ]
+##  waitFor: ['-'] # start immediately
+##- id: 'build library'
+##  name: 'gcr.io/cloud-builders/docker'
+##  args: [
+##    'build',
+##    '--tag=library', # use local registry for compatibility with local builds
+##    '--tag=gcr.io/$PROJECT_ID/library',
+##    '--cache-from=gcr.io/$PROJECT_ID/library:latest',
+##    'app/protobufs/library/.',
+##  ]
+##  waitFor: ['-'] # start immediately
+#
+##- id: 'dns up'
+##  name: 'gcr.io/cloud-builders/docker'
+##  args: [
+##      'run', 'defreitas/dns-proxy-server',
+##
+##  ]
+##  waitFor: ['-']
+#
+#
+#- id: 'compose up'
+#  name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
+#  entrypoint: '/bin/bash'
+#  args:
+#  - '-c'
+#  - |
+#    docker-compose up -d --force-recreate --build
+#  env:
+#  - 'PROJECT_ID=$PROJECT_ID'
+##  waitFor: ['build account','build spark-connector','build api-gateway','build book','build anime','build imdb','build library']
+##
+##- id: 'requirements'
+##  name: python
+##  entrypoint: pip
+##  args: [ "install", "-r", "./app/protobufs/tests/requirements.txt", "--user" ]
+##  waitFor: ['compose up']
+##
+### Run unit tests
+##- id: 'test anime'
+##  name: python
+##  entrypoint: python
+##  args: ["./app/protobufs/anime/anime_test.py"]
+##  env:
+##    - 'ANIMES_HOST=anime'
+##  waitFor: ['requirements']
+##- id: 'test book'
+##  name: python
+##  entrypoint: python
+##  args: ["./app/protobufs/book/book_test.py"]
+##  env:
+##    - 'BOOKS_HOST=book'
+##  waitFor: ['requirements']
+##- id: 'test imdb'
+##  name: python
+##  entrypoint: python
+##  args: ["./app/protobufs/imdb/imdb_test.py"]
+##  env:
+##    - 'IMDBS_HOST=imdb'
+##  waitFor: ['requirements']
+##- id: 'test library'
+##  name: python
+##  entrypoint: python
+##  args: ["./app/protobufs/library/library_test.py"]
+##  env:
+##    - 'LIBRARY_HOST=library'
+##  waitFor: ['requirements']
+##- id: 'test account'
+##  name: python
+##  entrypoint: python
+##  args: ["./app/protobufs/account/account_test.py"]
+##  env:
+##    - 'ACCOUNTS_HOST=account'
+##  waitFor: ['requirements']
+#- id: 'integration tests'
+#  name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
+#  entrypoint: '/bin/bash'
+#  args:
+#    - '-c'
+#    - |
+#      docker container ls -a
+#      sleep 10
+#      jq --version
+#      apt update
+#      apt install jq -y
+#      jq --version
+#      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u http://api-gateway:8443
+#  env:
+#    - 'PROJECT_ID=$PROJECT_ID'
+#  waitFor: ['compose up']
+##  waitFor: ['test anime', 'test book', 'test imdb', 'test library','test account']
+##
+##- id: 'pushing imdb'
+##  name: "gcr.io/cloud-builders/docker"
+##  args: ["push", "gcr.io/$PROJECT_ID/imdb"]
+##  waitFor: [ 'integration tests' ]
+##
+##
+##
+##- id: 'pushing account'
+##  name: "gcr.io/cloud-builders/docker"
+##  args: ["push", "gcr.io/$PROJECT_ID/account"]
+##  waitFor: [ 'integration tests' ]
+##
+##
+##
+##
+##
+##
+##- id: 'pushing spark-connector'
+##  name: "gcr.io/cloud-builders/spark-connector"
+##  args: ["push", "gcr.io/$PROJECT_ID/spark-connector"]
+##  waitFor: [ 'integration tests' ]
+##
+##
+##
+##
+##- id: 'pushing api-gateway'
+##  name: "gcr.io/cloud-builders/docker"
+##  args: ["push", "gcr.io/$PROJECT_ID/api-gateway"]
+##  waitFor: [ 'integration tests' ]
+##
+##
+##
+##
+##- id: 'pushing book'
+##  name: "gcr.io/cloud-builders/docker"
+##  args: ["push", "gcr.io/$PROJECT_ID/book"]
+##  waitFor: [ 'integration tests' ]
+##
+##
+##
+##
+##- id: 'pushing anime'
+##  name: "gcr.io/cloud-builders/docker"
+##  args: ["push", "gcr.io/$PROJECT_ID/anime"]
+##  waitFor: [ 'integration tests' ]
+##
+##
+##
+##- id: 'pushing library'
+##  name: "gcr.io/cloud-builders/docker"
+##  args: ["push", "gcr.io/$PROJECT_ID/library"]
+##  waitFor: [ 'integration tests' ]
+##
+##
+##  # deploy container image to GKE
+##- id: 'deploy image library'
+##  name: "gcr.io/cloud-builders/gke-deploy"
+##  args:
+##  - run
+##  - --filename=deployment.yaml
+##  - --location=europe-west4-a
+##  - --cluster=cluster-recommendations
+##  waitFor: ['pushing account','pushing spark-connector','pushing api-gateway','pushing book','pushing anime','pushing imdb','pushing library']
+#
+#images:
+#- gcr.io/$PROJECT_ID/imdb
+#- gcr.io/$PROJECT_ID/account
+#- gcr.io/$PROJECT_ID/spark-connector
+#- gcr.io/$PROJECT_ID/api-gateway
+#- gcr.io/$PROJECT_ID/book
+#- gcr.io/$PROJECT_ID/anime
+#- gcr.io/$PROJECT_ID/library
+
+
 steps:
 
 
 
-- id: 'build account'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [
-    'build',
-    '--tag=account', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/account',
-    '--cache-from=gcr.io/$PROJECT_ID/account:latest',
-    'app/protobufs/account/.',
-  ]
-- id: 'build spark-connector'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [
-    'build',
-    '--tag=spark-connector', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/spark-connector',
-    '--cache-from=gcr.io/$PROJECT_ID/spark-connector:latest',
-    'app/protobufs/spark_connector/.',
-  ]
-  waitFor: ['-'] # start immediately
+  - id: 'build account'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+        'build',
+        '--tag=account', # use local registry for compatibility with local builds
+        '--tag=gcr.io/$PROJECT_ID/account',
+        '--cache-from=gcr.io/$PROJECT_ID/account:latest',
+        'app/protobufs/account/.',
+    ]
+  - id: 'build spark-connector'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+        'build',
+        '--tag=spark-connector', # use local registry for compatibility with local builds
+        '--tag=gcr.io/$PROJECT_ID/spark-connector',
+        '--cache-from=gcr.io/$PROJECT_ID/spark-connector:latest',
+        'app/protobufs/spark_connector/.',
+    ]
+    waitFor: ['-'] # start immediately
 
-- id: 'build api-gateway'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [
-    'build',
-    '--tag=api_gateway', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/api-gateway',
-    '--cache-from=gcr.io/$PROJECT_ID/api-gateway:latest',
-    'app/protobufs/api_gateway/.',
-  ]
-  waitFor: ['-'] # start immediately
-- id: 'build book'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [
-    'build',
-    '--tag=book', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/book',
-    '--cache-from=gcr.io/$PROJECT_ID/book:latest',
-    'app/protobufs/book/.',
-  ]
-  waitFor: ['-'] # start immediately
-- id: 'build anime'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [
-    'build',
-    '--tag=anime', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/anime',
-    '--cache-from=gcr.io/$PROJECT_ID/anime:latest',
-    'app/protobufs/anime/.',
-  ]
-  waitFor: ['-'] # start immediately
-- id: 'build imdb'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [
-    'build',
-    '--tag=imdb', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/imdb',
-    '--cache-from=gcr.io/$PROJECT_ID/imdb:latest',
-    'app/protobufs/imdb/.',
-  ]
-  waitFor: ['-'] # start immediately
-- id: 'build library'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [
-    'build',
-    '--tag=library', # use local registry for compatibility with local builds
-    '--tag=gcr.io/$PROJECT_ID/library',
-    '--cache-from=gcr.io/$PROJECT_ID/library:latest',
-    'app/protobufs/library/.',
-  ]
-  waitFor: ['-'] # start immediately
+  - id: 'build api-gateway'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+        'build',
+        '--tag=api_gateway', # use local registry for compatibility with local builds
+        '--tag=gcr.io/$PROJECT_ID/api-gateway',
+        '--cache-from=gcr.io/$PROJECT_ID/api-gateway:latest',
+        'app/protobufs/api_gateway/.',
+    ]
+    waitFor: ['-'] # start immediately
+  - id: 'build book'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+        'build',
+        '--tag=book', # use local registry for compatibility with local builds
+        '--tag=gcr.io/$PROJECT_ID/book',
+        '--cache-from=gcr.io/$PROJECT_ID/book:latest',
+        'app/protobufs/book/.',
+    ]
+    waitFor: ['-'] # start immediately
+  - id: 'build anime'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+        'build',
+        '--tag=anime', # use local registry for compatibility with local builds
+        '--tag=gcr.io/$PROJECT_ID/anime',
+        '--cache-from=gcr.io/$PROJECT_ID/anime:latest',
+        'app/protobufs/anime/.',
+    ]
+    waitFor: ['-'] # start immediately
+  - id: 'build imdb'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+        'build',
+        '--tag=imdb', # use local registry for compatibility with local builds
+        '--tag=gcr.io/$PROJECT_ID/imdb',
+        '--cache-from=gcr.io/$PROJECT_ID/imdb:latest',
+        'app/protobufs/imdb/.',
+    ]
+    waitFor: ['-'] # start immediately
+  - id: 'build library'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+        'build',
+        '--tag=library', # use local registry for compatibility with local builds
+        '--tag=gcr.io/$PROJECT_ID/library',
+        '--cache-from=gcr.io/$PROJECT_ID/library:latest',
+        'app/protobufs/library/.',
+    ]
+    waitFor: ['-'] # start immediately
 
-#- id: 'dns up'
-#  name: 'gcr.io/cloud-builders/docker'
-#  args: [
-#      'run', 'defreitas/dns-proxy-server',
-#
-#  ]
-#  waitFor: ['-']
-
-
-- id: 'compose up'
-  name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
-  entrypoint: '/bin/bash'
-  args:
-  - '-c'
-  - |
-    docker-compose up -d --force-recreate --build
-  env:
-  - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['build account','build spark-connector','build api-gateway','build book','build anime','build imdb','build library']
-
-- id: 'requirements'
-  name: python
-  entrypoint: pip
-  args: [ "install", "-r", "./app/protobufs/tests/requirements.txt", "--user" ]
-  waitFor: ['compose up']
-
-# Run unit tests
-- id: 'test anime'
-  name: python
-  entrypoint: python
-  args: ["./app/protobufs/library/anime_test.py"]
-  env:
-    - 'ANIMES_HOST=anime'
-  waitFor: ['requirements']
-- id: 'test book'
-  name: python
-  entrypoint: python
-  args: ["./app/protobufs/library/book_test.py"]
-  env:
-    - 'BOOKS_HOST=book'
-  waitFor: ['requirements']
-- id: 'test imdb'
-  name: python
-  entrypoint: python
-  args: ["./app/protobufs/library/imdb_test.py"]
-  env:
-    - 'IMDBS_HOST=imdb'
-  waitFor: ['requirements']
-- id: 'test library'
-  name: python
-  entrypoint: python
-  args: ["./app/protobufs/library/library_test.py"]
-  env:
-    - 'LIBRARY_HOST=library'
-  waitFor: ['requirements']
-- id: 'test account'
-  name: python
-  entrypoint: python
-  args: ["./app/protobufs/library/account_test.py"]
-  env:
-    - 'ACCOUNTS_HOST=account'
-  waitFor: ['requirements']
-- id: 'integration tests'
-  name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
-  entrypoint: '/bin/bash'
-  args:
-    - '-c'
-    - |
-      docker container ls -a
-      sleep 10
-      apt install jq
-      ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u http://api-gateway:8443
-  env:
-    - 'PROJECT_ID=$PROJECT_ID'
-  waitFor: ['test anime', 'test book', 'test imdb', 'test library','test account']
-
-- id: 'pushing imdb'
-  name: "gcr.io/cloud-builders/docker"
-  args: ["push", "gcr.io/$PROJECT_ID/imdb"]
-  waitFor: [ 'integration tests' ]
+  #- id: 'dns up'
+  #  name: 'gcr.io/cloud-builders/docker'
+  #  args: [
+  #      'run', 'defreitas/dns-proxy-server',
+  #
+  #  ]
+  #  waitFor: ['-']
 
 
+  - id: 'compose up'
+    name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
+    entrypoint: '/bin/bash'
+    args:
+      - '-c'
+      - |
+        docker-compose up -d --force-recreate --build
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+    waitFor: ['build account','build spark-connector','build api-gateway','build book','build anime','build imdb','build library']
 
-- id: 'pushing account'
-  name: "gcr.io/cloud-builders/docker"
-  args: ["push", "gcr.io/$PROJECT_ID/account"]
-  waitFor: [ 'integration tests' ]
+  - id: 'requirements'
+    name: python
+    entrypoint: pip
+    args: [ "install", "-r", "./app/protobufs/tests/requirements.txt", "--user" ]
+    waitFor: ['compose up']
+
+  # Run unit tests
+  - id: 'test anime'
+    name: python
+    entrypoint: python
+    args: ["./app/protobufs/anime/anime_test.py"]
+    env:
+      - 'ANIMES_HOST=anime'
+    waitFor: ['requirements']
+  - id: 'test book'
+    name: python
+    entrypoint: python
+    args: ["./app/protobufs/book/book_test.py"]
+    env:
+      - 'BOOKS_HOST=book'
+    waitFor: ['requirements']
+  - id: 'test imdb'
+    name: python
+    entrypoint: python
+    args: ["./app/protobufs/imdb/imdb_test.py"]
+    env:
+      - 'IMDBS_HOST=imdb'
+    waitFor: ['requirements']
+  - id: 'test library'
+    name: python
+    entrypoint: python
+    args: ["./app/protobufs/library/library_test.py"]
+    env:
+      - 'LIBRARY_HOST=library'
+    waitFor: ['requirements']
+  - id: 'test account'
+    name: python
+    entrypoint: python
+    args: ["./app/protobufs/account/account_test.py"]
+    env:
+      - 'ACCOUNTS_HOST=account'
+    waitFor: ['requirements']
+  - id: 'integration tests'
+    name: 'gcr.io/$PROJECT_ID/docker-compose:latest'
+    entrypoint: '/bin/bash'
+    args:
+      - '-c'
+      - |
+        docker container ls -a
+        sleep 10
+        jq --version
+        apt update
+        apt install jq -y
+        jq --version
+        ./app/protobufs/api_gateway/api_gateway_test.sh -r 20 -i 3 -u http://api-gateway:8443
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+    #  waitFor: ['compose up']
+    waitFor: ['test anime', 'test book', 'test imdb', 'test library','test account']
+
+  - id: 'pushing imdb'
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/imdb"]
+    waitFor: [ 'integration tests' ]
 
 
 
-
-
-
-- id: 'pushing spark-connector'
-  name: "gcr.io/cloud-builders/spark-connector"
-  args: ["push", "gcr.io/$PROJECT_ID/spark-connector"]
-  waitFor: [ 'integration tests' ]
+  - id: 'pushing account'
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/account"]
+    waitFor: [ 'integration tests' ]
 
 
 
 
-- id: 'pushing api-gateway'
-  name: "gcr.io/cloud-builders/docker"
-  args: ["push", "gcr.io/$PROJECT_ID/api-gateway"]
-  waitFor: [ 'integration tests' ]
+
+
+  - id: 'pushing spark-connector'
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/spark-connector"]
+    waitFor: [ 'integration tests' ]
 
 
 
 
-- id: 'pushing book'
-  name: "gcr.io/cloud-builders/docker"
-  args: ["push", "gcr.io/$PROJECT_ID/book"]
-  waitFor: [ 'integration tests' ]
+  - id: 'pushing api-gateway'
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/api-gateway"]
+    waitFor: [ 'integration tests' ]
 
 
 
 
-- id: 'pushing anime'
-  name: "gcr.io/cloud-builders/docker"
-  args: ["push", "gcr.io/$PROJECT_ID/anime"]
-  waitFor: [ 'integration tests' ]
+  - id: 'pushing book'
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/book"]
+    waitFor: [ 'integration tests' ]
 
 
 
-- id: 'pushing library'
-  name: "gcr.io/cloud-builders/docker"
-  args: ["push", "gcr.io/$PROJECT_ID/library"]
-  waitFor: [ 'integration tests' ]
+
+  - id: 'pushing anime'
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/anime"]
+    waitFor: [ 'integration tests' ]
 
 
-  # deploy container image to GKE
-- id: 'deploy image library'
-  name: "gcr.io/cloud-builders/gke-deploy"
-  args:
-  - run
-  - --filename=deployment.yaml
-  - --location=europe-west4-a
-  - --cluster=cluster-recommendations
-  waitFor: ['pushing account','pushing spark-connector','pushing api-gateway','pushing book','pushing anime','pushing imdb','pushing library']
+
+  - id: 'pushing library'
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/library"]
+    waitFor: [ 'integration tests' ]
+
+
+    # deploy container image to GKE
+  - id: 'deploy image library'
+    name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - run
+      - --filename=deployment.yaml
+      - --location=europe-west4-a
+      - --cluster=cluster-recommendations
+    waitFor: ['pushing account','pushing spark-connector','pushing api-gateway','pushing book','pushing anime','pushing imdb','pushing library']
 
 images:
 - gcr.io/$PROJECT_ID/imdb

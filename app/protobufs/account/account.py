@@ -13,10 +13,11 @@ SQLALCHEMY_DATABASE_URI = sqlalchemy.engine.url.URL.create(
     drivername="mysql+mysqlconnector",
     username="cngroupfcul",
     password="178267316238hsugdhgaabhdsauisduiasiud89812989021709120783bjjkhaklnskdj",
-    host="saldanha.sytes.net",
+    host="34.65.157.17",
     port=3306,
     database="account",
-    query={"ssl_ca": "chain1.pem"},
+    query={"ssl_ca": "server-ca.pem", 'ssl_cert': 'client-cert.pem', 'ssl_key': 'client-key.pem'},
+
 )
 
 # SPARK_DATABASE_URI = sqlalchemy.engine.url.URL.create(
@@ -342,7 +343,7 @@ class AccountService(account_pb2_grpc.AccountServicer):
         if user is not None:
             session.delete(user)
         session.commit()
-        return  Success(success=user is not None)
+        return  Success(success=(user is not None))
 
 #def GetUser(self, username):
 #    # TODO

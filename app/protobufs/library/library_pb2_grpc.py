@@ -2,6 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+import account_pb2 as account__pb2
 import library_pb2 as library__pb2
 import utils_pb2 as utils__pb2
 
@@ -59,6 +60,11 @@ class LibraryStub(object):
                 '/Library/RemoveLikeItem',
                 request_serializer=library__pb2.ItemIdAndUser.SerializeToString,
                 response_deserializer=utils__pb2.Success.FromString,
+                )
+        self.GetTopTen = channel.unary_unary(
+                '/Library/GetTopTen',
+                request_serializer=account__pb2.TopTenRequest.SerializeToString,
+                response_deserializer=account__pb2.SeensAndLikesInfo.FromString,
                 )
 
 
@@ -119,6 +125,17 @@ class LibraryServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetTopTen(self, request, context):
+        """	//ObterContagem de likes do item
+        	rpc GetLikesItem(SeenAndLikeItem) returns (CountInfo);
+        	//ObterContagem de seens do item
+        	rpc GetSeensItem(SeenAndLikeItem) returns (CountInfo);
+
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_LibraryServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -166,6 +183,11 @@ def add_LibraryServicer_to_server(servicer, server):
                     servicer.RemoveLikeItem,
                     request_deserializer=library__pb2.ItemIdAndUser.FromString,
                     response_serializer=utils__pb2.Success.SerializeToString,
+            ),
+            'GetTopTen': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetTopTen,
+                    request_deserializer=account__pb2.TopTenRequest.FromString,
+                    response_serializer=account__pb2.SeensAndLikesInfo.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -327,5 +349,22 @@ class Library(object):
         return grpc.experimental.unary_unary(request, target, '/Library/RemoveLikeItem',
             library__pb2.ItemIdAndUser.SerializeToString,
             utils__pb2.Success.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetTopTen(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Library/GetTopTen',
+            account__pb2.TopTenRequest.SerializeToString,
+            account__pb2.SeensAndLikesInfo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

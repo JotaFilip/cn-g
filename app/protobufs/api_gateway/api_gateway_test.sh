@@ -5,7 +5,7 @@ password="admin"
 keyword="true"
 retries=5
 interval=1
-url="http://127.0.0.1:5000"
+url="http://127.0.0.1:8443"
 
 while getopts r:i:k:u: option
 do
@@ -24,7 +24,7 @@ echo "retries: "$retries
 echo "interval: "$interval
 echo "url: "$url
 
-token_info_admin = $(curl --request POST \
+token_info_admin=$(curl --request POST \
   --url 'https://saldanha.eu.auth0.com/oauth/token' \
   --header 'content-type: application/x-www-form-urlencoded' \
   --data grant_type=password \
@@ -35,7 +35,7 @@ token_info_admin = $(curl --request POST \
   --data 'client_id=72wQelC6FubulYS6qlY7ZhSVkyNgoTYF'\
   --data client_secret=UHqFceMIWf0pzpA3CRWggxpGDxByyn_vQuw_90OdhaoascI-t5RBha4z5sRPbNJK | jq -r '.access_token'
 )
-token_info_user = $(curl --request POST \
+token_info_user=$(curl --request POST \
   --url 'https://saldanha.eu.auth0.com/oauth/token' \
   --header 'content-type: application/x-www-form-urlencoded' \
   --data grant_type=password \
@@ -55,27 +55,23 @@ token_info_user = $(curl --request POST \
 
 
 #Pronto:
-res_get=$(curl -k  --header "authorization: Bearer $token_info_admin" -X  GET --header 'Accept: text/html' "$url"'/item/BOOK/607615b3aeb60e0f26f7c1df')
 
-res_like_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/607615b3aeb60e0f26f7c1df/like')
-res_like_nao_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/12345/like')
 
-res_seen_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/607615b3aeb60e0f26f7c1df/seen")
-res_seen_nao_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/12345/seen")
 
-res_page=$(curl -k  --header "authorization: Bearer $token_info_admin" -X GET --header 'Accept: text/html' "$url/lib/1")
 
-res_sugest=$(curl -k  --header "authorization: Bearer $token_info_admin" -X POST --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{ "tipos": [ "BOOK"] }' "$url/suggest")
-#TODO
-res_change_password=$(curl --header "authorization: Bearer $token_info_user" -k -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{ "password": "saldanha", "username": "saldanha"}' "$url/user/search/saldanha")
+
+
+
+
+
+
 res_login=$(curl -k  --header "authorization: Bearer $token_info_admin" -X GET --header 'Accept: text/html' "$url/user/login")
-res_logout=$(curl -k  --header "authorization: Bearer $token_info_admin" -X GET --header 'Accept: text/html' "$url/user/logout")
 
 echo "Login"
 for i in $(seq 0 $retries); do
   res=$res_login || res=""
 
-  if echo "$res" | grep -q "html"
+  if echo "$res" | grep -q "login"
     then
         break
     else
@@ -84,12 +80,13 @@ for i in $(seq 0 $retries); do
   echo "$res"
   exit 1
 done
+res_logout=$(curl -k  --header "authorization: Bearer $token_info_admin" -X GET --header 'Accept: text/html' "$url/user/logout")
 
 echo "Logout"
 for i in $(seq 0 $retries); do
   res=$res_logout || res=""
 
-  if echo "$res" | grep -q "OK"
+  if echo "$res" | grep -q "logout"
     then
         break
     else
@@ -99,7 +96,24 @@ for i in $(seq 0 $retries); do
   exit 1
 done
 
+res_change_username=$(curl --header "authorization: Bearer $token_info_user" -k -X POST --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{"username": "unico"}' "$url/user")
+echo "Change username"
+for i in $(seq 0 $retries); do
+  res=$res_change_username || res=""
+
+  if echo "$res" | grep -q "true"
+    then
+        break
+    else
+        sleep "$interval"
+  fi
+  echo "$res"
+  exit 1
+done
+
+
 echo "Adicionar visto a livro que existe"
+res_seen_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/606e25ad5e927a606f534263/seen")
 for i in $(seq 0 $retries); do
   res=$res_seen_existe|| res=""
 
@@ -113,7 +127,23 @@ for i in $(seq 0 $retries); do
   exit 1
 done
 
+echo "Remover visto de livro que existe"
+res_seen_remove_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X DELETE --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/606e25ad5e927a606f534263/seen")
+for i in $(seq 0 $retries); do
+  res=$res_seen_remove_existe|| res=""
+
+  if echo "$res" | grep -q "true"
+    then
+        break
+    else
+        sleep "$interval"
+  fi
+  echo "$res"
+  exit 1
+done
+
 echo "Falhar a adicionar visto a livro que nao existe"
+res_seen_nao_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url/item/BOOK/12345/seen")
 for i in $(seq 0 $retries); do
   res=$res_seen_nao_existe || res=""
 
@@ -128,6 +158,7 @@ for i in $(seq 0 $retries); do
 done
 
 echo "Adicionar like a livro que existe"
+res_like_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/606e25ad5e927a606f534263/like')
 for i in $(seq 0 $retries); do
   res=$res_like_existe|| res=""
 
@@ -141,7 +172,23 @@ for i in $(seq 0 $retries); do
   exit 1
 done
 
+echo "Remover like de livro que existe"
+res_like_remove_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X DELETE --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/606e25ad5e927a606f534263/like')
+for i in $(seq 0 $retries); do
+  res=$res_like_remove_existe || res=""
+
+  if echo "$res" | grep -q "true"
+    then
+        break
+    else
+        sleep "$interval"
+  fi
+  echo "$res"
+  exit 1
+done
+
 echo "Falhar a adicionar like a livro que nao existe"
+res_like_nao_existe=$(curl -k  --header "authorization: Bearer $token_info_admin" -X PUT --header 'Content-Type: application/json' --header 'Accept: text/html' "$url"'/item/BOOK/12345/like')
 for i in $(seq 0 $retries); do
   res=$res_like_nao_existe || res=""
 
@@ -155,11 +202,14 @@ for i in $(seq 0 $retries); do
   exit 1
 done
 
+
+
 echo "Obter um livro que existe"
+res_get=$(curl -k  --header "authorization: Bearer $token_info_admin" -X  GET --header 'Accept: text/html' "$url"'/item/BOOK/606e25ad5e927a606f534263')
 for i in $(seq 0 $retries); do
   res=$res_get || res=""
 
-  if echo "$res" | grep -q "607615b3aeb60e0f26f7c1df"
+  if echo "$res" | grep -q "606e25ad5e927a606f534263"
     then
         break
     else
@@ -170,6 +220,7 @@ for i in $(seq 0 $retries); do
 done
 
 echo "Obter recomendacoes"
+res_sugest=$(curl -k  --header "authorization: Bearer $token_info_admin" -X POST --header 'Content-Type: application/json' --header 'Accept: text/html' -d '{ "tipos": [ "BOOK"] }' "$url/suggest")
 for i in $(seq 0 $retries); do
   res=$res_sugest || res=""
 
@@ -184,6 +235,7 @@ for i in $(seq 0 $retries); do
 done
 
 echo "Escolher pag"
+res_page=$(curl -k  --header "authorization: Bearer $token_info_admin" -X GET --header 'Accept: text/html' "$url/lib/1")
 for i in $(seq 0 $retries); do
   res=$res_page || res=""
 
@@ -204,7 +256,7 @@ for i in $(seq 0 $retries); do
 
     res=$res_comandocriarlivro || res=""
 
-    if echo "$res" | grep -q "true"
+    if echo "$res" | grep -q "id"
     then
         break
     else
@@ -221,7 +273,7 @@ for i in $(seq 0 $retries); do
 
     res=$res_comandocriarlivro || res=""
 
-    if echo "$res" | grep -q "Unauthorized"
+    if echo "$res" | grep -q "Forbidden"
     then
         break
     else
@@ -229,6 +281,23 @@ for i in $(seq 0 $retries); do
     fi
     echo "$res"
     exit 1
+done
+
+
+
+res_delete_username=$(curl --header "authorization: Bearer $token_info_user" -k -X DELETE --header 'Accept: text/html' "$url/user")
+echo "delete username"
+for i in $(seq 0 $retries); do
+  res=$res_delete_username || res=""
+
+  if echo "$res" | grep -q "true"
+    then
+        break
+    else
+        sleep "$interval"
+  fi
+  echo "$res"
+  exit 1
 done
 #
 #

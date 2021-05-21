@@ -226,8 +226,8 @@ paths:
     put:
       tags:
       - library
-      summary: Mark item as not liked
-      description: Mark a item as not liked
+      summary: Mark item with like
+      description: Mark item with like
       security:
         - oAuthCheck:
             - write:like
@@ -255,8 +255,8 @@ paths:
     delete:
       tags:
         - library
-      summary: Mark item with like
-      description: Mark a item with like
+      summary: Mark a item as not liked
+      description: Mark a item as not liked
       security:
         - oAuthCheck:
             - write:like

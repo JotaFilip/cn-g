@@ -88,11 +88,9 @@ class IMDBService(imdb_pb2_grpc.IMDBServicer):
     def AddIMDB(self, request, context):
         imdb = proto_to_imdb(request)
         try:
-            imdb['_id'] = "1"+str(ObjectId())
             id = db1.insert_one(imdb).inserted_id
         except Exception:
             try:
-                imdb['_id'] = "2"+str(ObjectId())
                 id = db2.insert_one(imdb).inserted_id
             except Exception: 
                 return AddIMDBResponse(imdb_id=None)

@@ -402,10 +402,11 @@ João Afonso fc51111 \\
   \par It was tested with up to 800 users, which at that point it was getting close to 100\% CPU usage, according to Grafana. At the time, we were using weak machines (12 CPUs) as Google Cloud's free trial did not allow any higher than that. 
   \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did stress testing with 100 users, 500 users and 800 users.
   \par For the Spark job we went to Google Cloud > Dataproc > Jobs, and observe the time taken running, and got an average of around 2 minutes and 10 seconds for the first one and 7 minutes and 40 seconds for the second.
-  \par We developed unit tests to verify if the behavior of the microservices: “anime”, “book” and “imdb”, were in accordance with the system specifications and to ensure that access to the respective databases were returning the desired values.
+  \par We developed unit tests to verify if the behavior of the following microservices: “anime”, “book”, “imdb” and "account". We wanted to confirm that these microservices were acting in accordance with the system specifications and that the respective databases were returning the desired values.
   \par We tested each functions and covered situations in which the objects in use did/didn't exist. It was also verified functions' behavior when receiving invalid input (for example, searching for an object with an id that doesn't  exist).
   \par Most of the tested operations present the expected behavior, but there were some cases in which the functions didn't properly deal with exceptions (these bugs were fixed).
-
+  \par After testing the modules at a lower level, we proceeded to also develop tests for the “library” and “api gateway” microservices. As for the “library” microservice, we developed tests in Python so as to verify if the interactions with the lower-level components were working properly. We decided to take a different approach to test the “api gateway” microservice: we used curl to test the REST API.
+  
   \subsection{Validation}
   \label{sec:validation}
   \fpar With 800 users the system reached around 75\% CPU usage and 2000 to 2500\% system load, which we assume to be a somewhat comfortable limit for the resources we have, it can go higher, but it could probably start running into performance problems after a certain point (images in appendix \ref{appendix}).
@@ -466,6 +467,7 @@ João Afonso fc51111 \\
     		\item Helped implement the software tests
     		\item Helped reconfigure the system for auth0 integration
     		\item Did part of the implementation of Spark's microservice
+            \item Report
     	\end{itemize}
     \subsubsection{51058 - Diogo Lopes}
       \begin{itemize}
@@ -478,7 +480,22 @@ João Afonso fc51111 \\
       \end{itemize}
     \subsubsection{51072 - Miguel Saldanha}
       \begin{itemize}
-        \item TODO
+		\item Dataset choose
+		\item Helping Specififying Use Cases, Rest API, Architectural Design
+		\item Producing and Reviewing microservices and protobufs
+		\item Reviewing and Correcting containerize of the microservices
+		\item Reviewing and Correcting Automatization of building and deployment
+		\item Deploy and Configuration of Account Database
+		\item Deploy on Kubernetes
+		\item Configuring safe connections between microservices on Kubernetes
+		\item Configuring scalability off microservices on Kubernetes
+		\item OAuth2 Configuration, Deploy and Roles and Rules Management
+		\item CI/CD pipeline
+		\item Reviewing and Correcting Tests
+		\item Creating Bash Files for automate deploy of microservices and Istio on Cloud
+		\item Help Creating Stress tests calls.
+		\item Implementing Spark, Review and Correcting Spark Microservice
+		\item Some contributions on Report and Review
       \end{itemize}
     \subsubsection{51080 - João Roque}
       \begin{itemize}

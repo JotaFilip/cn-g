@@ -11,8 +11,8 @@ data:
   BOOKS_HOST: "book"
   ANIMES_HOST: "anime"
   IMDBS_HOST: "imdb"
-  SIGNIN_HOST: "signin"
-  GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-projecto-ee48440401d9.json"
+  SPARK_CONNECTOR_HOST: "spark-connector"
+  GOOGLE_APPLICATION_CREDENTIALS: "/service/cn-g14-projecto-ee48440401d9.json"
   LIBRARY_HOST: "library"
 ---
 apiVersion: "apps/v1"
@@ -38,7 +38,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "imdb"
-        image: "gcr.io/cn-g14-projecto/imdb"
+        image: "gcr.io/cn-g14-side-project/imdb"
         ports:
         - containerPort: 50052
 #        readinessProbe:
@@ -86,7 +86,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "account"
-        image: "gcr.io/cn-g14-projecto/account"
+        image: "gcr.io/cn-g14-side-project/account"
         ports:
         - containerPort: 50055
 #        readinessProbe:
@@ -134,7 +134,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "book"
-        image: "gcr.io/cn-g14-projecto/book"
+        image: "gcr.io/cn-g14-side-project/book"
         ports:
         - containerPort: 50051
 #        readinessProbe:
@@ -181,18 +181,16 @@ spec:
       serviceAccountName: default
 #      terminationGracePeriodSeconds: 5
       containers:
-      - name: "signin"
-        image: "gcr.io/cn-g14-projecto/spark-connector"
+      - name: "spark-connector"
+        image: "gcr.io/cn-g14-side-project/spark-connector"
         ports:
         - containerPort: 50054
-#        readinessProbe:
-#          periodSeconds: 5
-#          exec:
-#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
-#        livenessProbe:
-#          periodSeconds: 5
-#          exec:
-#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
+        env:
+        - name: "GOOGLE_APPLICATION_CREDENTIALS"
+          valueFrom:
+            configMapKeyRef:
+              key: "GOOGLE_APPLICATION_CREDENTIALS"
+              name: "recommendations-config-tn5f"
 
 ---
 apiVersion: v1
@@ -231,7 +229,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "library"
-        image: "gcr.io/cn-g14-projecto/library"
+        image: "gcr.io/cn-g14-side-project/library"
         ports:
         - containerPort: 50050
 #        readinessProbe:
@@ -263,11 +261,7 @@ spec:
             configMapKeyRef:
               key: "ACCOUNTS_HOST"
               name: "recommendations-config-tn5f"
-        - name: "GOOGLE_APPLICATION_CREDENTIALS"
-            valueFrom:
-              configMapKeyRef:
-                key: "GOOGLE_APPLICATION_CREDENTIALS"
-                name: "recommendations-config-tn5f"
+
 ---
 apiVersion: v1
 kind: Service
@@ -302,7 +296,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: api-gateway
-        image: "gcr.io/cn-g14-projecto/api-gateway"
+        image: "gcr.io/cn-g14-side-project/api-gateway"
         imagePullPolicy: Always
         ports:
         - containerPort: 8443
@@ -326,30 +320,20 @@ spec:
 #            - name: "Cookie"
 #              value: "shop_session-id=x-liveness-probe"
         env:
-        - name: "SIGNIN_HOST"
+        - name: "SPARK_CONNECTOR_HOST"
           valueFrom:
             configMapKeyRef:
-              key: "SIGNIN_HOST"
+              key: "SPARK_CONNECTOR_HOST"
               name: "recommendations-config-tn5f"
         - name: "LIBRARY_HOST"
           valueFrom:
             configMapKeyRef:
               key: "LIBRARY_HOST"
               name: "recommendations-config-tn5f"
-        - name: "OAUTH_CLIENT_ID"
+        - name: "ACCOUNTS_HOST"
           valueFrom:
             configMapKeyRef:
-              key: "OAUTH_CLIENT_ID"
-              name: "recommendations-config-tn5f"
-        - name: "OAUTH_SCOPES"
-          valueFrom:
-            configMapKeyRef:
-              key: "OAUTH_SCOPES"
-              name: "recommendations-config-tn5f"
-        - name: "OAUTH2_REDIRECT_URL"
-          valueFrom:
-            configMapKeyRef:
-              key: "OAUTH2_REDIRECT_URL"
+              key: "ACCOUNTS_HOST"
               name: "recommendations-config-tn5f"
 
 ---
@@ -422,7 +406,7 @@ spec:
 #      terminationGracePeriodSeconds: 5
       containers:
       - name: "anime"
-        image: "gcr.io/cn-g14-projecto/anime"
+        image: "gcr.io/cn-g14-side-project/anime"
         ports:
         - containerPort: 50053
 #        readinessProbe:
@@ -510,14 +494,14 @@ spec:
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
 metadata:
-  name: "signin-hpa-cs66"
+  name: "spark-connector-hpa-cs66"
   namespace: "default"
   labels:
-    app: "signin"
+    app: "spark-connector"
 spec:
   scaleTargetRef:
     kind: "Deployment"
-    name: "signin"
+    name: "spark-connector"
     apiVersion: "apps/v1"
   minReplicas: 1
   maxReplicas: 20
@@ -606,6 +590,13 @@ spec:
       privateKey: /etc/istio/ingressgateway-certs/tls.key # must be the same as secret
     hosts:
     - "*"
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -625,4 +616,12 @@ spec:
         port:
           number: 8443
         host: api-gateway
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "default"
+spec:
+  mtls:
+    mode: STRICT
 ---

@@ -11,6 +11,7 @@ python-jose >= 0.0.0
 pyopenssl >= 0.0.0
 flask_httpauth >= 0.0.0
 flask_cors >= 0.0.0
+swagger-ui-bundle
 requests
 authlib
 six

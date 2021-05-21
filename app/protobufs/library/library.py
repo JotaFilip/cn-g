@@ -221,6 +221,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             animes_request = AnimeByIdRequest(anime_id=id)
             anime = animes_client.SearchById(animes_request)
+            if(anime.anime_id == ''):
+                return Success(success=False)
             genres = anime.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
@@ -230,6 +232,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             books_request = BookByIdRequest(book_id=id)
             book = books_client.SearchById(books_request)
+            if(book.book_id == ''):
+                return Success(success=False)
             genres = book.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
@@ -239,6 +243,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             imdbs_request = IMDBByIdRequest(imdb_id=id)
             imdb = imdbs_client.SearchById(imdbs_request)
+            if(imdb.imdb_id == ''):
+                return Success(success=False)
             genres = imdb.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
@@ -252,6 +258,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             animes_request = AnimeByIdRequest(anime_id=id)
             anime = animes_client.SearchById(animes_request)
+            if(anime.anime_id == ''):
+                return Success(success=False)
             genres = anime.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
@@ -261,6 +269,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             books_request = BookByIdRequest(book_id=id)
             book = books_client.SearchById(books_request)
+            if(book.book_id == ''):
+                return Success(success=False)
             genres = book.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
@@ -270,6 +280,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             imdbs_request = IMDBByIdRequest(imdb_id=id)
             imdb = imdbs_client.SearchById(imdbs_request)
+            if(imdb.imdb_id == ''):
+                return Success(success=False)
             genres = imdb.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
@@ -283,6 +295,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             animes_request = AnimeByIdRequest(anime_id=id)
             anime = animes_client.SearchById(animes_request)
+            if(anime.anime_id == ''):
+                return Success(success=False)
             genres = anime.genres
 
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
@@ -294,6 +308,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             books_request = BookByIdRequest(book_id=id)
             book = books_client.SearchById(books_request)
+            if(book.book_id == ''):
+                return Success(success=False)
             genres = book.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
@@ -303,6 +319,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             imdbs_request = IMDBByIdRequest(imdb_id=id)
             imdb = imdbs_client.SearchById(imdbs_request)
+            if(imdb.imdb_id == ''):
+                return Success(success=False)
             genres = imdb.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
@@ -316,6 +334,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             animes_request = AnimeByIdRequest(anime_id=id)
             anime = animes_client.SearchById(animes_request)
+            if(anime.anime_id == ''):
+                return Success(success=False)
             genres = anime.genres
 
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
@@ -327,6 +347,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             books_request = BookByIdRequest(book_id=id)
             book = books_client.SearchById(books_request)
+            if(book.book_id == ''):
+                return Success(success=False)
             genres = book.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
@@ -336,6 +358,8 @@ class LibraryService(library_pb2_grpc.LibraryServicer):
 
             imdbs_request = IMDBByIdRequest(imdb_id=id)
             imdb = imdbs_client.SearchById(imdbs_request)
+            if(imdb.imdb_id == ''):
+                return Success(success=False)
             genres = imdb.genres
             seen_and_like_request = SeenAndLikeInfo(user_id=request.user_id, id=id, type=type, categories=genres)
 
