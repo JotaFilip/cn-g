@@ -88,7 +88,6 @@ def getSuggestions(user,body):
 
 def addItem(body):
 
-    # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
     type= body["type"]
     if (type == "BOOK"):
 
@@ -109,7 +108,11 @@ def addItem(body):
 
     else:
         return 'false',405
-    return lib_client.AddItem(request).id, body["type"]
+    return {
+
+        "id": lib_client.AddItem(request).id,
+        "type": body["type"]
+    }
 
 def category_to_genres(category):
     lista = []
@@ -156,7 +159,7 @@ def deleteItem(type,itemId):
     if type is None: return 'false', 400
 
     # TODO o enum e o id estavam trocados e estava a lançar um erro, temos que por uma condição e verificar input
-    request = ItemIdAndUser(
+    request = ItemId(
         id = itemId,
         type = type
     )
@@ -229,12 +232,12 @@ def removeItemLike(user,type,itemId):
 #     return r
 
 def getTopTen(type):
-    type = get_type(type)
-    if not type: return 'false', 400
+    type2 = get_type(type)
+    if type2 is None: return 'false', 405
 
     request = TopTenRequest(
-        type = type
+        type = type2
     )
     rs = lib_client.GetTopTen(request).infos
-    t = lambda x : { 'id': x.id, 'type': x.type }
+    t = lambda x : { 'id': x.id, 'type': type }
     return [ t(r) for r in rs ]

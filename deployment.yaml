@@ -12,7 +12,7 @@ data:
   ANIMES_HOST: "anime"
   IMDBS_HOST: "imdb"
   SPARK_CONNECTOR_HOST: "spark-connector"
-  GOOGLE_APPLICATION_CREDENTIALS: "cn-g14-side-project-ee48440401d9.json"
+  GOOGLE_APPLICATION_CREDENTIALS: "/service/cn-g14-projecto-ee48440401d9.json"
   LIBRARY_HOST: "library"
 ---
 apiVersion: "apps/v1"
@@ -185,14 +185,12 @@ spec:
         image: "gcr.io/cn-g14-side-project/spark-connector"
         ports:
         - containerPort: 50054
-#        readinessProbe:
-#          periodSeconds: 5
-#          exec:
-#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
-#        livenessProbe:
-#          periodSeconds: 5
-#          exec:
-#            command: ["/bin/grpc_health_probe", "-addr=:50054"]
+        env:
+        - name: "GOOGLE_APPLICATION_CREDENTIALS"
+          valueFrom:
+            configMapKeyRef:
+              key: "GOOGLE_APPLICATION_CREDENTIALS"
+              name: "recommendations-config-tn5f"
 
 ---
 apiVersion: v1
@@ -263,11 +261,7 @@ spec:
             configMapKeyRef:
               key: "ACCOUNTS_HOST"
               name: "recommendations-config-tn5f"
-        - name: "GOOGLE_APPLICATION_CREDENTIALS"
-          valueFrom:
-            configMapKeyRef:
-              key: "GOOGLE_APPLICATION_CREDENTIALS"
-              name: "recommendations-config-tn5f"
+
 ---
 apiVersion: v1
 kind: Service
@@ -335,6 +329,11 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: "LIBRARY_HOST"
+              name: "recommendations-config-tn5f"
+        - name: "ACCOUNTS_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "ACCOUNTS_HOST"
               name: "recommendations-config-tn5f"
 
 ---
@@ -591,6 +590,13 @@ spec:
       privateKey: /etc/istio/ingressgateway-certs/tls.key # must be the same as secret
     hosts:
     - "*"
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -610,4 +616,12 @@ spec:
         port:
           number: 8443
         host: api-gateway
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "default"
+spec:
+  mtls:
+    mode: STRICT
 ---

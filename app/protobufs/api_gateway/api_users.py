@@ -42,11 +42,11 @@ from flask import redirect
 # sign_channel = grpc.secure_channel(f"{sign_host}:50054", creds)
 # signin_client = SignInStub(sign_channel)
 
-# #auth = HTTPBasicAuth()
+# # #auth = HTTPBasicAuth()
 # sign_host = os.getenv("SIGNIN_HOST", "localhost")
 # sign_channel = grpc.insecure_channel(f"{sign_host}:50054", options=(('grpc.enable_http_proxy', 0),))
 # signin_client = SignInStub(sign_channel)
-
+#
 
 from account_pb2_grpc import AccountStub
 from account_pb2 import *
