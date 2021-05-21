@@ -303,7 +303,7 @@ spec:
         readinessProbe:
           initialDelaySeconds: 10
           httpGet:
-            path: "/lib/1"
+            path: "/health"
 #            scheme: HTTPS
             port: 8443
 #            httpHeaders:
@@ -313,7 +313,7 @@ spec:
           initialDelaySeconds: 10
 
           httpGet:
-            path: "/lib/1"
+            path: "/health"
 #            scheme: HTTPS
             port: 8443
 #            httpHeaders:
