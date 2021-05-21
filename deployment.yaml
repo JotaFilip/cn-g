@@ -450,6 +450,12 @@ spec:
     resource:
       name: "cpu"
       targetAverageUtilization: 80
+  - type: "Resource"
+    resource:
+      name: "memory"
+      target:
+        type: AverageValue
+        averageValue: 500Mi
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
@@ -470,6 +476,12 @@ spec:
     resource:
       name: "cpu"
       targetAverageUtilization: 80
+  - type: "Resource"
+    resource:
+      name: "memory"
+      target:
+        type: AverageValue
+        averageValue: 500Mi
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
@@ -490,6 +502,12 @@ spec:
     resource:
       name: "cpu"
       targetAverageUtilization: 80
+  - type: "Resource"
+    resource:
+      name: "memory"
+      target:
+        type: AverageValue
+        averageValue: 500Mi
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
@@ -510,6 +528,12 @@ spec:
     resource:
       name: "cpu"
       targetAverageUtilization: 80
+  - type: "Resource"
+    resource:
+      name: "memory"
+      target:
+        type: AverageValue
+        averageValue: 500Mi
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
@@ -530,6 +554,12 @@ spec:
     resource:
       name: "cpu"
       targetAverageUtilization: 80
+  - type: "Resource"
+    resource:
+      name: "memory"
+      target:
+        type: AverageValue
+        averageValue: 500Mi
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
@@ -550,6 +580,12 @@ spec:
     resource:
       name: "cpu"
       targetAverageUtilization: 80
+  - type: "Resource"
+    resource:
+      name: "memory"
+      target:
+        type: AverageValue
+        averageValue: 500Mi
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
@@ -570,6 +606,12 @@ spec:
     resource:
       name: "cpu"
       targetAverageUtilization: 80
+  - type: "Resource"
+    resource:
+      name: "memory"
+      target:
+        type: AverageValue
+        averageValue: 500Mi
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -625,3 +667,14 @@ spec:
   mtls:
     mode: STRICT
 ---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mem-limit-range
+spec:
+  limits:
+    - default:
+        memory: 4096Mi
+      defaultRequest:
+        memory: 256Mi
+      type: Container
