@@ -440,7 +440,7 @@ metadata:
     app: imdb
 spec:
   scaleTargetRef:
-    apiVersion: v1
+    apiVersion: apps/v1
     kind: Deployment
     name: imdb
   minReplicas: 1
@@ -468,7 +468,7 @@ metadata:
     app: api-gateway
 spec:
   scaleTargetRef:
-    apiVersion: v1
+    apiVersion: apps/v1
     kind: Deployment
     name: api-gateway
   minReplicas: 1
@@ -496,7 +496,7 @@ metadata:
     app: library
 spec:
   scaleTargetRef:
-    apiVersion: v1
+    apiVersion: apps/v1
     kind: Deployment
     name: library
   minReplicas: 1
@@ -524,7 +524,7 @@ metadata:
     app: spark-connector
 spec:
   scaleTargetRef:
-    apiVersion: v1
+    apiVersion: apps/v1
     kind: Deployment
     name: spark-connector
   minReplicas: 1
@@ -552,7 +552,7 @@ metadata:
     app: anime
 spec:
   scaleTargetRef:
-    apiVersion: v1
+    apiVersion: apps/v1
     kind: Deployment
     name: anime
   minReplicas: 1
@@ -580,7 +580,7 @@ metadata:
     app: book
 spec:
   scaleTargetRef:
-    apiVersion: v1
+    apiVersion: apps/v1
     kind: Deployment
     name: book
   minReplicas: 1
@@ -608,7 +608,7 @@ metadata:
     app: account
 spec:
   scaleTargetRef:
-    apiVersion: v1
+    apiVersion: apps/v1
     kind: Deployment
     name: account
   minReplicas: 1
