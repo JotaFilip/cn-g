@@ -46,7 +46,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 # , options = options
 app = connexion.App(__name__, specification_dir="./")
 #app = Flask(__name__)
-SWAGGER_URL='/ui/'
+SWAGGER_URL='/ui'
 swagger_path= "seen.yaml"
 swagger_yml = load(open(swagger_path, 'r'), Loader=Loader)
 #API_URL = 'swagger.json'
