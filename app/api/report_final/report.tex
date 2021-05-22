@@ -399,8 +399,8 @@ João Afonso fc51111 \\
   \subsection{Evaluation}
   \label{sec:evaluation}
   \fpar We ran Locust, the tool to perform the stress testing, in another cluster to avoid affecting the results. 
-  \par It was tested with up to 800 users, which at that point it was getting close to 100\% CPU usage, according to Grafana. At the time, we were using weak machines (12 CPUs) as Google Cloud's free trial did not allow any higher than that. 
-  \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did stress testing with 100 users, 500 users and 800 users.
+  \par It was tested with up to 800 users, which at that point it was getting close to 100\% CPU usage, according to Grafana. At the time, we were using weak machines (12 CPUs) as Google Cloud's free trial did not allow any higher than that. We later got access to better machines and so we tested with up to 6800 users, which was still limited by quotas since we couldn't spawn more users to do so.
+  \par Every aspect of the system was being tested: getting entries, putting new entries, get pages from the database, get a recommendation (and even the login and logout which was later changed and so there is no need for load testing as it is handled by an exterior service, auth0). We did stress testing with 100 users, 500 users, 800 users, and later, when we had access to better machines, up to 6800 users.
   \par For the Spark job we went to Google Cloud > Dataproc > Jobs, and observe the time taken running, and got an average of around 2 minutes and 10 seconds for the first one and 7 minutes and 40 seconds for the second.
   \par We developed unit tests to verify if the behavior of the following microservices: “anime”, “book”, “imdb” and "account". We wanted to confirm that these microservices were acting in accordance with the system specifications and that the respective databases were returning the desired values.
   \par We tested each functions and covered situations in which the objects in use did/didn't exist. It was also verified functions' behavior when receiving invalid input (for example, searching for an object with an id that doesn't  exist).
@@ -411,6 +411,7 @@ João Afonso fc51111 \\
   \label{sec:validation}
   \fpar With 800 users the system reached around 75\% CPU usage and 2000 to 2500\% system load, which we assume to be a somewhat comfortable limit for the resources we have, it can go higher, but it could probably start running into performance problems after a certain point (images in appendix \ref{appendix}).
   \par The latency remained good nonetheless, around 2 to 4ms. Disk usage was always very low as most of the data was not stored in the cloud but rather on an exterior database (MongoDB and MySQL). There was a high usage of memory though, probably to store all the requests (around 14gb).
+  \par When we later tested with 6800 users, we got to around 600\% CPU usage, which is equivalent to 6 CPUs running at their full potential. System load had spikes of up to 400\% and the memory usage was around 35\%. Since most of the load was concentrated on the api-gateway, we increased it's scaling capabilities immensely, with it getting to 100 pods, give or take. As mentioned before, our system could be tested with a bigger load, but unfortunately we were limited by the quotas. 
 
 \section{Cost analysis}
 \label{sec:cost}
@@ -562,5 +563,15 @@ João Afonso fc51111 \\
   \centering
   \includegraphics[width=\textwidth]{ tests/locust.png }
   \caption{Stress testing with 800 users, requests and count of each}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{ tests/6800-1.png }
+  \caption{Stress testing with 6800 users. Idle CPU and system load plots}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{ tests/6800-stable1.png }
+  \caption{Stress testing with 6800 users after the system stabilized. Idle CPU and system load plots}
 \end{figure}
 \end{document}
