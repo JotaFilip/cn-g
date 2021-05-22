@@ -12,9 +12,9 @@ tags:
   description: Special request that user Spark
 - name: user
   description: Operations about user
+host: recommendations.sytes.net
 schemes:
 - https
-- http
 paths:
   /lib/{page}:
     get:
