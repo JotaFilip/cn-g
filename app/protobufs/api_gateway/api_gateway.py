@@ -35,16 +35,16 @@ from six.moves.urllib.parse import urlencode
 from flask_swagger_ui import get_swaggerui_blueprint
 #from OpenSSL import SSL
 #Create the application instance
-# options = {
-#     "swagger_ui_config" : {
-#         "oauth2RedirectUrl": "recommendations.sytes.net:8443/lib",
-#
-#
-#
-#     }
-# }
-# , options = options
-app = connexion.App(__name__, specification_dir="./")
+options = {
+    "swagger_ui_config" : {
+        "oauth2RedirectUrl": "https://recommendations.sytes.net:443/ui/oauth2-redirect.html",
+
+
+
+    }
+}
+
+app = connexion.App(__name__, specification_dir="./" , options = options)
 #app = Flask(__name__)
 SWAGGER_URL='/ui'
 swagger_path= "seen.yaml"
@@ -55,7 +55,7 @@ swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
     swagger_path,
     config={'spec': swagger_yml,
- #           'oauth2RedirectUrl' : "http://localhost:8443/callback"},
+           'oauth2RedirectUrl' : "https://recommendations.sytes.net:443/ui/oauth2-redirect.html"
     },
     # config={  # Swagger UI config overrides
     #     'app_name': "Test application"
