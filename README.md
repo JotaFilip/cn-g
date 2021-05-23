@@ -17,17 +17,19 @@ with around 7 million rows of data.
 ### Week 5
 #### Deploy
 `./create_cluster.sh` \
-`./install_istio.sh`
+`./install_istio.sh` \
+`./deploy.sh` (or git push into deploy branch)
 ### Use
-Access → [recommendations.sytes.net](recommendations.sytes.net)
+Access → [recommendations.sytes.net]
 
 -----------------------------------------------------
 ### Week 7
 #### Deploy
 `./create_cluster.sh` \
-`./install_istio.sh`
+`./install_istio.sh` \
+`./deploy.sh` (or git push into deploy branch)
 ### Use
-Access → [recommendations.sytes.net](recommendations.sytes.net)
+Access → [recommendations.sytes.net]
 
 -----------------------------------------------------
 # Roles
