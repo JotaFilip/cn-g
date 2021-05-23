@@ -1,7 +1,7 @@
 # GROUP NUMBER 14
 
 # Running
-## Delivery3
+## Week 3
 Install docker and run the script:
 `./scripts/run.sh`
 ##Delivery4
@@ -9,6 +9,12 @@ Follow instructions on DeployOnGoogleCloudReadme.md
 
 Notes:
 - Our databases are already populated, with something like 7 million rows of data
+
+## Week 5
+
+
+## Week 7
+
 
 # Roles
 #Role | Role                                | Número  | Nome            
