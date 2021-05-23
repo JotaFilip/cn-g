@@ -1,20 +1,29 @@
 # GROUP NUMBER 14
 
-# Running
-## Week 3
+## Running
+### Week 3
 Install docker and run the script:
 `./scripts/run.sh`
-##Delivery4
+
+### Week 4
 Follow instructions on DeployOnGoogleCloudReadme.md
 
 Notes:
 - Our databases are already populated, with something like 7 million rows of data
 
-## Week 5
+### Week 5
+#### Deploy
+`./create_cluster.sh`
+`./install_istio.sh`
+### Use
+Access → [recommendations.sytes.net]
 
-
-## Week 7
-
+### Week 7
+#### Deploy
+`./create_cluster.sh`
+`./install_istio.sh`
+### Use
+Access → [recommendations.sytes.net]
 
 # Roles
 #Role | Role                                | Número  | Nome            
