@@ -19,7 +19,7 @@ with around 7 million rows of data.
 `./create_cluster.sh` \
 `./install_istio.sh`
 ### Use
-Access → [recommendations.sytes.net]
+Access → [recommendations.sytes.net](recommendations.sytes.net)
 
 -----------------------------------------------------
 ### Week 7
@@ -27,7 +27,7 @@ Access → [recommendations.sytes.net]
 `./create_cluster.sh` \
 `./install_istio.sh`
 ### Use
-Access → [recommendations.sytes.net]
+Access → [recommendations.sytes.net](recommendations.sytes.net)
 
 -----------------------------------------------------
 # Roles
