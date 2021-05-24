@@ -1,3 +1,6 @@
+### Presentation
+Google Slides [here](https://docs.google.com/presentation/d/1EbC3O73fRpYhOm5gKsswSCS0yODkFIJTt-pscFzlILY/edit?usp=sharing)
+
 ### Roles
 
 | nº | Nome            | Paper                                                                                |
