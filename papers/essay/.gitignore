@@ -3,5 +3,6 @@
 !/.gitignore
 !/*.tex
 !/*.pdf
+!/*.bib
 !/images*
 !/images/*
