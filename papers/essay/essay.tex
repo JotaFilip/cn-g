@@ -70,22 +70,22 @@ João Afonso       \\
 \begin{abstract}
   \fpar Cloud Storage is a really complex field, and systems implementing it are growing, both in terms of complexity and scalability. Providing faster service to more and more users. 
   \par But everything comes at a cost, and cloud storage systems cannot have everything we wish for, like Consistency, Availability and Partition Tolerance, that is called CAP Theorem, and we must pick a ratio of them. Thankfully there are already a lot of different models and methods to attenuate this problem.
-  \par TODO
+  \par Another issue with Cloud Storage is that the current available solutions, even though they allow developers to make cost-performance trade-offs, they do not handle dynamic workloads very well. Luckily, improvements to these systems are being developed, and, as we will see, it is possible to have Cloud Storage systems that can auto-scale and adapt to the dynamics of workloads, while managing to keep costs as low as possible.
 \end{abstract}
 
 % Chapter 1 - João Roque
 \chapter{\Large{A brief survey on replica consistency in cloud environments \cite{paper1}}}
 \vspace{-2em}
   \section{State of the art}
-  \fpar Databases are, very usually, the core of a cloud service, either for enterprises or actual costumers. With increasing importance it's expected to perform for its users.
-  \par A database is expected to be Consistent, where the latest read expects the most recent write; Available, where every read should receive a valid response (instead of an error); and Partition tolerant, meaning it's expected that the system keeps working even if hardware fails.
-  \par And this can be possible on a single database, even assuring the ACID properties, however, on a cloud database there's synchronization that needs to take place to achieve consistency, and everything comes at a cost, and that's what the CAP theorem states: It is impossible for a distributed data storage to, simultaneously, provide more than two of those three properties (CAP).
-  \par Cloud services try to maintain the balance between these 3 properties. If it is important to have consistency, maybe decreasing the response time, availability, helps with that, spreading changes to other partitions, or maybe the partitions are not the most important aspect, and then its amount is reduced, meaning there are fewer partitions to update and synchronize, increasing once again the availability.
+  \fpar Databases are, very usually, the core of a cloud service, either for enterprises or actual costumers. With increasing importance it's expected to perform well for its users.
+  \par A database is expected to be Consistent, where the latest read expects the most recent write; Available, where every read should receive a valid response (instead of an error); and Partition tolerant, meaning it's expected that the system keeps working even if hardware fails.d
+  \par And this can be possible on a single database, even assuring the ACID properties, however, on a cloud database there's synchronization that needs to take place to achieve consistency, and everything comes at a cost, and that's what the CAP theorem states: It is impossible for a distributed data storage to, simultaneously, provide more than two of those three properties (the C.A.P. properties).
+  \par Cloud services try to maintain the balance between these 3 properties. If it is important to have consistency, maybe decreasing the response time, or availability, helps with that, to spread changes to other partitions. Or maybe the partitions are not the most important aspect, and then its amount is reduced, meaning there are fewer partitions to update and synchronize, increasing once again the availability.
   \par There are many example of usage, and there's always a sacrifice in either one of the three properties to improve on the others, as we will show in this chapter.
 
   \section{Consistency}
     \subsection{Data/Client-centric consistency models}
-    \fpar Between the data center and the clients there's already a choice to be made, if the client should be a part of keeping the data consistent, or not.
+    \fpar Between the data center and the clients there's already a choice to be made: should the client be a part of keeping the data consistent?
     \par Each option, obviously, has its own pros and cons. For the Data-centric these are the general options, in order of consistency provided:
     \begin{itemize}[noitemsep]
       \item \textbf{Week} - There is no “supervision”, the first item found is returned.
@@ -143,19 +143,19 @@ João Afonso       \\
   \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/paper2/architecture.png}}
     \caption{Anna architecture.}
-    \label{fig}
+    \label{Anna architecture.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/paper2/storage_kernel.png}}
     \caption{The architecture of storage kernel.}
-    \label{fig}
+    \label{The architecture of storage kernel.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/paper2/monitoring_node.png}}
     \caption{The architecture of a monitoring node.}
-    \label{fig}
+    \label{The architecture of a monitoring node.}
   \end{figure}
 
   \fpar Anna has two storage tiers: one that is fast but expensive, providing RAM cost-performance, and another that is slow but cheap, providing flash disk cost-performance.
@@ -173,7 +173,7 @@ João Afonso       \\
   \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/paper2/API.png}}
     \caption{Anna API.}
-    \label{fig}
+    \label{Anna API.}
   \end{figure}
 
   \fpar GetAll allows users to observe the most up-to-date state of a key. Put relies on asynchronous gossip for the update to propagate to other replicas. If the node crashes before gossiping, the update will be lost.
@@ -185,19 +185,24 @@ João Afonso       \\
 \chapter{\Large{Threats and security issues in cloud storage and content delivery networks: Analysis \cite{paper3}}}
 \vspace{-2em}
 \fpar TODO
-In this paper is adressed the security threaths to Cloud Storage and one of it´s uses as Content Delivery Network. A Content Delivery Network caches a copy of a resource in near user replicas having in mind demand.
+In this paper is addressed the security threats to Cloud Storage and one of its uses as Content Delivery Network. A Content Delivery Network caches a copy of a resource in near user replicas having in mind demand.
 \section{Issues and challenges of CS and CDN}
 \fpar As cloud storage threaths we have: Data breaches due to Misusing of Intentity and Management systems. Misconfiguration of Control. Lack of Cloud Security Architecture. Lack of Cloud Security Architecture and Strategy. Insufficient Identity, Credential, Access and Key management to access resources. Account Hijacking. Insider Threat, from current or past employees. Insecure API's. Weak Control Plane in wich security configuration is unknown. Metastructure and Applistructure Failures that lead to security flaws. Not knowing the normal pattern of utilization of Organization CLoud Services. Illicit use by users of cloud resources.
 \section{Threath model of CS used as CDN}
 \fpar
-\begin{figure}
-    \centering{
-    \includegraphics[scale=0.25]{./images/paper3/3_table.png}}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{paper3/3_table.png}
     \caption{Matrix of common content delivery network threats in cloud storage used as content delivery network}
-    \label{fig:2}
+    \label{fig:table}
 \end{figure}
-
-\section{Threath model of CS used as CDN}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{paper3/threats.png}
+  \caption{TODO}
+  \label{fig:TODO}
+\end{figure}
+\section{Threat model of CS used as CDN}
 
 
 % Chapter 4 -Tiago Carvalho
