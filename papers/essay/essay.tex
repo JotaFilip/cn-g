@@ -103,7 +103,15 @@ João Afonso       \\
 
 % Chapter 4 -Tiago Carvalho
 \chapter{Data auditing in cloud storage using Smart Contract \cite{paper4}}
-\fpar TODO
+\fpar With any distributed storage system, such as cloud storage, there are many issues that one needs to be aware of: consistency, fault tolerance and integrity, to name a few. This paper focus especially on the integrity problem. Despite cloud storage systems using the usual mechanisms to avoid data corruption, like RAIDs and ECCs, there are still problems that arise, and usually it is needed to resort to a Third Party Auditor (TPA). This TPA is responsible to check for the integrity of the data to reassure that nothing has been corrupted. While this works, there are privacy, security and confidentiality concerns when using a TPA since they have access to all the data and things can be compromised. To address this problem, the authors propose the usage of smart contracts to perform this data auditing.
+\section{Smart Contracts in Data Auditing}
+To put it simply, a smart contract is a piece of code that is deployed on a blockchain for the participating nodes to execute in exchange for gas. Since a blockchain is a fully decentralised system, it avoids entirely the chance of a third party tampering with the data, since the blockchain technology on itself is specialised with dealing with this kind of problems.
+\subsection{Proposed System}
+To implement it, the researchers proposed an architecture which is comprised of three elements: the Cloud Service Provider (CSP), the Data Owner and a blockchain. The blockchain used was Ethereum-based since it is the more popular blockchain to support smart contracts. In this architecture, the user sends the data encrypted to the CSP, hashing it beforehand. This hash is then used in the creation of the smart contract, by the user. The smart contract includes information about the data such as the name of the files, hashes, size and details of the data owner, along with the data itself. This smart contract is then deployed on the blockchain to perform the data auditing periodically. One thing worth noting is that the researchers used an optimised blockchain for data auditing, the DAB (Data Auditing Blockchain), designed for this sole purpose.
+\subsection{Performance Analysis}
+After the system was designed and implemented, the authors did an evaluation on its performance, with very positive results. They stated that the system provided reliable and confidential auditing, without requiring any effort from the CSP or user after the smart contract is deployed. The gas costs increased in a linear fashion depending on the number of blocks which is positive.
+\section{Conclusion}
+In this paper, the researchers presented the problem of data auditing in cloud storage systems and gave a valid solution to it, the usage of smart contracts for data auditing. Its implementation is relatively simple, while having very good results, which is definitely a step in the right direction and could see further developments in the future. While the results achieved by the researchers were good, there are probably optimizations that can be done when developing the system for a real world use.
 
 % Chapter 5 - João Afonso
 \chapter{Key challenges and research direction in cloud storage \cite{paper5}}
