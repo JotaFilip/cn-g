@@ -20,8 +20,16 @@
 % links
 \usepackage{hyperref}
 
+% Bibliography now called References and smaller
+\renewcommand\bibname{\LARGE References}
+
 % items spacing
 \usepackage{enumitem}
+
+% chapter spacing
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@makechapterhead}{\vspace*{50\p@}}{}{}{}
 
 % for shorter paragraph spaces
 \setlength{\parindent}{1ex}
@@ -37,7 +45,7 @@ Tiago Carvalho    \\
 \texttt{fc51034}  \and
 Diogo Lopes       \\
 \texttt{fc51058}  \and
-Miguel Saldanha F  \\
+Miguel Saldanha   \\ 
 \texttt{fc51072}  \and
 João Roque        \\ 
 \texttt{fc51080}  \and
@@ -67,10 +75,11 @@ João Afonso       \\
 
 % Chapter 1 - João Roque
 \chapter{\Large{A brief survey on replica consistency in cloud environments \cite{paper1}}}
+\vspace{-2em}
   \section{State of the art}
   \fpar Databases are, very usually, the core of a cloud service, either for enterprises or actual costumers. With increasing importance it's expected to perform for its users.
-  \par A database is expected to be Consistent, where the latest read expects the most recent write; Available, where every read should receive a valid response (instead of an error); and Partition tolerant, meaning it's expected that the system keeps working even if something fails, like a database node, network problems, etc...
-  \par And this can be possible on a single database, even assuring the ACID properties, however, on a cloud database there's synchronization that needs to take place to achieve consistency, and everything comes at a cost, and that's what the CAP theorem states: It is impossible for a distributed data storage to, simultaneously, provide more than two of the three properties stated before (Consistency, Availability, and Partition Tolerance).
+  \par A database is expected to be Consistent, where the latest read expects the most recent write; Available, where every read should receive a valid response (instead of an error); and Partition tolerant, meaning it's expected that the system keeps working even if hardware fails.
+  \par And this can be possible on a single database, even assuring the ACID properties, however, on a cloud database there's synchronization that needs to take place to achieve consistency, and everything comes at a cost, and that's what the CAP theorem states: It is impossible for a distributed data storage to, simultaneously, provide more than two of those three properties (CAP).
   \par Cloud services try to maintain the balance between these 3 properties. If it is important to have consistency, maybe decreasing the response time, availability, helps with that, spreading changes to other partitions, or maybe the partitions are not the most important aspect, and then its amount is reduced, meaning there are fewer partitions to update and synchronize, increasing once again the availability.
   \par There are many example of usage, and there's always a sacrifice in either one of the three properties to improve on the others, as we will show in this chapter.
 
@@ -96,17 +105,19 @@ João Afonso       \\
 
     \subsection{Replica consistency methods}
     \fpar As stated a cloud database can have many partitions, and if we are replicating the data it needs to be identical, so any access doesn't get wrong results. These are the methods that are usually applied:
-      \subsubsection{Fixed consistency methods}
+      \subsubsection{Fixed consistency methods:}
       \begin{itemize}[noitemsep]
         \item \textbf{Event sequencing-based}, simple method that hides replication complexity, focusing on availability.
         \item \textbf{Clock-based strict}, relies on timestamps and avoids concurrent accesses.
       \end{itemize} 
-      \subsubsection{Configurable consistency methods}
+      \vspace{-2em}
+      \subsubsection{Configurable consistency methods:}
       \begin{itemize}[noitemsep]
         \item \textbf{Automated and self-adaptive}, enforces multiple levels of consistency over distinct data.
         \item \textbf{Flexible}, can have distinct approaches that dynamically change their consistency ratio.
       \end{itemize} 
-      \subsubsection{Consistency monitoring methods}
+      \vspace{-2em}
+      \subsubsection{Consistency monitoring methods:}
       \begin{itemize}[noitemsep]
         \item \textbf{Consistency verification}, to verify and detect possible protocol or contract violations by the cloud service.
         \item \textbf{Consistency auditing}, a large data cloud and multiple small audit clouds with groups of users that cooperate on a specific job. They share a service-level agreement and the audit cloud verifies if it's violated.
@@ -114,6 +125,7 @@ João Afonso       \\
 
 % Chapter 2 -Diogo Lopes
 \chapter{\Large{Autoscaling tiered cloud storage in Anna \cite{paper2}}}
+\vspace{-2em}
   \section{Motivation}
   \fpar A wide variety of cloud-storage systems is available nowadays, and developers can select the one that better suits their application’s needs, making cost-performance trade-offs. However, these systems are not very dynamic, which is not ideal when most applications deal with a non-uniform distribution of performance requirements.
 
@@ -171,6 +183,8 @@ João Afonso       \\
 
 % Chapter 3 - Miguel Saldanha
 \chapter{\Large{Threats and security issues in cloud storage and content delivery networks: Analysis \cite{paper3}}}
+\vspace{-2em}
+\fpar TODO
 In this paper is adressed the security threaths to Cloud Storage and one of it´s uses as Content Delivery Network.
 \section{Issues and challenges of CS and CDN}
 \fpar
@@ -185,8 +199,10 @@ In this paper is adressed the security threaths to Cloud Storage and one of it´
 
 \section{Threath model of CS used as CDN}
 
+
 % Chapter 4 -Tiago Carvalho
 \chapter{\Large{Data auditing in cloud storage using Smart Contract \cite{paper4}}}
+\vspace{-2em}
 \fpar With any distributed storage system, such as cloud storage, there are many issues that one needs to be aware of: consistency, fault tolerance and integrity, to name a few. This paper focus especially on the integrity problem. Despite cloud storage systems using the usual mechanisms to avoid data corruption, like RAIDs and ECCs, there are still problems that arise, and usually it is needed to resort to a Third Party Auditor (TPA). This TPA is responsible to check for the integrity of the data to reassure that nothing has been corrupted. While this works, there are privacy, security and confidentiality concerns when using a TPA since they have access to all the data and things can be compromised. To address this problem, the authors propose the usage of smart contracts to perform this data auditing.
 \section{Smart Contracts in Data Auditing}
 To put it simply, a smart contract is a piece of code that is deployed on a blockchain for the participating nodes to execute in exchange for gas. Since a blockchain is a fully decentralized system, it avoids entirely the chance of a third party tampering with the data, since the blockchain technology on itself is specialized with dealing with this kind of problems.
@@ -199,6 +215,7 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 % Chapter 5 - João Afonso
 \chapter{\Large{Key challenges and research direction in cloud storage \cite{paper5}}}
+\vspace{-2em}
 \fpar This paper provides a general overview of the issues, challenges and future trends associated with cloud storage and compares the approaches that are being taken by researchers to deal with these problems.
 
 \section{Issues in cloud storage}
