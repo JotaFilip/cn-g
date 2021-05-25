@@ -168,9 +168,9 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 \item \textbf{Data management:} The management of data stored across multiple geo-distributed data centers is associated with certain challenges: scalability, parallelism, recovery, consistency in replication, reliability, and cost.
 
-\item \textbf{Data partitioning:} Partitioning is meant to improve scalability, optimizes performance, and reduce contention. This process refers to decomposing a table row-wise (horizontally) or column-wise (vertically). If fragmented data is distributed throughout all servers to take server capacity into account, then it is possible to achieve load balancing.
+\item \textbf{Data partitioning:} Partitioning is meant to improve scalability, optimizes performance, and reduce contention. There are two major types of partitioning techniques: horizontal and vertical partitioning. If fragmented data is distributed throughout all servers to take server capacity into account, then it is possible to achieve load balancing.
 
-\item \textbf{Data replacement:} Has an important role in terms of performance in the cloud environment. Some main issues include: Geographically Distant Data Sharing, Client Mobility, Data Inter-dependencies.
+\item \textbf{Data placement:} Has an important role in terms of performance in the cloud environment. Some main issues include: Geographically Distant Data Sharing, Client Mobility, Data Inter-dependencies.
 
 \item \textbf{Availability through replication:} Process of sharing information to provide availability, reliability, fault-tolerance and accessibility and reduce response time / energy and bandwidth consumption. Data resources can be replicated closer to the application to reduce network latency. Challenges of replication: Data selection, Consistency in replicated data, sophisticated management, load balancing and recovery. Researchers have proposed solutions to minimize the replication cost and maximize the expected availability of objects.
 
@@ -180,7 +180,7 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 \section{Open research challenges and future trends}
 
-\begin{itemize}
+\begin{itemize}[noitemsep]
 
 \item \textbf{Multicloud:} Prevents downtime, facilitates replication and fragmentation and improves security and costs. This approach adds complexity to application management (increased effort needed).
 
