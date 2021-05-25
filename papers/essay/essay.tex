@@ -77,25 +77,25 @@ João Afonso       \\
     \fpar Between the data center and the clients there's already a choice to be made, if the client should be a part of keeping the data consistent, or not.
     \par Each option, obviously, has its own pros and cons. For the Data-centric these are the general options, in order of consistency provided:
     \begin{itemize}[noitemsep]
-      \item Week - There is no “supervision”, the first item found is returned.
-      \item FIFO - There are no guarantees besides writes from the same process being synchronized, using a First In First Out approach.
-      \item Causal - Consistency is only guaranteed between requests with a causal dependency.
-      \item Sequential - All operations are serialized in the same order in all partitions, and every operation keeps its internal order.
-      \item Strict - For each received write it needs to be instantaneously spread to other partitions to be updated.
+      \item \textbf{Week} - There is no “supervision”, the first item found is returned.
+      \item \textbf{FIFO} - There are no guarantees besides writes from the same process being synchronized, using a First In First Out approach.
+      \item \textbf{Causal} - Consistency is only guaranteed between requests with a causal dependency.
+      \item \textbf{Sequential} - All operations are serialized in the same order in all partitions, and every operation keeps its internal order.
+      \item \textbf{Strict} - For each received write it needs to be instantaneously spread to other partitions to be updated.
     \end{itemize}
     \par And then for the Client aspect:
     \begin{itemize}[noitemsep]
-      \item Eventual - All updates will eventually propagate far enough that every partition gets updated.
-      \item Monotonic read - Guarantees that for each read the result will never be older than the same reads before.
-      \item Monotonic write - Different writes from the same client are always processed in the same order.
-      \item Read-your-writes - Guarantees, for the same Client, that for each write the next read will never return an older result than that write.
-      \item Writes-follow-reads - For the same Client, each write after a read, guarantees that will be executed on the same or more recent value of the previous read.
+      \item \textbf{Eventual} - All updates will eventually propagate far enough that every partition gets updated.
+      \item \textbf{Monotonic read} - Guarantees that for each read the result will never be older than the same reads before.
+      \item \textbf{Monotonic write} - Different writes from the same client are always processed in the same order.
+      \item \textbf{Read-your-writes} - Guarantees, for the same Client, that for each write the next read will never return an older result than that write.
+      \item \textbf{Writes-follow-reads} - For the same Client, each write after a read, guarantees that will be executed on the same or more recent value of the previous read.
     \end{itemize}
 
     \section{Replica consistency methods}
     \fpar As stated a cloud database can have many partitions, and if we are replicating the data it needs to be identical, so any access doesn't get wrong results. These are the methods that are usually applied:
       \subsection{Fixed consistency methods}
-      \fpar 
+      \fpar TODO
       \subsection{Configurable consistency methods}
       \subsection{Consistency monitoring methods}
 
@@ -186,6 +186,8 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 \end{itemize}
 
+\section{Conclusion}
+\fpar Cloud storage still presents many problems that have yet to be solved. As such, researchers have been taking into consideration factors like: optimizing monetary cost, reducing network latency, optimal storage, increasing performance or optimal resource utilization (among others). It is also important to take into consideration that the way in which these problems are addressed will depend on the characteristics of the application in question.
 
 \bibliographystyle{unsrt}
 \bibliography{essay}
