@@ -60,7 +60,9 @@ João Afonso       \\
 \maketitle
 
 \begin{abstract}
-  TODO abstract
+  \fpar Cloud Storage is a really complex field, and systems implementing it are growing, both in terms of complexity and scalability. Providing faster service to more and more users. 
+  \par But everything comes at a cost, and cloud storage systems cannot have everything we wish for, like Consistency, Availability and Partition Tolerance, that is called CAP Theorem, and we must pick a ratio of them. Thankfully there are already a lot of different models and methods to attenuate this problem.
+  \par TODO
 \end{abstract}
 
 % Chapter 1 - João Roque
@@ -87,9 +89,9 @@ João Afonso       \\
     \begin{itemize}[noitemsep]
       \item \textbf{Eventual} - All updates will eventually propagate far enough that every partition gets updated.
       \item \textbf{Monotonic read} - Guarantees that for each read the result will never be older than the same reads before.
-      \item \textbf{Monotonic write} - Different writes from the same client are always processed in the same order.
-      \item \textbf{Read-your-writes} - Guarantees, for the same Client, that for each write the next read will never return an older result than that write.
-      \item \textbf{Writes-follow-reads} - For the same Client, each write after a read, guarantees that will be executed on the same or more recent value of the previous read.
+      \item \textbf{Monotonic write} - Different writes from the same request are always processed in the same order.
+      \item \textbf{Read-your-writes} - Guarantees, for the same request, that for each write the next read will never return an older result than that write.
+      \item \textbf{Writes-follow-reads} - For the same request, each write after a read, guarantees that will be executed on the same or more recent value of the previous read.
     \end{itemize}
 
     \subsection{Replica consistency methods}
