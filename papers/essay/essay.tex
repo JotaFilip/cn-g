@@ -60,7 +60,9 @@ João Afonso       \\
 \maketitle
 
 \begin{abstract}
-  TODO abstract
+  \fpar Cloud Storage is a really complex field, and systems implementing it are growing, both in terms of complexity and scalability. Providing faster service to more and more users. 
+  \par But everything comes at a cost, and cloud storage systems cannot have everything we wish for, like Consistency, Availability and Partition Tolerance, that is called CAP Theorem, and we must pick a ratio of them. Thankfully there are already a lot of different models and methods to attenuate this problem.
+  \par TODO
 \end{abstract}
 
 % Chapter 1 - João Roque
@@ -80,27 +82,35 @@ João Afonso       \\
       \item \textbf{Week} - There is no “supervision”, the first item found is returned.
       \item \textbf{FIFO} - There are no guarantees besides writes from the same process being synchronized, using a First In First Out approach.
       \item \textbf{Causal} - Consistency is only guaranteed between requests with a causal dependency.
-      \item \textbf{Sequential} - All operations are serialized in the same order in all partitions, and every operation keeps its internal order.
+      \item \textbf{Sequential} - All operations are serialized in the same order in all partitions, and every operation keeps its received internal order.
       \item \textbf{Strict} - For each received write it needs to be instantaneously spread to other partitions to be updated.
     \end{itemize}
     \par And then for the Client aspect:
     \begin{itemize}[noitemsep]
       \item \textbf{Eventual} - All updates will eventually propagate far enough that every partition gets updated.
       \item \textbf{Monotonic read} - Guarantees that for each read the result will never be older than the same reads before.
-      \item \textbf{Monotonic write} - Different writes from the same client are always processed in the same order.
-      \item \textbf{Read-your-writes} - Guarantees, for the same Client, that for each write the next read will never return an older result than that write.
-      \item \textbf{Writes-follow-reads} - For the same Client, each write after a read, guarantees that will be executed on the same or more recent value of the previous read.
+      \item \textbf{Monotonic write} - Different writes from the same request are always processed in the same order.
+      \item \textbf{Read-your-writes} - Guarantees, for the same request, that for each write the next read will never return an older result than that write.
+      \item \textbf{Writes-follow-reads} - For the same request, each write after a read, guarantees that will be executed on the same or more recent value of the previous read.
     \end{itemize}
 
-    \section{Replica consistency methods}
+    \subsection{Replica consistency methods}
     \fpar As stated a cloud database can have many partitions, and if we are replicating the data it needs to be identical, so any access doesn't get wrong results. These are the methods that are usually applied:
-      \subsection{Fixed consistency methods}
-      \fpar TODO
-      \subsection{Configurable consistency methods}
-      \subsection{Consistency monitoring methods}
-
-  \section{TODO}
-  \fpar TODO
+      \subsubsection{Fixed consistency methods}
+      \begin{itemize}[noitemsep]
+        \item \textbf{Event sequencing-based}, simple method that hides replication complexity, focusing on availability.
+        \item \textbf{Clock-based strict}, relies on timestamps and avoids concurrent accesses.
+      \end{itemize} 
+      \subsubsection{Configurable consistency methods}
+      \begin{itemize}[noitemsep]
+        \item \textbf{Automated and self-adaptive}, enforces multiple levels of consistency over distinct data.
+        \item \textbf{Flexible}, can have distinct approaches that dynamically change their consistency ratio.
+      \end{itemize} 
+      \subsubsection{Consistency monitoring methods}
+      \begin{itemize}[noitemsep]
+        \item \textbf{Consistency verification}, to verify and detect possible protocol or contract violations by the cloud service.
+        \item \textbf{Consistency auditing}, a large data cloud and multiple small audit clouds with groups of users that cooperate on a specific job. They share a service-level agreement and the audit cloud verifies if it's violated.
+      \end{itemize} 
 
 % Chapter 2 -Diogo Lopes
 \chapter{\Large{Autoscaling tiered cloud storage in Anna \cite{paper2}}}
@@ -117,8 +127,26 @@ João Afonso       \\
   \end{itemize}
 
   \section{Anna Architecture}
-  \fpar TODO INSERIR IMAGENS
-  \par Anna has two storage tiers: one that is fast but expensive, providing RAM cost-performance, and another that is slow but cheap, providing flash disk cost-performance.
+  
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/paper2/architecture.png}}
+    \caption{Anna architecture.}
+    \label{fig}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/paper2/storage_kernel.png}}
+    \caption{The architecture of storage kernel.}
+    \label{fig}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/paper2/monitoring_node.png}}
+    \caption{The architecture of a monitoring node.}
+    \label{fig}
+  \end{figure}
+
+  \fpar Anna has two storage tiers: one that is fast but expensive, providing RAM cost-performance, and another that is slow but cheap, providing flash disk cost-performance.
   \par The \textbf{monitoring system} and \textbf{policy engine} are responsible for adjusting the system to the workloads’ dynamics and meet the SLOs. The \textbf{cluster management system} modifies resource allocation based on the decision of the policy engine (with Kubernetes). \textbf{Routing service} is an API that abstracts the internal dynamics of the system.
   \par Each \textbf{storage kernel} contains multiple threads that interact with a thread-local storage medium (memory-buffer or disk volume, depending on the tier) and process requests from clients.
   \par Shared-memory coordination and consensus algorithms decrease performance and cause latency and availability issues. Therefore, Anna is coordination-free. Periodically, threads multicast (gossip) updates to others that have replicas of their keys. Conflicts are resolved asynchronously. As a result, Anna exploits multi-core parallelism within a single machine and smoothly scales out across distributed nodes.
@@ -129,8 +157,14 @@ João Afonso       \\
   \fpar Anna supports three kinds of SLOs: an \textbf{average request latency} (ms), a \textbf{cost budget} (dollars/h), and a \textbf{fault tolerance} (number of replicas that are allowed to fail). If the average storage consumption in a tier has violated configurable upper/lower thresholds, nodes are added/removed. Then data is promoted or demoted across tiers. Next, if the latency exceeds a certain fraction of the latency SLO and memory tier’s compute consumption exceeds a threshold, nodes are added to the memory tier. However, if not all nodes are occupied, hot keys are replicated in the memory tier. Finally, if the observed latency is a certain fraction below the SLO and the compute occupancy is below a threshold, the system checks if it can remove nodes to save cost.
 
   \section{Anna API}
-  \fpar TODO INSERIR IMAGEM
-  \par GetAll allows users to observe the most up-to-date state of a key. Put relies on asynchronous gossip for the update to propagate to other replicas. If the node crashes before gossiping, the update will be lost.
+  
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/paper2/API.png}}
+    \caption{Anna API.}
+    \label{fig}
+  \end{figure}
+
+  \fpar GetAll allows users to observe the most up-to-date state of a key. Put relies on asynchronous gossip for the update to propagate to other replicas. If the node crashes before gossiping, the update will be lost.
 
   \section{Conclusion}
   \fpar Integrating the mechanisms described, Anna becomes an efficient, autoscaling system representing a new design point for cloud storage. In many cases, Anna is orders of magnitude more cost-effective than popular cloud storage services and prior research systems. Throughput increases linearly with cost, meaning that it can get better performance out of the same cost when compared to available cloud storage solutions. Also, the system is able to adapt to dynamic workloads while not violating the SLOs most of the time. Finally, the system is able to recover from node crashes, while not hurting performance too much, since it does not pause, providing high availability to the users.
@@ -152,7 +186,7 @@ João Afonso       \\
 \section{Smart Contracts in Data Auditing}
 To put it simply, a smart contract is a piece of code that is deployed on a blockchain for the participating nodes to execute in exchange for gas. Since a blockchain is a fully decentralized system, it avoids entirely the chance of a third party tampering with the data, since the blockchain technology on itself is specialized with dealing with this kind of problems.
 \subsection{Proposed System}
-To implement it, the researchers proposed an architecture which comprises three elements: the Cloud Service Provider (CSP), the Data Owner and a blockchain. The blockchain used was Ethereum-based since it is the more popular blockchain to support smart contracts. In this architecture, the user sends the data encrypted to the CSP, hashing it beforehand. This hash is then used in the creation of the smart contract, by the user. The smart contract includes information about the data such as the name of the files, hashes, size and details of the data owner, along with the data itself. This smart contract is then deployed on the blockchain to perform the data auditing periodically. One thing worth noting is that the researchers used an optimized blockchain for data auditing, the DAB (Data Auditing Blockchain), designed for this sole purpose.
+To implement it, the researchers proposed an architecture which comprises three elements: the Cloud Service Provider (CSP), the Data Owner and a blockchain. The blockchain used was Ethereum-based since it is the more popular blockchain to support smart contracts. In this architecture, the user sends the data encrypted to the CSP, hashing it beforehand. This hash is then used in the creation of the smart contract, by the user. The smart contract includes information about the data such as the name of the files, hashes, size and details of the data own, as well as other relevant info. This smart contract is then deployed on the blockchain to perform the data auditing periodically. One thing worth noting is that the researchers used an optimized blockchain for data auditing, the DAB (Data Auditing Blockchain), designed for this sole purpose.
 \subsection{Performance Analysis}
 After the system was designed and implemented, the authors did an evaluation on its performance, with very positive results. They stated that the system provided reliable and confidential auditing, without requiring any effort from the CSP or user after the smart contract is deployed. The gas costs increased in a linear fashion depending on the number of blocks which is positive.
 \section{Conclusion}
@@ -167,7 +201,7 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 \item \textbf{Data management:} The management of data stored across multiple geo-distributed data centers is associated with certain challenges: scalability, parallelism, recovery, consistency in replication, reliability, and cost.
 
-\item \textbf{Data partitioning:} Partitioning is meant to improve scalability, optimizes performance, and reduce contention. There are two major types of partitioning techniques: horizontal and vertical partitioning. If fragmented data is distributed throughout all servers to take server capacity into account, then it is possible to achieve load balancing.
+\item \textbf{Data partitioning:} Partitioning is meant to improve scalability, optimizes performance, and reduce contention. There are two major types of partitioning techniques: horizontal and vertical partitioning. If fragmented data is distributed throughout all servers to take server capacity into account, then it is possible to achieve load balancing. Partitioning is supposed to solve the following problems: speed and availability.
 
 \item \textbf{Data placement:} Has an important role in terms of performance in the cloud environment. Some main issues include: Geographically Distant Data Sharing, Client Mobility, Data Inter-dependencies.
 
@@ -191,6 +225,15 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 \item \textbf{IOT in cloud and Fog Computing:} Enables new opportunities: complex analysis, data mining and real-time processing. Fog computing is an alternative to cloud computing that aims to bring the cloud closer to where data is created and acted upon.
 
+
+\end{itemize}
+
+\fpar To solve these challenges it is necessary to solve the following issues:
+\begin{itemize}[noitemsep]
+\item \textbf{Fragmentation:} Reducing data migration by providing workload aware dynamic fragmentation techniques.
+\item \textbf{Data placement:} Providing a proper data placement strategy by considering factors like prediction of resource consumption and data locality.
+\item \textbf{Data management:} Design of data management strategy with consideration of buffer management and memory cost.
+\item \textbf{Replication:} Design an efficient and dynamic data replication strategy with consistency and fragmentation strategy. Designing an efficient data replication and consistent management strategy in geo distributed cloud by considering data pattern and network load factors.
 \end{itemize}
 
 \section{Conclusion}
