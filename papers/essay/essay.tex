@@ -80,7 +80,7 @@ João Afonso       \\
       \item \textbf{Week} - There is no “supervision”, the first item found is returned.
       \item \textbf{FIFO} - There are no guarantees besides writes from the same process being synchronized, using a First In First Out approach.
       \item \textbf{Causal} - Consistency is only guaranteed between requests with a causal dependency.
-      \item \textbf{Sequential} - All operations are serialized in the same order in all partitions, and every operation keeps its internal order.
+      \item \textbf{Sequential} - All operations are serialized in the same order in all partitions, and every operation keeps its received internal order.
       \item \textbf{Strict} - For each received write it needs to be instantaneously spread to other partitions to be updated.
     \end{itemize}
     \par And then for the Client aspect:
@@ -92,15 +92,23 @@ João Afonso       \\
       \item \textbf{Writes-follow-reads} - For the same Client, each write after a read, guarantees that will be executed on the same or more recent value of the previous read.
     \end{itemize}
 
-    \section{Replica consistency methods}
+    \subsection{Replica consistency methods}
     \fpar As stated a cloud database can have many partitions, and if we are replicating the data it needs to be identical, so any access doesn't get wrong results. These are the methods that are usually applied:
-      \subsection{Fixed consistency methods}
-      \fpar TODO
-      \subsection{Configurable consistency methods}
-      \subsection{Consistency monitoring methods}
-
-  \section{TODO}
-  \fpar TODO
+      \subsubsection{Fixed consistency methods}
+      \begin{itemize}[noitemsep]
+        \item \textbf{Event sequencing-based}, simple method that hides replication complexity, focusing on availability.
+        \item \textbf{Clock-based strict}, relies on timestamps and avoids concurrent accesses.
+      \end{itemize} 
+      \subsubsection{Configurable consistency methods}
+      \begin{itemize}[noitemsep]
+        \item \textbf{Automated and self-adaptive}, enforces multiple levels of consistency over distinct data.
+        \item \textbf{Flexible}, can have distinct approaches that dynamically change their consistency ratio.
+      \end{itemize} 
+      \subsubsection{Consistency monitoring methods}
+      \begin{itemize}[noitemsep]
+        \item \textbf{Consistency verification}, to verify and detect possible protocol or contract violations by the cloud service.
+        \item \textbf{Consistency auditing}, a large data cloud and multiple small audit clouds with groups of users that cooperate on a specific job. They share a service-level agreement and the audit cloud verifies if it's violated.
+      \end{itemize} 
 
 % Chapter 2 -Diogo Lopes
 \chapter{\Large{Autoscaling tiered cloud storage in Anna \cite{paper2}}}
