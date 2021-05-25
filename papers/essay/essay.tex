@@ -127,8 +127,26 @@ João Afonso       \\
   \end{itemize}
 
   \section{Anna Architecture}
-  \fpar TODO INSERIR IMAGENS
-  \par Anna has two storage tiers: one that is fast but expensive, providing RAM cost-performance, and another that is slow but cheap, providing flash disk cost-performance.
+  
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/paper2/architecture.png}}
+    \caption{Anna architecture.}
+    \label{fig}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/paper2/storage_kernel.png}}
+    \caption{The architecture of storage kernel.}
+    \label{fig}
+  \end{figure}
+
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/paper2/monitoring_node.png}}
+    \caption{The architecture of a monitoring node.}
+    \label{fig}
+  \end{figure}
+
+  \fpar Anna has two storage tiers: one that is fast but expensive, providing RAM cost-performance, and another that is slow but cheap, providing flash disk cost-performance.
   \par The \textbf{monitoring system} and \textbf{policy engine} are responsible for adjusting the system to the workloads’ dynamics and meet the SLOs. The \textbf{cluster management system} modifies resource allocation based on the decision of the policy engine (with Kubernetes). \textbf{Routing service} is an API that abstracts the internal dynamics of the system.
   \par Each \textbf{storage kernel} contains multiple threads that interact with a thread-local storage medium (memory-buffer or disk volume, depending on the tier) and process requests from clients.
   \par Shared-memory coordination and consensus algorithms decrease performance and cause latency and availability issues. Therefore, Anna is coordination-free. Periodically, threads multicast (gossip) updates to others that have replicas of their keys. Conflicts are resolved asynchronously. As a result, Anna exploits multi-core parallelism within a single machine and smoothly scales out across distributed nodes.
@@ -139,8 +157,14 @@ João Afonso       \\
   \fpar Anna supports three kinds of SLOs: an \textbf{average request latency} (ms), a \textbf{cost budget} (dollars/h), and a \textbf{fault tolerance} (number of replicas that are allowed to fail). If the average storage consumption in a tier has violated configurable upper/lower thresholds, nodes are added/removed. Then data is promoted or demoted across tiers. Next, if the latency exceeds a certain fraction of the latency SLO and memory tier’s compute consumption exceeds a threshold, nodes are added to the memory tier. However, if not all nodes are occupied, hot keys are replicated in the memory tier. Finally, if the observed latency is a certain fraction below the SLO and the compute occupancy is below a threshold, the system checks if it can remove nodes to save cost.
 
   \section{Anna API}
-  \fpar TODO INSERIR IMAGEM
-  \par GetAll allows users to observe the most up-to-date state of a key. Put relies on asynchronous gossip for the update to propagate to other replicas. If the node crashes before gossiping, the update will be lost.
+  
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{images/paper2/API.png}}
+    \caption{Anna API.}
+    \label{fig}
+  \end{figure}
+
+  \fpar GetAll allows users to observe the most up-to-date state of a key. Put relies on asynchronous gossip for the update to propagate to other replicas. If the node crashes before gossiping, the update will be lost.
 
   \section{Conclusion}
   \fpar Integrating the mechanisms described, Anna becomes an efficient, autoscaling system representing a new design point for cloud storage. In many cases, Anna is orders of magnitude more cost-effective than popular cloud storage services and prior research systems. Throughput increases linearly with cost, meaning that it can get better performance out of the same cost when compared to available cloud storage solutions. Also, the system is able to adapt to dynamic workloads while not violating the SLOs most of the time. Finally, the system is able to recover from node crashes, while not hurting performance too much, since it does not pause, providing high availability to the users.
@@ -170,7 +194,7 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 \item \textbf{Data management:} The management of data stored across multiple geo-distributed data centers is associated with certain challenges: scalability, parallelism, recovery, consistency in replication, reliability, and cost.
 
-\item \textbf{Data partitioning:} Partitioning is meant to improve scalability, optimizes performance, and reduce contention. There are two major types of partitioning techniques: horizontal and vertical partitioning. If fragmented data is distributed throughout all servers to take server capacity into account, then it is possible to achieve load balancing.
+\item \textbf{Data partitioning:} Partitioning is meant to improve scalability, optimizes performance, and reduce contention. There are two major types of partitioning techniques: horizontal and vertical partitioning. If fragmented data is distributed throughout all servers to take server capacity into account, then it is possible to achieve load balancing. Partitioning is supposed to solve the following problems: speed and availability.
 
 \item \textbf{Data placement:} Has an important role in terms of performance in the cloud environment. Some main issues include: Geographically Distant Data Sharing, Client Mobility, Data Inter-dependencies.
 
@@ -194,6 +218,15 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 \item \textbf{IOT in cloud and Fog Computing:} Enables new opportunities: complex analysis, data mining and real-time processing. Fog computing is an alternative to cloud computing that aims to bring the cloud closer to where data is created and acted upon.
 
+
+\end{itemize}
+
+\fpar To solve these challenges it is necessary to solve the following issues:
+\begin{itemize}[noitemsep]
+\item \textbf{Fragmentation:} Reducing data migration by providing workload aware dynamic fragmentation techniques.
+\item \textbf{Data placement:} Providing a proper data placement strategy by considering factors like prediction of resource consumption and data locality.
+\item \textbf{Data management:} Design of data management strategy with consideration of buffer management and memory cost.
+\item \textbf{Replication:} Design an efficient and dynamic data replication strategy with consistency and fragmentation strategy. Designing an efficient data replication and consistent management strategy in geo distributed cloud by considering data pattern and network load factors.
 \end{itemize}
 
 \section{Conclusion}
