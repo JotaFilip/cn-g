@@ -70,7 +70,7 @@ João Afonso       \\
 \begin{abstract}
   \fpar Cloud Storage is a really complex field, and systems implementing it are growing, both in terms of complexity and scalability. Providing faster service to more and more users. 
   \par But everything comes at a cost, and cloud storage systems cannot have everything we wish for, like Consistency, Availability and Partition Tolerance, that is called CAP Theorem, and we must pick a ratio of them. Thankfully there are already a lot of different models and methods to attenuate this problem.
-  \par TODO
+  \par Another issue with Cloud Storage is that the current available solutions, even though they allow developers to make cost-performance trade-offs, they do not handle dynamic workloads very well. Luckily, improvements to these systems are being developed, and, as we will see, it is possible to have Cloud Storage systems that can auto-scale and adapt to the dynamics of workloads, while managing to keep costs as low as possible.
 \end{abstract}
 
 % Chapter 1 - João Roque
@@ -143,19 +143,19 @@ João Afonso       \\
   \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/paper2/architecture.png}}
     \caption{Anna architecture.}
-    \label{fig}
+    \label{Anna architecture.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/paper2/storage_kernel.png}}
     \caption{The architecture of storage kernel.}
-    \label{fig}
+    \label{The architecture of storage kernel.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/paper2/monitoring_node.png}}
     \caption{The architecture of a monitoring node.}
-    \label{fig}
+    \label{The architecture of a monitoring node.}
   \end{figure}
 
   \fpar Anna has two storage tiers: one that is fast but expensive, providing RAM cost-performance, and another that is slow but cheap, providing flash disk cost-performance.
@@ -173,7 +173,7 @@ João Afonso       \\
   \begin{figure}[htbp]
     \centerline{\includegraphics[scale=0.5]{images/paper2/API.png}}
     \caption{Anna API.}
-    \label{fig}
+    \label{Anna API.}
   \end{figure}
 
   \fpar GetAll allows users to observe the most up-to-date state of a key. Put relies on asynchronous gossip for the update to propagate to other replicas. If the node crashes before gossiping, the update will be lost.
