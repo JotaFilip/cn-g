@@ -62,7 +62,40 @@ João Afonso       \\
 
 % Chapter 1 - João Roque
 \chapter{A brief survey on replica consistency in cloud environments \cite{paper1}}
-\fpar TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO 
+  \section{State of the art}
+  \fpar Databases are, very usually, the core of a cloud service, either for enterprises or actual costumers. With increasing importance it's expected to perform for its users.
+  \par A database is expected to be Consistent, where the latest read expects the most recent write; Available, where every read should receive a valid response (instead of an error); and Partition tolerant, meaning it's expected that the system keeps working even if something fails, like a database node, network problems, etc...
+  \par And this can be possible on a single database, even assuring the ACID properties, however, on a cloud database there's synchronization that needs to take place to achieve consistency, and everything comes at a cost, and that's what the CAP theorem states: It is impossible for a distributed data storage to, simultaneously, provide more than two of the three properties stated before (Consistency, Availability, and Partition Tolerance).
+  \par Cloud services try to maintain the balance between these 3 properties. If it is important to have consistency, maybe decreasing the response time, availability, helps with that, spreading changes to other partitions, or maybe the partitions are not the most important aspect, and then its amount is reduced, meaning there are fewer partitions to update and synchronize, increasing once again the availability.
+  \par There are many example of usage, and there's always a sacrifice in either one of the three properties to improve on the others, as we will show in this chapter.
+
+  \section{Consistency}
+    \subsection{Data/Client-centric consistency models}
+    \fpar Between the data center and the clients there's already a choice to be made, if the client should be a part of keeping the data consistent, or not.
+    \par Each option, obviously, has its own pros and cons. For the Data-centric these are the general options, in order of consistency provided:
+    \begin{itemize}
+      \item Week - There is no “supervision”, the first item found is returned.
+      \item FIFO - There are no guarantees besides writes from the same process being synchronized, using a First In First Out approach.
+      \item Causal - Consistency is only guaranteed between requests with a causal dependency.
+      \item Sequential - All operations are serialized in the same order in all partitions, and every operation keeps its internal order.
+      \item Strict - For each received write it needs to be instantaneously spread to other partitions to be updated.
+    \end{itemize}
+    \par And then for the Client aspect:
+    \begin{itemize}
+      \item Eventual - All updates will eventually propagate far enough that every partition gets updated.
+      \item Monotonic read - Guarantees that for each read the result will never be older than the same reads before.
+      \item Monotonic write - Different writes from the same client are always processed in the same order.
+      \item Read-your-writes - Guarantees, for the same Client, that for each write the next read will never return an older result than that write.
+      \item Writes-follow-reads - For the same Client, each write after a read, guarantees that will be executed on the same or more recent value of the previous read.
+    \end{itemize}
+
+    \section{Replica consistency methods}
+      \subsection{Fixed consistency methods}
+      \subsection{Configurable consistency methods}
+      \subsection{Consistency monitoring methods}
+
+  \section{TODO}
+  \fpar TODO
 
 % Chapter 2 -Diogo Lopes
 \chapter{Autoscaling tiered cloud storage in Anna \cite{paper2}}
