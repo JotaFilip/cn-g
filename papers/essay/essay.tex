@@ -160,7 +160,7 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 \item \textbf{Data management:} The management of data stored across multiple geo-distributed data centers is associated with certain challenges: scalability, parallelism, recovery, consistency in replication, reliability, and cost.
 
-\item \textbf{Data partitioning:} Partitioning is meant to improve scalability, optimizes performance, and reduce contention. There are two major types of partitioning techniques: horizontal and vertical partitioning. If fragmented data is distributed throughout all servers to take server capacity into account, then it is possible to achieve load balancing.
+\item \textbf{Data partitioning:} Partitioning is meant to improve scalability, optimizes performance, and reduce contention. There are two major types of partitioning techniques: horizontal and vertical partitioning. If fragmented data is distributed throughout all servers to take server capacity into account, then it is possible to achieve load balancing. Partitioning is supposed to solve the following problems: speed and availability.
 
 \item \textbf{Data placement:} Has an important role in terms of performance in the cloud environment. Some main issues include: Geographically Distant Data Sharing, Client Mobility, Data Inter-dependencies.
 
@@ -184,6 +184,15 @@ In this paper, the researchers presented the problem of data auditing in cloud s
 
 \item \textbf{IOT in cloud and Fog Computing:} Enables new opportunities: complex analysis, data mining and real-time processing. Fog computing is an alternative to cloud computing that aims to bring the cloud closer to where data is created and acted upon.
 
+
+\end{itemize}
+
+\fpar To solve these challenges it is necessary to solve the following issues:
+\begin{itemize}[noitemsep]
+\item \textbf{Fragmentation:} Reducing data migration by providing workload aware dynamic fragmentation techniques.
+\item \textbf{Data placement:} Providing a proper data placement strategy by considering factors like prediction of resource consumption and data locality.
+\item \textbf{Data management:} Design of data management strategy with consideration of buffer management and memory cost.
+\item \textbf{Replication:} Design an efficient and dynamic data replication strategy with consistency and fragmentation strategy. Designing an efficient data replication and consistent management strategy in geo distributed cloud by considering data pattern and network load factors.
 \end{itemize}
 
 \section{Conclusion}
