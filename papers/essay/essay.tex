@@ -77,15 +77,15 @@ João Afonso       \\
 \chapter{\Large{A brief survey on replica consistency in cloud environments \cite{paper1}}}
 \vspace{-2em}
   \section{State of the art}
-  \fpar Databases are, very usually, the core of a cloud service, either for enterprises or actual costumers. With increasing importance it's expected to perform for its users.
-  \par A database is expected to be Consistent, where the latest read expects the most recent write; Available, where every read should receive a valid response (instead of an error); and Partition tolerant, meaning it's expected that the system keeps working even if hardware fails.
-  \par And this can be possible on a single database, even assuring the ACID properties, however, on a cloud database there's synchronization that needs to take place to achieve consistency, and everything comes at a cost, and that's what the CAP theorem states: It is impossible for a distributed data storage to, simultaneously, provide more than two of those three properties (the CAP properties).
-  \par Cloud services try to maintain the balance between these 3 properties. If it is important to have consistency, maybe decreasing the response time, availability, helps with that, spreading changes to other partitions, or maybe the partitions are not the most important aspect, and then its amount is reduced, meaning there are fewer partitions to update and synchronize, increasing once again the availability.
+  \fpar Databases are, very usually, the core of a cloud service, either for enterprises or actual costumers. With increasing importance it's expected to perform well for its users.
+  \par A database is expected to be Consistent, where the latest read expects the most recent write; Available, where every read should receive a valid response (instead of an error); and Partition tolerant, meaning it's expected that the system keeps working even if hardware fails.d
+  \par And this can be possible on a single database, even assuring the ACID properties, however, on a cloud database there's synchronization that needs to take place to achieve consistency, and everything comes at a cost, and that's what the CAP theorem states: It is impossible for a distributed data storage to, simultaneously, provide more than two of those three properties (the C.A.P. properties).
+  \par Cloud services try to maintain the balance between these 3 properties. If it is important to have consistency, maybe decreasing the response time, or availability, helps with that, to spread changes to other partitions. Or maybe the partitions are not the most important aspect, and then its amount is reduced, meaning there are fewer partitions to update and synchronize, increasing once again the availability.
   \par There are many example of usage, and there's always a sacrifice in either one of the three properties to improve on the others, as we will show in this chapter.
 
   \section{Consistency}
     \subsection{Data/Client-centric consistency models}
-    \fpar Between the data center and the clients there's already a choice to be made, if the client should be a part of keeping the data consistent, or not.
+    \fpar Between the data center and the clients there's already a choice to be made: should the client be a part of keeping the data consistent?
     \par Each option, obviously, has its own pros and cons. For the Data-centric these are the general options, in order of consistency provided:
     \begin{itemize}[noitemsep]
       \item \textbf{Week} - There is no “supervision”, the first item found is returned.
