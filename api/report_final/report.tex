@@ -196,11 +196,8 @@ João Afonso fc51111 \\
     \rowcolor{Gray}
     Role & \multicolumn{4}{c|}{Path} & get & post & put & del & description 
     \\ \hline
-    \multirow{-1}{*}{User} & 
-    \multicolumn{4}{l|}{/suggest} &
-     & \xmark & & &
-    List of suggestions to watch
-    \\ \hhline{-|----|-|-|-|-|~} \rowcolor{Gray}
+    
+    % \\ \hhline{-|----|-|-|-|-|~} \rowcolor{Gray}
     & /item & & & &
     & \xmark & & &
     Creates an item to add to the database
@@ -232,11 +229,14 @@ João Afonso fc51111 \\
     \xmark & & & &
     Returns top ten most liked Items with $type$
     \\ 
+    & \multicolumn{4}{l|}{/suggest} &
+     & \xmark & & &
+    List of suggestions to watch \\
     & \multicolumn{4}{l|}{/user} &
     & \xmark & & &
     Creates User
     \\
-    \multirow{-4}{*}{Any} 
+    \multirow{-5}{*}{Any} 
     & /user & \multicolumn{3}{l|}{/login} &
     \xmark & & & &
     Logs in
