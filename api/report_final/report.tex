@@ -196,11 +196,7 @@ João Afonso fc51111 \\
     \rowcolor{Gray}
     Role & \multicolumn{4}{c|}{Path} & get & post & put & del & description 
     \\ \hline
-    & /lib & \multicolumn{3}{l|}{/\{page\}} &
-    \xmark & & & &
-    Returns a $page$ from the database
-    \\
-    \multirow{-2}{*}{User} & 
+    \multirow{-1}{*}{User} & 
     \multicolumn{4}{l|}{/suggest} &
      & \xmark & & &
     List of suggestions to watch
@@ -228,6 +224,10 @@ João Afonso fc51111 \\
     & & \xmark & \xmark &
     Marks/Unmark item as liked
     \\ \hhline{-|----|-|-|-|-|~}
+    & /lib & \multicolumn{3}{l|}{/\{page\}} &
+    \xmark & & & &
+    Returns a $page$ from the database
+    \\
     & /getTopTen & /\{type\} &  &  &
     \xmark & & & &
     Returns top ten most liked Items with $type$
@@ -236,7 +236,7 @@ João Afonso fc51111 \\
     & \xmark & & &
     Creates User
     \\
-    \multirow{-3}{*}{Any} 
+    \multirow{-4}{*}{Any} 
     & /user & \multicolumn{3}{l|}{/login} &
     \xmark & & & &
     Logs in
