@@ -353,7 +353,6 @@ João Afonso fc51111 \\
     \par For the user database we used another strategy and started an SQL database using SQLAlchemy to connect, using a secure channel with TLS.
     \par To maintain the same structure inside and outside the database we also created a python file named “models”, which has the correspondent classes to the tables inside the database, this way we can use those classes to fetch results already formatted. 
 
-  \clearpage
   \subsection{Spark}
   \fpar We have 2 use cases: one that uses a csv (generated with a job beforehand) to create a graph using Spark GraphX to calculate the degree of each vertex, checking which has the highest degree to  check which person has worked with the biggest quantity of people; and another one that sends a direct query to calculate which movie director has the highest average rating in all their works.
 
