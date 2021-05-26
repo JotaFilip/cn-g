@@ -399,7 +399,7 @@ paths:
 #      security:
 #        - oAuthCheck:
 #            - openid
-##            - read_login
+#            - read_login
       produces:
       - application/json
       responses:
