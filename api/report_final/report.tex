@@ -195,7 +195,7 @@ João Afonso fc51111 \\
   \begin{tabular}{ c|l l l l|c|c|c|c|l }
     \rowcolor{Gray}
     Role & \multicolumn{4}{c|}{Path} & get & post & put & del & description 
-    \\ \hline
+    \\ \hline \rowcolor{Gray}
     
     % \\ \hhline{-|----|-|-|-|-|~} \rowcolor{Gray}
     & /item & & & &
@@ -216,10 +216,14 @@ João Afonso fc51111 \\
     & & \xmark & \xmark &
     Marks/Unmark item as seen
     \\ \rowcolor{Gray}
-    \multirow{-2}{*}{User}
     & /item & /\{type\} & /\{id\} & /like &
     & & \xmark & \xmark &
     Marks/Unmark item as liked
+    \\ \rowcolor{Gray}
+    \multirow{-3}{*}{User} 
+    & \multicolumn{4}{l|}{/suggest} &
+     & \xmark & & &
+    List of suggestions to watch
     \\ \hhline{-|----|-|-|-|-|~}
     & /lib & \multicolumn{3}{l|}{/\{page\}} &
     \xmark & & & &
@@ -229,14 +233,11 @@ João Afonso fc51111 \\
     \xmark & & & &
     Returns top ten most liked Items with $type$
     \\ 
-    & \multicolumn{4}{l|}{/suggest} &
-     & \xmark & & &
-    List of suggestions to watch \\
     & \multicolumn{4}{l|}{/user} &
     & \xmark & & &
     Creates User
     \\
-    \multirow{-5}{*}{Any} 
+    \multirow{-4}{*}{Any} 
     & /user & \multicolumn{3}{l|}{/login} &
     \xmark & & & &
     Logs in
