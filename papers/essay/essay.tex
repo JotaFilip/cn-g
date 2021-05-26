@@ -70,7 +70,10 @@ João Afonso       \\
 \begin{abstract}
   \fpar Cloud Storage is a really complex field, and systems implementing it are growing, both in terms of complexity and scalability. Providing faster service to more and more users. 
   \par But everything comes at a cost, and cloud storage systems cannot have everything we wish for, like Consistency, Availability and Partition Tolerance, that is called CAP Theorem, and we must pick a ratio of them. Thankfully there are already a lot of different models and methods to attenuate this problem.
+  \par The storage system Anna is one big example, which is an autoscaling, multi-tier, coordination-free and distributed key-value store service for the cloud.
+  \par Threats are also a big focus on cloud storage, content delivery networks and cloud storage as content delivery network.
   \par Another issue with Cloud Storage is that the current available solutions, even though they allow developers to make cost-performance trade-offs, they do not handle dynamic workloads very well. Luckily, improvements to these systems are being developed, and, as we will see, it is possible to have Cloud Storage systems that can auto-scale and adapt to the dynamics of workloads, while managing to keep costs as low as possible.
+  \par Finally, we present the biggest cloud storage issues, and its research trends and the problems that comes with them.
 \end{abstract}
 
 % Chapter 1 - João Roque
@@ -78,7 +81,7 @@ João Afonso       \\
 \vspace{-2em}
   \section{State of the art}
   \fpar Databases are, very usually, the core of a cloud service, either for enterprises or actual costumers. With increasing importance it's expected to perform well for its users.
-  \par A database is expected to be Consistent, where the latest read expects the most recent write; Available, where every read should receive a valid response (instead of an error); and Partition tolerant, meaning it's expected that the system keeps working even if hardware fails.d
+  \par A database is expected to be Consistent, where the latest read expects the most recent write; Available, where every read should receive a valid response (instead of an error); and Partition tolerant, meaning it's expected that the system keeps working even if hardware fails.
   \par And this can be possible on a single database, even assuring the ACID properties, however, on a cloud database there's synchronization that needs to take place to achieve consistency, and everything comes at a cost, and that's what the CAP theorem states: It is impossible for a distributed data storage to, simultaneously, provide more than two of those three properties (the C.A.P. properties).
   \par Cloud services try to maintain the balance between these 3 properties. If it is important to have consistency, maybe decreasing the response time, or availability, helps with that, to spread changes to other partitions. Or maybe the partitions are not the most important aspect, and then its amount is reduced, meaning there are fewer partitions to update and synchronize, increasing once again the availability.
   \par There are many example of usage, and there's always a sacrifice in either one of the three properties to improve on the others, as we will show in this chapter.
