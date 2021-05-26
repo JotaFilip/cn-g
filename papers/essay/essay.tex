@@ -209,8 +209,20 @@ João Afonso       \\
   \label{fig:TODO}
 \end{figure}
 
+\fpar Content Delivery Networks (CDN's) can be used to perform attacks to the Cloud Storage or the service provided. So, as threats we have:
+\begin{itemize}[noitemsep]
+  \item Outages of provider.
+  \item Internal threat due to misconfiguration or bad management of CDN.
+  \item Malicious insider.
+  \item Law enforcement and legal aspects (breaching data).
+  \item Dynamic Content Attacks that deliver all incoming traffic to Cloud Storage.
+  \item Secure Sockets Layer (SSL)-based DDoS attacks, since all SSL traffic is redirected to Cloud Storage.
+  \item Direct Internet Protocol since attackers can address directly the Cloud Storage, compromising of web apps (due to little protection rules between both).
+\end{itemize}
+
 \section{Threat model of CS used as CDN}
-\fpar Cloud Storage used as Content Delivery Network as a wider attack surface than a Content Delivery Network Storage. In the other hand, there are some advantages as having storage also as cache. All threats that a Content Delivery Network or a Cloud Storage has are shared with Cloud Storage as a Content Delivery Network. In the next table are presented all threats of a Cloud Storage as a Content Delivery Network based on each party threats.
+
+\fpar Cloud Storage used as Content Delivery Network has a wider attack surface than a Content Delivery Network Storage. On the other hand, there are some advantages, such as having storage also as cache. All threats that a Content Delivery Network or a Cloud Storage have are shared with the Cloud Storage as a Content Delivery Network. The following table presentes all the threats of a Cloud Storage as a Content Delivery Network based on each party threats.
 
 \begin{figure}[H]
   \centering
@@ -218,17 +230,6 @@ João Afonso       \\
   \caption{Matrix of common content delivery network threats in cloud storage used as content delivery network}
   \label{fig:table}
 \end{figure}
-
-\fpar Content Delivery Networks (CDN's) can be used to perform attacks to the Cloud Storage or the service provided. So, as threats we have: 
-\begin{itemize}[noitemsep]
-  \item Outages of provider.
-  \item Internal threat due to misconfiguration or bad management of CDN.
-  \item Malicious insider.
-  \item Law enforcement and legal aspects (breaching data). 
-  \item Dynamic Content Attacks that deliver all incoming traffic to Cloud Storage. 
-  \item Secure Sockets Layer (SSL)-based DDoS attacks, since all SSL traffic is redirected to Cloud Storage. 
-  \item Direct Internet Protocol since attackers can address directly the Cloud Storage, compromising of web apps (due to little protection rules between both).
-\end{itemize}
 
 % Chapter 4 -Tiago Carvalho
 \chapter{\Large{Data auditing in cloud storage using Smart Contract \cite{paper4}}}
